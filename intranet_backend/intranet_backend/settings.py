@@ -45,7 +45,10 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "rest_framework.authtoken",
+    "api.apps.ApiConfig"
 ]
+
+AUTH_USER_MODEL = "api.Usuarios"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
