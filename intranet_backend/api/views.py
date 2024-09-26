@@ -100,6 +100,6 @@ def aignar_rol_a(request, pk=None):
 
     except KeyError:
         return Response(
-            {"error": "el objeto debe tener esta forma {rol:rol_a_buscar} jijijijiji"},
+            {"error": "el objeto debe tener esta forma {rol:rol_a_buscar}"},
             status=status.HTTP_400_BAD_REQUEST,
         )
