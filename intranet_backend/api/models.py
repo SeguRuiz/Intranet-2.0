@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Roles(models.Model):
     id = models.UUIDField(unique=True,primary_key=True, editable=False, null=False, default=uuid.uuid4)
-    tipo = models.CharField(max_length=100,null=False,default='no_definido')
+    tipo = models.CharField(max_length=100,null=False, unique=True)
     
     class Meta:
         db_table = 'Roles'
@@ -15,9 +15,11 @@ class Roles(models.Model):
     
 
 class Usuarios(AbstractUser):
-    cedula = models.IntegerField(null=False, default=0, unique=True)
-    activo = models.BooleanField(default=False)
-    rol_id = models.ForeignKey(Roles, on_delete=models.CASCADE, null=True )
+    nombre = models.CharField(max_length=200,null=False)
+    apellidos = models.CharField(max_length=500)
+    cedula = models.IntegerField(null=False, unique=True)
+    rol_id = models.ForeignKey(Roles, on_delete=models.CASCADE, null=True)
+    fecha_editado = models.DateTimeField(auto_now=True)
     
     class Meta:
         db_table = 'Usuarios'
