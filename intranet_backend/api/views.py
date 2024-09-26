@@ -80,6 +80,7 @@ def roles(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def aignar_rol_a(request, pk=None):
+    
     user = get_object_or_404(Usuarios, pk=pk)
     user_serializer = UsersSerializer(instance=user)
     
