@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 export const useFetch = () => {
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(null);
   const data = useRef([]);
   const fetchUrl = useRef("");
+  const [status, setStatus] = useState(false)
   const fetchInfo = useRef({
     method: "GET",
     headers: {
@@ -21,17 +22,24 @@ export const useFetch = () => {
     if (body_content_var != null) {
       fetchInfo.current.body = body_content_var =
         JSON.stringify(body_content_var);
+    }else{
+       delete fetchInfo.current.body
     }
   };
-  console.log(fetchInfo.current);
   const fetch_the_data = async () => {
     setFetching(true);
     try {
       const reponse = await fetch(fetchUrl.current, fetchInfo.current);
       const data = await reponse.json();
+<<<<<<< HEAD
       status.current = reponse.status
       data.current = await data;
 
+=======
+      setStatus(reponse.ok)
+      data.current = await data;
+      return reponse.status
+>>>>>>> d00b6019500c53559d68f28014daceeeff447e8a
       console.log(data);
       if (!reponse.ok) {
         console.log(reponse);
@@ -47,6 +55,10 @@ export const useFetch = () => {
     fetch_the_data,
     fetching,
     define_fetch,
+<<<<<<< HEAD
     status: status.current
+=======
+    status
+>>>>>>> d00b6019500c53559d68f28014daceeeff447e8a
   };
 };
