@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 # Use this script to test if a given TCP host/port are available
-
 WAITFORIT_cmdname=${0##*/}
-
 echoerr() { if [[ $WAITFORIT_QUIET -ne 1 ]]; then echo "$@" 1>&2; fi }
-
 usage()
 {
     cat << USAGE >&2
@@ -21,7 +18,6 @@ Usage:
 USAGE
     exit 1
 }
-
 wait_for()
 {
     if [[ $WAITFORIT_TIMEOUT -gt 0 ]]; then
@@ -48,7 +44,6 @@ wait_for()
     done
     return $WAITFORIT_result
 }
-
 wait_for_wrapper()
 {
     # In order to support SIGINT during timeout: http://unix.stackexchange.com/a/57692
@@ -66,7 +61,6 @@ wait_for_wrapper()
     fi
     return $WAITFORIT_RESULT
 }
-
 # process arguments
 while [[ $# -gt 0 ]]
 do
@@ -130,21 +124,17 @@ do
         ;;
     esac
 done
-
 if [[ "$WAITFORIT_HOST" == "" || "$WAITFORIT_PORT" == "" ]]; then
     echoerr "Error: you need to provide a host and port to test."
     usage
 fi
-
 WAITFORIT_TIMEOUT=${WAITFORIT_TIMEOUT:-15}
 WAITFORIT_STRICT=${WAITFORIT_STRICT:-0}
 WAITFORIT_CHILD=${WAITFORIT_CHILD:-0}
 WAITFORIT_QUIET=${WAITFORIT_QUIET:-0}
-
 # Check to see if timeout is from busybox?
 WAITFORIT_TIMEOUT_PATH=$(type -p timeout)
 WAITFORIT_TIMEOUT_PATH=$(realpath $WAITFORIT_TIMEOUT_PATH 2>/dev/null || readlink -f $WAITFORIT_TIMEOUT_PATH)
-
 WAITFORIT_BUSYTIMEFLAG=""
 if [[ $WAITFORIT_TIMEOUT_PATH =~ "busybox" ]]; then
     WAITFORIT_ISBUSY=1
@@ -156,7 +146,6 @@ if [[ $WAITFORIT_TIMEOUT_PATH =~ "busybox" ]]; then
 else
     WAITFORIT_ISBUSY=0
 fi
-
 if [[ $WAITFORIT_CHILD -gt 0 ]]; then
     wait_for
     WAITFORIT_RESULT=$?
@@ -170,7 +159,6 @@ else
         WAITFORIT_RESULT=$?
     fi
 fi
-
 if [[ $WAITFORIT_CLI != "" ]]; then
     if [[ $WAITFORIT_RESULT -ne 0 && $WAITFORIT_STRICT -eq 1 ]]; then
         echoerr "$WAITFORIT_cmdname: strict mode, refusing to execute subprocess"
