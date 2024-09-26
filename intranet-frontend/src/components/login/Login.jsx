@@ -3,46 +3,34 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import logo from "../../assets/logo.webp";
 import { useFetch } from "../../services/llamados";
-// import { getUsuarios } from "../../services/llamados";
+import Swal from "sweetalert2";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {
-    data, fetch_the_data, define_fetch
-  } = useFetch()
+  const { data, fetch_the_data, define_fetch } = useFetch();
 
-  define_fetch('http://localhost:8000/api/login', '', 'POST', {
-    username: 'pedro123',
-    password: '123'
-  })
+  define_fetch("http://localhost:8000/api/login", "", "POST", {
+    username: email,
+    password: password,
+  });
 
-  // const obtenerDatos = async () => {
-  //   if (email.trim() === "" || password.trim() === "") {
-  //     Swal.fire("No olvides llenar todos los recuadros");
-  //     return; //si está condición no se cumple, se termina.
-  //   }
-  //   try {
-  //     const usuarios = await getUsuarios();
-  //     const usuariosRegistrado = usuarios.find(
-  //       //utilizamos el metodo find para validar que al logearse, esa información exista antes.
-  //       (usuario) => usuario.email === email && usuario.password === password
-  //     );
-  //     //creamos una condición que al cumplirse creará una llave en el localStorage. Sino entonces te mostrará un aviso.
-  //     if (usuariosRegistrado) {
-  //       Swal.fire(
-  //         "Datos correctos, en breve será dirigido a la página de inicio"
-  //       );
+  const validar_espacios = async () => {
+    if (email.trim() === "" || password.trim() === "") {
+      Swal.fire("No olvides llenar todos los recuadros");
+      return;
+    }
+    const status_fetch = await fetch_the_data();
 
-  //       navigate("/home");
-  //     } else {
-  //       Swal.fire("Hubo un error con los datos, intentelo de nuevo");
-  //     }
-  //   } catch (error) {
-  //     Swal.fire("Problemas al subir datos", error);
-  //   }
-  
+    if (status_fetch != 200) {
+      Swal.fire("Datos incorrectos, intentelo nuevamente puto");
+      return;
+    }
+    Swal.fire("Bienvenido");
+    navigate("/home");
+  };
+
   return (
     <div>
       <div className="Cuadro_login">
@@ -65,7 +53,7 @@ export const Login = () => {
             />
           </div>
         </div>
-        <button onClick={fetch_the_data} className="b-t-n_class">
+        <button onClick={validar_espacios} className="b-t-n_class">
           Log in
         </button>
         <div className="triangulo"></div>
@@ -73,4 +61,4 @@ export const Login = () => {
       </div>
     </div>
   );
-}
+};
