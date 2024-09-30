@@ -1,0 +1,9 @@
+.diseno_content {
+  display: grid;
+  grid-template-areas: "a a a a ";
+  grid-auto-rows: 100%;
+  gap: 15px;
+  padding: 10px;
+  /* overflow-y: scroll; */
+  /* scrollbar-width: thin; */
+}

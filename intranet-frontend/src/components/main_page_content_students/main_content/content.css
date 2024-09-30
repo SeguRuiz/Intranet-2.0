@@ -1,0 +1,6 @@
+.note-container {
+  height: 100%;
+  width: 100%;
+  border: black solid 1px;
+  justify-self: center;
+}

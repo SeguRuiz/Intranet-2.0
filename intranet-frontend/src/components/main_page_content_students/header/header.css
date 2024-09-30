@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+}
+.flecha5 {
+  width: 7%;
+  height: 7%;
+  margin-left: 1%;
+}
+
+.header_style {
+  background-color: rgb(190, 187, 187);
+}
+.flechas_circulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.div-circular {
+  width: 250px; /* Ancho del círculo */
+  height: 100px; /* Altura del círculo */
+  border-radius: 50%; /* Hace el div circular */
+  overflow: hidden; /* Esconde el contenido que se sale del borde */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin-right: 5px;
+}
+
+.div-circular img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen se ajuste sin deformarse */
+}
