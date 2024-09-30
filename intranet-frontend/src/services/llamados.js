@@ -3,13 +3,14 @@ export const useFetch = () => {
   const [fetching, setFetching] = useState(null);
   const data = useRef([]);
   const fetchUrl = useRef("");
-  const [status, setStatus] = useState(false)
+ 
   const fetchInfo = useRef({
     method: "GET",
     headers: {
       "Content-Type": "application/json"
     },
   });
+  
   const define_fetch = (
     url_var = "",
     url_id_var = "",
@@ -30,13 +31,9 @@ export const useFetch = () => {
     try {
       const reponse = await fetch(fetchUrl.current, fetchInfo.current);
       const data = await reponse.json();
-      setStatus(reponse.ok)
       data.current = await data;
       return reponse.status
-      console.log(data);
-      if (!reponse.ok) {
-        console.log(reponse);
-      }
+    
     } catch (error) {
       console.log(error);
     } finally {
@@ -47,7 +44,6 @@ export const useFetch = () => {
     data,
     fetch_the_data,
     fetching,
-    define_fetch,
-    status
+    define_fetch
   };
 };
