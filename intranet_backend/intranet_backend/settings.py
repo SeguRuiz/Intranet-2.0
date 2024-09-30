@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework.authtoken",
     "api.apps.ApiConfig",
+    "cursos.apps.CursosConfig"
 ]
 
 AUTH_USER_MODEL = "api.Usuarios"

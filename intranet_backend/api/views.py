@@ -10,50 +10,69 @@ from rest_framework.decorators import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Roles, Usuarios
-from .serializers import RolesSerializer, UsersSerializer
+from .models import Estudiantes, Roles, Usuarios
+from .serializers import EstudiantesSerializer, RolesSerializer, UsersSerializer
 
 # Create your views here.
 
 
-@api_view(["POST"])
+@api_view(["POST", "GET"])
 def register(request):
     serializer = UsersSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
 
-        user = Usuarios.objects.get(username=serializer.data["username"])
+        user = Usuarios.objects.get(correo=serializer.data["correo"])
         user.set_password(serializer.data["password"])
         user.save()
 
         return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
+
+    if request.method == "GET":
+        usuarios = Usuarios.objects.all()
+        usuarios_serializer = UsersSerializer(instance=usuarios, many=True)
+
+        return Response(
+            {"usuarios": usuarios_serializer.data}, status=status.HTTP_200_OK
+        )
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
 def login(request):
-    user = get_object_or_404(Usuarios, username=request.data["username"])
+    try:
+        user = get_object_or_404(Usuarios, correo=request.data["correo"])
 
-    if not user.check_password(request.data["password"]):
+        if not user.check_password(request.data["password"]):
+            return Response(
+                {"info": "contraseña invalida"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        token, created = Token.objects.get_or_create(user=user)
+        serializer = UsersSerializer(instance=user)
+
         return Response(
-            {"error": "contraseña invalida"}, status=status.HTTP_400_BAD_REQUEST
+            {
+                "token_creado": created,
+                "token_de_usuario": token.key,
+                "info":{
+                "username": serializer.data["username"],
+                "nombre": serializer.data["nombre"],
+                "correo": serializer.data["correo"],
+                "cedula": serializer.data["cedula"]
+                }
+            },
+            status=status.HTTP_200_OK,
         )
-
-    token, created = Token.objects.get_or_create(user=user)
-    serializer = UsersSerializer(instance=user)
-
-    return Response(
-        {
-            "fue_creado": created,
-            "token_de_usuario": token.key,
-            "username": serializer.data["username"],
-            "nombre": serializer.data["nombre"],
-            "cedula": serializer.data["cedula"],
-        },
-        status=status.HTTP_200_OK,
-    )
+    except KeyError:
+        return Response(
+            {
+                "info": "el objeto debe tener este formato:{correo:valor, password:valor}"
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 @api_view(["POST", "GET"])
@@ -80,27 +99,62 @@ def roles(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def aignar_rol_a(request, pk=None):
-    
     user = get_object_or_404(Usuarios, pk=pk)
     user_serializer = UsersSerializer(instance=user)
-    
+
     try:
-        rol = get_object_or_404(Roles,tipo=request.data["rol"])
+        rol = get_object_or_404(Roles, tipo=request.data["rol"])
+        rol_serializer = RolesSerializer(instance=rol)
         user.rol_id = rol
         user.save()
 
-        rol_serializer = RolesSerializer(instance=rol)
+        if rol.tipo in ["estudiante", "Estudiante"]:
+            try:
+                estudiante_existente = Estudiantes.objects.get(usuario_id=user.id)
+                estudiante_existente.activo = True
+                estudiante_existente.save()
 
-        return Response(
-            {
-                "Usuario": user_serializer.data['nombre'],
-                "nuevo_rol": rol_serializer.data['tipo'],
-            },
-            status=status.HTTP_200_OK
-        )
+                return Response(
+                    {"info": f"Estudiante {user.nombre} reactivado"},
+                    status=status.HTTP_200_OK,
+                )
+            except Estudiantes.DoesNotExist:
+                nuevo_estudiante = Estudiantes(usuario_id=user)
+                nuevo_estudiante.save()
+                serializer_estudiante = EstudiantesSerializer(instance=nuevo_estudiante)
+
+                return Response(
+                    {
+                        "Usuario": user_serializer.data["nombre"],
+                        "nuevo_rol": rol_serializer.data["tipo"],
+                        "nuevo_estudiante": serializer_estudiante.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+
+        try:
+            estudiante_revocado = Estudiantes.objects.get(usuario_id=user.id)
+            estudiante_revocado.activo = False
+            estudiante_revocado.save()
+            return Response(
+                {
+                    "Usuario": user_serializer.data["nombre"],
+                    "nuevo_rol": rol_serializer.data["tipo"],
+                    "info": "estudiante revocado",
+                },
+                status=status.HTTP_200_OK,
+            )
+        except Estudiantes.DoesNotExist:
+            return Response(
+                {
+                    "Usuario": user_serializer.data["nombre"],
+                    "nuevo_rol": rol_serializer.data["tipo"],
+                },
+                status=status.HTTP_200_OK,
+            )
 
     except KeyError:
         return Response(
-            {"error": "el objeto debe tener esta forma {rol:rol_a_buscar}"},
+            {"info": "el objeto debe tener esta forma {rol:rol_a_asignar}"},
             status=status.HTTP_400_BAD_REQUEST,
         )
