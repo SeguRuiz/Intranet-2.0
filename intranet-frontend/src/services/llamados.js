@@ -13,7 +13,6 @@ export const useFetch = () => {
       "Content-Type": "application/json",
     },
   });
-
   const define_fetch = (
     url_var = "",
     url_id_var = "",
