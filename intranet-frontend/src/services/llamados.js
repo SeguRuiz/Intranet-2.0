@@ -3,7 +3,7 @@ export const useFetch = () => {
   const [fetching, setFetching] = useState(null);
   const data = useRef([]);
   const fetchUrl = useRef("");
-  const change = 'hola'
+ 
  
   const fetchInfo = useRef({
     method: "GET",
