@@ -1,0 +1,17 @@
+.links_navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+  color: gray;
+  margin-bottom: 5%;
+}
+
+a:hover {
+  text-decoration: none;
+  background-color: rgb(224, 221, 221);
+  border-bottom: solid 1px gray;
+}
