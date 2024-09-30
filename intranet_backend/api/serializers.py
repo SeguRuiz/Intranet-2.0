@@ -4,7 +4,7 @@ from .models import Usuarios, Roles, Estudiantes
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuarios
-        fields = ['username', 'nombre', 'apellidos', 'email','cedula', 'password', 'rol_id']
+        fields = ['username', 'nombre', 'apellidos', 'correo','cedula', 'password', 'rol_id']
 
 class RolesSerializer(serializers.ModelSerializer):
     class Meta:
