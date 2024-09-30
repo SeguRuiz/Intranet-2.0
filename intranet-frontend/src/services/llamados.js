@@ -6,7 +6,8 @@ export const useFetch = () => {
   const [fetching, setFetching] = useState(null);
   const data_ref = useRef([]);
   const fetchUrl = useRef("");
-  const [status, setStatus] = useState(false);
+  const change = 'hola'
+ 
   const fetchInfo = useRef({
     method: "GET",
     headers: {
@@ -33,7 +34,7 @@ export const useFetch = () => {
     try {
       const reponse = await fetch(fetchUrl.current, fetchInfo.current);
       const data = await reponse.json();
-      setStatus(reponse.ok);
+     
       accion(setToken({ Token: data.token_de_usuario }));
       return [reponse.status, data];
       console.log(data);
@@ -52,7 +53,7 @@ export const useFetch = () => {
       try {
         const reponse = await fetch(fetchUrl.current, fetchInfo.current);
         const data = await reponse.json();
-        setStatus(reponse.ok);
+       
         return [reponse.status, data];
         console.log(data);
         if (!reponse.ok) {
