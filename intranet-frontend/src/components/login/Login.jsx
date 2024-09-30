@@ -18,7 +18,7 @@ export const Login = () => {
   const accion = useDispatch();
 
   define_fetch("http://localhost:8000/api/login", "", "POST", {
-    username: email,
+    correo: email,
     password: password,
   });
 
