@@ -9,8 +9,8 @@ export const Routing = () => {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Loginpage />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Loginpage/>} />
+          <Route path="/home" element={<Home/>} />
           <Route path="/cursos" element={<Home_student_page />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
