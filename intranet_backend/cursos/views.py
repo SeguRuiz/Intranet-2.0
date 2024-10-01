@@ -77,3 +77,5 @@ class GruposCursosEdit(RetrieveUpdateDestroyAPIView):
     queryset = Grupos_cursos_intermedia.objects.all()
     serializer_class = GruposCursosSerializer
     lookup_field = "pk"
+
+## hola
