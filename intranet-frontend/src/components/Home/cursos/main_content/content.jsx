@@ -1,11 +1,12 @@
 import React from "react";
 import "./content.css";
+import { useSelector } from "react-redux";
 
 const content = () => {
-  let array = ["hola", "hola", "hola", "hola"];
+  const { cursos } = useSelector((state) => state.modal);
   return (
     <>
-      {array.map((e, i) => (
+      {cursos.map((e, i) => (
         <div key={i} className="note-container">
           Contenido {e}
         </div>
