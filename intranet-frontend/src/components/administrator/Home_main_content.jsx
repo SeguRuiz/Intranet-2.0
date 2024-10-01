@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
-import Header_student from "../cursos/header/Header_student";
-import NavBar from "../cursos/navbar/NavBar_Student";
-import Modal from "../modal/Modal";
+import Header_student from "../Home/cursos/header/Header_student";
+import NavBar from "../Home/cursos/navbar/NavBar_Student";
+import Modal from "../../components/modal/Modal";
 import "./Home_main_content.css";
 import { useState } from "react";
 import { useFetch } from "../../services/llamados";
