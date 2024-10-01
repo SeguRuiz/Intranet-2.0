@@ -1,0 +1,6 @@
+.diseno_content {
+  display: grid;
+  grid-template-areas: "a a a a a";
+  grid-auto-rows:60%;
+  grid-auto-columns: 20%;
+}

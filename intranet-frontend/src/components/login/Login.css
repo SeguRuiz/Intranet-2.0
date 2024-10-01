@@ -1,11 +1,26 @@
+.triangulos-grandes-fondo{
+  height: 50%;
+  width: 40%;
+  margin: -5% 63%;
+  z-index:-1;
+  position: absolute;
+}
+
+.d-logo {
+  height: 50%;
+  width: 40%;
+  z-index: -1;
+  position: absolute;
+  margin:30% 3%;
+}
 .Cuadro_login {
-  width: 43%;
+  width: 55%;
   border: solid 1px black;
-  padding: 30px;
-  margin: auto;
-  margin-top: 7%;
+  padding: 2%;
+  margin: 2% 20%;
   border-radius: 4px;
   border-bottom: none;
+  background-color: white;
 }
 
 .square_email_password {
@@ -31,7 +46,7 @@
   border-right: none;
   padding: 10px;
   margin-bottom: 20%;
-  width: 110%;
+  width: auto;
 }
 
 .b-t-n_class {
@@ -44,24 +59,10 @@
   border-radius: 6%;
 }
 
-.triangulo {
-  margin-top: 10%;
-  width: 0;
-  height: 0;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 35px solid gray;
-  margin-left: 85%;
+.imagen-triangulo {
+  height: 15%;
+  width: 15%;
+  margin: 10% 85%;
 }
 
-.triangulo1 {
-  width: 0;
-  height: 0;
-  border-top: 17px solid white;
-  border-bottom: 17px solid white;
-  border-left: 35px solid gray;
-  margin-left: 88%;
-  position: relative;
-  margin-top: -6%;
-  
-}
+

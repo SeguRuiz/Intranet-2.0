@@ -1,17 +1,19 @@
 import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setToken } from "../redux/tokenSlice";
 export const useFetch = () => {
+  const accion = useDispatch();
   const [fetching, setFetching] = useState(null);
-  const data = useRef([]);
+  const data_ref = useRef([]);
   const fetchUrl = useRef("");
  
  
   const fetchInfo = useRef({
     method: "GET",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
   });
-  
   const define_fetch = (
     url_var = "",
     url_id_var = "",
@@ -23,8 +25,8 @@ export const useFetch = () => {
     if (body_content_var != null) {
       fetchInfo.current.body = body_content_var =
         JSON.stringify(body_content_var);
-    }else{
-       delete fetchInfo.current.body
+    } else {
+      delete fetchInfo.current.body;
     }
   };
   const fetch_the_data = async () => {
@@ -32,19 +34,43 @@ export const useFetch = () => {
     try {
       const reponse = await fetch(fetchUrl.current, fetchInfo.current);
       const data = await reponse.json();
-      data.current = await data;
-      return reponse.status
-    
+     
+      accion(setToken({ Token: data.token_de_usuario }));
+      return [reponse.status, data];
+      console.log(data);
+      if (!reponse.ok) {
+        console.log(reponse);
+      }
     } catch (error) {
       console.log(error);
     } finally {
       setFetching(false);
     }
-  };
+  }
+
+    const fetch_the_data_without_token = async () => {
+      setFetching(true);
+      try {
+        const reponse = await fetch(fetchUrl.current, fetchInfo.current);
+        const data = await reponse.json();
+       
+        return [reponse.status, data];
+        console.log(data);
+        if (!reponse.ok) {
+          console.log(reponse);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setFetching(false);
+      }
+    };
+  ;
   return {
-    data,
+    data: data_ref.current,
     fetch_the_data,
     fetching,
-    define_fetch
+    define_fetch,
+    fetch_the_data_without_token,
   };
 };
