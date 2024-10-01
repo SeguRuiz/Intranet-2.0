@@ -9,7 +9,7 @@ const Home_student_page = () => {
       <Header_student />
       <NavBar_Student />
       <div className="diseno_content">
-      <Content />
+      <Content/>
       </div>
     </div>
   );
