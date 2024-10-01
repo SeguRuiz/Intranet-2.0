@@ -1,8 +1,7 @@
 import React from "react";
 import Header from "../components/Home/cursos/header/Header_student";
 import NavBar from "../components/Home/cursos/navbar/NavBar_Student";
-
-const home = () => {
+const Ingles = () => {
   return (
     <div>
       <Header />
@@ -11,4 +10,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Ingles;

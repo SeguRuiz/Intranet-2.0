@@ -7,13 +7,42 @@ const NavBar_Student = () => {
   return (
     <div>
       <div className="links_navbar">
-        <a>Social</a>
-        <a>Cursos</a>
-        <a>Anuncios</a>
-        <a>Demolab</a>
-        <a>Inglés</a>
+        <a
+          onClick={() => {
+            navigate("/social");
+          }}
+        >
+          Social
+        </a>
+        <a
+          onClick={() => {
+            navigate("/cursos");
+          }}
+        >
+          Cursos
+        </a>
+        <a
+          onClick={() => {
+            navigate("/anuncios");
+          }}
+        >
+          Anuncios
+        </a>
+        <a
+          onClick={() => {
+            navigate("/demolab");
+          }}
+        >
+          Demolab
+        </a>
+        <a
+          onClick={() => {
+            navigate("/ingles");
+          }}
+        >
+          Inglés
+        </a>
       </div>
-      <div></div>
     </div>
   );
 };

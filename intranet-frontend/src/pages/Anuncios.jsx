@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../components/Home/cursos/header/Header_student";
 import NavBar from "../components/Home/cursos/navbar/NavBar_Student";
+import Header from "../components/Home/cursos/header/Header_student";
 
-const home = () => {
+const Anuncios = () => {
   return (
     <div>
       <Header />
@@ -11,4 +11,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Anuncios;
