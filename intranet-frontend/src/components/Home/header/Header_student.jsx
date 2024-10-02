@@ -1,5 +1,5 @@
 import React from "react";
-import flecha5 from "../../../../assets/flechas/flechas5.png";
+import flecha5 from "../../../assets/flechas/flechas5.png";
 import "./header.css";
 
 const Header_student = () => {

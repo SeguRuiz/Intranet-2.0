@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cursos: ["hola"],
-  nombre: "Hola",
+  cursos: [],
+  nombre: "",
   URL: null,
 };
 
@@ -22,8 +22,12 @@ const modalState = createSlice({
     setCursos: (state, action) => {
       state.cursos.push(action.payload);
     },
+    setData: (state, action) => {
+      state.cursos = action.payload;
+    },
+    
   },
 });
 
-export const { openModal, closeModal, setCursos } = modalState.actions
+export const { openModal, closeModal, setCursos, setData } = modalState.actions;
 export default modalState.reducer;
