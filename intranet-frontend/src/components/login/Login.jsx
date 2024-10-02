@@ -22,7 +22,8 @@ export const Login = () => {
     password: password,
   });
 
-  const validar_espacios = async () => {
+  const validar_espacios = async (evento) => {
+    evento.preventDefault();
     if (email.trim() === "" || password.trim() === "") {
       Swal.fire("No olvides llenar todos los recuadros");
       return;
@@ -30,12 +31,22 @@ export const Login = () => {
     const status_fetch = await fetch_the_data();
 
     if (status_fetch[0] != 200) {
-      Swal.fire("Datos incorrectos, intentelo nuevamente puto");
+      Swal.fire("Datos incorrectos, intentelo nuevamente");
       return;
     }
     Swal.fire("Bienvenido");
     navigate("/home");
+    userAdmin();
+
     console.log(status_fetch[1]);
+  };
+
+  const userAdmin = async () => {
+    if (email === "admin@gmail.com") {
+      localStorage.setItem("rol", "admin");
+    } else {
+      localStorage.setItem("rol", "usuario_normal");
+    }
   };
 
   return (

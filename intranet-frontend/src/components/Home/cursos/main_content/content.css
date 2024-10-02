@@ -1,7 +1,25 @@
+.container {
+  display: grid;
+  grid-template-rows: 10% auto;
+  gap: 10px;
+}
 .note-container {
   height: 200px;
   width: 200px;
   border: black solid 1px;
   justify-self: center;
+  display: grid;
+  grid-template-rows: 80% auto;
+}
 
+.diseno_content {
+  display: grid;
+  grid-template-areas: "a a a a a";
+  grid-auto-rows: 60%;
+  grid-auto-columns: 20%;
+}
+.titulo{
+  display: grid;
+  place-items: center;
+  font-size: 200%;
 }
