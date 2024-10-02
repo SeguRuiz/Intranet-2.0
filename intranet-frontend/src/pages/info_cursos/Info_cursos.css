@@ -1,0 +1,34 @@
+.Info-page {
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 15% 85%;
+}
+
+.Info-nav-container {
+  display: grid;
+  grid-template-rows: 75% auto;
+}
+
+.Info-nav {
+  border: solid black 1.5px;
+}
+
+.Info-subnav {
+  border: solid black 1.5px;
+}
+
+/*Main*/
+
+.Info-page-main {
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+
+.Info-page-sidebar {
+  border: 1.5px black solid;
+  height: 100%;
+}
+
+.Info-page-file {
+  border: 1.5px black solid;
+}

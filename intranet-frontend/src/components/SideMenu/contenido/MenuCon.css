@@ -1,0 +1,15 @@
+.menu-contenido {
+  height: 50px;
+  overflow: hidden;
+  place-items: center;
+  /* border-bottom: solid rgba(0, 0, 0, 0.2) 1.5px;; */
+  
+}
+
+.menu-contenido-titulo {
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #D3D3D3;
+}

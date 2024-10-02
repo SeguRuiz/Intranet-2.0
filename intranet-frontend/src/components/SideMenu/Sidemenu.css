@@ -1,0 +1,15 @@
+
+
+.sidemenu-container{
+    display: grid;
+    grid-template-rows: 90% 10%;
+   
+}
+
+.menu-container {
+    overflow-y: auto;
+    scrollbar-color: gray white;
+    scrollbar-width: thin;
+    max-height: 30.2rem;
+}
+  

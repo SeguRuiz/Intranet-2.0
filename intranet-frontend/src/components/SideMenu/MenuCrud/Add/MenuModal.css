@@ -1,0 +1,38 @@
+.modal-dlg {
+  border: none;
+  height: 70%;
+  width: 65%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0,0);
+}
+
+.modal-dlg:focus {
+  outline: none;
+}
+
+.menu-dlg-content {
+  display: grid;
+  grid-template-rows: 10% 90%;
+  height: 100%;
+  width: 100%;
+  background-color: #ffff;
+}
+
+.menu-dlg-content-info {
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  border: solid black 1.5px;
+ 
+}
+
+.menu-dlg-iterators {
+border: solid black 1.5px;
+border-top: none;
+}
+
+.menu-info-nav{
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
