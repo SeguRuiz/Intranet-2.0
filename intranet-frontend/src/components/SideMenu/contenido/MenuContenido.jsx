@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import SubCont from "../subContenidos/SubCont";
 import "./MenuCon.css";
-const MenuContenido = ({ key }) => {
+const MenuContenido = ({ nombre, subcontenidos = [] }) => {
   const [abrir, setAbrir] = useState(false);
 
   const abrirCerrar = () => {
@@ -10,13 +10,9 @@ const MenuContenido = ({ key }) => {
   };
 
   return (
-    <div
-      key={key}
-      className="menu-contenido"
-      style={{ height: abrir ? "auto" : "50px"}}
-    >
+    <div className="menu-contenido" style={{ height: abrir ? "auto" : "50px" }}>
       <div className="menu-contenido-titulo" onClick={abrirCerrar}>
-        <p style={{marginLeft: "10px"}}>Contenido</p>
+        <p style={{ marginLeft: "10px" }}>{nombre}</p>
         {abrir ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -39,8 +35,7 @@ const MenuContenido = ({ key }) => {
           </svg>
         )}
       </div>
-
-      <SubCont />
+      <SubCont subcontenidos={subcontenidos}/>
     </div>
   );
 };
