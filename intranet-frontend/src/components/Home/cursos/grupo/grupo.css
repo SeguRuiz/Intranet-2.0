@@ -9,5 +9,5 @@
 .container-profe {
   border: solid 1px black;
   display: grid;
-  grid-template-columns: 33% 33% 33%;
+  grid-template-columns: repeat(3, 1fr);
 }
