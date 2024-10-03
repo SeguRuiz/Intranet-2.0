@@ -1,10 +1,13 @@
 import { useRef } from "react";
 import { useCustomModal } from "../../../../utils/customHooks";
+import MenuRead from "../read/MenuRead";
+import { AddCont } from "./AddContenido/AddCont";
+
 import "./MenuModal.css";
 const MenuModal = () => {
   const modalRef = useRef();
   const { openModal, closeModalDlg } = useCustomModal(modalRef);
-
+   
   return (
     <>
       <button onClick={openModal}>editar</button>
@@ -15,6 +18,7 @@ const MenuModal = () => {
         className="modal-dlg"
       >
         <div className="menu-dlg-content">
+          <AddCont/>
           <div className="menu-dlg-content-info">
             <div className="menu-info-nav">
               <p>Nombre</p>
@@ -26,7 +30,9 @@ const MenuModal = () => {
               <p>Opciones</p>
             </div>
           </div>
-          <div className="menu-dlg-iterators"></div>
+          <div className="menu-dlg-iterators">
+           <MenuRead/>
+          </div>
         </div>
       </dialog>
     </>

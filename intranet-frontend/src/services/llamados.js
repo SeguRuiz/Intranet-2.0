@@ -74,3 +74,23 @@ export const useFetch = () => {
     fetch_the_data_without_token,
   };
 };
+
+export const get = async (url) => {
+  try {
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
+export const delete_fetch = async (url, id) => {
+  try {
+    fetch(`${url}/${id}`,{method: "DELETE"})
+  } catch (error) {
+    console.log(error);
+    
+  }
+}

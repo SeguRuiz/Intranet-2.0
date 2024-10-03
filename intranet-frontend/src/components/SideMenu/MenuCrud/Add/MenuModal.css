@@ -12,27 +12,29 @@
 
 .menu-dlg-content {
   display: grid;
-  grid-template-rows: 10% 90%;
+  grid-template-rows: 5% 10% 85%;
   height: 100%;
   width: 100%;
-  background-color: #ffff;
+  
 }
 
 .menu-dlg-content-info {
   display: grid;
   grid-template-columns: 33.3% 33.3% 33.3%;
   border: solid black 1.5px;
- 
+  background-color: #ffff;
 }
 
 .menu-dlg-iterators {
 border: solid black 1.5px;
 border-top: none;
+ background-color: #ffff;
+ overflow: auto;
 }
 
 .menu-info-nav{
 display: flex;
 justify-content: center;
 align-items: center;
-
+ background-color: #ffff;
 }

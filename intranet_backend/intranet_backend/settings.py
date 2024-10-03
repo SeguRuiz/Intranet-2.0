@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "api.apps.ApiConfig",
     "cursos.apps.CursosConfig",
-    'files.apps.FilesConfig'
+    'files.apps.FilesConfig',
+    "cursos_contenidos.apps.CursosContenidosConfig"
 ]
 
 AUTH_USER_MODEL = "api.Usuarios"
