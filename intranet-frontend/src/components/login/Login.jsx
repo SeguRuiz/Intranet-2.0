@@ -29,6 +29,7 @@ export const Login = () => {
       return;
     }
     const status_fetch = await fetch_the_data();
+    console.log(status_fetch[0]);
 
     if (status_fetch[0] != 200) {
       Swal.fire("Datos incorrectos, intentelo nuevamente");

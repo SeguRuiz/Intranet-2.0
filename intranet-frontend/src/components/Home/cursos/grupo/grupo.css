@@ -1,0 +1,13 @@
+.container1 {
+  border: solid 1px black;
+}
+
+.containe-hijo {
+  border: solid 1px black;
+}
+
+.container-profe {
+  border: solid 1px black;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+}
