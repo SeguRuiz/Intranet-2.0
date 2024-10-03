@@ -10,14 +10,14 @@ import Modal from "../../../modal/Modal";
 // import Datosusuarios from "../../../../Luis/Datosusuarios";
 import { useNavigate } from "react-router-dom";
 
-const content = () => {
+const Content = () => {
   const { cursos } = useSelector((state) => state.modal);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, define_fetch, fetch_the_data_without_token } = useFetch();
   const { nombre, URL } = useSelector((state) => state.modal);
   const accion = useDispatch();
   const ref_input = useRef();
-  const [esAdmin, setEsAdmin] = useState(false);
+  const [esAdmin, setEsAdmin] = useState(true);
   const navigate = useNavigate();
   // const info = Datosusuarios();
   // console.log(info);
@@ -40,15 +40,11 @@ const content = () => {
   const subirDatosCursos = async (evento) => {
     evento.preventDefault();
     const valor_input = ref_input.current.value;
-    accion(
-      setCursos({
-        nombre: valor_input,
-      })
-    );
     define_fetch("http://localhost:8000/cursos/cursos", "", "POST", {
       nombre: valor_input,
     });
-    fetch_the_data_without_token();
+    const data = await fetch_the_data_without_token();
+    accion(setCursos(data[1]));
     modalCerrado();
   };
 
@@ -68,7 +64,7 @@ const content = () => {
     if (info_user === "admin") {
       setEsAdmin(true);
     } else {
-      setEsAdmin(false);
+      setEsAdmin(true);
     }
   }, []);
 
@@ -116,4 +112,4 @@ const content = () => {
   );
 };
 
-export default content;
+export default Content;
