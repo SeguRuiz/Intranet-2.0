@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setCursos, setData } from "../../../../redux/modalSlice";
 import Modal from "../../../modal/Modal";
 // import Datosusuarios from "../../../../Luis/Datosusuarios";
+import { useNavigate } from "react-router-dom";
 
 const content = () => {
   const { cursos } = useSelector((state) => state.modal);
@@ -17,6 +18,7 @@ const content = () => {
   const accion = useDispatch();
   const ref_input = useRef();
   const [esAdmin, setEsAdmin] = useState(false);
+  const navigate = useNavigate();
   // const info = Datosusuarios();
   // console.log(info);
   // console.log(info_user);
@@ -89,7 +91,12 @@ const content = () => {
         <div className="diseno_content">
           {cursos.map((e, i) => (
             <div key={i} className="note-container">
-              <div className="icono">
+              <div
+                onClick={() => {
+                  navigate("/cursos/curso");
+                }}
+                className="icono"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="100%"

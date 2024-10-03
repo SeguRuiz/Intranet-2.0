@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../components/Home/header/Header_student.jsx";
-import Grupo from "../components/Home/cursos/grupo/Grupo.jsx";
-import Navbar from "../components/Home/navbar/NavBar.jsx";
+import Curso from "../components/Home/cursos/curso";
+import Header from "../components/Home/header/Header_student";
+import Navbar from "../components/Home/navbar/NavBar";
 
-const Grupo_pagina = () => {
+const dentro_curso_page = () => {
   const cursosLinks = [
     { href: "/cursos/curso/contenidos", label: "Contenidos" },
     { href: "/cursos/curso/grupos ", label: "Grupos" },
@@ -15,8 +15,9 @@ const Grupo_pagina = () => {
     <div>
       <Header />
       <Navbar links={cursosLinks} />
-      <Grupo />
+      <Curso />
     </div>
   );
 };
-export default Grupo_pagina;
+
+export default dentro_curso_page;
