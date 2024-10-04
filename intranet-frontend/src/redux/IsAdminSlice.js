@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  Es_admin: false,
+  Es_admin: true,
 };
 
 const IsAdmin = createSlice({

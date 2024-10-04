@@ -1,12 +1,12 @@
 .Info-page {
   display: grid;
   height: 100vh;
-  grid-template-rows: 15% 85%;
+  grid-template-rows: 20.5% auto;
 }
 
 .Info-nav-container {
-  display: grid;
-  grid-template-rows: 75% auto;
+  
+  border: 1px black solid;
 }
 
 .Info-nav {

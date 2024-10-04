@@ -4,8 +4,10 @@ import MenuRead from "../read/MenuRead";
 import { AddCont } from "./AddContenido/AddCont";
 
 import "./MenuModal.css";
+import { useParams } from "react-router-dom";
 const MenuModal = () => {
   const modalRef = useRef();
+  
   const { openModal, closeModalDlg } = useCustomModal(modalRef);
    
   return (

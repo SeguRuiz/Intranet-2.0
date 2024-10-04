@@ -12,9 +12,11 @@ import Grupo from "../pages/Grupo_page.jsx";
 import Tarea from "../pages/Tarea_page.jsx";
 import Comunicaciones from "../pages/comunicaciones_page.jsx";
 import Cronograma from "../pages/Cronograma_page.jsx";
-import Curso from "../pages/dentro_curso_page.jsx";
+
+import { useSelector } from "react-redux";
 
 export const Routing = () => {
+  const { cursos } = useSelector((state) => state.modal);
   return (
     <div>
       <Router>
@@ -26,15 +28,17 @@ export const Routing = () => {
           <Route path="/demolab" element={<Demolab />} />
           <Route path="/ingles" element={<Ingles />} />
           <Route path="/cursos" element={<Cursos />} />
-          <Route path="/cursos/curso" element={<Curso />} />
-          <Route path="/cursos/curso/grupos" element={<Grupo />} />
-          <Route path="/cursos/curso/info_curso" element={<Info_cursos />} />
           <Route path="/cursos/curso/tareas" element={<Tarea />} />
           <Route
             path="/cursos/curso/comunicaciones"
             element={<Comunicaciones />}
           />
           <Route path="/cursos/curso/cronograma" element={<Cronograma />} />
+          <Route
+            path={`/cursos/:id_curso/contenidos`}
+            element={<Info_cursos />}
+          />
+          <Route path={`/cursos/:id_curso/grupos`} element={<Grupo />} />
         </Routes>
       </Router>
     </div>

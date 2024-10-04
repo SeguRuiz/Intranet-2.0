@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { get } from "../services/llamados";
 const initialState = {
   Contenidos: [],
 };
@@ -21,9 +20,19 @@ const CursosContenidos = createSlice({
       );
       state.Contenidos = ContentFiltered;
     },
+    addSubcontenido: (state, action) => {
+      const {contenido_id, data} = action.payload
+      const contenidos_copy = [...state.Contenidos]
+      contenidos_copy.forEach(e => {
+        if (e.id == contenido_id){
+            e.subcontenidos.push(data)
+        }
+      })
+      state.Contenidos = contenidos_copy
+    }
   },
 });
 
-export const { setContenidos, pushContenidos, deleteContenidos } =
+export const { setContenidos, pushContenidos, deleteContenidos, addSubcontenido } =
   CursosContenidos.actions;
 export default CursosContenidos.reducer;

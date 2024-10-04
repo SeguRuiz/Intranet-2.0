@@ -1,18 +1,23 @@
-.read-container{
-    display: grid;
-    grid-template-columns: 33.3% 33.3% 33.3%;
-    }
-    
-    .read-nombre, .read-contenidos, .read-opciones {
-    border: black solid 1.5px;
-    height:10vh;
-    }
-    
-    .read-nombre {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-    }
-    
-    
+.read-container {
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+}
+
+.read-nombre,
+.read-contenidos,
+.read-opciones {
+  border: black solid 1.5px;
+  height: 10vh;
+}
+
+.read-nombre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.subCont-container {
+  height: 11vh;
+  overflow: hidden;
+}

@@ -40,8 +40,8 @@ class SubContenidosCreate(ModelViewSet):
 
 
 @api_view(["GET"])
-def get_contenidos_and_subcontenidos(request):
-    contenidos = Contenidos.objects.values()
+def get_contenidos_and_subcontenidos(request, pk=None):
+    contenidos = Contenidos.objects.filter(curso=pk).values()
     
     contenidos_list = [n for n in contenidos]
 

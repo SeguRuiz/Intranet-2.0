@@ -3,50 +3,21 @@ import React, { useRef, useEffect } from "react";
 import { useState } from "react";
 import { useFetch } from "../../../../services/llamados";
 import { useSelector } from "react-redux";
-import { openModal } from "../../../../redux/modalSlice";
+
 import { useDispatch } from "react-redux";
-import { setCursos, setData } from "../../../../redux/modalSlice";
-import Modal from "../../../modal/Modal";
+import { setData } from "../../../../redux/modalSlice";
+import AddCurso from "./add/AddCurso";
 // import Datosusuarios from "../../../../Luis/Datosusuarios";
 import { useNavigate } from "react-router-dom";
 
 const Content = () => {
   const { cursos } = useSelector((state) => state.modal);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data, define_fetch, fetch_the_data_without_token } = useFetch();
-  const { nombre, URL } = useSelector((state) => state.modal);
+
+  const { define_fetch, fetch_the_data_without_token } = useFetch();
+
   const accion = useDispatch();
-  const ref_input = useRef();
-  const [esAdmin, setEsAdmin] = useState(true);
+
   const navigate = useNavigate();
-  // const info = Datosusuarios();
-  // console.log(info);
-  // console.log(info_user);
-
-  const cambioValor = (evento) => {
-    accion(
-      openModal({ nombre: evento.target.value, URL: evento.target.value })
-    );
-  };
-
-  const modalAbierto = () => {
-    setIsModalOpen(true);
-  };
-
-  const modalCerrado = () => {
-    setIsModalOpen(false);
-  };
-
-  const subirDatosCursos = async (evento) => {
-    evento.preventDefault();
-    const valor_input = ref_input.current.value;
-    define_fetch("http://localhost:8000/cursos/cursos", "", "POST", {
-      nombre: valor_input,
-    });
-    const data = await fetch_the_data_without_token();
-    accion(setCursos(data[1]));
-    modalCerrado();
-  };
 
   useEffect(() => {
     const data = async () => {
@@ -59,37 +30,16 @@ const Content = () => {
     data();
   }, []);
 
-  useEffect(() => {
-    const info_user = localStorage.getItem("rol");
-    if (info_user === "admin") {
-      setEsAdmin(true);
-    } else {
-      setEsAdmin(true);
-    }
-  }, []);
-
   return (
     <>
       <div className="container">
-        <div>
-          {esAdmin && <button onClick={modalAbierto}>Crear</button>}
-          <Modal isOpen={isModalOpen} onClose={modalCerrado}>
-            <form onSubmit={subirDatosCursos}>
-              <input
-                type="text"
-                placeholder="Nombre Curso"
-                onChange={cambioValor}
-                ref={ref_input}
-              />
-            </form>
-          </Modal>
-        </div>
+        <AddCurso />
         <div className="diseno_content">
-          {cursos.map((e, i) => (
-            <div key={i} className="note-container">
+          {cursos.map((e) => (
+            <div key={e.id} id={e.id} className="note-container">
               <div
                 onClick={() => {
-                  navigate("/cursos/curso");
+                  navigate(`/cursos/${e.id}/contenidos`);
                 }}
                 className="icono"
               >

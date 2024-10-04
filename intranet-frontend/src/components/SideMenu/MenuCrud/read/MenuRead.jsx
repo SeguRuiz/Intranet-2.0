@@ -6,7 +6,7 @@ const { Contenidos } = useSelector((state) => state.CursosContenidos);
   return (
     <>
     {Contenidos.map((contenido) =>(
-       <ReadCont key={contenido.id} id={contenido.id} nombre={contenido.nombre}/>
+       <ReadCont key={contenido.id} id={contenido.id} nombre={contenido.nombre} subContenidos={contenido.subcontenidos}/>
     ))}
     </>
   )

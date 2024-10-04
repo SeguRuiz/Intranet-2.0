@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/Home/header/Header_student";
 import NavBar from "../components/Home/navbar/NavBar";
-import Content from "../components/Home/cursos/main_content/Content";
+import Content from "../components/Home/cursos/main_content/content";
 
 const Cursos_page = () => {
   const studentLinks = [
@@ -17,6 +17,7 @@ const Cursos_page = () => {
       <Header />
       <NavBar links={studentLinks} />
       <Content />
+     
     </div>
   );
 };
