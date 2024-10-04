@@ -5,7 +5,7 @@ import Cronograma from "../components/Home/cursos/cronograma/Cronograma";
 
 const Cronograma_page = () => {
   const cursosLinks = [
-    { href: "/cursos/curso/contenidos", label: "Contenidos" },
+    { href: "/cursos/curso/contenido", label: "Contenidos" },
     { href: "/cursos/curso/grupos ", label: "Grupos" },
     { href: "/cursos/curso/tareas ", label: "Tareas" },
     { href: "/cursos/curso/comunicaciones", label: "Comunicaciones" },

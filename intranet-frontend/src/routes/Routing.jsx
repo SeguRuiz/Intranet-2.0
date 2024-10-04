@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Loginpage } from "../pages/Loginpage";
 
-import Info_cursos from "../pages/info_cursos/Info_cursos";
+import Contenido from "../pages/info_cursos/Info_cursos";
 import Cursos from "../pages/Cursos_page";
 import Home from "../pages/Home_page";
 import Social from "../pages/Social_page";
@@ -13,10 +13,8 @@ import Tarea from "../pages/Tarea_page.jsx";
 import Comunicaciones from "../pages/comunicaciones_page.jsx";
 import Cronograma from "../pages/Cronograma_page.jsx";
 
-import { useSelector } from "react-redux";
-
 export const Routing = () => {
-  const { cursos } = useSelector((state) => state.modal);
+  
   return (
     <div>
       <Router>
@@ -28,6 +26,8 @@ export const Routing = () => {
           <Route path="/demolab" element={<Demolab />} />
           <Route path="/ingles" element={<Ingles />} />
           <Route path="/cursos" element={<Cursos />} />
+          
+          <Route path="/cursos/curso/grupos" element={<Grupo />} />
           <Route path="/cursos/curso/tareas" element={<Tarea />} />
           <Route
             path="/cursos/curso/comunicaciones"
@@ -36,7 +36,7 @@ export const Routing = () => {
           <Route path="/cursos/curso/cronograma" element={<Cronograma />} />
           <Route
             path={`/cursos/:id_curso/contenidos`}
-            element={<Info_cursos />}
+            element={<Contenido />}
           />
           <Route path={`/cursos/:id_curso/grupos`} element={<Grupo />} />
         </Routes>

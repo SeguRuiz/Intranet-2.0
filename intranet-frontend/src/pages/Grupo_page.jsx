@@ -16,11 +16,29 @@ const Grupo_pagina = () => {
     { href: "/cursos/curso/comunicaciones", label: "Comunicaciones" },
     { href: "/cursos/curso/cronograma", label: "Cronograma" },
   ];
+
+  const profesores = [
+    { nombre: "Profesor 1", correo: "Profesor1@fwdcostarica.com" },
+    { nombre: "Profesor 2", correo: "Profesor2@fwdcostarica.com" },
+  ];
+
+  const titulo_profesor = [{ nombre: "Profesores" }];
+
+  const titulo_estudiantes = [{ nombre: "Estudiantes" }];
+
+  const estudiante = [
+    { nombre: "estudiante 1", correo: "estudiante1@fwdcostarica.com" },
+    { nombre: "estudiante 2", correo: "estudiante2@fwdcostarica.com" },
+    { nombre: "estudiante 2", correo: "estudiante2@fwdcostarica.com" },
+    { nombre: "estudiante 2", correo: "estudiante2@fwdcostarica.com" },
+  ];
+
   return (
     <div>
       <Header />
       <Navbar links={cursosLinks} />
-      <Grupo />
+      <Grupo integrantes={profesores} titulo={titulo_profesor} />
+      <Grupo integrantes={estudiante} titulo={titulo_estudiantes} />
     </div>
   );
 };
