@@ -93,7 +93,7 @@ const content = () => {
             <div key={i} className="note-container">
               <div
                 onClick={() => {
-                  navigate("/cursos/curso");
+                  navigate("/cursos/curso/grupos");
                 }}
                 className="icono"
               >

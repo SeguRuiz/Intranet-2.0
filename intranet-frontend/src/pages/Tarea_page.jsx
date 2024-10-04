@@ -5,7 +5,7 @@ import Navbar from "../components/Home/navbar/NavBar";
 
 const Tarea_page = () => {
   const cursosLinks = [
-    { href: "/cursos/curso/contenidos", label: "Contenidos" },
+    { href: "/cursos/curso/contenido", label: "Contenidos" },
     { href: "/cursos/curso/grupos ", label: "Grupos" },
     { href: "/cursos/curso/tareas ", label: "Tareas" },
     { href: "/cursos/curso/comunicaciones", label: "Comunicaciones" },
