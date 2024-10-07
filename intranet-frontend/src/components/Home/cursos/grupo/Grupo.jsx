@@ -8,7 +8,7 @@ const Grupo = ({ integrantes, titulo = [] }) => {
         {titulo.map((nombre_titulo, index) => (
           <thead key={index}>
             {nombre_titulo.nombre}
-            <tr key={index}>
+            <tr>
               <th>Perfil</th>
               <th>Nombre</th>
               <th>Correo</th>
