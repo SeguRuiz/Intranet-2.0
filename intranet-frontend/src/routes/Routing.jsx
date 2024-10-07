@@ -28,7 +28,6 @@ export const Routing = () => {
           <Route path="/ingles" element={<Ingles />} />
           <Route path="/cursos" element={<Cursos />} />
 
-          <Route path="/cursos/grupos" element={<Grupo />} />
           <Route path="/cursos/:id_curso/tareas" element={<Tarea />} />
           <Route
             path="/cursos/:id_curso/comunicaciones"
