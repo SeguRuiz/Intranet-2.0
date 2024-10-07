@@ -3,7 +3,7 @@
   height: 70%;
   width: 65%;
   padding: 10px;
-  background-color: rgba(0, 0, 0,0);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .modal-dlg:focus {
@@ -15,7 +15,6 @@
   grid-template-rows: 5% 10% 85%;
   height: 100%;
   width: 100%;
-  
 }
 
 .menu-dlg-content-info {
@@ -26,15 +25,16 @@
 }
 
 .menu-dlg-iterators {
-border: solid black 1.5px;
-border-top: none;
- background-color: #ffff;
- overflow: auto;
+  border: solid black 1.5px;
+  border-top: none;
+  background-color: #ffff;
+  overflow: auto;
+  scrollbar-width: thin;
 }
 
-.menu-info-nav{
-display: flex;
-justify-content: center;
-align-items: center;
- background-color: #ffff;
+.menu-info-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffff;
 }

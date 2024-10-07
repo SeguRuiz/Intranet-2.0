@@ -2,5 +2,9 @@
   height: 40px;
   display: flex;
   place-items: center;
- 
+  cursor: pointer;
+}
+
+.subContenido:hover{
+  background-color: gainsboro;
 }

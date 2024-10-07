@@ -43,7 +43,7 @@ const AddCurso = () => {
   return (
     <>
       <div>
-        {esAdmin && <button onClick={modalAbierto}>Crear</button>}
+        {esAdmin && <button onClick={modalAbierto} style={{marginLeft: '12px'}}>Crear</button>}
         <Modal isOpen={isModalOpen} onClose={modalCerrado}>
           <form onSubmit={subirDatosCursos}>
             <input

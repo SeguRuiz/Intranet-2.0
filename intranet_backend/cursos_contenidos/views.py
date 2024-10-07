@@ -41,16 +41,16 @@ class SubContenidosCreate(ModelViewSet):
 
 @api_view(["GET"])
 def get_contenidos_and_subcontenidos(request, pk=None):
-    contenidos = Contenidos.objects.filter(curso=pk).values()
+    contenidos = Contenidos.objects.filter(curso=pk)
+    contenidos_serializer = ContenidosSerializer(instance=contenidos, many=True)
     
-    contenidos_list = [n for n in contenidos]
+    contenidos_list = contenidos_serializer.data
 
     for x in contenidos_list:
-        SubCont = list(SubContenidos.objects.filter(contenido=x['id']).values())
-        SubCont_list = [x for x in SubCont]
+        SubCont = SubContenidos.objects.filter(contenido=x['id'])
+        subContenidos_serializer = SubContenidosSerializer(instance=SubCont, many=True)
+        SubCont_list = subContenidos_serializer.data
         x.update(subcontenidos=SubCont_list)
 
-    
-    contenidos_and_subcontenidos = json.dumps(contenidos_list, cls=DjangoJSONEncoder)
 
-    return Response(contenidos_and_subcontenidos, status=status.HTTP_200_OK)
+    return Response(contenidos_list, status=status.HTTP_200_OK)

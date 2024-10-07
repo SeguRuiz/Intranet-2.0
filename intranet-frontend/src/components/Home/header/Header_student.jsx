@@ -1,37 +1,37 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import flecha5 from "../../../assets/flechas/flechas5.png";
+import { useParams } from "react-router-dom";
 import "./header.css";
 
 const Header_student = ({ imgSrc, buttonText }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const {id_curso} = useParams()
 
+  console.log(id_curso);
   
-  console.log(location.pathname);
   
-
+ 
   // Función que decide qué renderizar dentro del div circular
   const renderCircularContent = () => {
-    if (true)  {
+    if (id_curso != undefined) {
       return (
         <button className="btn-circular" onClick={() => navigate("/cursos")}>
           {buttonText || "Campus Virtual"}
         </button>
       );
-    } else {
-      return <img src={imgSrc || flecha5} alt="foto_estudiante" />;
-    }
+    } 
+      return <div className="div-circular"></div>;
+    
   };
 
   return (
     <div className="header_style">
-      <div className="flechas_circulo">
-        <div>
-          <img className="flecha5" src={flecha5} alt="flecha5" />
-        </div>
-        <div className="div-circular">{renderCircularContent()}</div>
+      <div className="flecha-container">
+        <img className="flecha5" src={flecha5} alt="flecha5" />
       </div>
+      {renderCircularContent()}
     </div>
   );
 };

@@ -1,9 +1,21 @@
-.triangulos-grandes-fondo{
+.triangulos-grandes-fondo {
   height: 50%;
   width: 40%;
   margin: -5% 63%;
-  z-index:-1;
+  z-index: -1;
   position: absolute;
+}
+
+.foward-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 50px;
+}
+
+.login-form {
+  width: 60%;
+  height: 60%;
 }
 
 .d-logo {
@@ -11,58 +23,144 @@
   width: 40%;
   z-index: -1;
   position: absolute;
-  margin:30% 3%;
+  margin: 30% 3%;
 }
 .Cuadro_login {
-  width: 55%;
+  display: grid;
+  grid-template-rows: auto 20%;
+  width: 100%;
   border: solid 1px black;
   padding: 2%;
-  margin: 2% 20%;
+  padding-bottom: 15px;
+  height: 100%;
+
   border-radius: 4px;
-  border-bottom: none;
+
   background-color: white;
 }
 
 .square_email_password {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto;
   padding: 35px;
 }
 
-.img-inputs {
+.inputs-containers {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
+}
+.img-inputs {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
 
-.imagen{
-  height: 30%;
-  width: 40%;
+.foward-logo {
+  height: 60%;
+  width: 100%;
   margin-right: 15%;
 }
-.inputs{
+.inputs {
   border-top: none;
   border-left: none;
   border-right: none;
+
   padding: 10px;
   margin-bottom: 20%;
   width: auto;
 }
 
+.inputs:focus {
+  outline: none;
+}
+
 .b-t-n_class {
-  padding: 15px;
-  margin-left: 60%;
+  padding: 13px;
+  align-self: center;
   color: white;
   border: none;
-  width: 40%;
+  width: 50%;
   background-color: rgb(180, 179, 179);
-  border-radius: 6%;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .imagen-triangulo {
-  height: 15%;
-  width: 15%;
-  margin: 10% 85%;
+  height: 85%;
+  width: 10%;
 }
 
+.login-div-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.triangulo-container {
+  height: 90%;
+  width: 98%;
+  display: flex;
+  justify-content: end;
+}
+
+@media only screen and (max-width: 700px) {
+  .img-inputs {
+    display: grid;
+    grid-template-rows: 50% auto;
+    grid-template-columns: auto;
+  }
+
+  .foward-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .foward-logo {
+    height: 70%;
+    width: 100%;
+  }
+
+  .login-form {
+    width: 80%;
+    height: auto;
+    margin-right: 20px;
+  }
+
+  .Cuadro_login {
+    display: grid;
+    grid-template-rows: auto;
+    width: 100%;
+    border: solid 1px black;
+    padding: 2%;
+
+    height: 100%;
+
+    border-radius: 4px;
+
+    background-color: white;
+    padding-bottom: 50px;
+  }
+
+  .b-t-n_class {
+    padding: 13px;
+    align-self: end;
+    color: white;
+    border: none;
+    width: 35%;
+    background-color: rgb(180, 179, 179);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  .triangulo-container {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 500px) {
+  .triangulo-container {
+    display: none;
+  }
+}

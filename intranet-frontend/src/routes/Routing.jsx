@@ -2,19 +2,18 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Loginpage } from "../pages/Loginpage";
 
 import Contenido from "../pages/info_cursos/Info_cursos";
-import Cursos from "../pages/Cursos_page";
+import Cursos from "../pages/Cursos_page/Cursos_page.jsx";
 import Home from "../pages/Home_page";
 import Social from "../pages/Social_page";
 import Anuncios from "../pages/Anuncios_page";
 import Demolab from "../pages/Demolab_page";
 import Ingles from "../pages/Ingles_page";
-import Grupo from "../pages/Grupo_page.jsx";
+import Grupo from "../pages/grupos_page/Grupo_page.jsx";
 import Tarea from "../pages/Tarea_page.jsx";
 import Comunicaciones from "../pages/comunicaciones_page.jsx";
 import Cronograma from "../pages/Cronograma_page.jsx";
 
 export const Routing = () => {
-  
   return (
     <div>
       <Router>
@@ -26,7 +25,7 @@ export const Routing = () => {
           <Route path="/demolab" element={<Demolab />} />
           <Route path="/ingles" element={<Ingles />} />
           <Route path="/cursos" element={<Cursos />} />
-          
+
           <Route path="/cursos/curso/grupos" element={<Grupo />} />
           <Route path="/cursos/curso/tareas" element={<Tarea />} />
           <Route

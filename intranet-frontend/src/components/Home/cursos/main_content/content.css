@@ -2,6 +2,8 @@
   display: grid;
   grid-template-rows: 10% auto;
   gap: 10px;
+  
+  
 }
 .note-container {
   height: 200px;
@@ -22,4 +24,88 @@
   display: grid;
   place-items: center;
   font-size: 200%;
+}
+
+@media only screen and (max-width: 1005px) {
+
+  .container {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 10px;
+  }
+  .diseno_content {
+    display: grid;
+    grid-template-areas: "a a a a";
+    
+    grid-auto-rows: 55%;
+    grid-auto-columns: 25%;
+    
+  }
+
+  .note-container {
+    height: 200px;
+    width: 200px;
+    
+    border: black solid 1px;
+    justify-self: center;
+    display: grid;
+    grid-template-rows: 80% auto;
+  }
+  
+}
+
+@media only screen and (max-width: 810px) {
+
+  .container {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 10px;
+  }
+  .diseno_content {
+    display: grid;
+    grid-template-areas: "a a a";
+    
+    grid-auto-rows: 60%;
+    grid-auto-columns: 33%;
+    
+  }
+
+  .note-container {
+    height: 200px;
+    width: 200px;
+    
+    border: black solid 1px;
+    justify-self: center;
+    display: grid;
+    grid-template-rows: 80% auto;
+  }
+  
+}
+
+@media only screen and (max-width: 750px) {
+
+  .container {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 10px;
+  }
+  .diseno_content {
+    display: grid;
+    grid-template-areas: "a";
+    justify-content: center;
+    grid-auto-rows: 23%;
+    grid-auto-columns: 90%;
+    
+  }
+
+  .note-container {
+    height: 200px;
+    width: 100%;
+    padding: 10px;
+    border: black solid 1px;
+    justify-self: center;
+    display: grid;
+    grid-template-rows: 80% auto;
+  }
+  
 }

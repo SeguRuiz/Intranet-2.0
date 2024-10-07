@@ -53,12 +53,7 @@ export const useFetch = () => {
       try {
         const reponse = await fetch(fetchUrl.current, fetchInfo.current);
         const data = await reponse.json();
-       
         return [reponse.status, data];
-        console.log(data);
-        if (!reponse.ok) {
-          console.log(reponse);
-        }
       } catch (error) {
         console.log(error);
       } finally {

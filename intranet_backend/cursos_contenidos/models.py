@@ -16,7 +16,7 @@ class Contenidos(models.Model):
 class SubContenidos(models.Model):
     id = models.UUIDField(editable=False, null=False, primary_key=True, default=uuid.uuid4, unique=True)
     nombre = models.CharField(max_length=150, null=False)
-    archivo = models.ForeignKey(Archivos_referencia, on_delete=models.CASCADE, null=True)
+    archivo = models.ForeignKey(Archivos_referencia, null=True, on_delete=models.SET_NULL)
     contenido = models.ForeignKey(Contenidos, on_delete=models.CASCADE, null=True)
     
     class Meta:
