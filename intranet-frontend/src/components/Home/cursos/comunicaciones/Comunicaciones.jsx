@@ -1,8 +1,9 @@
 import React from 'react'
 
 const comunicaciones = () => {
+  console.log('hola');
   return (
-    <div>hola</div>
+    <div>jijijij</div>
   )
 }
 

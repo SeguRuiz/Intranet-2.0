@@ -1,8 +1,8 @@
-.triangulos-grandes-fondo{
+.triangulos-grandes-fondo {
   height: 50%;
   width: 40%;
   margin: -5% 63%;
-  z-index:-1;
+  z-index: -1;
   position: absolute;
 }
 
@@ -11,7 +11,7 @@
   width: 40%;
   z-index: -1;
   position: absolute;
-  margin:30% 3%;
+  margin: 30% 3%;
 }
 .Cuadro_login {
   width: 55%;
@@ -35,12 +35,12 @@
   justify-content: flex-end;
 }
 
-.imagen{
+.imagen {
   height: 30%;
   width: 40%;
   margin-right: 15%;
 }
-.inputs{
+.inputs {
   border-top: none;
   border-left: none;
   border-right: none;
@@ -64,5 +64,3 @@
   width: 15%;
   margin: 10% 85%;
 }
-
-

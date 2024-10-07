@@ -12,28 +12,29 @@ import Grupo from "../pages/Grupo_page.jsx";
 import Tarea from "../pages/Tarea_page.jsx";
 import Comunicaciones from "../pages/comunicaciones_page.jsx";
 import Cronograma from "../pages/Cronograma_page.jsx";
+import Register from "../pages/Register_page.jsx";
 
 export const Routing = () => {
-  
   return (
     <div>
       <Router>
         <Routes>
           <Route path="/" element={<Loginpage />} />
+          <Route path="/registro" element={<Register />} />
           <Route path="/home" element={<Home />} />
           <Route path="/social" element={<Social />} />
           <Route path="/anuncios" element={<Anuncios />} />
           <Route path="/demolab" element={<Demolab />} />
           <Route path="/ingles" element={<Ingles />} />
           <Route path="/cursos" element={<Cursos />} />
-          
-          <Route path="/cursos/curso/grupos" element={<Grupo />} />
-          <Route path="/cursos/curso/tareas" element={<Tarea />} />
+
+          <Route path="/cursos/grupos" element={<Grupo />} />
+          <Route path="/cursos/:id_curso/tareas" element={<Tarea />} />
           <Route
-            path="/cursos/curso/comunicaciones"
+            path="/cursos/:id_curso/comunicaciones"
             element={<Comunicaciones />}
           />
-          <Route path="/cursos/curso/cronograma" element={<Cronograma />} />
+          <Route path="/cursos/:id_curso/cronograma" element={<Cronograma />} />
           <Route
             path={`/cursos/:id_curso/contenidos`}
             element={<Contenido />}

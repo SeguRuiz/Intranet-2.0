@@ -6,11 +6,7 @@ import "./header.css";
 const Header_student = ({ imgSrc, buttonText }) => {
   const location = useLocation();
   const navigate = useNavigate();
-
   
-  console.log(location.pathname);
-  
-
   // Función que decide qué renderizar dentro del div circular
   const renderCircularContent = () => {
     if (true)  {

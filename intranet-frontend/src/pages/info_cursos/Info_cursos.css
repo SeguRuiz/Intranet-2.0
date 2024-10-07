@@ -1,11 +1,10 @@
 .Info-page {
   display: grid;
   height: 100vh;
-  grid-template-rows: 20.5% auto;
+  grid-template-rows: 23% auto;
 }
 
 .Info-nav-container {
-  
   border: 1px black solid;
 }
 
@@ -32,3 +31,4 @@
 .Info-page-file {
   border: 1.5px black solid;
 }
+
