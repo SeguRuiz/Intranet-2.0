@@ -1,16 +1,24 @@
-.read-container {
+.read-container-modal-{
   display: grid;
   grid-template-columns: 33.3% 33.3% 33.3%;
+  border: none;
 }
 
-.read-nombre,
-.read-contenidos,
-.read-opciones {
-  border: black solid 1.5px;
-  height: 10vh;
+.read-nombre-modal,
+.read-opciones-modal,
+.read-contenidos-modal {
+  height: 10.5vh;
+  background-color: gainsboro;
 }
 
-.read-nombre {
+.read-opciones-modal{
+    display: flex;
+    place-items: center;
+    justify-content: center;
+}
+
+
+.read-nombre-modal {
   display: flex;
   justify-content: center;
   align-items: center;

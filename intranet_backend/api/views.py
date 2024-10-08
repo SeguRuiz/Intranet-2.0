@@ -23,7 +23,7 @@ def register(request):
     if serializer.is_valid():
         serializer.save()
 
-        user = Usuarios.objects.get(correo=serializer.data["correo"])
+        user = Usuarios.objects.get(correo=serializer.data["email"])
         user.set_password(serializer.data["password"])
         user.save()
 

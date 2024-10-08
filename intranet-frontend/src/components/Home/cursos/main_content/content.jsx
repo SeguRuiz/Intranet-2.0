@@ -28,7 +28,7 @@ const Content = () => {
       console.log(datos[1]);
 
       accion(setData(datos[1]));
-      accion(set_archivo_mostrandose(null))
+      accion(set_archivo_mostrandose(null));
     };
     data();
   }, []);

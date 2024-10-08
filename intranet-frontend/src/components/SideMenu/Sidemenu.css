@@ -3,10 +3,10 @@
 .sidemenu-container{
     display: grid;
     grid-template-rows: 90% 10%;
-    height: 80.5vh;
+    height: 82vh;
     position: fixed;
     width: 20%;
-
+    
 }
 
 .sidemenu-container-noAdmin{

@@ -38,3 +38,16 @@
   align-items: center;
   background-color: #ffff;
 }
+
+.edit-sidebar-btn{
+  background-color: #d3d3d3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-sidebar-btn:focus{
+  outline: none;
+}

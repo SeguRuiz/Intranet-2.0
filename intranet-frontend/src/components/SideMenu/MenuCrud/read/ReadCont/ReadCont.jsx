@@ -13,11 +13,12 @@ const abrirCerrar = () => {
   return (
     <>
     <div className='subCont-container'  style={{ height: abrir ? "auto" : "10.5vh" }}>
-    <div key={id} className='read-container' onClick={abrirCerrar}>
-           <div className='read-nombre'><p>{nombre}</p></div>
-           <div className='read-contenidos'>
+    <div key={id} className='read-container-modal-' style={{border: 'none'}} onClick={abrirCerrar}>
+           <div className='read-nombre-modal'><p>{nombre}</p></div>
+           <div className='read-contenidos-modal'>
+            
            </div>
-           <div className='read-opciones'>
+           <div className='read-opciones-modal'>
             <DeleteContent id={id}/>
            </div>
     </div>

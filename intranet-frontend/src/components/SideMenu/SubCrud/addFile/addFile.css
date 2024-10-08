@@ -1,22 +1,22 @@
 .drag-div {
-    height: 50%;
-    background-color: red;
-    border: 1.5px black solid;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
+  width: 65px;
+  background-color: #dcdcdc;
+  border-radius: 50px;
+  display: flex;
+padding: 5px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
-
-.drag-div-label{
- height: 50%;
- width: 50%;
- display: flex;
- place-items: center;
- background-color: aqua;
+.drag-div-label {
+  height: 50%;
+  width: 50%;
+  display: flex;
+  place-items: center;
+  background-color: aqua;
 }
 
-.file_inp{
-    display: none;
+.file_inp {
+  display: none;
 }

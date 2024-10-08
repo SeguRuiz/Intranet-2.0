@@ -11,6 +11,10 @@ class Contenidos(models.Model):
     
     class Meta:
         db_table = 'contenidos'
+        indexes = [
+            models.Index(fields=['id','nombre'], name='contenidos-indx'),
+            models.Index(fields=['id'], name='id-contenidos-indx')
+        ]
         
 
 class SubContenidos(models.Model):
@@ -21,6 +25,11 @@ class SubContenidos(models.Model):
     
     class Meta:
         db_table = 'subcontenidos'
+        indexes = [
+            models.Index(fields=['contenido'], name='subcont-contenido-indx'),
+            models.Index(fields=['archivo'], name='subcont-archivo-indx'),
+            models.Index(fields=['id'], name='id-subcont-indx'),
+        ]
 
 
 

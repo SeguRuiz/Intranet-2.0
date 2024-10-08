@@ -1,4 +1,5 @@
 import uuid
+
 from api.models import Usuarios
 from django.core.validators import MinLengthValidator
 from django.db import models
@@ -19,11 +20,16 @@ class Sedes(models.Model):
             )
         ],
     )
-    ubicacion = models.CharField(max_length=1000)
+    ubicacion = models.CharField(max_length=250)
     activa = models.BooleanField(null=False, default=True)
 
     class Meta:
         db_table = "sedes"
+        unique_together = ["nombre", "ubicacion"]
+        indexes = [
+            models.Index(fields=["nombre", "ubicacion"], name="nombre-ubicacion-indx"),
+            models.Index(fields=["id"], name="id-sedes-indx"),
+        ]
 
 
 class Grupos(models.Model):
@@ -35,6 +41,13 @@ class Grupos(models.Model):
 
     class Meta:
         db_table = "grupos"
+        unique_together = ["sede_id", "nombre_grupo"]
+        indexes = [
+            models.Index(
+                fields=["sede_id", "nombre_grupo"], name="sede_id-nombre_grupo-indx"
+            ),
+            models.Index(fields=["id"], name="id-grupos-indx"),
+        ]
 
 
 class Intengrantes_de_grupo(models.Model):
@@ -48,6 +61,19 @@ class Intengrantes_de_grupo(models.Model):
 
     class Meta:
         db_table = "integrates_de_grupo"
+        unique_together = ["grupo_id", "usuario_id"]
+        indexes = [
+            models.Index(
+                fields=["usuario_id", "grupo_id"], name="IntegranteGrupo-IG-indx"
+            ),
+            models.Index(
+                fields=["usuario_id"], name="usuario_id-IG-indx"
+            ),
+            models.Index(
+                fields=["grupo_id"], name="grupo_id-IG-indx"
+            ),
+            models.Index(fields=["id"], name="id-IG-indx"),
+        ]
 
 
 class Cursos(models.Model):
@@ -61,6 +87,11 @@ class Cursos(models.Model):
 
     class Meta:
         db_table = "Cursos"
+        unique_together = ['id','nombre']
+        indexes = [
+            models.Index(fields=['id'], name='id-cursos-indx')
+        ]
+    
 
 
 class Grupos_cursos_intermedia(models.Model):
@@ -72,3 +103,10 @@ class Grupos_cursos_intermedia(models.Model):
 
     class Meta:
         db_table = "grupos_cursos_intermedia"
+        unique_together = ['curso_id','grupo_id']
+        indexes = [
+            models.Index(fields=['curso_id', 'grupo_id'], name='GruposCursos-indx'),
+            models.Index(fields=['curso_id'], name='GC-curso_id-indx'),
+            models.Index(fields=['grupo_id'], name='GC-grupo_id-indx'),
+            models.Index(fields=['id'], name='id-GC-indx')
+        ]

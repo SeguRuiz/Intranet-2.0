@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
   Contenidos: [],
   Arhivos_subcontenidos: [],
@@ -77,22 +78,22 @@ const CursosContenidos = createSlice({
       });
        
       state.Contenidos = contenidos_copy
-      
-      // const archivos_copy = [...state.Arhivos_subcontenidos]
-
-      // const archivos_filtered = archivos_copy.filter(x => x.key != key)
-
-      // state.Arhivos_subcontenidos = archivos_filtered
 
     },
 
     set_archivo_mostrandose: (state, action) => {
       state.archivo_mostrandose = action.payload
+    },
+
+    buscar_archivo_existente: (state, action) => {
+      
     }
 
   },
  
 });
+
+
 
 export const {
   setContenidos,
@@ -102,6 +103,6 @@ export const {
   deleteSubcontenidos,
   add_archivos_subcontenidos,
   delete_archivos_subcontenidos,
-  set_archivo_mostrandose
+  set_archivo_mostrandose,
 } = CursosContenidos.actions;
 export default CursosContenidos.reducer;

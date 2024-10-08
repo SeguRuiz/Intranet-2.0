@@ -1,3 +1,37 @@
 .addSubConts-form{
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 20px;
+}
+
+.add-subcont-inpt{
+    height: 5vh;
+    width: 50%;
+    font-size: 15px;
+    border: none;
+    border-bottom: solid 1.5px rgba(0, 0, 0, 0.2);
+}
+
+.add-subcont-inpt:focus{
+    outline: none;
+}
+
+.add-subcont-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
+.add-subcont-btn:hover{
+    background-color: #d3d3d3;
+    .add-subcont-icon{
+        fill: #ffff;
+    }
 
 }

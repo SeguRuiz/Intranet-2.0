@@ -37,10 +37,7 @@ export const useFetch = () => {
      
       accion(setToken({ Token: data.token_de_usuario }));
       return [reponse.status, data];
-      console.log(data);
-      if (!reponse.ok) {
-        console.log(reponse);
-      }
+
     } catch (error) {
       console.log(error);
     } finally {
