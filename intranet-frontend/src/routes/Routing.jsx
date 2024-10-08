@@ -9,7 +9,7 @@ import Anuncios from "../pages/Anuncios_page";
 import Demolab from "../pages/Demolab_page";
 import Ingles from "../pages/Ingles_page";
 import Grupo from "../pages/grupos_page/Grupo_page.jsx";
-import Tarea from "../pages/Tarea_page.jsx";
+import Tarea from "../pages/tarea_page/Tarea_page.jsx";
 import Comunicaciones from "../pages/comunicaciones_page.jsx";
 import Cronograma from "../pages/Cronograma_page.jsx";
 import Register from "../pages/Register_page.jsx";

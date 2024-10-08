@@ -3,32 +3,26 @@
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  margin-top: 96px;
+  margin-top: 89px;
   background-color: #ffff;
-  
+
   z-index: 2;
 }
 
-
-@media only screen and (max-height: 1000px) and (max-width: 415px){
-.links_navbar{
- margin-top: 100px;
+@media only screen and (max-height: 1000px) and (max-width: 415px) {
+  .links_navbar {
+    margin-top: 100px;
+  }
 }
-  
-}
-
-
 
 a {
   text-decoration: none;
   color: gray;
   margin-bottom: 5%;
- 
 }
 
 a:hover {
   text-decoration: none;
   background-color: rgb(224, 221, 221);
   border-bottom: solid 1px gray;
-  
 }

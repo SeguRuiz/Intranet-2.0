@@ -1,0 +1,16 @@
+.container_main {
+  display: flex;
+  justify-content: center;
+}
+
+.content_name_HW,
+.content_description,
+.content_date,
+.content_date_check {
+  border: 1px black solid;
+  width: 300px;
+}
+
+.b-t-n {
+  margin: 30px;
+}

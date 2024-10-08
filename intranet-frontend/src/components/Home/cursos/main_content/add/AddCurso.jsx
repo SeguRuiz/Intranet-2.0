@@ -27,7 +27,10 @@ const AddCurso = () => {
       nombre: valor_input,
     });
     const data = await fetch_the_data_without_token();
+    console.log(data);
     accion(setCursos(data[1]));
+    
+    
     modalCerrado();
   };
 

@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     "api.apps.ApiConfig",
     "cursos.apps.CursosConfig",
     'files.apps.FilesConfig',
-    "cursos_contenidos.apps.CursosContenidosConfig"
+    "cursos_contenidos.apps.CursosContenidosConfig",
+    "tareas.apps.TareasConfig"
 ]
 
 AUTH_USER_MODEL = "api.Usuarios"

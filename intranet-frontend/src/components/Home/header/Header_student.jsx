@@ -7,12 +7,8 @@ import "./header.css";
 const Header_student = ({ imgSrc, buttonText }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const {id_curso} = useParams()
+  const { id_curso } = useParams();
 
-  console.log(id_curso);
-  
-  
- 
   // Función que decide qué renderizar dentro del div circular
   const renderCircularContent = () => {
     if (id_curso != undefined) {
@@ -21,9 +17,8 @@ const Header_student = ({ imgSrc, buttonText }) => {
           {buttonText || "Campus Virtual"}
         </button>
       );
-    } 
-      return <div className="div-circular"></div>;
-    
+    }
+    return <div className="div-circular"></div>;
   };
 
   return (
