@@ -27,7 +27,7 @@ class Usuarios(AbstractUser):
 
 class Estudiantes(models.Model):
     id = models.UUIDField(editable=False, null=False, primary_key=True, default=uuid.uuid4, unique=True)
-    usuario_id = models.ForeignKey(Usuarios,  on_delete=models.CASCADE, null=False)
+    usuario_id = models.ForeignKey(Usuarios,  on_delete=models.CASCADE, null=True)
     nota = models.FloatField(null=False, default=0)
     reportes = models.IntegerField(null=False, default=0)
     activo = models.BooleanField(null=False, default=False)

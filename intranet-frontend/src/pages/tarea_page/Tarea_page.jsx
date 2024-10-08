@@ -1,8 +1,9 @@
 import React from "react";
-import Tarea from "../components/Home/cursos/Tarea/Tarea";
-import Header from "../components/Home/header/Header_student";
-import Navbar from "../components/Home/navbar/NavBar";
+import Tarea from "../../components/Home/cursos/Tarea/Tarea";
+import Header from "../../components/Home/header/Header_student";
+import Navbar from "../../components/Home/navbar/NavBar";
 import { useParams } from "react-router-dom";
+import "./tarea.css";
 
 const Tarea_page = () => {
   const { id_curso } = useParams();
@@ -15,10 +16,14 @@ const Tarea_page = () => {
   ];
 
   return (
-    <div>
-      <Header />
-      <Navbar links={cursosLinks} />
-      <Tarea />
+    <div className="tarea-page-container">
+      <div>
+        <Header />
+        <Navbar links={cursosLinks} />
+      </div>
+      <div>
+        <Tarea />
+      </div>
     </div>
   );
 };

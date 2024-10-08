@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import logo from "../../assets/logo.webp";
+import logo from "../../assets/FWD - Logotipo-01.svg";
 import flecha2 from "../../assets/flechas/flechas2.png";
-import flecha from "../../assets/flechas/flecha4.png";
+import flecha from "../../assets/flechas/Flechas-03.svg";
 import d from "../../assets/flechas/d.png";
 import { useFetch } from "../../services/llamados";
 import Swal from "sweetalert2";
@@ -51,19 +51,16 @@ export const Login = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={validar_espacios}>
-        <div>
-          <img
-            className="triangulos-grandes-fondo"
-            src={flecha2}
-            alt="flecha"
-          />
-          <img className="d-logo" src={d} alt="logo-d" />
-          <div className="Cuadro_login">
-            <div className="img-inputs">
-              <img className="imagen" src={logo} alt="logo" />
-              <div className="square_email_password">
+    <div className="login-div-container">
+      <form onSubmit={validar_espacios} className="login-form">
+        <div className="Cuadro_login">
+          <div className="img-inputs">
+            <div className="foward-logo-container">
+              <img className="foward-logo" src={logo} alt="logo" />
+            </div>
+
+            <div className="square_email_password">
+              <div className="inputs-containers">
                 <input
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
@@ -78,15 +75,17 @@ export const Login = () => {
                   type="password"
                   placeholder="Password"
                 />
+                <button onClick={validar_espacios} className="b-t-n_class">
+                  Log in
+                </button>
               </div>
+             
             </div>
-            <button onClick={validar_espacios} className="b-t-n_class">
-              Log in
-            </button>
-            <div>
-              <img className="imagen-triangulo" src={flecha} alt="" />
-            </div>
+
           </div>
+          <div className="triangulo-container">
+                <img className="imagen-triangulo" src={flecha} alt="" />
+            </div>
         </div>
       </form>
     </div>

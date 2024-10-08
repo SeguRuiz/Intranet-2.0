@@ -2,12 +2,11 @@ import "./content.css";
 import React, { useRef, useEffect } from "react";
 import { useState } from "react";
 import { useFetch } from "../../../../services/llamados";
+import { set_archivo_mostrandose } from "../../../../redux/CursosContenidosSlice";
 import { useSelector } from "react-redux";
-
 import { useDispatch } from "react-redux";
 import { setData } from "../../../../redux/modalSlice";
 import AddCurso from "./add/AddCurso";
-// import Datosusuarios from "../../../../Luis/Datosusuarios";
 import { useNavigate } from "react-router-dom";
 
 const Content = () => {
@@ -26,6 +25,7 @@ const Content = () => {
       console.log(datos[1]);
 
       accion(setData(datos[1]));
+      accion(set_archivo_mostrandose(null));
     };
     data();
   }, []);

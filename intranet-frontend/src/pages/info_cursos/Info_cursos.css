@@ -1,19 +1,14 @@
 .Info-page {
   display: grid;
   height: 100vh;
-  grid-template-rows: 23% auto;
+  grid-template-rows: 18.5% auto;
 }
 
-.Info-nav-container {
-  border: 1px black solid;
-}
-
-.Info-nav {
-  border: solid black 1.5px;
-}
-
-.Info-subnav {
-  border: solid black 1.5px;
+@media only screen and (max-height: 1000px) and (max-width: 415px) {
+  .Info-page {
+    display: grid;
+    grid-template-rows: 13.5% auto;
+  }
 }
 
 /*Main*/
@@ -29,6 +24,8 @@
 }
 
 .Info-page-file {
-  border: 1.5px black solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 

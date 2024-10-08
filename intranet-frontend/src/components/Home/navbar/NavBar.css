@@ -1,6 +1,18 @@
 .links_navbar {
+  position: fixed;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 89px;
+  background-color: #ffff;
+
+  z-index: 2;
+}
+
+@media only screen and (max-height: 1000px) and (max-width: 415px) {
+  .links_navbar {
+    margin-top: 100px;
+  }
 }
 
 a {

@@ -1,0 +1,12 @@
+.grupos-page-container {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 19% auto;
+}
+
+@media only screen and (max-height: 1000px) and (max-width: 415px) {
+  .grupos-page-container {
+    display: grid;
+    grid-template-rows: 13.5% auto;
+  }
+}

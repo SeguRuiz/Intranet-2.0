@@ -20,7 +20,7 @@ const modalState = createSlice({
       state.URL = null;
     },
     setCursos: (state, action) => {
-      state.cursos.push(action.payload);
+      state.cursos.unshift(action.payload);
     },
     setData: (state, action) => {
       state.cursos = action.payload;

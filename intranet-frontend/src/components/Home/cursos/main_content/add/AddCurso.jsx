@@ -27,7 +27,10 @@ const AddCurso = () => {
       nombre: valor_input,
     });
     const data = await fetch_the_data_without_token();
+    console.log(data);
     accion(setCursos(data[1]));
+    
+    
     modalCerrado();
   };
 
@@ -43,7 +46,7 @@ const AddCurso = () => {
   return (
     <>
       <div>
-        {esAdmin && <button onClick={modalAbierto}>Crear</button>}
+        {esAdmin && <button onClick={modalAbierto} style={{marginLeft: '12px'}}>Crear</button>}
         <Modal isOpen={isModalOpen} onClose={modalCerrado}>
           <form onSubmit={subirDatosCursos}>
             <input

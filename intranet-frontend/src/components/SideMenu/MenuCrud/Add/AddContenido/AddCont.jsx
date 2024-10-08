@@ -16,19 +16,21 @@ export const AddCont = () => {
   const subirContenido = async (o) => {
     o.preventDefault();
     const nombre_value = inputNombre.current.value.trim();
-    define_fetch(
-      "http://localhost:8000/cursos_contenidos/contenidos",
-      "",
-      "POST",
-      {
-        nombre: nombre_value,
-        curso: id_curso,
-      }
-    );
-    const data = await fetch_the_data_without_token();
-    accion(pushContenidos({ ...data[1], subcontenidos: [] }));
-    closeModal();
-    inputNombre.current.value = "";
+    if (nombre_value != "") {
+      define_fetch(
+        "http://localhost:8000/cursos_contenidos/contenidos",
+        "",
+        "POST",
+        {
+          nombre: nombre_value,
+          curso: id_curso,
+        }
+      );
+      const data = await fetch_the_data_without_token();
+      accion(pushContenidos({ ...data[1], subcontenidos: [] }));
+      closeModal();
+      inputNombre.current.value = "";
+    }
   };
   return (
     <>

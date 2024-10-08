@@ -1,11 +1,12 @@
 import "./SubCont.css";
+import SelectSubcont from "./SelectSubcont";
+
 const SubCont = ({ subcontenidos }) => {
+
   return (
     <>
       {subcontenidos.map((subCont) => (
-        <div key={subCont.id} className="subContenido">
-          <p style={{ marginLeft: "10px" }}>{subCont.nombre}</p>
-        </div>
+        <SelectSubcont key={subCont.id} nombre={subCont.nombre} archivo={subCont.archivo} contenido_id={subCont.contenido} id={subCont.id}/>
       ))}
     </>
   );

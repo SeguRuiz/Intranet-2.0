@@ -3,7 +3,19 @@
 .sidemenu-container{
     display: grid;
     grid-template-rows: 90% 10%;
-   
+    height: 80.5vh;
+    position: fixed;
+    width: 20%;
+
+}
+
+.sidemenu-container-noAdmin{
+    display: grid;
+    grid-template-rows: 100%;
+    height: 80.5vh;
+    position: fixed;
+    width: 20%;
+
 }
 
 .menu-container {
@@ -11,5 +23,7 @@
     scrollbar-color: gray white;
     scrollbar-width: thin;
     max-height: 30.2rem;
+    height: 100%;
+    
 }
   
