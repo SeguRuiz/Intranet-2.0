@@ -1,0 +1,5 @@
+.cronograma{
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 19% auto;
+}

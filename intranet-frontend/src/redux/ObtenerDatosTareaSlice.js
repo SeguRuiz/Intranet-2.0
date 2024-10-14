@@ -11,8 +11,11 @@ const datos_tarea = createSlice({
     pushContenidoTareas: (state, action) => {
       state.contenidos.push(action.payload);
     },
+    setDatos: (state, action) => {
+      state.contenidos = action.payload;
+    },
   },
 });
 
-export const { pushContenidoTareas } = datos_tarea.actions;
+export const { pushContenidoTareas, setDatos } = datos_tarea.actions;
 export default datos_tarea.reducer;

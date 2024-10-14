@@ -4,6 +4,7 @@ import Header from "../../components/Home/header/Header_student";
 import Navbar from "../../components/Home/navbar/NavBar";
 import { useParams } from "react-router-dom";
 import "./tarea.css";
+// import InteractiveMap from "../../components/Home/cursos/cronograma/InteractiveMap";
 
 const Tarea_page = () => {
   const { id_curso } = useParams();
@@ -24,6 +25,7 @@ const Tarea_page = () => {
       <div>
         <Tarea />
       </div>
+      {/* <InteractiveMap /> */}
     </div>
   );
 };
