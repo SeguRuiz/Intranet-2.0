@@ -1,3 +1,13 @@
+.container_filter {
+  border: black 1px solid;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0% 0% 3% 63%;
+  width: 430px;
+  height: 30px;
+  border-radius: 3px;
+}
+
 .container_main {
   display: flex;
   justify-content: center;
@@ -13,4 +23,10 @@
 
 .b-t-n {
   margin: 30px;
+}
+
+div div p {
+  border: 1px black solid;
+  width: 300px;
+  text-align: center;
 }

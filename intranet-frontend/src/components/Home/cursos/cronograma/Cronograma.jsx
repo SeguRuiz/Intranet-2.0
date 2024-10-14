@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Cronograma = () => {
-  return (
-    <div>Cronograma</div>
-  )
-}
+  return <div className="prueba">Cronograma Hola</div>;
+};
 
-export default Cronograma
+export default Cronograma;
