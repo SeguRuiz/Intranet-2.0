@@ -1,0 +1,9 @@
+.Add-option-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    scrollbar-width: thin;
+}
+

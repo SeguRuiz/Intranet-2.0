@@ -1,0 +1,24 @@
+.add-integrantes-grupo-dlg {
+  margin: auto;
+  padding: 15px;
+  border: none;
+  height: 60%;
+  width: 40%;
+  overflow: hidden;
+
+}
+
+.add-integrantes-grupo-dlg:focus {
+  outline: none;
+}
+
+.add-integrantes-grupo-content {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.add-integrantes-grupo-content > div {
+  margin-top: 10px;
+}

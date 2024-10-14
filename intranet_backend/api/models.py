@@ -24,7 +24,7 @@ class Usuarios(AbstractUser):
     cedula = models.IntegerField(null=True, unique=True)
     rol_id = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True)
     fecha_editado = models.DateTimeField(auto_now=True)
-
+               
     class Meta:
         db_table = "Usuarios"
         indexes = [

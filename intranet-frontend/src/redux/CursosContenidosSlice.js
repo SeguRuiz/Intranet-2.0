@@ -63,7 +63,7 @@ const CursosContenidos = createSlice({
       state.Arhivos_subcontenidos.push(data);
     },
     delete_archivos_subcontenidos: (state, action) =>{
-      const { contenido_id, subcontenido_id, key} = action.payload;
+      const { contenido_id, subcontenido_id} = action.payload;
 
       const contenidos_copy = [...state.Contenidos]
 
@@ -85,9 +85,7 @@ const CursosContenidos = createSlice({
       state.archivo_mostrandose = action.payload
     },
 
-    buscar_archivo_existente: (state, action) => {
-      
-    }
+    
 
   },
  

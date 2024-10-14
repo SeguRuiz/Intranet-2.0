@@ -3,7 +3,8 @@ import { deleteSubcontenidos } from "../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 const DeleteSubCont = ({ id, contenido_id }) => {
-  const { define_fetch, fetch_the_data_without_token } = useFetch();
+  const { define_fetch, fetch_the_data } = useFetch();
+  const token = sessionStorage.getItem('token')
   const { archivo_mostrandose } = useSelector(
     (state) => state.CursosContenidos
   );
@@ -14,7 +15,7 @@ const DeleteSubCont = ({ id, contenido_id }) => {
       id,
       "DELETE"
     );
-    const data = await fetch_the_data_without_token();
+    const data = await fetch_the_data(token);
     console.log(data);
     accion(
       deleteSubcontenidos({ contenidoId: contenido_id, subcontenidoId: id })

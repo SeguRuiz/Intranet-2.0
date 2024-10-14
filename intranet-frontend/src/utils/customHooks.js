@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 // Custom model 
 export const useCustomModal = (ref) => {
     const openModal = () => {
@@ -17,3 +20,29 @@ export const useCustomModal = (ref) => {
       closeModalDlg
     };
   };
+
+// Seleccionar multiple items
+export const useCustomSelection = (eliminar,subir, id_seleccion, seleccion_dependencia)=> {
+  const [selected, setSelected] = useState(false);
+  const accion = useDispatch()
+
+  useEffect(() => {
+    setSelected(false);
+  }, [seleccion_dependencia]);
+  
+  const click_Checkbox = () => {
+  
+    if (selected && seleccion_dependencia) {
+      setSelected(false);
+      accion(eliminar(id_seleccion))
+    } else if (!selected && seleccion_dependencia) {
+      accion(subir(id_seleccion));
+      setSelected(true);
+    }
+  };
+
+  return {
+    selected,
+    click_Checkbox
+  }
+}

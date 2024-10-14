@@ -1,0 +1,119 @@
+.user-info-card {
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  height: 35vh;
+  width: 37vh;
+  display: grid;
+
+  grid-template-rows: 25% auto;
+  transition: 0.2s;
+}
+
+.user-info-card-animated {
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  height: 35vh;
+  width: 37vh;
+  display: grid;
+  animation: tilt-shaking infinite linear 0.2s;
+  grid-template-rows: 25% auto;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.user-info-card-selected{
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  justify-self: center;
+  align-self: center;
+  border-radius: 5px;
+  height: 30vh;
+  width: 32vh;
+  display: grid;
+  transition: 0.2s;
+  margin-bottom: 25px;
+  grid-template-rows: 25% auto;
+}
+
+.chekbox-users{
+    border: 1.5px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    width: 25px;
+   
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+
+.chekbox-users-selected{
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    width: 25px;
+    background-color: #174ea6;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+
+@keyframes tilt-shaking {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1.5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-1.5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.user-Profile {
+  display: grid;
+  grid-template-columns: 25% auto;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.2);
+  padding: 5px;
+}
+
+.user-circle {
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  height: 35px;
+  width: 35px;
+  justify-self: center;
+  align-self: center;
+  border-radius: 100%;
+  margin-right: 5px;
+}
+
+.user-info-text {
+  display: grid;
+  grid-template-rows: 33.3% 33.3% 33.3%;
+}
+
+.user-nombre,
+.user-apellidos,
+.user-cedula,
+.user-email {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-left: 5px;
+  gap: 5px;
+}
+
+.user-name {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  align-items: center;
+}

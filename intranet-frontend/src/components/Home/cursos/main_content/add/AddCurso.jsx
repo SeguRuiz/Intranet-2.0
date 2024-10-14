@@ -6,7 +6,8 @@ import { useDispatch } from "react-redux";
 import Modal from "../../../../modal/Modal";
 
 const AddCurso = () => {
-  const { define_fetch, fetch_the_data_without_token } = useFetch();
+  const { define_fetch, fetch_the_data } = useFetch();
+  const token = sessionStorage.getItem('token')
   const [isModalOpen, setIsModalOpen] = useState(false);
   const ref_input = useRef();
   const [esAdmin, setEsAdmin] = useState(true);
@@ -26,23 +27,13 @@ const AddCurso = () => {
     define_fetch("http://localhost:8000/cursos/cursos", "", "POST", {
       nombre: valor_input,
     });
-    const data = await fetch_the_data_without_token();
+    const data = await fetch_the_data(token);
     console.log(data);
     accion(setCursos(data[1]));
-    
-    
     modalCerrado();
   };
 
-  useEffect(() => {
-    const info_user = localStorage.getItem("rol");
-    if (info_user === "admin") {
-      setEsAdmin(true);
-    } else {
-      setEsAdmin(true);
-    }
-  }, []);
-
+  
   return (
     <>
       <div>

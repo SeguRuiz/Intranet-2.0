@@ -7,7 +7,8 @@ const AddSubConts = ({ Contenido_id }) => {
   const [error, setError] = useState(false);
   const input_ref = useRef();
   const accion = useDispatch();
-  const { define_fetch, fetch_the_data_without_token } = useFetch();
+  const { define_fetch, fetch_the_data } = useFetch();
+  const token = sessionStorage.getItem('token')
 
   const addSubCont = async (o) => {
     o.preventDefault();
@@ -22,7 +23,7 @@ const AddSubConts = ({ Contenido_id }) => {
           contenido: Contenido_id,
         }
       );
-      const data = await fetch_the_data_without_token();
+      const data = await fetch_the_data(token);
       console.log(data);
       accion(addSubcontenido({ contenido_id: Contenido_id, data: data[1] }));
       input_ref.current.value = "";

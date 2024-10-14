@@ -10,8 +10,9 @@ export const AddCont = () => {
   const inputNombre = useRef();
   const { id_curso } = useParams();
   const { openModal, closeModalDlg, closeModal } = useCustomModal(modalRef);
-  const { define_fetch, fetch_the_data_without_token } = useFetch();
+  const { define_fetch, fetch_the_data } = useFetch();
   const accion = useDispatch();
+  const token = sessionStorage.getItem('token')
 
   const subirContenido = async (o) => {
     o.preventDefault();
@@ -26,7 +27,7 @@ export const AddCont = () => {
           curso: id_curso,
         }
       );
-      const data = await fetch_the_data_without_token();
+      const data = await fetch_the_data(token);
       accion(pushContenidos({ ...data[1], subcontenidos: [] }));
       closeModal();
       inputNombre.current.value = "";

@@ -1,0 +1,42 @@
+.edit-crud-container {
+  display: flex;
+  align-items: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+ 
+}
+
+.edit-crud-container > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+  padding: 6px;
+}
+.edit-crud-container > div > svg {
+    cursor: pointer;
+}
+.options-menu-users {
+  overflow: hidden;
+  border-radius: 5px;
+  width: 40px;
+  transition: 0.2s;
+}
+.options-menu-users-open {
+  overflow: hidden;
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  width: 90px;
+  transition: 0.2s;
+}
+
+.options-menu-users-more-options-sedes {
+    overflow: hidden;
+    border: 1.5px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    width: 145px;
+    transition: 0.2s;
+  }
+  
+  

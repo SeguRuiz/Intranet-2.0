@@ -7,6 +7,7 @@ from .views import (
     GruposEdit,
     IntegrantesGrupoEdit,
     SedesDelete,
+    eliminar_lista_sedes
 )
 
 urlpatterns = [
@@ -24,4 +25,5 @@ urlpatterns = [
         GruposCursosEdit.as_view(),
         name="grupos-cursos-edit",
     ),
+    path('eliminar_lista_sedes/', eliminar_lista_sedes, name='eliminar-lista-sedes')
 ]

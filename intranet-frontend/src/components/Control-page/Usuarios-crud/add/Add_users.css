@@ -1,0 +1,10 @@
+.Add-users-forms {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+  height: 90%;
+
+  width: 90%;
+}
+

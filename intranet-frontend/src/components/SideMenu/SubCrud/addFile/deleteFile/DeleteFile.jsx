@@ -3,7 +3,8 @@ import { delete_archivos_subcontenidos } from "../../../../../redux/CursosConten
 import { useDispatch } from "react-redux";
 import "./Delete_file.css";
 const DeleteFile = ({ id, contenido_id, archivo_key, set }) => {
-  const { define_fetch, fetch_the_data_without_token, fetching } = useFetch();
+  const { define_fetch,  fetching, fetch_the_data } = useFetch();
+  const token = sessionStorage.getItem('token')
   const accion = useDispatch();
 
   const DeleteFile = async () => {
@@ -13,7 +14,7 @@ const DeleteFile = ({ id, contenido_id, archivo_key, set }) => {
       method: "DELETE",
       id: archivo_key,
     });
-    const data = await fetch_the_data_without_token();
+    const data = await fetch_the_data(token);
     console.log(data);
 
     accion(

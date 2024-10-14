@@ -9,12 +9,13 @@ import { useParams } from "react-router-dom";
 import "./File_preview.css";
 function File_preview() {
   const [archivo, setArchivo] = useState(null);
+  const token = sessionStorage.getItem('token')
   const accion = useDispatch();
 
   const { archivo_mostrandose } = useSelector(
     (state) => state.CursosContenidos
   );
-  const { define_fetch, fetch_the_data_without_token, fetching } = useFetch();
+  const { define_fetch, fetch_the_data, fetching } = useFetch();
   const { Arhivos_subcontenidos, Contenidos } = useSelector(
     (state) => state.CursosContenidos
   );
@@ -23,7 +24,7 @@ function File_preview() {
     define_fetch("http://localhost:8000/files/get_archivo", "", "POST", {
       archivo: archivo_mostrandose.archivo,
     });
-    const data = await fetch_the_data_without_token();
+    const data = await fetch_the_data(token);
     console.log(data);
     setArchivo(data[1].archivo);
     accion(

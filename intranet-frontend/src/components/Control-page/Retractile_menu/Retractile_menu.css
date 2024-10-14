@@ -1,0 +1,42 @@
+.retractile-div {
+  margin-top: 5%;
+  align-self: center;
+  height: 40px;
+  width: 90%;
+  transition: 0.2s ease;
+  
+  overflow: hidden;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+
+.crud-title {
+  height: 40px;
+  transition: 0.2s ease;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  padding-right: 5px;
+  align-items: center;
+}
+.retractile-div-content {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-icon{
+    animation: rotation 1s infinite reverse ;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

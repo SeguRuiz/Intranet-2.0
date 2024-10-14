@@ -1,0 +1,17 @@
+.select-roles-container{
+    height: 95%;
+    
+    width: 95%;
+}
+
+.read-role-container{
+    height: 6vh;
+    margin-top: 6px;
+    border: 1.5px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    display: flex;
+    justify-content: start;
+    padding-left: 10px;
+    align-items: center;
+    font-size: 17px;
+}

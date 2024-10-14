@@ -7,6 +7,9 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.core.serializers.json import DjangoJSONEncoder
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes, authentication_classes
 
 from .models import Contenidos, SubContenidos
 from .serializers import ContenidosSerializer, SubContenidosSerializer
@@ -16,30 +19,40 @@ class ContenidosCreate(ModelViewSet):
     queryset = Contenidos.objects.all()
     serializer_class = ContenidosSerializer
     lookup_field = "pk"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
 
 class ContenidosEdit(RetrieveUpdateDestroyAPIView):
     queryset = Contenidos.objects.all()
     serializer_class = ContenidosSerializer
     lookup_field = "pk"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
 
 class SubContenidosEdit(RetrieveUpdateDestroyAPIView):
     queryset = SubContenidos.objects.all()
     serializer_class = SubContenidosSerializer
     lookup_field = "pk"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
 
 class SubContenidosCreate(ModelViewSet):
     queryset = SubContenidos.objects.all()
     serializer_class = SubContenidosSerializer
     lookup_field = "pk"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
 
 #####
 
 
 @api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def get_contenidos_and_subcontenidos(request, pk=None):
     contenidos = Contenidos.objects.filter(curso=pk)
     contenidos_serializer = ContenidosSerializer(instance=contenidos, many=True)

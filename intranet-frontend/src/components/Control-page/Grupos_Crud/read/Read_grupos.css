@@ -1,0 +1,65 @@
+.read-grupos-card {
+  display: grid;
+  grid-template-rows: 20% auto;
+  border-radius: 5px;
+  height: 35vh;
+  width: 37vh;
+  overflow: hidden;
+  transition-behavior: allow-discrete;
+  opacity: 1;
+  transition: all 0.25s;
+}
+
+
+
+
+
+
+.read-grupos-title {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.read-grupos-file-style {
+  background-color: lightcoral;
+}
+
+.read-grupos-sede-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-sede-info {
+  background-color: lightseagreen;
+  height: 80%;
+  width: 90%;
+  border-radius: 5px;
+}
+
+.main-grupos-options {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.main-grupos-options > svg {
+  cursor: pointer;
+}
+
+.read-grupos-file-style {
+  background-color: lightblue;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.read-grupos-info {
+  background-color: lightgreen;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  display: grid;
+  grid-template-rows: 80% auto;
+}

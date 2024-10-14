@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import "./DeleteContent.css";
 const DeleteContent = ({ id }) => {
   const accion = useDispatch();
-  const { define_fetch, fetch_the_data_without_token } = useFetch();
+  const token = sessionStorage.getItem('token')
+  const { define_fetch, fetch_the_data } = useFetch();
 
   const deleteC = async () => {
     define_fetch(
@@ -13,7 +14,7 @@ const DeleteContent = ({ id }) => {
       id,
       "DELETE"
     );
-    fetch_the_data_without_token();
+    fetch_the_data(token);
     accion(deleteContenidos({ id: id }));
   };
   return (

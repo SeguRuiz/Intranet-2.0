@@ -5,6 +5,9 @@ import modalSlice from "./modalSlice";
 import IsAdmin from "./IsAdminSlice";
 import CursosContenidos from "./CursosContenidosSlice";
 import ObtenerDatos from "./ObtenerDatosTareaSlice";
+import ControlUsuariosSlice from "./ControlUsuariosSlice";
+import AuthSlice from "./AuthSlice";
+
 export const store = configureStore({
   reducer: {
     default: default_state,
@@ -13,5 +16,7 @@ export const store = configureStore({
     IsAdmin: IsAdmin,
     CursosContenidos: CursosContenidos,
     datos_tarea: ObtenerDatos,
+    ControlUsuarios: ControlUsuariosSlice,
+    Auth:AuthSlice
   },
 });

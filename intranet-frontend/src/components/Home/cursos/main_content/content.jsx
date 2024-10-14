@@ -1,6 +1,5 @@
 import "./content.css";
-import React, { useRef, useEffect } from "react";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useFetch } from "../../../../services/llamados";
 import { set_archivo_mostrandose } from "../../../../redux/CursosContenidosSlice";
 import { useSelector } from "react-redux";
@@ -11,8 +10,9 @@ import { useNavigate } from "react-router-dom";
 
 const Content = () => {
   const { cursos } = useSelector((state) => state.modal);
-
-  const { define_fetch, fetch_the_data_without_token } = useFetch();
+  const token = sessionStorage.getItem('token')
+  
+  const { define_fetch, fetch_the_data } = useFetch();
 
   const accion = useDispatch();
 
@@ -21,9 +21,8 @@ const Content = () => {
   useEffect(() => {
     const data = async () => {
       define_fetch("http://localhost:8000/cursos/cursos", "", "GET");
-      const datos = await fetch_the_data_without_token();
+      const datos = await fetch_the_data(token);
       console.log(datos[1]);
-
       accion(setData(datos[1]));
       accion(set_archivo_mostrandose(null));
     };

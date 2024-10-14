@@ -50,6 +50,8 @@ class Grupos(models.Model):
         ]
 
 
+
+
 class Intengrantes_de_grupo(models.Model):
     id = models.UUIDField(
         unique=True, primary_key=True, null=False, editable=False, default=uuid.uuid4
@@ -58,7 +60,7 @@ class Intengrantes_de_grupo(models.Model):
     usuario_id = models.ForeignKey(Usuarios, on_delete=models.CASCADE, null=False)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-
+    
     class Meta:
         db_table = "integrates_de_grupo"
         unique_together = ["grupo_id", "usuario_id"]
@@ -66,12 +68,8 @@ class Intengrantes_de_grupo(models.Model):
             models.Index(
                 fields=["usuario_id", "grupo_id"], name="IntegranteGrupo-IG-indx"
             ),
-            models.Index(
-                fields=["usuario_id"], name="usuario_id-IG-indx"
-            ),
-            models.Index(
-                fields=["grupo_id"], name="grupo_id-IG-indx"
-            ),
+            models.Index(fields=["usuario_id"], name="usuario_id-IG-indx"),
+            models.Index(fields=["grupo_id"], name="grupo_id-IG-indx"),
             models.Index(fields=["id"], name="id-IG-indx"),
         ]
 
@@ -87,11 +85,8 @@ class Cursos(models.Model):
 
     class Meta:
         db_table = "Cursos"
-        unique_together = ['id','nombre']
-        indexes = [
-            models.Index(fields=['id'], name='id-cursos-indx')
-        ]
-    
+        unique_together = ["id", "nombre"]
+        indexes = [models.Index(fields=["id"], name="id-cursos-indx")]
 
 
 class Grupos_cursos_intermedia(models.Model):
@@ -103,10 +98,10 @@ class Grupos_cursos_intermedia(models.Model):
 
     class Meta:
         db_table = "grupos_cursos_intermedia"
-        unique_together = ['curso_id','grupo_id']
+        unique_together = ["curso_id", "grupo_id"]
         indexes = [
-            models.Index(fields=['curso_id', 'grupo_id'], name='GruposCursos-indx'),
-            models.Index(fields=['curso_id'], name='GC-curso_id-indx'),
-            models.Index(fields=['grupo_id'], name='GC-grupo_id-indx'),
-            models.Index(fields=['id'], name='id-GC-indx')
+            models.Index(fields=["curso_id", "grupo_id"], name="GruposCursos-indx"),
+            models.Index(fields=["curso_id"], name="GC-curso_id-indx"),
+            models.Index(fields=["grupo_id"], name="GC-grupo_id-indx"),
+            models.Index(fields=["id"], name="id-GC-indx"),
         ]

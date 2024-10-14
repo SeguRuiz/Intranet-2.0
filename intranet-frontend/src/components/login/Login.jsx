@@ -6,19 +6,21 @@ import flecha2 from "../../assets/flechas/flechas2.png";
 import flecha from "../../assets/flechas/Flechas-03.svg";
 import d from "../../assets/flechas/d.png";
 import { useFetch } from "../../services/llamados";
+import { setTokenUser } from "../../redux/AuthSlice";
 import Swal from "sweetalert2";
-import { setToken } from "../../redux/tokenSlice";
+import { setUserSession } from "../../redux/AuthSlice";
 import { useDispatch } from "react-redux";
+import { setAutorized } from "../../redux/AuthSlice";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data, fetch_the_data, define_fetch } = useFetch();
+  const { data, fetch_the_data_without_token, define_fetch } = useFetch();
   const accion = useDispatch();
 
   define_fetch("http://localhost:8000/api/login", "", "POST", {
-    correo: email,
+    email: email,
     password: password,
   });
 
@@ -28,27 +30,23 @@ export const Login = () => {
       Swal.fire("No olvides llenar todos los recuadros");
       return;
     }
-    const status_fetch = await fetch_the_data();
-    console.log(status_fetch[0]);
+    const status_fetch = await fetch_the_data_without_token();
+    console.log(status_fetch);
 
     if (status_fetch[0] != 200) {
       Swal.fire("Datos incorrectos, intentelo nuevamente");
       return;
     }
     Swal.fire("Bienvenido");
-    navigate("/home");
-    userAdmin();
-
-    console.log(status_fetch[1]);
+    sessionStorage.setItem('token', status_fetch[1]?.token_de_usuario)
+    accion(setTokenUser(status_fetch[1]?.token_de_usuario))
+    accion(setUserSession({ email: status_fetch[1]?.info.email, id: status_fetch[1]?.info.id }))
+    accion(setAutorized(true))
+    navigate('/cursos')
+     
   };
 
-  const userAdmin = async () => {
-    if (email === "admin@gmail.com") {
-      localStorage.setItem("rol", "admin");
-    } else {
-      localStorage.setItem("rol", "usuario_normal");
-    }
-  };
+  
 
   return (
     <div className="login-div-container">

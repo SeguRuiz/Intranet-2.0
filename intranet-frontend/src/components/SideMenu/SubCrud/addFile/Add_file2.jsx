@@ -11,7 +11,8 @@ import DeleteFile from "./deleteFile/DeleteFile";
 const Add_file2 = ({ id, contenido_id, archivo }) => {
   const file_ref = useRef();
   const [archivoAsinado, setAcrhivoAsignado] = useState(false);
-  const { define_fetch, fetch_the_data_without_token, fetching } = useFetch();
+  const token = sessionStorage.getItem('token')
+  const { define_fetch, fetching, fetch_the_data } = useFetch();
   const [archivo_key, setArchivo_key] = useState(null);
   const { Arhivos_subcontenidos, Contenidos } = useSelector(
     (state) => state.CursosContenidos
@@ -24,7 +25,7 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
       subcontenido: id,
       files_info: [archivo],
     });
-    const data = await fetch_the_data_without_token();
+    const data = await fetch_the_data(token);
     console.log(data);
     accion(
       add_archivos_subcontenidos({

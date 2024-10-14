@@ -17,13 +17,15 @@ from .serializers import EstudiantesSerializer, RolesSerializer, UsersSerializer
 
 
 @api_view(["POST", "GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def register(request):
     serializer = UsersSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
 
-        user = Usuarios.objects.get(correo=serializer.data["email"])
+        user = Usuarios.objects.get(pk=serializer.data["id"])
         user.set_password(serializer.data["password"])
         user.save()
 
@@ -43,7 +45,7 @@ def register(request):
 @api_view(["POST"])
 def login(request):
     try:
-        user = get_object_or_404(Usuarios, correo=request.data["correo"])
+        user = get_object_or_404(Usuarios, email=request.data["email"])
 
         if not user.check_password(request.data["password"]):
             return Response(
@@ -57,12 +59,7 @@ def login(request):
             {
                 "token_creado": created,
                 "token_de_usuario": token.key,
-                "info":{
-                "username": serializer.data["username"],
-                "nombre": serializer.data["nombre"],
-                "correo": serializer.data["correo"],
-                "cedula": serializer.data["cedula"]
-                }
+                "info": serializer.data,
             },
             status=status.HTTP_200_OK,
         )
@@ -83,14 +80,14 @@ def roles(request):
         roles = Roles.objects.all()
         serializer = RolesSerializer(instance=roles, many=True)
 
-        return Response({"roles": serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     rol = RolesSerializer(data=request.data)
 
     if rol.is_valid():
         rol.save()
 
-        return Response({"rol_creado": rol.data}, status.HTTP_201_CREATED)
+        return Response(rol.data, status.HTTP_201_CREATED)
 
     return Response(rol.errors, status.HTTP_400_BAD_REQUEST)
 
@@ -115,7 +112,10 @@ def aignar_rol_a(request, pk=None):
                 estudiante_existente.save()
 
                 return Response(
-                    {"info": f"Estudiante {user.nombre} reactivado"},
+                    {
+                        "info": f"Estudiante {user.first_name} reactivado",
+                        "rol_id": rol_serializer.data["id"],
+                    },
                     status=status.HTTP_200_OK,
                 )
             except Estudiantes.DoesNotExist:
@@ -125,8 +125,9 @@ def aignar_rol_a(request, pk=None):
 
                 return Response(
                     {
-                        "Usuario": user_serializer.data["nombre"],
+                        "Usuario": user_serializer.data["first_name"],
                         "nuevo_rol": rol_serializer.data["tipo"],
+                        "rol_id": rol_serializer.data["id"],
                         "nuevo_estudiante": serializer_estudiante.data,
                     },
                     status=status.HTTP_200_OK,
@@ -138,8 +139,9 @@ def aignar_rol_a(request, pk=None):
             estudiante_revocado.save()
             return Response(
                 {
-                    "Usuario": user_serializer.data["nombre"],
+                    "Usuario": user_serializer.data["first_name"],
                     "nuevo_rol": rol_serializer.data["tipo"],
+                    "rol_id": rol_serializer.data["id"],
                     "info": "estudiante revocado",
                 },
                 status=status.HTTP_200_OK,
@@ -147,14 +149,57 @@ def aignar_rol_a(request, pk=None):
         except Estudiantes.DoesNotExist:
             return Response(
                 {
-                    "Usuario": user_serializer.data["nombre"],
+                    "Usuario": user_serializer.data["first_name"],
                     "nuevo_rol": rol_serializer.data["tipo"],
+                    "rol_id": rol_serializer.data["id"],
                 },
                 status=status.HTTP_200_OK,
             )
 
     except KeyError:
         return Response(
-            {"info": "el objeto debe tener esta forma {rol:rol_a_asignar}"},
+            {
+                "info": "el objeto debe tener esta forma {rol:rol_a_asignar}",
+                "objeto": request.data,
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+@api_view(["POST"])
+def verificar_token(request):
+    try:
+        user = Token.objects.get(key=request.data["token"]).user
+        user_serializer = UsersSerializer(instance=user)
+
+        return Response(
+            {
+                "id": user_serializer.data["id"],
+                "email": user_serializer.data["email"],
+                "rol_id": user_serializer.data["rol_id"],
+                "validez": True,
+            },
+            status=status.HTTP_200_OK,
+        )
+    except KeyError:
+        return Response({"info": "El objeto esta mal formulado"})
+    except Token.DoesNotExist:
+        return Response({"validez": False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def eliminar_lista_usuarios(request):
+    try:
+        for n in request.data["usuarios"]:
+            Usuarios.objects.get(pk=n["user_id"]).delete()
+
+        return Response(
+            {"info": "los usuarios han sido eliminados"}, status=status.HTTP_200_OK
+        )
+    except KeyError:
+        return Response(
+            {"info": "Se esperaba un array como respuesta"},
             status=status.HTTP_400_BAD_REQUEST,
         )

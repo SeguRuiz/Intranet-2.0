@@ -1,0 +1,13 @@
+.grupo-disponible-container{
+    border: rgba(0, 0, 0, 0.2) 1.5px solid;
+    border-radius: 5px;
+    height: 15%;
+}
+
+.grupo-disponible-container-selected{
+    border: rgba(0, 0, 0, 0.2) 1.5px solid;
+    border-radius: 5px;
+    height: 15%;
+    background-color: lightblue;
+}
+
