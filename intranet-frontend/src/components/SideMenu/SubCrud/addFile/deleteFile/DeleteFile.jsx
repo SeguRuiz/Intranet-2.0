@@ -2,19 +2,24 @@ import { useFetch } from "../../../../../services/llamados";
 import { delete_archivos_subcontenidos } from "../../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
 import "./Delete_file.css";
+import { getCookie } from "../../../../../utils/Cookies";
 const DeleteFile = ({ id, contenido_id, archivo_key, set }) => {
-  const { define_fetch,  fetching, fetch_the_data } = useFetch();
-  const token = sessionStorage.getItem('token')
+  const { fetching, fetch_the_data } = useFetch();
+  const token = getCookie("token");
   const accion = useDispatch();
 
   const DeleteFile = async () => {
     console.log(archivo_key);
 
-    define_fetch("http://localhost:8000/files/delete_archivo", "", "DELETE", {
-      method: "DELETE",
-      id: archivo_key,
-    });
-    const data = await fetch_the_data(token);
+    const data = await fetch_the_data(
+      "http://localhost:8000/files/delete_archivo",
+      token,
+      "DELETE",
+      {
+        method: "DELETE",
+        id: archivo_key,
+      }
+    );
     console.log(data);
 
     accion(

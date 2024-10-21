@@ -1,0 +1,101 @@
+.read-curso-disponible {
+  border-radius: 5px;
+  height: 35vh;
+  width: 37vh;
+  display: grid;
+  
+
+  background-color: var(--SecondaryContainer-color);
+  overflow: hidden;
+
+  transition: 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  cursor: pointer;
+}
+
+.eye-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.curso-header {
+  background-color: var(--PrymaryContainer-color);
+  display: flex;
+  align-items: center;
+  
+  padding-left: 10px;
+  font-size: 25px;
+  color: var(--OnPrymary-color);
+
+}
+
+.read-curso-content {
+  height: 100%;
+  width: 100%;
+  background-color: var(--SurfaceLow-color);
+  transition: 0.2s;
+  border-radius: 5px;
+  display: grid;
+  grid-template-rows: 70% auto;
+}
+.read-curso-content-selected {
+  height: 65%;
+  width: 50%;
+  background-color: var(--SurfaceLow-color);
+  transition: 0.2s;
+
+  border-radius: 80% 0px;
+  transform: rotate(45deg);
+  display: flex;
+  justify-content: center;
+ 
+ 
+}
+
+
+.iris {
+  background-color: var(--SecondaryContainer-color);
+  height: 80%;
+  width: 80%;
+  transform: rotate(30deg);
+  border-radius: 100%;
+  margin-right: 22px;
+}
+
+.grid {
+  background-color: var(--SecondaryContainer-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  width: 70%;
+  justify-self: center;
+  align-self: center;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
+.nombre_curso{
+    color: var(--OnsurfaceVariant);
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: 25px;
+    padding-left: 12%;
+    gap: 5px;
+}
+.read-curso-disponible-selected {
+  border-radius: 5px;
+  height: 35vh;
+  width: 37vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--SecondaryContainer-color);
+
+  transition: 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  cursor: pointer;
+}

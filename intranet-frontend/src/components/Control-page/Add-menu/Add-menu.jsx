@@ -5,6 +5,7 @@ import Add_usuarios from "../Usuarios-crud/add/Add-usuarios";
 import { useSelector } from "react-redux";
 import Add_sedes from "../Sedes-crud/add/Add_sedes";
 import Add_grupos from "../Grupos_Crud/add/Add_grupos";
+import Read_grupos_tabla from "../Asignar_vistas_grupos/Read_grupos_tabla/Read_grupos_tabla";
 const Add_menu = () => {
   const { pestaña_seleccionada } = useSelector((e) => e.ControlUsuarios);
 
@@ -14,13 +15,19 @@ const Add_menu = () => {
         return (
           <>
             <Add_usuarios />
-            <Read_role />
+            {/* <Read_role /> */}
           </>
         );
       case "sedes":
         return (
           <>
             <Add_sedes />
+          </>
+        );
+      case "permisos":
+        return (
+          <>
+            <Read_grupos_tabla />
           </>
         );
       default:

@@ -1,7 +1,25 @@
+
+
 .CUP-container {
   display: grid;
   grid-template-rows: 10% 90%;
   height: 100vh;
+  background-color: var(--SurfaceContainer-color);
+}
+
+.linear_loading_area {
+}
+
+.nav_info_main {
+  display: grid;
+  grid-template-rows: auto 0%;
+  overflow: hidden;
+}
+
+.nav_info_main-cargando {
+  display: grid;
+  grid-template-rows: auto 5%;
+  overflow: hidden;
 }
 
 .side-menu-icon {
@@ -9,15 +27,16 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background-color: #f2f3f4;
 }
+
+
 nav {
-  border: 1.5px black solid;
   display: grid;
-  grid-template-columns: 7% auto;
+  grid-template-columns: 6.5% auto;
 }
+
+
 main {
-  border: solid black 1.5px;
   transition: 0.3s ease;
   display: grid;
 }
@@ -26,44 +45,64 @@ main {
   display: flex;
   justify-content: start;
   align-items: center;
-  padding-left: 20px;
+  gap: 20px;
+  
 }
 
 .navbar-edit-options > svg {
   cursor: pointer;
+  fill: var(--OnsurfaceVariant);
 }
 
-aside {
-  border-top-right-radius: 20px;
-  z-index: 2;
-  border-bottom-right-radius: 20px;
+.aside-nav {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  align-items: start;
 }
 
 .side-bar-nav {
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  background-color: #f2f3f4;
-  padding-top: 25px;
-  row-gap: 25px;
+  padding: 5px;
+  row-gap: 20px;
+}
+
+.side-bar-nav > div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  gap: 5px;
+  color: var(--OnsurfaceVariant);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.side-bar-nav > div:hover{
+    background-color: var(--SurfaceDarked-color);
+    border-radius: 5px;
+    color: var( --Onsurface-color);
 }
 
 .side-bar-nav > svg {
   cursor: pointer;
+  fill: var(--OnsurfaceVariant);
 }
 .CUP-Iteradores {
   display: grid;
   padding-top: 2%;
-  justify-content: center;
   grid-template-areas: "a a a a";
   grid-auto-rows: 47%;
-  column-gap: 40px;
-  height: 95%;
+  grid-auto-columns: 24%;
+  height: 95.7%;
   overflow: auto;
   scrollbar-width: thin;
+  padding-left: 80px;
+  border-top-left-radius: 5px;
+  background-color: var(--Surface-color);
 }
 
 .CUP-Iteradores-2 {
@@ -73,7 +112,9 @@ aside {
   grid-template-areas: "a a";
   grid-auto-rows: 47%;
   column-gap: 40px;
-  height: 95%;
+  height: 94.7%;
   overflow: auto;
   scrollbar-width: thin;
+  border-top-left-radius: 5px;
+  background-color: var(--Surface-color);
 }

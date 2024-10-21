@@ -1,3 +1,26 @@
 *{
     font-family: "Roboto", sans-serif;
 }
+
+:root{
+    --Surface-color: #f7f9ff;
+    --SurfaceContainer-color: #ebeef4;
+
+    --SurfaceDarked-color: #dfe3e9;
+    --SurfaceBrigth-color:#f4fbfa;
+    --SurfaceLow-color: #f0f4fa;
+
+    --Onsurface-color:#181c20;
+    --OnsurfaceVariant:#3f4850;
+
+    --PrymaryContainer-color: #007bb6;
+    --OnPrymary-color:#ffffff;
+
+    --PrymaryHover-color: #479da2;
+
+    --SecondaryContainer-color:#c4e3ff;
+    --OnSecondary-color:#274962;
+
+    --ErrorContainer-color:#ffdad6;
+    --OnError-color:#410002;
+}

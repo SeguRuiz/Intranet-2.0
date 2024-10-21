@@ -1,28 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import logo from "../../assets/FWD - Logotipo-01.svg";
 import flecha2 from "../../assets/flechas/flechas2.png";
 import flecha from "../../assets/flechas/Flechas-03.svg";
 import d from "../../assets/flechas/d.png";
-import { useFetch } from "../../services/llamados";
+import { useFetch, verificar_token } from "../../services/llamados";
 import { setTokenUser } from "../../redux/AuthSlice";
 import Swal from "sweetalert2";
 import { setUserSession } from "../../redux/AuthSlice";
 import { useDispatch } from "react-redux";
 import { setAutorized } from "../../redux/AuthSlice";
+import { setCookie, getCookie } from "../../utils/Cookies";
+import { jwtDecode } from "jwt-decode";
+import { actualizar } from "../../redux/AuthSlice";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data, fetch_the_data_without_token, define_fetch } = useFetch();
+
+  const { log_fetch } = useFetch();
   const accion = useDispatch();
 
-  define_fetch("http://localhost:8000/api/login", "", "POST", {
-    email: email,
-    password: password,
-  });
+  useEffect(() => {
+    setCookie("token", "", 0);
+    setCookie("refresh", "", 0);
+  }, []);
 
   const validar_espacios = async (evento) => {
     evento.preventDefault();
@@ -30,7 +34,15 @@ export const Login = () => {
       Swal.fire("No olvides llenar todos los recuadros");
       return;
     }
-    const status_fetch = await fetch_the_data_without_token();
+    const status_fetch = await log_fetch(
+      "http://localhost:8000/api/token",
+      null,
+      "POST",
+      {
+        username: email,
+        password: password,
+      }
+    );
     console.log(status_fetch);
 
     if (status_fetch[0] != 200) {
@@ -38,15 +50,15 @@ export const Login = () => {
       return;
     }
     Swal.fire("Bienvenido");
-    sessionStorage.setItem('token', status_fetch[1]?.token_de_usuario)
-    accion(setTokenUser(status_fetch[1]?.token_de_usuario))
-    accion(setUserSession({ email: status_fetch[1]?.info.email, id: status_fetch[1]?.info.id }))
-    accion(setAutorized(true))
-    navigate('/cursos')
-     
-  };
 
-  
+    setCookie("token", status_fetch[1].access, 1);
+    setCookie("refresh", status_fetch[1].refresh, 1);
+    accion(setAutorized(true));
+    accion(actualizar())
+    navigate("/cursos");
+
+    
+  };
 
   return (
     <div className="login-div-container">
@@ -77,13 +89,11 @@ export const Login = () => {
                   Log in
                 </button>
               </div>
-             
             </div>
-
           </div>
           <div className="triangulo-container">
-                <img className="imagen-triangulo" src={flecha} alt="" />
-            </div>
+            <img className="imagen-triangulo" src={flecha} alt="" />
+          </div>
         </div>
       </form>
     </div>

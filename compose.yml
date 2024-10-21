@@ -43,7 +43,7 @@ services:
       - MYSQL_DATABASE=intranet_db
     volumes:
       - intranet_data:/data/db
-      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+      # - ./mysql-init:/docker-entrypoint-initdb.d:ro
 
 volumes:
   intranet_data:

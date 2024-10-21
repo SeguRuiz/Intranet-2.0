@@ -1,24 +1,53 @@
+import { SatelliteAltOutlined } from "@mui/icons-material";
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react";
 
 const initialState = {
-  aside_abierto: true,
+  aside_abierto: false,
   pestaña_seleccionada: "usuarios",
+  curso_seleccionado: null,
+  seleccionando_integrantes: false,
   grupo_seleccionado: null,
   mostrando_usuarios_grupo: null,
   grupos: [],
   sedes: [],
   usuarios: [],
   roles: [],
+  grupos_cursos: [],
   seleccion_multiple_activado: false,
   seleccion_multiple_activado_sedes: false,
+  seleccion_multiple_activado_grupos: false,
+  seleccion_multiple_activado_integrantes: false,
   seleccion_multiple: [],
   seleccion_multiple_sedes: [],
+  seleccion_multiple_grupos: [],
+  seleccion_multiple_integrantes: [],
 };
 
 const ControlUsuarios = createSlice({
   name: "ControlUsuarios",
   initialState,
   reducers: {
+    eliminar_grupos_cursos: (state, action) => {
+      const { id } = action.payload;
+
+      const grupos_cursos_filtered = state.grupos_cursos.filter(
+        (e) => e.id != id
+      );
+
+      state.grupos_cursos = grupos_cursos_filtered;
+    },
+    agregar_grupos_cursos: (state, action) => {
+      state.grupos_cursos.push(action.payload);
+      const nueva_array = Array.from(new Set(state.grupos_cursos));
+      state.grupos_cursos = nueva_array;
+    },
+    set_grupos_cursos: (state, action) => {
+      state.grupos_cursos = action.payload;
+    },
+    set_curso: (state, action) => {
+      state.curso_seleccionado = action.payload;
+    },
     abrir_aside: (state) => {
       state.aside_abierto = true;
     },
@@ -40,6 +69,18 @@ const ControlUsuarios = createSlice({
       const usuarios_filtered = state.grupos.filter((e) => e.id != grupo_id);
 
       state.grupos = usuarios_filtered;
+    },
+    eliminar_integrantes: (state, action) => {
+      const { grupo_id, integrante_id } = action.payload;
+
+      state.grupos.forEach((e) => {
+        if (e.id == grupo_id) {
+          const integrantes_filtrados = e.integrantes.filter(
+            (e) => e != integrante_id
+          );
+          e.integrantes = integrantes_filtrados;
+        }
+      });
     },
     set_usuarios: (state, action) => {
       state.usuarios = action.payload;
@@ -65,7 +106,7 @@ const ControlUsuarios = createSlice({
       state.sedes = action.payload;
     },
     agregar_a_seleccion_multiple: (state, action) => {
-      state.seleccion_multiple.push({ ...action.payload });
+      state.seleccion_multiple.push(action.payload);
     },
     activar_seleccion_multiple: (state) => {
       state.seleccion_multiple_activado = true;
@@ -75,10 +116,8 @@ const ControlUsuarios = createSlice({
       state.seleccion_multiple = [];
     },
     eliminar_de_seleccion_multiple: (state, action) => {
-      const { user_id } = action.payload;
-
       const seleccion_filtrada = state.seleccion_multiple.filter(
-        (e) => e.user_id != user_id
+        (e) => e != action.payload
       );
 
       state.seleccion_multiple = seleccion_filtrada;
@@ -117,17 +156,82 @@ const ControlUsuarios = createSlice({
         case "usuarios":
           state.seleccion_multiple = [];
           break;
+        case "grupos":
+          state.seleccion_multiple_grupos = [];
+          break;
         default:
           console.log("el valor no esta disponible");
           break;
       }
     },
     setear_grupo_mostrandose: (state, action) => {
-      state.mostrando_usuarios_grupo = action.payload
+      state.mostrando_usuarios_grupo = action.payload;
     },
     set_grupo_seleccionado: (state, action) => {
-        state.grupo_seleccionado = action.payload
-    }
+      state.grupo_seleccionado = action.payload;
+    },
+    set_seleccion_integrantes: (state, action) => {
+      state.seleccionando_integrantes = action.payload;
+    },
+    agregar_integrantes_de_grupo: (state, action) => {
+      const { grupo_id, usuarios } = action.payload;
+
+      state.grupos.forEach((e) => {
+        if (e.id == grupo_id) {
+          const nueva_array = Array.from(
+            new Set(e.integrantes.concat(usuarios))
+          );
+          e.integrantes = nueva_array;
+        }
+      });
+    },
+    agregar_seleccion_grupos: (state, action) => {
+      state.seleccion_multiple_grupos.push(action.payload);
+    },
+    eliminar_de_seleccion_multiple_grupos: (state, action) => {
+      const seleccion_filtrada = state.seleccion_multiple_grupos.filter(
+        (e) => e != action.payload
+      );
+
+      state.seleccion_multiple_grupos = seleccion_filtrada;
+    },
+    setear_seleccion_grupos: (state, action) => {
+      switch (action.payload) {
+        case true:
+          state.seleccion_multiple_activado_grupos = true;
+          break;
+        case false:
+          state.seleccion_multiple_activado_grupos = false;
+          state.seleccion_multiple_grupos = [];
+          break;
+        default:
+          break;
+      }
+    },
+    setear_seleccion_integrantes: (state, action) => {
+      switch (action.payload) {
+        case true:
+          state.seleccion_multiple_activado_integrantes = true;
+          break;
+        case false:
+          state.seleccion_multiple_activado_integrantes = false;
+          state.seleccion_multiple_integrantes = [];
+          break;
+        default:
+          console.log("default");
+          break;
+      }
+    },
+    eliminar_seleccion_integrantes: (state, action) => {
+      const seleccion_filtrada = state.seleccion_multiple_integrantes.filter(
+        (e) => e != action.payload
+      );
+
+      state.seleccion_multiple_integrantes = seleccion_filtrada;
+    },
+    agregar_seleccion_integrantes: (state, action) => {
+      state.seleccion_multiple_integrantes.push(action.payload);
+    },
   },
 });
 
@@ -155,6 +259,19 @@ export const {
   agregar_grupos,
   set_grupos,
   setear_grupo_mostrandose,
-  set_grupo_seleccionado
+  set_grupo_seleccionado,
+  set_seleccion_integrantes,
+  agregar_integrantes_de_grupo,
+  agregar_seleccion_grupos,
+  eliminar_de_seleccion_multiple_grupos,
+  setear_seleccion_grupos,
+  setear_seleccion_integrantes,
+  agregar_seleccion_integrantes,
+  eliminar_seleccion_integrantes,
+  eliminar_integrantes,
+  set_curso,
+  set_grupos_cursos,
+  agregar_grupos_cursos,
+  eliminar_grupos_cursos,
 } = ControlUsuarios.actions;
 export default ControlUsuarios.reducer;

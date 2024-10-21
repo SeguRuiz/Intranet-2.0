@@ -8,12 +8,11 @@
 
 .add-grupos-form{
     height: 95%;
-    width: 95%;
+    width: 90%;
     gap: 10px;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-   
 }
 
 .add-grupos-content{

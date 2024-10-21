@@ -4,9 +4,10 @@
   height: 35vh;
   border-radius: 5px;
   width: 37vh;
-  border: 1.5px solid rgba(0, 0, 0, 0.2);
+
   transition: 0.2s;
-  
+  background-color: var(--SurfaceLow-color);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   overflow: hidden;
 }
 
@@ -16,8 +17,9 @@
   height: 35vh;
   border-radius: 5px;
   width: 37vh;
-  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   animation: tilt-shaking infinite linear 0.2s;
+  background-color: var(--SurfaceLow-color);
   transition: 0.2s;
 }
 
@@ -30,36 +32,40 @@
   border-radius: 5px;
   height: 30vh;
   width: 32vh;
-  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  margin-right: 35px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  background-color: var(--SurfaceLow-color);
   transition: 0.2s;
 }
 
-.chekbox-sedes{
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-    height: 100%;
-    width: 100%;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    margin-right: 10px;
-    transition: 0.2s;
+.chekbox-sedes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+  width: 100%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin-right: 10px;
+  transition: 0.2s;
 }
 
-.chekbox-sedes-selected{
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    background-color: #174ea6;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    margin-right: 10px;
-    transition: 0.2s;
+.chekbox-sedes-selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: var(--PrymaryContainer-color);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin-right: 10px;
+  transition: 0.2s;
+}
+
+.chekbox-sedes-selected > svg {
+    fill: var(--OnPrymary-color);
 }
 
 @keyframes tilt-shaking {
@@ -87,19 +93,20 @@
   align-items: center;
   padding-left: 5px;
   gap: 5px;
+  color: var(--OnsurfaceVariant);
 }
 
 .read-sedes-info {
   display: grid;
   grid-template-rows: auto auto;
-  border-top: 1.5px solid rgba(0, 0, 0, 0.2);
+  
 }
 
+.read-sedes-img{
+    background-color: var(--SecondaryContainer-color);
+}
 
-.superpuesto{
-    
-    position: absolute;
-    justify-self: end;
-    
-    
+.superpuesto {
+  position: absolute;
+  justify-self: end;
 }

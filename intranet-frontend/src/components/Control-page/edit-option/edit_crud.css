@@ -4,18 +4,18 @@
   align-items: center;
   gap: 10px;
   border-radius: 5px;
- 
+  
 }
 
 .edit-crud-container > div {
   display: flex;
   justify-content: center;
   align-items: center;
- 
+
   padding: 6px;
 }
 .edit-crud-container > div > svg {
-    cursor: pointer;
+  cursor: pointer;
 }
 .options-menu-users {
   overflow: hidden;
@@ -25,18 +25,34 @@
 }
 .options-menu-users-open {
   overflow: hidden;
-  border: 1.5px solid rgba(0, 0, 0, 0.2);
+
   border-radius: 5px;
-  width: 90px;
+  background-color: var(--SecondaryContainer-color);
+  width: 85px;
   transition: 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 }
 
 .options-menu-users-more-options-sedes {
-    overflow: hidden;
-    border: 1.5px solid rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    width: 145px;
-    transition: 0.2s;
-  }
-  
-  
+  overflow: hidden;
+  background-color: var(--SecondaryContainer-color);
+  border-radius: 5px;
+  width: 145px;
+  transition: 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
+.edit-crud-container-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    padding: 6px;
+    cursor: pointer;
+    
+}
+
+/* .edit-crud-container-icon:hover {
+    background-color: var(--SurfaceDarked-color);
+
+} */

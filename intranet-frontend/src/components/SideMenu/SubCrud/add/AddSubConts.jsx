@@ -3,27 +3,24 @@ import { useFetch } from "../../../../services/llamados";
 import { addSubcontenido } from "../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
 import "./AddSubConts.css";
+import { getCookie } from "../../../../utils/Cookies";
 const AddSubConts = ({ Contenido_id }) => {
   const [error, setError] = useState(false);
   const input_ref = useRef();
   const accion = useDispatch();
   const { define_fetch, fetch_the_data } = useFetch();
-  const token = sessionStorage.getItem('token')
+  const token = getCookie("token");
 
   const addSubCont = async (o) => {
     o.preventDefault();
     const input_value = input_ref.current.value.trim();
     if (input_value != "") {
-      define_fetch(
+      const data = await fetch_the_data(
         "http://localhost:8000/cursos_contenidos/subcontenidos",
-        "",
+        token,
         "POST",
-        {
-          nombre: input_ref.current.value.trim(),
-          contenido: Contenido_id,
-        }
+        { nombre: input_ref.current.value.trim(), contenido: Contenido_id }
       );
-      const data = await fetch_the_data(token);
       console.log(data);
       accion(addSubcontenido({ contenido_id: Contenido_id, data: data[1] }));
       input_ref.current.value = "";

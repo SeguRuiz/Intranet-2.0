@@ -2,20 +2,19 @@ import { useFetch } from "../../../../services/llamados";
 import { deleteSubcontenidos } from "../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { getCookie } from "../../../../utils/Cookies";
 const DeleteSubCont = ({ id, contenido_id }) => {
-  const { define_fetch, fetch_the_data } = useFetch();
-  const token = sessionStorage.getItem('token')
-  const { archivo_mostrandose } = useSelector(
-    (state) => state.CursosContenidos
-  );
+  const { fetch_the_data } = useFetch();
+  const token = getCookie("token");
   const accion = useDispatch();
   const deleteSubCont = async () => {
-    define_fetch(
+    const data = await fetch_the_data(
       "http://localhost:8000/cursos_contenidos/subcontenidos_edit",
-      id,
-      "DELETE"
+      token,
+      "DELETE",
+      null,
+      id
     );
-    const data = await fetch_the_data(token);
     console.log(data);
     accion(
       deleteSubcontenidos({ contenidoId: contenido_id, subcontenidoId: id })

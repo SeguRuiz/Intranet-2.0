@@ -12,8 +12,7 @@ import { useEffect } from "react";
 import set_archivo_mostrandose from "../../../../redux/CursosContenidosSlice";
 
 const Tarea = () => {
-  const { define_fetch, fetch_the_data, fetch_the_data_without_token } =
-    useFetch();
+  const { define_fetch, fetch_the_data } = useFetch();
   const { id_curso } = useParams();
   const [isModalOpen, setIsModalOpen] = useState("");
   const [title, setTitle] = useState("");
@@ -41,15 +40,19 @@ const Tarea = () => {
   // const datos1 = async () => {
   const enviarDatos = async (evento) => {
     evento.preventDefault();
-    define_fetch("http://localhost:8000/info_tareas/info", "", "POST", {
-      titulo: title,
-      descripcion: descripcion,
-      fecha_entrega: date,
-      fecha_revision: dateCheck,
-      cursos: id_curso,
-    });
 
-    const status_fetch = await fetch_the_data_without_token();
+    const status_fetch = await fetch_the_data(
+      "http://localhost:8000/info_tareas/info",
+      null,
+      "POST",
+      {
+        titulo: title,
+        descripcion: descripcion,
+        fecha_entrega: date,
+        fecha_revision: dateCheck,
+        cursos: id_curso,
+      }
+    );
     accion(pushContenidoTareas(status_fetch[1]));
     // ref_form.current.reset();
     console.log(contenidos, status_fetch);
@@ -57,9 +60,12 @@ const Tarea = () => {
 
   useEffect(() => {
     const data = async () => {
-      define_fetch("http://localhost:8000/info_tareas/info", "", "GET");
-      const datos = await fetch_the_data_without_token();
-      console.log(datos[1]);
+      const datos = await fetch_the_data(
+        "http://localhost:8000/info_tareas/info",
+        null,
+        "GET"
+      );
+      console.log(datos);
 
       accion(setDatos(datos[1]));
       // accion(set_archivo_mostrandose(null));

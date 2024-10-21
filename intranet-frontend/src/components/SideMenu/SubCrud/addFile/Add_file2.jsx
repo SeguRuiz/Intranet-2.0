@@ -7,11 +7,12 @@ import { useEffect } from "react";
 import { useFetch } from "../../../../services/llamados";
 import uuid from "react-uuid";
 import DeleteFile from "./deleteFile/DeleteFile";
+import { getCookie } from "../../../../utils/Cookies";
 
 const Add_file2 = ({ id, contenido_id, archivo }) => {
   const file_ref = useRef();
   const [archivoAsinado, setAcrhivoAsignado] = useState(false);
-  const token = sessionStorage.getItem('token')
+  const token = getCookie("token");
   const { define_fetch, fetching, fetch_the_data } = useFetch();
   const [archivo_key, setArchivo_key] = useState(null);
   const { Arhivos_subcontenidos, Contenidos } = useSelector(
@@ -20,12 +21,12 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
   const accion = useDispatch();
 
   const subirArchivo = async (archivo) => {
-    define_fetch("http://localhost:8000/files/guardar_archivo", "", "POST", {
-      method: "POST",
-      subcontenido: id,
-      files_info: [archivo],
-    });
-    const data = await fetch_the_data(token);
+    const data = await fetch_the_data(
+      "http://localhost:8000/files/guardar_archivo",
+      token,
+      "POST",
+      { method: "POST", subcontenido: id, files_info: [archivo] }
+    );
     console.log(data);
     accion(
       add_archivos_subcontenidos({

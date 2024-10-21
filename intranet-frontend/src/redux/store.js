@@ -7,6 +7,7 @@ import CursosContenidos from "./CursosContenidosSlice";
 import ObtenerDatos from "./ObtenerDatosTareaSlice";
 import ControlUsuariosSlice from "./ControlUsuariosSlice";
 import AuthSlice from "./AuthSlice";
+import Fetchs from "./FetchsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     CursosContenidos: CursosContenidos,
     datos_tarea: ObtenerDatos,
     ControlUsuarios: ControlUsuariosSlice,
-    Auth:AuthSlice
+    Auth: AuthSlice,
+    Fetchs: Fetchs,
   },
 });

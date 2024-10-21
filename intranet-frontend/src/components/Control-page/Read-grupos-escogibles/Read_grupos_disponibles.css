@@ -1,13 +1,43 @@
-.grupo-disponible-container{
-    border: rgba(0, 0, 0, 0.2) 1.5px solid;
-    border-radius: 5px;
-    height: 15%;
+.grupo-disponible-container {
+  display: grid;
+  grid-template-columns: auto 0%;
+  background-color: var(--SecondaryContainer-color);
+  transition: 0.2s;
+  border-radius: 5px;
+  height: 15%;
+  color: var(--OnSecondary-color);
 }
 
-.grupo-disponible-container-selected{
-    border: rgba(0, 0, 0, 0.2) 1.5px solid;
-    border-radius: 5px;
-    height: 15%;
-    background-color: lightblue;
+.grupo-disponible-container-selected {
+  display: grid;
+  grid-template-columns: auto 15%;
+  background-color: var(--SecondaryContainer-color);
+  transition: 0.2s;
+  border-radius: 5px;
+  height: 15%;
+  color: var(--OnSecondary-color);
 }
 
+.grupo-disponible-informacion {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-left: 20px;
+  font-size: 20px;
+}
+
+.grupo-disponible-checkbox {
+  transition: 0.2s;
+}
+.grupo-disponible-checkbox-selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--PrymaryContainer-color);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transition: 0.2s;
+}
+.grupo-disponible-checkbox-selected > svg {
+    fill: var(--OnPrymary-color);
+}

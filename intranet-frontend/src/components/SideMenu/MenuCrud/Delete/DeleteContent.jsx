@@ -3,18 +3,20 @@ import { deleteContenidos } from "../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
 
 import "./DeleteContent.css";
+import { getCookie } from "../../../../utils/Cookies";
 const DeleteContent = ({ id }) => {
   const accion = useDispatch();
-  const token = sessionStorage.getItem('token')
-  const { define_fetch, fetch_the_data } = useFetch();
+  const token = getCookie("token");
+  const { fetch_the_data } = useFetch();
 
   const deleteC = async () => {
-    define_fetch(
+    fetch_the_data(
       "http://localhost:8000/cursos_contenidos/contenidos_edit",
-      id,
-      "DELETE"
+      token,
+      "DELETE",
+      null,
+      id
     );
-    fetch_the_data(token);
     accion(deleteContenidos({ id: id }));
   };
   return (

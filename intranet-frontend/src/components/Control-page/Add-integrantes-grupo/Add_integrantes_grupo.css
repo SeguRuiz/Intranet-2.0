@@ -3,9 +3,9 @@
   padding: 15px;
   border: none;
   height: 60%;
-  width: 40%;
+  width: 35%;
   overflow: hidden;
-
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .add-integrantes-grupo-dlg:focus {
@@ -13,12 +13,84 @@
 }
 
 .add-integrantes-grupo-content {
-  height: 100%;
-  width: 100%;
   overflow: auto;
   scrollbar-width: thin;
+  background-color: var(--Surface-color);
+  padding-left: 10px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  padding-right: 10px;
+}
+
+.add-integrantes-grupo-content-vacio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #9AA0A6;
+  font-size: 20px;
+  background-color: var(--Surface-color);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
 
 .add-integrantes-grupo-content > div {
   margin-top: 10px;
+}
+
+.add-integrantes-grupo-container {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-rows: 83% 17%;
+}
+
+.add-integrantes-grupo-options {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  background-color: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding-right: 20px;
+  gap: 20px;
+  background-color: var(--Surface-color);
+}
+
+.add-integrantes-grupo-options > button {
+}
+
+.add-integrantes-grupo-options > button:focus {
+  outline: white;
+}
+
+.cancelar-seleccion-grupos {
+  padding: 10px 15px;
+  font-size: 15px;
+  border-radius: 50px;
+  border: none;
+  background-color: #174ea6;
+  color: #ffff;
+  cursor: pointer;
+}
+
+.aceptar-seleccion-grupos {
+  padding: 10px 15px;
+  font-size: 15px;
+  border-radius: 50px;
+  border: none;
+  background-color: #174ea6;
+  color: #ffff;
+   cursor: pointer;
+}
+
+.aceptar-seleccion-grupos-desactivado{
+    padding: 10px 15px;
+  font-size: 15px;
+  border-radius: 50px;
+  border: none;
+  background-color: #174ea6;
+  color: #ffff;
+  opacity: 0.7;
+ 
 }

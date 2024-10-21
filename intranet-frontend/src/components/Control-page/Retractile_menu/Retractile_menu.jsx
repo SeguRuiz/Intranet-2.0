@@ -15,11 +15,9 @@ const Retractile_menu = ({
       style={{ height: abrir ? `${altura}vh` : "9vh" }}
     >
       <div
-        className="crud-title"
+        className={abrir ?  "crud-title" : "crud-title-closed"}
         style={{ height: abrir ? "5vh" : "9vh" }}
-        onClick={() => {
-          abrir ? setAbrir(false) : setAbrir(true);
-        }}
+        
       >
         <p
           style={{

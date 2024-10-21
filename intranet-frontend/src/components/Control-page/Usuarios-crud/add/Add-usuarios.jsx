@@ -1,14 +1,24 @@
 import { useFetch } from "../../../../services/llamados";
 import Retractile_menu from "../../Retractile_menu/Retractile_menu";
-import uuid from "react-uuid";
 import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { agregar_usuarios } from "../../../../redux/ControlUsuariosSlice";
-
+import { useCustomNotis } from "../../../../utils/customHooks";
+import { set_fetching } from "../../../../redux/FetchsSlice";
+import { Input, TextField } from "@mui/material";
 import "./Add_users.css";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { Button } from "@mui/material";
+import { getCookie } from "../../../../utils/Cookies";
+
 const Add_usuarios = () => {
-  const { define_fetch, fetch_the_data, fetching, ok, error } = useFetch();
-  const token = sessionStorage.getItem("token");
+  const { fetch_the_data, fetching, ok, error } = useFetch();
+  const { ok_mensaje, error_mensaje } = useCustomNotis(
+    "Ocurrio un error",
+    "El usuario se agrego con exito"
+  );
+
   const accion = useDispatch();
   const nombre_inpt = useRef();
   const apellidos_inpt = useRef();
@@ -16,6 +26,11 @@ const Add_usuarios = () => {
   const cedula_inpt = useRef();
   const nombre_usuario_inpt = useRef();
   const form_ref = useRef();
+  const token = getCookie("token");
+
+  useEffect(() => {
+    accion(set_fetching(fetching));
+  }, [fetching, accion]);
 
   const agregar_usuario = async (o) => {
     o.preventDefault();
@@ -31,54 +46,86 @@ const Add_usuarios = () => {
       cedula != "" &&
       nombre_usuario != ""
     ) {
-      define_fetch("http://localhost:8000/api/register", "", "POST", {
-        first_name: nombre,
-        username: nombre_usuario,
-        last_name: apellidos,
-        email: email,
-        cedula: cedula,
-        password: "default",
-      });
-      const data = await fetch_the_data(token);
+      const data = await fetch_the_data(
+        "http://localhost:8000/api/register",
+        token,
+        "POST",
+        {
+          first_name: nombre,
+          username: nombre_usuario,
+          last_name: apellidos,
+          email: email,
+          cedula: cedula,
+          password: "default",
+        }
+      );
+      data == undefined && error_mensaje();
       console.log(data);
-      
+
       if (data[0] == 201) {
+        ok_mensaje();
         accion(agregar_usuarios(data[1]?.user));
         form_ref.current.reset();
+      } else {
+        error_mensaje();
       }
     }
   };
   return (
-    <Retractile_menu
-      altura={38}
-      titulo={"Usuarios"}
-      loading={fetching}
-      ok={ok}
-      error={error}
-    >
-      <form
-        className="Add-users-forms"
-        onSubmit={agregar_usuario}
-        ref={form_ref}
+    <>
+      <Retractile_menu
+        altura={60}
+        titulo={"Usuarios"}
+        loading={fetching}
+        ok={ok}
+        error={error}
       >
-        <input type="text" placeholder="nombre" required ref={nombre_inpt} />
-        <input
-          type="text"
-          placeholder="nombre de usuario"
-          required
-          ref={nombre_usuario_inpt}
-        />
-        <input
-          type="text"
-          placeholder="apellidos"
-          required
-          ref={apellidos_inpt}
-        />
-        <input type="email" placeholder="email" required ref={email_inpt} />
-        <input type="number" placeholder="cedula" required ref={cedula_inpt} />
-        <button className="add-user-btn">Subir</button>
-      </form>
-    </Retractile_menu>
+        <form
+          className="Add-users-forms"
+          onSubmit={agregar_usuario}
+          ref={form_ref}
+        >
+          <TextField
+            label={"Nombre"}
+            inputRef={nombre_inpt}
+            variant="standard"
+            size="small"
+            required
+          />
+          <TextField
+            label={"Nombre de usuario"}
+            inputRef={nombre_usuario_inpt}
+            variant="standard"
+            size="small"
+            required
+          />
+          <TextField
+            label={"Apellidos"}
+            inputRef={apellidos_inpt}
+            variant="standard"
+            size="small"
+            required
+          />
+          <TextField
+            type="email"
+            label={"Email"}
+            required
+            inputRef={email_inpt}
+            variant="standard"
+            size="small"
+          />
+          <TextField
+            type="number"
+            label={"Cedula"}
+            required
+            inputRef={cedula_inpt}
+            variant="standard"
+            size="small"
+          />
+          <Button type="submit">Subir</Button>
+        </form>
+      </Retractile_menu>
+    </>
   );
 };
 

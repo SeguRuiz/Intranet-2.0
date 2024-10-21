@@ -36,23 +36,20 @@ class ArchivosCreate(ModelViewSet):
     queryset = Archivos_referencia.objects.all()
     serializer_class = ArchivosSerializer
     lookup_field = "pk"
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-
+   
 
 
 class ArchivosEdit(RetrieveUpdateDestroyAPIView):
     queryset = Archivos_referencia.objects.all()
     serializer_class = ArchivosSerializer
     lookup_field = "pk"
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    
 
 
 
 @api_view(["POST", "GET"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
 def guardar_archivo(request):
     if request.method == "GET":
         data = Archivos_referencia.objects.all()
@@ -98,8 +95,8 @@ def guardar_archivo(request):
 
 
 @api_view(["DELETE"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
 def delete_archivo(request):
     try:
         archivo = get_object_or_404(Archivos_referencia, pk=request.data["id"])
@@ -122,8 +119,8 @@ def delete_archivo(request):
 
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
 def get_archivo(request):
     archivo = get_object_or_404(Archivos_referencia, pk=request.data["archivo"])
 

@@ -8,19 +8,34 @@
   overflow: hidden;
   border-radius: 5px;
   overflow: hidden;
-  border: 1.5px solid rgba(0, 0, 0, 0.2);
-  background-color: white;
+  
+  background-color: var(--Surface-color);
 }
 
 .crud-title {
   height: 40px;
   transition: 0.2s ease;
-  border-bottom: 1.5px solid rgba(0, 0, 0, 0.2);
+  
   display: flex;
   justify-content: space-between;
   padding-right: 5px;
   align-items: center;
+  background-color: var(--PrymaryContainer-color);
+  color: var(--OnPrymary-color);
 }
+
+.crud-title-closed{
+    height: 40px;
+  transition: 0.2s ease;
+  
+  display: flex;
+  justify-content: space-between;
+  padding-right: 5px;
+  align-items: center;
+  background-color: var(--Surface-color);
+  color: var(--Onsurface-color);
+}
+
 .retractile-div-content {
   height: 100%;
   display: flex;

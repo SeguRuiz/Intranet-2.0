@@ -10,6 +10,7 @@ const CursosContenidos = createSlice({
   name: "CursosContenidos",
   initialState,
   reducers: {
+    
     setContenidos: (state, action) => {
       state.Contenidos = action.payload;
     },
@@ -45,7 +46,8 @@ const CursosContenidos = createSlice({
           e.subcontenidos = subcontenidos_copy;
         }
       });
-
+      console.log(subcontenidoId, contenidoId);
+      
       state.Contenidos = contenidos_copy;
     },
     add_archivos_subcontenidos: (state, action) => {

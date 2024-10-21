@@ -5,54 +5,75 @@
   border: none;
   padding: 0;
   overflow: hidden;
+  border-radius: 5px;
 }
 
 .read-integrantes-modal:focus {
   outline: none;
 }
 .read-integrantes-info {
-  background-color: lightcoral;
+  background-color: var(--PrymaryContainer-color);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-left: 20px;
+  font-size: 30px;
+  color: var(--OnPrymary-color);
 }
 
+
+
 .read-integrantes-content {
-  background-color: lightblue;
   display: grid;
-   padding-top: 10px;
-  justify-content: center;
+  padding-top: 2%;
   grid-template-areas: "a a a a";
   grid-auto-rows: 47%;
-  column-gap: 30px;
-  height: 100%;
+  grid-auto-columns: 24%;
+  height: 95%;
   overflow: auto;
   scrollbar-width: thin;
+  padding-left: 80px;
+  background-color: var(--Surface-color);
+}
+
+.read-integrantes-content-vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 30px;
+  color: var(--OnsurfaceVariant);
+  background-color: var(--Surface-color);
 }
 
 .read-integrantes-grid {
   display: grid;
   grid-template-rows: 10% auto;
+
   height: 100%;
   width: 100%;
 }
 
 .select-integrantes-container {
-  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  background-color: var(--SurfaceLow-color);
+  color: var(--OnsurfaceVariant);
   border-radius: 5px;
   height: 35vh;
   width: 37vh;
   display: grid;
-
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   grid-template-rows: 25% auto;
   transition: 0.2s;
 }
 
 .user-circle {
-  border: 1.5px solid rgba(0, 0, 0, 0.2);
   height: 35px;
   width: 35px;
   justify-self: center;
   align-self: center;
   border-radius: 100%;
   margin-right: 5px;
+  background-color: var(--Surface-color);
 }
 
 .user-info-text {
@@ -69,6 +90,7 @@
   align-items: center;
   padding-left: 5px;
   gap: 5px;
+  color: var(--OnsurfaceVariant);
 }
 
 .user-name {
@@ -76,4 +98,21 @@
   justify-content: space-between;
   font-size: 20px;
   align-items: center;
+}
+
+.open-integrante-modal-btn {
+  fill: var(--OnSecondary-color);
+}
+
+.open-integrantes-modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7px;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.open-integrantes-modal-container:hover {
+  background-color: var(--SecondaryContainer-color);
 }

@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import (
     api_view,
@@ -9,15 +8,32 @@ from rest_framework.decorators import (
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Estudiantes, Roles, Usuarios
-from .serializers import EstudiantesSerializer, RolesSerializer, UsersSerializer
+from .serializers import (
+    CustomJWTSerializer,
+    EstudiantesSerializer,
+    RolesSerializer,
+    UsersSerializer,
+)
 
 # Create your views here.
 
 
+class UsersCreate(ModelViewSet):
+    model = Usuarios
+    queryset = Usuarios.objects.all()
+    serializer_class = UsersSerializer
+    lookup_field = "id"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+
 @api_view(["POST", "GET"])
-@authentication_classes([TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def register(request):
     serializer = UsersSerializer(data=request.data)
@@ -73,7 +89,7 @@ def login(request):
 
 
 @api_view(["POST", "GET"])
-@authentication_classes([TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def roles(request):
     if request.method not in ["POST"]:
@@ -93,7 +109,7 @@ def roles(request):
 
 
 @api_view(["PATCH"])
-@authentication_classes([TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def aignar_rol_a(request, pk=None):
     user = get_object_or_404(Usuarios, pk=pk)
@@ -188,12 +204,12 @@ def verificar_token(request):
 
 
 @api_view(["DELETE"])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
 def eliminar_lista_usuarios(request):
     try:
         for n in request.data["usuarios"]:
-            Usuarios.objects.get(pk=n["user_id"]).delete()
+            Usuarios.objects.get(pk=n).delete()
 
         return Response(
             {"info": "los usuarios han sido eliminados"}, status=status.HTTP_200_OK
@@ -202,4 +218,38 @@ def eliminar_lista_usuarios(request):
         return Response(
             {"info": "Se esperaba un array como respuesta"},
             status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def verify_token(request):
+    return Response({"info": "El token es vigente"}, status=status.HTTP_200_OK)
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomJWTSerializer
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def get_user_info(request, pk):
+    try:
+        user = get_object_or_404(Usuarios, pk=pk)
+        user_data = UsersSerializer(instance=user)
+        role = Roles.objects.get(pk=user_data.data['rol_id'])
+
+       
+        role_data = RolesSerializer(instance=role)
+
+        return Response(
+            {"id": user_data.data["id"], "rol": role_data.data["tipo"]},
+            status=status.HTTP_200_OK,
+        )
+    except Roles.DoesNotExist:
+        return Response(
+            {"id": user_data.data["id"], "rol": "no definido"},
+            status=status.HTTP_200_OK,
         )

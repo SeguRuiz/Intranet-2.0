@@ -7,7 +7,11 @@ from .views import (
     GruposEdit,
     IntegrantesGrupoEdit,
     SedesDelete,
-    eliminar_lista_sedes
+    eliminar_lista_sedes,
+    agregar_lista_integrantes,
+    get_grupos_y_integrantes,
+    eliminar_lista_grupos,
+    eliminar_integrantes
 )
 
 urlpatterns = [
@@ -25,5 +29,9 @@ urlpatterns = [
         GruposCursosEdit.as_view(),
         name="grupos-cursos-edit",
     ),
-    path('eliminar_lista_sedes/', eliminar_lista_sedes, name='eliminar-lista-sedes')
+    path('eliminar_lista_sedes/', eliminar_lista_sedes, name='eliminar-lista-sedes'),
+    path('agregar_lista_integrantes/', agregar_lista_integrantes, name='agregar-lista-integrantes'),
+    path('get_grupos_integrantes/', get_grupos_y_integrantes, name='get-grupos-e-integrantes'),
+    path('eliminar_lista_grupos/', eliminar_lista_grupos, name='eliminar-listas-grupos'),
+    path('eliminar_integrantes/',eliminar_integrantes, name='eliminar-integrantes-custom' )
 ]

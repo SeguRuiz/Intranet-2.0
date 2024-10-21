@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import Usuarios, Roles, Estudiantes
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.shortcuts import get_object_or_404
 
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,3 +21,30 @@ class EstudiantesSerializer(serializers.ModelSerializer):
         
         fields = '__all__'
 
+
+
+class CustomJWTSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        credentials = {
+            'username': '',
+            'password': attrs.get("password")
+        }
+
+        user_obj = get_object_or_404(Usuarios,email=attrs.get("username")) 
+        if user_obj:
+            credentials['username'] = user_obj.username
+        
+        data = super().validate(credentials)
+        refresh = self.get_token(self.user)
+      
+        refresh['email'] = self.user.email
+        refresh['id'] = self.user.id
+        
+      
+        data['email'] = self.user.email
+        data['id'] = self.user.id
+      
+        return data
+        
+        
+    

@@ -1,0 +1,15 @@
+.delete-integrante-btn {
+  padding: 10px 15px;
+  font-size: 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--SurfaceLow-color);
+  color: var(--OnSurfacevariant);
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
+.delete-integrante-btn:hover{
+    background-color: var(--SecondaryContainer-color);
+    color: var(--OnSecondary-color);
+}

@@ -1,0 +1,22 @@
+.submenu-icon:hover .submenu-content-menu {
+  display: block;
+}
+
+.submenu-content-menu {
+ 
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.select-area {
+  z-index: 1;
+  margin-bottom: 70px;
+  padding: 20px;
+ 
+  position: absolute;
+  align-self: center;
+}
+
+.dropdown-container {
+  display: flex;
+}

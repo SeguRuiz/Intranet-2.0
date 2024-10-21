@@ -15,50 +15,84 @@ import Cronograma from "../pages/Cronograma_page/Cronograma_page.jsx";
 import Register from "../pages/Register_page.jsx";
 import Control_usuarios_page from "../pages/Control_usuarios/Control_usuarios.jsx";
 import { useFetch } from "../services/llamados.js";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUserSession } from "../redux/AuthSlice.js";
 import { setUserNull } from "../redux/AuthSlice.js";
 import { setTokenUser } from "../redux/AuthSlice.js";
 import { useSelector } from "react-redux";
 import { setAutorized } from "../redux/AuthSlice.js";
+import { ToastContainer } from "react-toastify";
+import { getCookie } from "../utils/Cookies.js";
+import { jwtDecode } from "jwt-decode";
+import { set_roles } from "../redux/ControlUsuariosSlice.js";
+import { estado_admin, estado_no_admin } from "../redux/IsAdminSlice.js";
 
 export const Routing = () => {
-  const { define_fetch, fetch_the_data_without_token } = useFetch();
-  const { authorized} = useSelector((e) => e.Auth);
-  const token = sessionStorage.getItem("token") || null;
+  const { fetch_the_data, fetching } = useFetch();
+  const { Es_admin } = useSelector((e) => e.IsAdmin);
+  const [timeOut, setTime] = useState(false);
+  const { authorized, retraer } = useSelector((e) => e.Auth);
+ 
+
+  const token = getCookie("token");
+
   const accion = useDispatch();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
-      if (token != null) {
-        define_fetch("http://localhost:8000/api/verificar_token", "", "POST", {
-          token: token,
-        });
-        const data = await fetch_the_data_without_token();
-        console.log(data);
+      const data = await fetch_the_data(
+        "http://localhost:8000/api/roles",
+        token,
+        "GET"
+      );
 
-        if (data[1]?.validez) {
-          accion(setUserSession({ email: data[1].email, id: data[1].id }));
+      accion(set_roles(data[1]));
+    })();
+  }, [retraer]);
+
+  useEffect(() => {
+    (async () => {
+      if (token) {
+        setTime(true);
+        const id = jwtDecode(token)?.user_id;
+        const data = await fetch_the_data(
+          "http://localhost:8000/api/get_user_info",
+          token,
+          "GET",
+          null,
+          id
+        );
+
+        if (data[0] == 200) {
+          accion(setUserSession(data[1]));
+          data[1].rol == "admin"
+            ? accion(estado_admin())
+            : accion(estado_no_admin());
+
           accion(setTokenUser(token));
           accion(setAutorized(true));
         } else {
           accion(setUserNull());
-          accion(setAutorized(true));
-          sessionStorage.removeItem("token");
+          accion(setAutorized(false));
         }
       } else {
         accion(setAutorized(false));
       }
+      setTimeout(() => {
+        setTime(false);
+      }, 1000);
     })();
-  }, []);
+  }, [retraer]);
+
   return (
     <div>
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path="/" element={<Loginpage />} />
-          <Route path="/*" element={"Not found"} />
-          {authorized && (
+
+          {authorized  && (
             <>
               <Route path="/registro" element={<Register />} />
               <Route path="/home" element={<Home />} />
@@ -83,12 +117,16 @@ export const Routing = () => {
               />
 
               <Route path={`/cursos/:id_curso/grupos`} element={<Grupo />} />
-              <Route
-                path="/admin/control_usuarios"
-                element={<Control_usuarios_page />}
-              />
+
+              {Es_admin && !timeOut && (
+                <Route
+                  path="/admin/control_usuarios"
+                  element={<Control_usuarios_page />}
+                />
+              )}
             </>
           )}
+          {!timeOut && <Route path="/*" element={"Not found"} />}
         </Routes>
       </Router>
     </div>

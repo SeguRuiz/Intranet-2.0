@@ -4,30 +4,32 @@ import { pushContenidos } from "../../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
 import { useFetch } from "../../../../../services/llamados";
 import { useParams } from "react-router-dom";
+import { getCookie } from "../../../../../utils/Cookies";
+
+
 
 export const AddCont = () => {
   const modalRef = useRef();
   const inputNombre = useRef();
   const { id_curso } = useParams();
   const { openModal, closeModalDlg, closeModal } = useCustomModal(modalRef);
-  const { define_fetch, fetch_the_data } = useFetch();
+  const { fetch_the_data } = useFetch();
   const accion = useDispatch();
-  const token = sessionStorage.getItem('token')
+  const token = getCookie("token");
 
   const subirContenido = async (o) => {
     o.preventDefault();
     const nombre_value = inputNombre.current.value.trim();
     if (nombre_value != "") {
-      define_fetch(
+      const data = await fetch_the_data(
         "http://localhost:8000/cursos_contenidos/contenidos",
-        "",
+        token,
         "POST",
         {
           nombre: nombre_value,
           curso: id_curso,
         }
       );
-      const data = await fetch_the_data(token);
       accion(pushContenidos({ ...data[1], subcontenidos: [] }));
       closeModal();
       inputNombre.current.value = "";
