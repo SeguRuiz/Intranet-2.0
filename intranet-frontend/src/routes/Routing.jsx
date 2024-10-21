@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Loginpage } from "../pages/Loginpage";
-
 import Contenido from "../pages/info_cursos/Info_cursos";
 import Cursos from "../pages/Cursos_page/Cursos_page.jsx";
 import Home from "../pages/Home_page";
@@ -22,10 +21,11 @@ import { setUserNull } from "../redux/AuthSlice.js";
 import { setTokenUser } from "../redux/AuthSlice.js";
 import { useSelector } from "react-redux";
 import { setAutorized } from "../redux/AuthSlice.js";
+import Contenido_tarea from "../pages/tarea_page/Contenido_tarea_page.jsx";
 
 export const Routing = () => {
   const { define_fetch, fetch_the_data_without_token } = useFetch();
-  const { authorized} = useSelector((e) => e.Auth);
+  const { authorized } = useSelector((e) => e.Auth);
   const token = sessionStorage.getItem("token") || null;
   const accion = useDispatch();
 
@@ -69,6 +69,10 @@ export const Routing = () => {
               <Route path="/cursos" element={<Cursos />} />
 
               <Route path="/cursos/:id_curso/tareas" element={<Tarea />} />
+              <Route
+                path="/cursos/:id_curso/:id_tarea/contenido_tarea"
+                element={<Contenido_tarea />}
+              />
               <Route
                 path="/cursos/:id_curso/comunicaciones"
                 element={<Comunicaciones />}

@@ -11,7 +11,7 @@
   cursor: pointer;
   background-color: #f2f3f4;
 }
-nav {
+.C-U-Nav {
   border: 1.5px black solid;
   display: grid;
   grid-template-columns: 7% auto;

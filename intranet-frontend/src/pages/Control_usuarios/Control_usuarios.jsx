@@ -58,7 +58,7 @@ const Control_usuarios_page = () => {
 
   return (
     <div className="CUP-container">
-      <nav>
+      <nav className="C-U-Nav">
        <div
           className="side-menu-icon"
           onClick={() => {
