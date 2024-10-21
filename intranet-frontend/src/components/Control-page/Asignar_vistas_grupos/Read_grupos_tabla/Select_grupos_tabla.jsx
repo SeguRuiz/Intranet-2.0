@@ -70,7 +70,6 @@ const Select_grupos_tabla = ({ nombre_grupo, id, sede_id }) => {
       setTime_out(false);
     }, 700);
     if (!checked) {
-      console.log("subir la vara");
       asignar_grupo();
     } else {
       eliminar_grupo();
