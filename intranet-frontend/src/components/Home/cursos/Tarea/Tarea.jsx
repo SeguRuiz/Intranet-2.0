@@ -13,6 +13,9 @@ import Borrar_tarea from "./Borrar_tarea";
 import { useNavigate } from "react-router-dom";
 
 const Tarea = () => {
+  const hola = 'hola'
+  console.log(hola);
+  
   const navigate = useNavigate();
 
   const {  fetch_the_data } =
