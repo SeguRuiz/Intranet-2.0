@@ -18,7 +18,7 @@
 .content_date,
 .content_date_check {
   border: 1px black solid;
-  width: 300px;
+  width: 290px;
 }
 
 .b-t-n {
@@ -30,3 +30,12 @@
   width: 300px;
   text-align: center;
 } */
+
+.nombre-tarea,
+.descripcion-tarea,
+.fecha-tarea,
+.fecha-revision {
+  border: 1px black solid;
+  width: 300px;
+  text-align: center;
+}

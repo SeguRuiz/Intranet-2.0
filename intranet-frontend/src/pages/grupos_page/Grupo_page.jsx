@@ -22,9 +22,9 @@ const Grupo_pagina = () => {
     { nombre: "Profesor 2", correo: "Profesor2@fwdcostarica.com" },
   ];
 
-  const titulo_profesor = [{ nombre: "Profesores" }];
+  const titulo_profesor = "Profesores" 
 
-  const titulo_estudiantes = [{ nombre: "Estudiantes" }];
+  const titulo_estudiantes = "Estudiantes" 
 
   const estudiante = [
     { nombre: "estudiante 1", correo: "estudiante1@fwdcostarica.com" },

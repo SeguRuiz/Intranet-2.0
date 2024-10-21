@@ -1,20 +1,20 @@
 import React from "react";
 import "./grupo.css";
 
-const Grupo = ({ integrantes, titulo = [] }) => {
+const Grupo = ({ integrantes, titulo }) => {
   return (
     <div className="profesores-container">
       <table className="profesores-table">
-        {titulo.map((nombre_titulo, index) => (
-          <thead key={index}>
-            {nombre_titulo.nombre}
-            <tr>
-              <th>Perfil</th>
-              <th>Nombre</th>
-              <th>Correo</th>
-            </tr>
-          </thead>
-        ))}
+        
+        <thead>
+        {titulo}
+          <tr>
+            <th>Perfil</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+          </tr>
+        </thead>
+
         <tbody>
           {integrantes.map((integrante, index) => (
             <tr key={index}>

@@ -1,0 +1,23 @@
+.div-padre {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.tabla-padre {
+  width: 50%;
+  border-collapse: collapse;
+}
+
+tr th {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+tr td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}

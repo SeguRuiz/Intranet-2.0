@@ -7,8 +7,6 @@
   background-color: var(--SurfaceContainer-color);
 }
 
-.linear_loading_area {
-}
 
 .nav_info_main {
   display: grid;
@@ -28,9 +26,8 @@
   align-items: center;
   cursor: pointer;
 }
-
-
-nav {
+.C-U-Nav{
+  
   display: grid;
   grid-template-columns: 6.5% auto;
 }

@@ -9,10 +9,14 @@ import { useParams } from "react-router-dom";
 import { useFetch } from "../../../../services/llamados";
 import { setDatos } from "../../../../redux/ObtenerDatosTareaSlice";
 import { useEffect } from "react";
-import set_archivo_mostrandose from "../../../../redux/CursosContenidosSlice";
+import Borrar_tarea from "./Borrar_tarea";
+import { useNavigate } from "react-router-dom";
 
 const Tarea = () => {
-  const { define_fetch, fetch_the_data } = useFetch();
+  const navigate = useNavigate();
+
+  const {  fetch_the_data } =
+    useFetch();
   const { id_curso } = useParams();
   const [isModalOpen, setIsModalOpen] = useState("");
   const [title, setTitle] = useState("");
@@ -20,7 +24,7 @@ const Tarea = () => {
   const [date, setDate] = useState("");
   const [dateCheck, setDateCheck] = useState("");
   const accion = useDispatch();
-  const { contenidos } = useSelector((state) => state.datos_tarea);
+  const { contenidos_tareas } = useSelector((state) => state.datos_tarea);
   // const ref_form = useRef();
 
   const modalAbierto = () => {
@@ -31,13 +35,6 @@ const Tarea = () => {
     setIsModalOpen(false);
   };
 
-  // const Cuerpo_Tarea = {
-  //   titulo: title,
-  //   descripcion: descripcion,
-  //   fecha_entrega: date,
-  //   fecha_revision: dateCheck,
-  // };
-  // const datos1 = async () => {
   const enviarDatos = async (evento) => {
     evento.preventDefault();
 
@@ -55,7 +52,7 @@ const Tarea = () => {
     );
     accion(pushContenidoTareas(status_fetch[1]));
     // ref_form.current.reset();
-    console.log(contenidos, status_fetch);
+    console.log(contenidos_tareas, status_fetch);
   };
 
   useEffect(() => {
@@ -68,7 +65,6 @@ const Tarea = () => {
       console.log(datos);
 
       accion(setDatos(datos[1]));
-      // accion(set_archivo_mostrandose(null));
     };
     data();
   }, []);
@@ -104,6 +100,7 @@ const Tarea = () => {
             onChange={(e) => setDateCheck(e.target.value)}
             value={dateCheck}
           />
+
           <button>Subir Tarea</button>
         </form>
       </Modal>
@@ -112,26 +109,22 @@ const Tarea = () => {
         <div>Revisadas</div>
         <div>Entregadas</div>
       </div>
-      <div className="container_main">
-        <div>
-          <p>Nombre Tarea</p>
-        </div>
-        <div>
-          <p>Descripción Tarea</p>
-        </div>
-        <div>
-          <p>Fecha Entrega</p>
-        </div>
-        <div>
-          <p>Fecha Revisión</p>
-        </div>
-      </div>
-      {contenidos.map((contenido, index) => (
+
+      {contenidos_tareas.map((contenido, index) => (
         <div key={index} className="container_main">
-          <div className="content_name_HW">{contenido.titulo}</div>
-          <div className="content_description">{contenido.descripcion}</div>
-          <div className="content_date">{contenido.fecha_entrega}</div>
-          <div className="content_date_check">{contenido.fecha_revision}</div>
+          <div className="content_name_HW">Tarea: {contenido.titulo}</div>
+          <div className="content_date">Entrega: {contenido.fecha_entrega}</div>
+          <div
+            className="content_description"
+            onClick={() => {
+              navigate(`/cursos/${id_curso}/${contenido.id}/contenido_tarea`);
+            }}
+          >
+            Más información
+          </div>
+          <div className="content_date_check">Sin entregar</div>
+          {/* <div className="content_date_check">Sin entregar {contenido.fecha_revision}</div> */}
+          <Borrar_tarea id={contenido.id} />
         </div>
       ))}
     </div>

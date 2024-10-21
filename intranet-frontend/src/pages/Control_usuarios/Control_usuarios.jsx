@@ -3,7 +3,7 @@ import Add_menu from "../../components/Control-page/Add-menu/Add-menu";
 import { useDispatch } from "react-redux";
 import { abrir_aside } from "../../redux/ControlUsuariosSlice";
 import "./Control_usuarios.css";
-import { useFetch, verificar_token } from "../../services/llamados";
+import { useFetch } from "../../services/llamados";
 import { cerrar_aside } from "../../redux/ControlUsuariosSlice";
 import { useLayoutEffect } from "react";
 import Read_usuarios from "../../components/Control-page/Usuarios-crud/read/Read_usuarios";
@@ -115,7 +115,7 @@ const Control_usuarios_page = () => {
 
   return (
     <div className="CUP-container">
-      <nav>
+      <nav  className="C-U-Nav">
         {pestaña_seleccionada != "grupos" &&
         pestaña_seleccionada != "permisos" ? (
           <div
