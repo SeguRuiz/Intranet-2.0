@@ -1,11 +1,13 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import flecha5 from "../../../assets/flechas/flechas5.png";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { IconButton, Tooltip } from "@mui/material";
+import UserInfoCard from "../../userInfoCard/UserInfoCard";
 import "./header.css";
+import { useSelector } from "react-redux";
 
 const Header_student = ({ imgSrc, buttonText }) => {
-  const location = useLocation();
+  const { userInSession } = useSelector((x) => x.Auth);
   const navigate = useNavigate();
   const { id_curso } = useParams();
 
@@ -13,18 +15,40 @@ const Header_student = ({ imgSrc, buttonText }) => {
   const renderCircularContent = () => {
     if (id_curso != undefined) {
       return (
-        <button className="btn-circular" onClick={() => navigate("/cursos")}>
-          {buttonText || "Campus Virtual"}
-        </button>
+        <Tooltip
+          sx={{ marginRight: "15px" }}
+          title={"Ir al campus virtual"}
+          placement="left"
+        >
+          <IconButton
+            className="btn-circular"
+            onClick={() => navigate("/cursos")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="30px"
+              viewBox="0 -960 960 960"
+              width="30px"
+              fill="var(--OnPrymary-color)"
+            >
+              <path d="m313-435 199 200q13 13.09 13.5 32.05.5 18.95-12.5 32.38Q500-157 480.18-157T448-171L171-447q-5.91-6.17-9.95-15.19-4.05-9.03-4.05-18.92 0-7.89 4.05-16.84 4.04-8.95 9.95-15.05l278-277q13.5-13 32.25-13T513-790q13 14 13 32.93 0 18.94-13 31.07L313-526h463q19.88 0 32.94 13Q822-500 822-481q0 21-13.06 33.5T776-435H313Z" />
+            </svg>
+          </IconButton>
+        </Tooltip>
       );
     }
-    return <div className="div-circular"></div>;
+    return (
+      <UserInfoCard
+        right={15}
+        nombre={`${userInSession?.nombre} ${userInSession?.apellidos}`}
+      />
+    );
   };
 
   return (
     <div className="header_style">
       <div className="flecha-container">
-        <img className="flecha5" src={flecha5} alt="flecha5" />
+        {/* <img className="flecha5" src={flecha5} alt="flecha5" /> */}
       </div>
       {renderCircularContent()}
     </div>

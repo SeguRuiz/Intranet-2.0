@@ -7,20 +7,21 @@ import { useDispatch } from "react-redux";
 import { setData } from "../../../../redux/modalSlice";
 import AddCurso from "./add/AddCurso";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { DecodeToken } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
 
-const Content = () => {
+const Content = ({ grupos = [] }) => {
   const { cursos } = useSelector((state) => state.modal);
   const { Es_admin } = useSelector((state) => state.IsAdmin);
+  const { userInSession } = useSelector((state) => state.Auth);
 
-  const { grupos_cursos, grupos } = useSelector(
-    (state) => state.ControlUsuarios
-  );
- 
+  console.log(userInSession);
+
+  const { grupos_cursos } = useSelector((state) => state.ControlUsuarios);
+
   const token = getCookie("token");
 
-  const { fetch_the_data } = useFetch(); 
+  const { fetch_the_data } = useFetch();
 
   const accion = useDispatch();
 
@@ -40,13 +41,16 @@ const Content = () => {
     data();
   }, []);
 
-  const grupos_del_usuario = () => {
+  const grupos_del_usuario = (grupos = []) => {
     const grupos_usuario_fun = [];
     const cursos_permitidos = [];
     const cursos_filtrados = [];
+    if (grupos[0] == undefined) {
+      return [];
+    }
     grupos.forEach((e) => {
-      e.integrantes.forEach((x) => {
-        x == jwtDecode(token).user_id && grupos_usuario_fun.push(e.id);
+      e?.integrantes.forEach((x) => {
+        x == DecodeToken(token).user_id && grupos_usuario_fun.push(e.id);
       });
     });
 
@@ -60,7 +64,9 @@ const Content = () => {
       curso != false && cursos_filtrados.push(c);
     });
 
-    return Es_admin ? [...cursos] : cursos_filtrados;
+    return Es_admin 
+      ? [...cursos]
+      : cursos_filtrados;
   };
 
   return (
@@ -68,7 +74,7 @@ const Content = () => {
       <div className="container">
         {Es_admin && <AddCurso />}
         <div className="diseno_content">
-          {grupos_del_usuario().map((e) => (
+          {grupos_del_usuario(grupos).map((e) => (
             <div key={e.id} id={e.id} className="note-container">
               <div
                 onClick={() => {

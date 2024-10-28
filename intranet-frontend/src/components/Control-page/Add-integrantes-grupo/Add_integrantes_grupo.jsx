@@ -37,6 +37,7 @@ const Add_integrantes_grupo = () => {
   const cancelar_seleccion = () => {
     accion(desactivar_seleccion_multiple());
     accion(set_seleccion_integrantes(false));
+    accion(set_grupo_seleccionado(null))
   };
 
   return (

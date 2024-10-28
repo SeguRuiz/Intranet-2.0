@@ -1,0 +1,77 @@
+.read-grupos-del-curso-dlg {
+  margin: auto;
+  margin-top: 10px;
+  border: none;
+  width: 30%;
+  height: 40%;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: var(--Surface-color);
+}
+
+.read-grupos-del-cursos-content {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.grupos-a-seleccionar {
+  display: grid;
+  grid-template-columns: 100% 0%;
+  overflow: hidden;
+  margin-bottom: 10px;
+  font-size: 25px;
+  height: 7vh;
+  background-color: var(--SurfaceLow-color);
+  color: var(--OnsurfaceVariant);
+  transition: 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.read-grupos-del-cursos-content-vacio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  gap: 10px;
+}
+
+.grupos-a-seleccionar-selected {
+  display: grid;
+  grid-template-columns: auto 20%;
+  overflow: hidden;
+  margin-bottom: 10px;
+  font-size: 25px;
+  height: 10vh;
+  background-color: var(--SecondaryContainer-color);
+  color: var(--OnSecondary-color);
+  transition: 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.grupo-a-seleccionar-check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grupo-a-seleccionar-nombre {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.grupo-a-seleccionar-check {
+  background-color: var(--PrymaryContainer-color);
+}
+
+.grupo-a-seleccionar-check > svg {
+  fill: var(--OnPrymary-color);
+}

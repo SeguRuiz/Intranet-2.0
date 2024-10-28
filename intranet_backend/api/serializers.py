@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuarios
-        fields = [ 'id', 'first_name', 'last_name', 'email','cedula', 'password', 'rol_id', 'username']
+        fields = [ 'id', 'first_name', 'last_name', 'email','cedula', 'password', 'rol_id', 'username', 'is_staff']
 
 class RolesSerializer(serializers.ModelSerializer):
     class Meta:

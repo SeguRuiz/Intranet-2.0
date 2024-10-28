@@ -9,8 +9,13 @@ import { useFetch } from "../../services/llamados";
 import { set_grupos } from "../../redux/ControlUsuariosSlice";
 import "./Cursos_page.css";
 import { getCookie } from "../../utils/Cookies";
+import { useSelector } from "react-redux";
+import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_actions_cursos";
+import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 
 const Cursos_page = () => {
+  const { grupos } = useSelector((state) => state.ControlUsuarios);
+  const { userInSession } = useSelector((x) => x.Auth);
   const studentLinks = [
     { href: "/social", label: "Social" },
     { href: "/anuncios ", label: "Anuncios" },
@@ -21,7 +26,7 @@ const Cursos_page = () => {
   const accion = useDispatch();
   const { fetch_the_data } = useFetch();
   const token = getCookie("token");
-  
+
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
@@ -52,7 +57,12 @@ const Cursos_page = () => {
         <NavBar links={studentLinks} />
       </div>
       <div className="cursos-page-content-area">
-        <Content />
+        <Content grupos={grupos} />
+        {userInSession?.is_staff && (
+          <Admin_actions_cursos>
+            <Go_to_admin />
+          </Admin_actions_cursos>
+        )}
       </div>
     </div>
   );

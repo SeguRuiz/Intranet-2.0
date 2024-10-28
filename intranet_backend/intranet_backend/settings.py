@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "files.apps.FilesConfig",
     "cursos_contenidos.apps.CursosContenidosConfig",
     "tareas.apps.TareasConfig",
+    "reportes.apps.ReportesConfig",
     "rest_framework_simplejwt",
 ]
 

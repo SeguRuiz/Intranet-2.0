@@ -3,8 +3,10 @@
   display: flex;
   place-items: center;
   cursor: pointer;
+  color: var(--OnsurfaceVariant);
+  font-size: 18px;
 }
 
 .subContenido:hover{
-  background-color: gainsboro;
+  background-color: var(--SurfaceContainer-color);
 }

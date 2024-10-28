@@ -1,6 +1,6 @@
-.Delete-file-btn{
-    background-color: #dcdcdc;
+.Delete-file-btn-1{
     
+    background-color: var(--Surface-color);
     border-radius: 100%;
     display: flex;
    

@@ -1,10 +1,12 @@
 import Select_role from "../../select-role/Select_role";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./Read_usuarios.css";
 import { useEffect, useRef, useState } from "react";
 import { agregar_a_seleccion_multiple } from "../../../../redux/ControlUsuariosSlice";
 import { eliminar_de_seleccion_multiple } from "../../../../redux/ControlUsuariosSlice";
 import { useCustomSelection } from "../../../../utils/customHooks";
+import { Avatar } from "@mui/material";
+import { stringAvatar } from "../../../../utils/Utils";
 
 const Select_usuarios = ({
   username,
@@ -15,25 +17,71 @@ const Select_usuarios = ({
   email,
   nombre,
 }) => {
-  const { seleccion_multiple_activado } = useSelector((e) => e.ControlUsuarios);
-  const { click_Checkbox, selected } = useCustomSelection(
+  const accion = useDispatch();
+  const {
+    seleccion_multiple_activado,
+    usuarios_en_grupos,
+    grupo_seleccionado,
+    seleccion_multiple,
+  } = useSelector((e) => e.ControlUsuarios);
+  const { click_Checkbox, selected, setSelected } = useCustomSelection(
     eliminar_de_seleccion_multiple,
     agregar_a_seleccion_multiple,
     user_id,
     seleccion_multiple_activado
   );
   const userCheckBox = useRef();
+  const [usuarioEnGrupo, setUsuarioGrupo] = useState(false);
+  const [userInSeleccion, setUserInSeleccion] = useState(false);
 
-  return (
-    <div
-      className={
-        seleccion_multiple_activado && !selected
+  useEffect(() => {
+    const user =
+      usuarios_en_grupos.find((x) => x.usuario_id == user_id) ?? false;
+    const user_seleccionado =
+      seleccion_multiple.find((x) => x == user_id) ?? false;
+    user != false ? setUsuarioGrupo(true) : setUsuarioGrupo(false);
+    if (grupo_seleccionado != null && user_seleccionado != false) {
+      accion(eliminar_de_seleccion_multiple(user_id));
+      setSelected(false);
+    }
+  }, [grupo_seleccionado, usuarios_en_grupos, seleccion_multiple_activado]);
+
+  const select_style = () => {
+    switch (grupo_seleccionado) {
+      case null:
+        return seleccion_multiple_activado && !selected
           ? "user-info-card-animated"
           : selected && seleccion_multiple_activado
           ? "user-info-card-selected"
-          : "user-info-card"
-      }
-      onClick={click_Checkbox}
+          : "user-info-card";
+
+      default:
+        if (usuarioEnGrupo) {
+          return "user-info-card-en-grupo";
+        } else {
+          return seleccion_multiple_activado && !selected
+            ? "user-info-card-animated"
+            : selected && seleccion_multiple_activado
+            ? "user-info-card-selected"
+            : "user-info-card";
+        }
+    }
+  };
+
+  return (
+    <div
+      className={select_style()}
+      onClick={() => {
+        switch (grupo_seleccionado) {
+          case null:
+            click_Checkbox();
+            break;
+
+          default:
+            !usuarioEnGrupo && click_Checkbox();
+            break;
+        }
+      }}
     >
       <input
         type="checkbox"
@@ -43,7 +91,10 @@ const Select_usuarios = ({
         ref={userCheckBox}
       />
       <div className="user-Profile">
-        <div className="user-circle-info"></div>
+           <div className="user-avatar-container">
+          <Avatar  {...stringAvatar(`${nombre} ${apellidos}`)} />
+          </div>
+        
         <div className="user-name">
           <p
             style={{
@@ -52,9 +103,7 @@ const Select_usuarios = ({
               overflow: "hidden",
               maxWidth: "70px",
             }}
-          >
-           
-          </p>
+          ></p>
           {!selected && !seleccion_multiple_activado && (
             <Select_role user_id={user_id} rol_de_usuario_id={rol_id} />
           )}

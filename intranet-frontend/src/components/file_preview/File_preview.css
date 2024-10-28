@@ -6,6 +6,11 @@
     
 }
 
+.empty-file-content{
+  height: 50%;
+  width: 50%;
+}
+
 .file-iframe{
   position: absolute;
   top: 0;

@@ -2,6 +2,8 @@
     font-family: "Roboto", sans-serif;
 }
 
+
+
 :root{
     --Surface-color: #f7f9ff;
     --SurfaceContainer-color: #ebeef4;
@@ -23,4 +25,8 @@
 
     --ErrorContainer-color:#ffdad6;
     --OnError-color:#410002;
+}
+
+#root{
+    background-color: var(--SurfaceBrigth-color);
 }

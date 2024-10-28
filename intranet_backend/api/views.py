@@ -1,3 +1,4 @@
+from cursos.models import Intengrantes_de_grupo
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -119,6 +120,7 @@ def aignar_rol_a(request, pk=None):
         rol = get_object_or_404(Roles, tipo=request.data["rol"])
         rol_serializer = RolesSerializer(instance=rol)
         user.rol_id = rol
+        user.is_staff = rol.tipo.upper() == "ADMIN"
         user.save()
 
         if rol.tipo in ["estudiante", "Estudiante"]:
@@ -239,17 +241,32 @@ def get_user_info(request, pk):
     try:
         user = get_object_or_404(Usuarios, pk=pk)
         user_data = UsersSerializer(instance=user)
-        role = Roles.objects.get(pk=user_data.data['rol_id'])
+        role = Roles.objects.get(pk=user_data.data["rol_id"])
+        grupos = Intengrantes_de_grupo.objects.filter(
+            usuario_id=user_data.data["id"]
+        ).values("grupo_id")
 
-       
         role_data = RolesSerializer(instance=role)
 
         return Response(
-            {"id": user_data.data["id"], "rol": role_data.data["tipo"]},
+            {
+                "id": user_data.data["id"],
+                "rol": role_data.data["tipo"],
+                "nombre": user_data.data["first_name"],
+                "apellidos": user_data.data["last_name"],
+                "is_staff": user_data.data["is_staff"],
+                "grupos": grupos,
+            },
             status=status.HTTP_200_OK,
         )
     except Roles.DoesNotExist:
         return Response(
-            {"id": user_data.data["id"], "rol": "no definido"},
+            {
+                "id": user_data.data["id"],
+                "rol": "no definido",
+                "nombre": user_data.data["first_name"],
+                "apellidos": user_data.data["last_name"],
+                "is_staff": user_data.data["is_staff"],
+            },
             status=status.HTTP_200_OK,
         )

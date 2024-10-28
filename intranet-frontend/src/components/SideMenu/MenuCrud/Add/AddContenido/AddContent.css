@@ -1,0 +1,116 @@
+.add-cont-btn{
+  background-color: var(--Surface-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 50px;
+  padding: 10px;
+  height: 50%;
+  width: 95%;
+  border: none;
+  color: var(--PrymaryContainer-color);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  font-size: 18px;
+  padding-right: 18px;
+  user-select: none;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 5px;
+}
+
+.add-cont-btn-closed{
+    background-color: var(--Surface-color);
+    justify-self: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border-radius: 50px;
+    padding: 10px;
+    height: 50%;
+    width: 45%;
+    overflow: hidden;
+    border: none;
+    color: var(--PrymaryContainer-color);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    font-size: 18px;
+    
+    user-select: none;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 5px;
+}
+
+.add-cont-retractile{
+    display: grid;
+    grid-template-columns: 20% 0%;
+    height: 100%;
+    width: 100%;
+    transition: 0.5s;
+   
+}
+.add-cont-retractile-open{
+    display: grid;
+    grid-template-columns: 20% 80%;
+    height: 100%;
+    width: 100%;
+    transition: 0.5s;
+   
+}
+
+.add-cont-btn:hover{
+    background-color: var(--SecondaryContainer-color);
+    color: var(--OnSecondary-color);
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+
+.add-cont-btn-closed:hover{
+    background-color: var(--SecondaryContainer-color);
+    color: var(--OnSecondary-color);
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+
+.add-cont-btn:hover > svg {
+    fill: var(--OnSecondary-color);
+}
+
+.add-cont-btn-closed:hover > svg {
+    fill: var(--OnSecondary-color);
+}
+
+.add-cont-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.add-cont-btn-area{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    padding-bottom: 4px;
+}
+
+.Add-cont-input-area{
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    background-color: var(--Surface-color);
+    height: 55px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top: 38px;
+   overflow: hidden;
+}
+
+.add-cont-btn-closed:focus{
+    outline: none;
+}
+.add-cont-btn:focus{
+    outline: none;
+}

@@ -2,7 +2,13 @@
   display: grid;
   grid-template-columns: 50% 50%;
   height: 10vh;
-  border-top: 1.5px solid rgba(0, 0, 0, 0.2);
+  color: var(--OnsurfaceVariant);
+  padding-right: 10px;
+  
+}
+
+.subcontenido-edit-container:hover{
+  background-color: var(--SurfaceContainer-color);
 }
 
 .subcontenidos-nombre {
@@ -16,5 +22,6 @@
 .subcontenidos-btns {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: end;
+  gap: 10px;
 }

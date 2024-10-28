@@ -1,8 +1,8 @@
 import uuid
 
-from api.models import Usuarios
 from django.core.validators import MinLengthValidator
 from django.db import models
+from api.models import Usuarios
 
 # Create your models here.
 
@@ -57,7 +57,7 @@ class Intengrantes_de_grupo(models.Model):
         unique=True, primary_key=True, null=False, editable=False, default=uuid.uuid4
     )
     grupo_id = models.ForeignKey(Grupos, on_delete=models.CASCADE, null=False)
-    usuario_id = models.ForeignKey(Usuarios, on_delete=models.CASCADE, null=False)
+    usuario_id = models.OneToOneField(Usuarios, on_delete=models.CASCADE, null=False)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     

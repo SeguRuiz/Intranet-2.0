@@ -9,10 +9,13 @@ const initialState = {
   seleccionando_integrantes: false,
   grupo_seleccionado: null,
   mostrando_usuarios_grupo: null,
+  usuario_a_reportar: null,
+  escojiendo_usuario: false,
   grupos: [],
   sedes: [],
   usuarios: [],
   roles: [],
+  usuarios_en_grupos: [],
   grupos_cursos: [],
   seleccion_multiple_activado: false,
   seleccion_multiple_activado_sedes: false,
@@ -28,6 +31,26 @@ const ControlUsuarios = createSlice({
   name: "ControlUsuarios",
   initialState,
   reducers: {
+    set_escojiendo_usuario: (state, action) => {
+      state.escojiendo_usuario = action.payload
+    },
+    set_usuario_a_reportar: (state, action) => {
+      state.usuario_a_reportar = action.payload
+    },
+    agregar_usuarios_en_grupo: (state, action) => {
+      const { grupo_id, usuarios } = action.payload;
+      usuarios.forEach((e) => {
+        state.usuarios_en_grupos.push({ grupo_id:grupo_id, usuario_id: e });
+      });
+    },
+    eliminar_usuarios_en_grupo: (state, action) =>{
+       const {usuario_id} = action.payload 
+       const usuarios_grupos_filtered = state.usuarios_en_grupos.filter(x => x.usuario_id != usuario_id) 
+       state.usuarios_en_grupos = usuarios_grupos_filtered
+    },
+    set_usuarios_en_grupos: (state, action) => {
+      state.usuarios_en_grupos = action.payload;
+    },
     eliminar_grupos_cursos: (state, action) => {
       const { id } = action.payload;
 
@@ -81,6 +104,13 @@ const ControlUsuarios = createSlice({
           e.integrantes = integrantes_filtrados;
         }
       });
+    },
+    eliminar_usuarios_en_grupo_por_grupo: (state, action) => {
+       const {grupo_id} = action.payload
+
+       const usuarios_filtrados = state.usuarios_en_grupos.filter(x => x.grupo_id != grupo_id)
+
+       state.usuarios_en_grupos = usuarios_filtrados
     },
     set_usuarios: (state, action) => {
       state.usuarios = action.payload;
@@ -273,5 +303,11 @@ export const {
   set_grupos_cursos,
   agregar_grupos_cursos,
   eliminar_grupos_cursos,
+  agregar_usuarios_en_grupo,
+  set_usuarios_en_grupos,
+  eliminar_usuarios_en_grupo,
+  eliminar_usuarios_en_grupo_por_grupo,
+  set_usuario_a_reportar,
+  set_escojiendo_usuario
 } = ControlUsuarios.actions;
 export default ControlUsuarios.reducer;

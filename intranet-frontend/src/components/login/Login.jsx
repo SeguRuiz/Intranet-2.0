@@ -12,7 +12,7 @@ import { setUserSession } from "../../redux/AuthSlice";
 import { useDispatch } from "react-redux";
 import { setAutorized } from "../../redux/AuthSlice";
 import { setCookie, getCookie } from "../../utils/Cookies";
-import { jwtDecode } from "jwt-decode";
+import { DecodeToken } from "../../services/llamados";
 import { actualizar } from "../../redux/AuthSlice";
 
 export const Login = () => {
@@ -54,10 +54,8 @@ export const Login = () => {
     setCookie("token", status_fetch[1].access, 1);
     setCookie("refresh", status_fetch[1].refresh, 1);
     accion(setAutorized(true));
-    accion(actualizar())
+    accion(actualizar());
     navigate("/cursos");
-
-    
   };
 
   return (

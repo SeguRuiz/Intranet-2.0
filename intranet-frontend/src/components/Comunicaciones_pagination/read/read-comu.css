@@ -1,0 +1,167 @@
+.avisos-list-cont {
+  background-color: var(--SurfaceContainer-color);
+  height: 100%;
+  width: 100%;
+
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 15%;
+}
+
+.avisos-mayor-container {
+  display: grid;
+  grid-template-columns: 100% 0%;
+  height: 90%;
+  width: 70%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  border-radius: 10px;
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+.add-avisos-area {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.avisos-mayor-container-add {
+  display: grid;
+  grid-template-columns: 0% 100%;
+  height: 70%;
+  width: 30%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: 0.3s;
+
+  background-color: var(--SurfaceContainer-color);
+}
+
+.avisos-list {
+  background-color: var(--SurfaceContainer-color);
+  height: 100%;
+  overflow: hidden;
+
+  padding: 5px;
+}
+
+.avisos-list-vacio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 30px;
+    
+    background-color: var(--SurfaceContainer-color);
+    height: 100%;
+    overflow: hidden;
+    color: var(--OnsurfaceVariant);
+    padding: 5px;
+  }
+
+.pagination-area {
+  display: flex;
+  justify-content: end;
+
+  align-items: center;
+  padding-right: 10px;
+  background-color: var(--SurfaceDarked-color);
+  overflow: hidden;
+}
+
+.asunto-container {
+  background-color: var(--Surface-color);
+  height: 48%;
+  border-radius: 10px;
+  color: var(--OnsurfaceVariant);
+  margin-bottom: 5px;
+  font-size: 25px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 25% auto;
+}
+
+.asunto-container:hover {
+  .asunto-date-info {
+    height: 0px;
+    opacity: 0;
+  };
+
+  .edit-asunto-options{
+    width: 40px;
+    opacity: 1;
+  }
+}
+
+.asunto-info-area {
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10px;
+  align-items: center;
+  background-color: var(--PrymaryContainer-color);
+  color: var(--OnPrymary-color);
+
+}
+
+
+
+.asunto-date-info {
+  background-color: var(--SecondaryContainer-color);
+  color: var(--OnSecondary-color);
+  position: absolute;
+  justify-self: end;
+  height: 35px;
+ 
+  align-self: flex-end;
+  width: 185px;
+  opacity: 1;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+  transition: 0.3s;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.asunto-desc-info{
+    font-size: 20px;
+    resize: none;
+    text-align: start;
+    padding: 5px;
+    padding-left: 10px;
+    border: none;
+    color: var(--OnsurfaceVariant);
+    background-color: var(--SurfaceBrigth-color);
+
+}
+
+.asunto-desc-info:focus{
+    outline: none;
+}
+
+.edit-asunto-options{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--SecondaryContainer-color);
+    position: absolute;
+    align-self: flex-end;
+    justify-self: flex-end;
+    height: 35px;
+    width: 0px;
+    margin-bottom: 35px;
+    border-top-left-radius: 25px;
+    opacity: 0;
+    transition: 0.3s;
+    border-bottom-left-radius: 25px;
+    cursor: pointer;
+}
+
+

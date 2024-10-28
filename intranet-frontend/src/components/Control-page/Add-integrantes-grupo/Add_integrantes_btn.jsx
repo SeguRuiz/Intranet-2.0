@@ -9,6 +9,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useCustomNotis } from "../../../utils/customHooks";
 import { getCookie } from "../../../utils/Cookies";
+import { agregar_usuarios_en_grupo } from "../../../redux/ControlUsuariosSlice";
 
 const Add_integrantes_btn = () => {
   const { grupo_seleccionado, seleccion_multiple } = useSelector(
@@ -38,9 +39,17 @@ const Add_integrantes_btn = () => {
 
       console.log(data);
       if (data[0] == 200) {
+        console.log(data[0]);
+
         ok_mensaje();
         accion(
           agregar_integrantes_de_grupo({
+            grupo_id: grupo_seleccionado,
+            usuarios: seleccion_multiple,
+          })
+        );
+        accion(
+          agregar_usuarios_en_grupo({
             grupo_id: grupo_seleccionado,
             usuarios: seleccion_multiple,
           })

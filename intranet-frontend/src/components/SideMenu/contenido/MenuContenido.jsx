@@ -11,15 +11,24 @@ const MenuContenido = ({ nombre, subcontenidos = [] }) => {
 
   return (
     <div className="menu-contenido" style={{ height: abrir ? "auto" : "50px" }}>
-      <div className="menu-contenido-titulo" onClick={abrirCerrar}>
-        <p style={{ marginLeft: "10px" }}>{nombre}</p>
+      <div
+        className={
+          abrir ? "menu-contenido-titulo-selected" : "menu-contenido-titulo"
+        }
+        onClick={abrirCerrar}
+      >
+        {abrir ? (
+          <strong style={{ marginLeft: "10px" }}>{nombre}</strong>
+        ) : (
+          <p style={{ marginLeft: "10px" }}>{nombre}</p>
+        )}
         {abrir ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="40px"
             viewBox="0 -960 960 960"
             width="35px"
-            fill="#ffff"
+            fill="var(--OnSecondary-color)"
           >
             <path d="m280-400 200-200.67L680-400H280Z" />
           </svg>
@@ -29,13 +38,13 @@ const MenuContenido = ({ nombre, subcontenidos = [] }) => {
             height="40px"
             viewBox="0 -960 960 960"
             width="35px"
-            fill="#ffff"
+            fill="var(--OnsurfaceVariant)"
           >
             <path d="M480-360 280-559.33h400L480-360Z" />
           </svg>
         )}
       </div>
-      <SubCont subcontenidos={subcontenidos}/>
+      <SubCont subcontenidos={subcontenidos} />
     </div>
   );
 };

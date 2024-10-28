@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { set_curso } from "../../../../redux/ControlUsuariosSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";

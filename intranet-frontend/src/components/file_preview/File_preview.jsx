@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import { useFetch } from "../../services/llamados";
 import { useEffect, useLayoutEffect, useState } from "react";
-
+import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { add_archivos_subcontenidos } from "../../redux/CursosContenidosSlice";
 import { useParams } from "react-router-dom";
+import Select_file from "../../assets/Empty/Select_file.svg";
 
 import "./File_preview.css";
 function File_preview() {
@@ -14,13 +15,12 @@ function File_preview() {
   const { archivo_mostrandose } = useSelector(
     (state) => state.CursosContenidos
   );
-  const {  fetch_the_data, fetching } = useFetch();
+  const { fetch_the_data, fetching } = useFetch();
   const { Arhivos_subcontenidos, Contenidos } = useSelector(
     (state) => state.CursosContenidos
   );
 
   const fetch_archivo = async () => {
-    
     const data = await fetch_the_data(
       "http://localhost:8000/files/get_archivo",
       null,
@@ -76,9 +76,11 @@ function File_preview() {
   return (
     <>
       {!fetching && archivo == null ? (
-        <h1>default</h1>
+        <>
+          <img src={Select_file} alt="" className="empty-file-content" />
+        </>
       ) : fetching ? (
-        <h1>cargando</h1>
+        <CircularProgress />
       ) : (
         <div className="file-container">
           <iframe src={archivo} className="file-iframe"></iframe>

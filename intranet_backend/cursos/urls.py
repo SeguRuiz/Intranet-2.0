@@ -11,7 +11,9 @@ from .views import (
     agregar_lista_integrantes,
     get_grupos_y_integrantes,
     eliminar_lista_grupos,
-    eliminar_integrantes
+    eliminar_integrantes,
+    usuarios_en_grupos,
+    get_usurios_de_grupo
 )
 
 urlpatterns = [
@@ -33,5 +35,7 @@ urlpatterns = [
     path('agregar_lista_integrantes/', agregar_lista_integrantes, name='agregar-lista-integrantes'),
     path('get_grupos_integrantes/', get_grupos_y_integrantes, name='get-grupos-e-integrantes'),
     path('eliminar_lista_grupos/', eliminar_lista_grupos, name='eliminar-listas-grupos'),
-    path('eliminar_integrantes/',eliminar_integrantes, name='eliminar-integrantes-custom' )
+    path('eliminar_integrantes/',eliminar_integrantes, name='eliminar-integrantes-custom' ),
+    path('usuarios_en_grupos/', usuarios_en_grupos, name='usuarios_en_grupos'),
+    path('get_usuarios_grupo/', get_usurios_de_grupo, name='get-usuarios-de-grupo')
 ]

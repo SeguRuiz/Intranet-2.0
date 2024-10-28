@@ -9,12 +9,12 @@ const ReadSubComp = ({ subcontenido = [] }) => {
         <p style={{ marginLeft: "10px" }}>{subcontenido.nombre}</p>
       </div>
       <div className="subcontenidos-btns">
+       
+        <Add_file2 id={subcontenido.id} contenido_id={subcontenido.contenido_id ?? subcontenido.contenido} archivo={subcontenido.archivo}/>
         <DeleteSubCont
           id={subcontenido.id}
           contenido_id={subcontenido.contenido_id ?? subcontenido.contenido}
         />
-         
-        <Add_file2 id={subcontenido.id} contenido_id={subcontenido.contenido_id ?? subcontenido.contenido} archivo={subcontenido.archivo}/>
       </div>
     </div>
   );

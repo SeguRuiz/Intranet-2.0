@@ -6,9 +6,10 @@ import { set_grupos } from "../../../../redux/ControlUsuariosSlice";
 import { set_fetching } from "../../../../redux/FetchsSlice";
 import { useCustomNotis } from "../../../../utils/customHooks";
 import { getCookie } from "../../../../utils/Cookies";
+import { set_usuarios_en_grupos } from "../../../../redux/ControlUsuariosSlice";
 
 const Delete_grupos = () => {
-  const { seleccion_multiple_grupos, grupos } = useSelector(
+  const { seleccion_multiple_grupos, grupos, usuarios_en_grupos } = useSelector(
     (e) => e.ControlUsuarios
   );
   const { ok_mensaje, error_mensaje } = useCustomNotis(
@@ -37,11 +38,17 @@ const Delete_grupos = () => {
     if (data[0] == 200) {
       ok_mensaje();
       let grupos_copia = [...grupos];
+      let usuarios_copia = [...usuarios_en_grupos];
       seleccion_multiple_grupos.forEach((e) => {
         const grupos_filtrados = grupos_copia.filter((x) => x.id != e);
+        const usuarios_filtrados = usuarios_copia.filter(
+          (x) => x.grupo_id != e
+        );
+        usuarios_copia = usuarios_filtrados;
         grupos_copia = grupos_filtrados;
       });
       accion(set_grupos(grupos_copia));
+      accion(set_usuarios_en_grupos(usuarios_copia));
       accion(vaciar_ids_temporales("grupos"));
       accion(set_fetching(false));
     } else {
