@@ -1,13 +1,14 @@
 import React from "react";
 import "./grupo.css";
 
-const Grupo = ({ integrantes, titulo }) => {
+const Grupo = ({ titulo, integrantes }) => {
   return (
     <div className="profesores-container">
       <table className="profesores-table">
-        
         <thead>
-        {titulo}
+          <tr>
+            <th className="encabezado">{titulo}</th>
+          </tr>
           <tr>
             <th>Perfil</th>
             <th>Nombre</th>

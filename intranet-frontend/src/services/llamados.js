@@ -169,6 +169,7 @@ const refrescar_token = async () => {
   const refresh = getCookie("refresh");
   try {
     const response = await fetch("http://localhost:8000/api/token/refresh/", {
+
       // cambias el link por tu refresh link
       method: "POST",
       headers: {
@@ -179,6 +180,7 @@ const refrescar_token = async () => {
       }),
     });
     const data = await response.json();
+    console.log(data);
     
     return data.access;
   } catch (error) {

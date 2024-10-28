@@ -1,14 +1,14 @@
 import { deleteContenidosTareas } from "../../../../redux/ObtenerDatosTareaSlice";
 import { useDispatch } from "react-redux";
 import { useFetch } from "../../../../services/llamados";
+import './Tarea.css'
 
 const Borrar_tarea = ({ id }) => {
   const accion = useDispatch();
   const token = sessionStorage.getItem("token");
   const { fetch_the_data } = useFetch();
-  console.log(id);
 
-  const deleteC = async () => {
+  const borrarTarea = async () => {
     
     fetch_the_data("http://localhost:8000/info_tareas/delete", token, "DELETE", null, id );
     accion(deleteContenidosTareas({ id: id }));
@@ -16,7 +16,7 @@ const Borrar_tarea = ({ id }) => {
 
   return (
     <div>
-      <button id={id} onClick={deleteC}>
+      <button id={id} onClick={borrarTarea} className="btn-delete">
         Eliminar
       </button>
     </div>

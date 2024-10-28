@@ -70,17 +70,18 @@ const Tarea = () => {
   }, []);
 
   return (
-    <div>
-      <button className="b-t-n" onClick={modalAbierto}>
+    <div className="main-container">
+      <button className="btn-add-task" onClick={modalAbierto}>
         Agregar Tarea
       </button>
       <Modal isOpen={isModalOpen} onClose={modalCerrado}>
-        <form onSubmit={enviarDatos}>
+        <form className="task-form" onSubmit={enviarDatos}>
           <input
             type="text"
             placeholder="Titulo Contenido"
             onChange={(e) => setTitle(e.target.value)}
             value={title}
+         
           />
           <input
             type="text"
@@ -101,29 +102,28 @@ const Tarea = () => {
             value={dateCheck}
           />
 
-          <button>Subir Tarea</button>
+          <button className="btn-submit-task">Subir Tarea</button>
         </form>
       </Modal>
-      <div className="container_filter">
-        <div>Atrasadas</div>
-        <div>Revisadas</div>
-        <div>Entregadas</div>
+      <div className="filter-container">
+        <div className="filter-btn">Atrasadas</div>
+        <div className="filter-btn">Revisadas</div>
+        <div className="filter-btn">Entregadas</div>
       </div>
 
       {contenidos_tareas.map((contenido, index) => (
-        <div key={index} className="container_main">
-          <div className="content_name_HW">Tarea: {contenido.titulo}</div>
-          <div className="content_date">Entrega: {contenido.fecha_entrega}</div>
+        <div key={index} className="task-container">
+          <div className="task-name">Tarea: {contenido.titulo}</div>
+          <div className="task-date">Entrega: {contenido.fecha_entrega}</div>
           <div
-            className="content_description"
+            className="task-info"
             onClick={() => {
               navigate(`/cursos/${id_curso}/${contenido.id}/contenido_tarea`);
             }}
           >
             Más información
           </div>
-          <div className="content_date_check">Sin entregar</div>
-          {/* <div className="content_date_check">Sin entregar {contenido.fecha_revision}</div> */}
+          <div className="task-status">Sin entregar</div>
           <Borrar_tarea id={contenido.id} />
         </div>
       ))}

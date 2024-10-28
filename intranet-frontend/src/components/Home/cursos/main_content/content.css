@@ -8,7 +8,7 @@
 .note-container {
   height: 200px;
   width: 200px;
-  border: black solid 1px;
+  border: rgb(255, 255, 255) solid 1px;
   justify-self: center;
   display: grid;
   grid-template-rows: 80% auto;

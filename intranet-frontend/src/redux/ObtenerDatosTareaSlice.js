@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   contenidos_tareas: [],
   tareas_asignadas: [],
+  archivo_mostrandose: null,
 };
 
 const datos_tarea = createSlice({
@@ -30,6 +31,22 @@ const datos_tarea = createSlice({
         }
       });
     },
+    set_archivo_mostrandose: (state, action) => {
+      state.archivo_mostrandose = action.payload;
+    },
+    borrar_archivos_contenidos: (state, action) => {
+      const { contenido_id } = action.payload;
+
+      const contenidos_copy = [...state.Contenidos];
+
+      contenidos_copy.forEach((e) => {
+        if (e.id == contenido_id) {
+          x.archivo = null;
+        }
+      });
+
+      state.Contenidos = contenidos_copy;
+    },
   },
 });
 
@@ -38,5 +55,7 @@ export const {
   setDatos,
   deleteContenidosTareas,
   subirArchivosTareas,
+  set_archivo_mostrandose,
+  borrar_archivos_contenidos,
 } = datos_tarea.actions;
 export default datos_tarea.reducer;
