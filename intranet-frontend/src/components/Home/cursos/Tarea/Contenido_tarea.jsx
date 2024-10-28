@@ -1,19 +1,16 @@
+import "./Contenido_tarea.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFetch } from "../../../../services/llamados";
 import { useDispatch } from "react-redux";
 import { setDatos } from "../../../../redux/ObtenerDatosTareaSlice";
-import Cuadro_evaluacion from "./Cuadro_evaluacion";
-import Requerimientos from "./Requerimientos";
-import Obtener_tareas from "./Subir_tareas";
+import Subir_tareas from "./Subir_tareas_prof";
+
 const Contenido_tarea = () => {
   const { id_curso, id_tarea } = useParams(); // con esto tenemos( capturamos ) el id del curso y de la tarea individual
-
   const accion = useDispatch();
-
   const { fetch_the_data } = useFetch();
-
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
@@ -39,21 +36,28 @@ const Contenido_tarea = () => {
     return <div>No se encontró la tarea seleccionada.</div>;
   }
 
+  const subirTareaStudent = () => {
+    
+  };
+
   return (
-    <div>
-      <h1>Detalles de la Tarea</h1>
-      <div>
-        <h2>{tareaSeleccionada.titulo}</h2>
-        <p>Descripción: {tareaSeleccionada.descripcion}</p>
-      </div>
-      <div>
-        <Requerimientos />
-        <Cuadro_evaluacion />
+    <div className="outer-container">
+      <div className="container-c-task">
+        <h1 className="title-c-task">Detalles de la Tarea</h1>
+        <div>
+          <h2>{tareaSeleccionada.titulo}</h2>
+          <p>Descripción: {tareaSeleccionada.descripcion}</p>
+        </div>
         <div>
           <p>Fecha limite de entrega:{tareaSeleccionada.fecha_entrega}</p>
-          <p>Sin entregar</p>
+          <p class="status">Sin entregar</p>
+          <Subir_tareas />
         </div>
-        <Obtener_tareas />
+      </div>
+      <div className="tu-trabajo">
+        <p class="section-title">Tu trabajo</p>
+        <input className="upload-section" type="file" />
+        <button>Subir Tarea</button>
       </div>
     </div>
   );

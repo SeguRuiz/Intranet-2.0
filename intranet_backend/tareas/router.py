@@ -6,7 +6,7 @@ router.register(
     prefix=r'info', basename='info-tareas', viewset=Info_tareasCreate
 )
 router.register(
-    prefix=r'tasks', basename='tareas-asignadas', viewset=Tareas_asignadasCreate
+    prefix=r'tasks_student', basename='tareas-asignadas', viewset=Tareas_asignadasCreate
 )
 
 router.register(

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 const Contenido_tarea_page = () => {
   const { id_curso } = useParams();
   
-  console.log(ids);
+ 
   
   const cursosLinks = [
     { href: `/cursos/${id_curso}/contenidos`, label: "Contenidos" },

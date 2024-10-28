@@ -199,6 +199,7 @@ export const verificar_token = async (token) => {
 const refrescar_token = async (refresh) => {
   try {
     const response = await fetch("http://localhost:8000/api/token/refresh/", {
+
       // cambias el link por tu refresh link
       method: "POST",
       headers: {

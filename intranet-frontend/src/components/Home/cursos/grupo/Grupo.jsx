@@ -3,7 +3,7 @@ import "./grupo.css";
 import { Avatar } from "@mui/material";
 import { stringAvatar } from "../../../../utils/Utils";
 
-const Grupo = ({ integrantes, titulo }) => {
+const Grupo = ({ titulo, integrantes }) => {
   return (
     <div className="profesores-container">
       <table className="profesores-table">

@@ -3,6 +3,7 @@ import { Avatar } from "@mui/material";
 import { stringAvatar } from "../../utils/Utils";
 import { Tooltip } from "@mui/material";
 const UserInfoCard = ({ nombre, right = 0, left = 0 }) => {
+  
   return (
     <div
       className="UserInfoContainer"
