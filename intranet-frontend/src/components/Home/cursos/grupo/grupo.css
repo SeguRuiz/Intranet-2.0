@@ -2,40 +2,60 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 15px;
+  padding-bottom: 10px;
 }
 
 .profesores-table {
-  width: 60%;
+  width: 80%;
   border-collapse: collapse; /*permite tomar todos los bordes de la tabla y visualizarlos 
   como uno solo sin necesidad que se vean gruesos al chocar entre ambos. 
   También tiene "separate" el cual le da espaciado a toda la tabla */
   text-align: left;
+
 }
 
 .profesores-table th,
 .profesores-table td {
   /* toma los titulos de la tabla y los datos dentro de ella*/
   padding: 12px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--SurfaceLow-color);
 }
 
 .profesores-table th {
   /* toma solo los titulos de la tabla*/
-  background-color: #f4f4f4;
+  background-color: var(--PrymaryContainer-color);
+  color: var(--OnPrymary-color);
   font-weight: bold;
+  
 }
 
 .perfil-icon {
   /* se encarga de crear el circulo*/
   width: 50px;
   height: 50px;
-  background-color: #ccc;
   border-radius: 50%;
+  background-color: var(--SecondaryContainer-color);
   margin: 0 auto;
 }
 
 .profesores-table td {
   /*toma los datos dentro de la tabla // td = datacell*/
   text-align: center;
+}
+
+.profesores-table td {
+  background-color: var(--SurfaceLow-color);
+  color: var(--OnsurfaceVariant);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
+.table-titulo{
+  background-color: var(--SurfaceBrigth-color);
+}
+
+.td-perfil-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

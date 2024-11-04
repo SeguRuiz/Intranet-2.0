@@ -1,15 +1,16 @@
 services:
   react:
     container_name: intranet_container_front
-    image: intranet_image_front
+    image: react-production:prod
     build:
       context: ./intranet-frontend
-    volumes:
-      - ./intranet-frontend:/app
-      - /app/node_modules
+      target: production
+      args:
+        - NODE_ENV=production
+      dockerfile: Dockerfile.prod
     ports:
-      - "5173:5173"
-
+      - 80:80
+ 
   django:
     container_name: intranet_container_back
     image: intranet_image_back

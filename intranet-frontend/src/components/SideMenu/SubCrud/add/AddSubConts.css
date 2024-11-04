@@ -2,7 +2,11 @@
 display: flex;
 justify-content: center;
 align-items: center;
-gap: 20px;
+
+}
+
+.addSubConts-form:hover{
+    background-color: var(--SurfaceContainer-color);
 }
 
 .add-subcont-inpt{

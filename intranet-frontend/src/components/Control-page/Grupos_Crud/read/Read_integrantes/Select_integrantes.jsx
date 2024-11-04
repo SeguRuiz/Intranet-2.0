@@ -1,6 +1,8 @@
 import "./Read_integrantes.css";
 import Drop_down from "../../../../Drop_down/Drop_down";
 import Deelete_integrantes from "../Delete_integrantes/Deelete_integrantes";
+import { stringAvatar } from "../../../../../utils/Utils";
+import { Avatar } from "@mui/material";
 const Select_integrantes = ({
   nombre_usuario,
   apellidos,
@@ -8,14 +10,14 @@ const Select_integrantes = ({
   cedula,
   email,
   grupo_id,
-  user_id
+  user_id,
 }) => {
-  
-  
   return (
     <div className="select-integrantes-container">
       <div className="user-Profile">
-        <div className="user-circle"></div>
+        <div className="user-avatar-container">
+          <Avatar {...stringAvatar(`${nombre} ${apellidos}`)} />
+        </div>
         <div className="user-name">
           <p
             style={{
@@ -25,13 +27,12 @@ const Select_integrantes = ({
               maxWidth: "80px",
             }}
           >
-           {nombre_usuario}
+            {nombre_usuario}
           </p>
           <Drop_down>
-            <Deelete_integrantes grupo_id={grupo_id} integrante_id={user_id}/>
+            <Deelete_integrantes grupo_id={grupo_id} integrante_id={user_id} />
           </Drop_down>
         </div>
-       
       </div>
       <div className="user-info-text">
         <div className="user-nombre">
@@ -95,7 +96,7 @@ const Select_integrantes = ({
               maxWidth: "165px",
             }}
           >
-           {cedula}
+            {cedula}
           </p>
         </div>
       </div>

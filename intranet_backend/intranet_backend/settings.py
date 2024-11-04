@@ -26,12 +26,15 @@ SECRET_KEY = "django-insecure-o=%+c)0z#azw9-h2x_iszs8n2+zpa1b!7#+^acdnctul_rp*6&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.100.38", "localhost", "127.0.0.1"]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://intranet_container_front:5173",
+    "http://localhost:5173",
+    "http://192.168.100.38:8000",
+    "http://localhost"
 ]
 
 # Application definition
@@ -51,12 +54,14 @@ INSTALLED_APPS = [
     "files.apps.FilesConfig",
     "cursos_contenidos.apps.CursosContenidosConfig",
     "tareas.apps.TareasConfig",
+    "reportes.apps.ReportesConfig",
     "rest_framework_simplejwt",
 ]
 
 AUTH_USER_MODEL = "api.Usuarios"
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -64,7 +69,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "intranet_backend.urls"

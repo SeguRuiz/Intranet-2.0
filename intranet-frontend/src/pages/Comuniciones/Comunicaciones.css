@@ -1,0 +1,11 @@
+.comunicaciones-page-container {
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 16.5% auto;
+}
+
+.comunicaciones-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

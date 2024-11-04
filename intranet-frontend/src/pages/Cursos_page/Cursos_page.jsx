@@ -9,8 +9,14 @@ import { useFetch } from "../../services/llamados";
 import { set_grupos } from "../../redux/ControlUsuariosSlice";
 import "./Cursos_page.css";
 import { getCookie } from "../../utils/Cookies";
+import { useSelector } from "react-redux";
+import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_actions_cursos";
+import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
+import AddCurso from "../../components/Home/cursos/main_content/add/AddCurso";
 
 const Cursos_page = () => {
+  const { grupos } = useSelector((state) => state.ControlUsuarios);
+  const { userInSession } = useSelector((x) => x.Auth);
   const studentLinks = [
     { href: "/social", label: "Social" },
     { href: "/anuncios ", label: "Anuncios" },
@@ -21,7 +27,7 @@ const Cursos_page = () => {
   const accion = useDispatch();
   const { fetch_the_data } = useFetch();
   const token = getCookie("token");
-  
+
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
@@ -49,10 +55,17 @@ const Cursos_page = () => {
     <div className="cursos-page-container">
       <div className="cursos-page-navbar-area">
         <Header />
-        <NavBar links={studentLinks} />
       </div>
       <div className="cursos-page-content-area">
-        <Content />
+        <Content grupos={grupos} />
+        {userInSession?.is_staff | userInSession?.is_socioemocional ? (
+          <Admin_actions_cursos>
+            <Go_to_admin />
+            <AddCurso/>
+          </Admin_actions_cursos>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

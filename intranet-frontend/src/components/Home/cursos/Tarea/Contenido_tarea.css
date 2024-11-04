@@ -1,0 +1,113 @@
+:root {
+  --Surface-color: #f7f9ff;
+  --SurfaceContainer-color: #ebeef4;
+
+  --SurfaceDarked-color: #dfe3e9;
+  --SurfaceBrigth-color: #f4fbfa;
+  --SurfaceLow-color: #f0f4fa;
+
+  --Onsurface-color: #181c20;
+  --OnsurfaceVariant: #3f4850;
+
+  --PrymaryContainer-color: #007bb6;
+  --OnPrymary-color: #ffffff;
+
+  --PrymaryHover-color: #479da2;
+
+  --SecondaryContainer-color: #c4e3ff;
+  --OnSecondary-color: #274962;
+
+  --ErrorContainer-color: #ffdad6;
+  --OnError-color: #410002;
+}
+
+.outer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  font-family: Arial, sans-serif;
+  gap: 30px;
+}
+@media (max-width: 768px) {
+  .outer-container {
+    flex-direction: column;
+    padding: 10px;
+  }
+}
+
+.container-c-task,
+.tu-trabajo
+ {
+  border-radius: 10px; 
+  background-color: var(--Surface-color); 
+  font-family: Arial, sans-serif;
+  width: 100;
+  max-width: 650px;
+  border: 1px solid var(--SurfaceDarked-color);
+  padding: 25px;
+  border-radius: 8px;
+}
+.container-c-task:hover,
+.tu-trabajo:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+
+.title-c-task {
+  color: var(--Onsurface-color);
+  font-size: 22px;
+  color: #333333;
+  margin-bottom: 16px;
+  font-weight: bold;
+  position: relative;
+  margin: 16px 0 8px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+  margin: 20px 0 12px;
+}
+.status {
+  font-size: 16px;
+  color: #999999;
+  margin-top: 8px;
+}
+
+.upload-section {
+  background-color: var(--SurfaceContainer-color);
+  border: 2px dashed #dddddd;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  color: #888888;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.upload-section:hover {
+  background-color: var(--SurfaceLow-color);
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+.upload-section input[type="file"] {
+  display: none;
+
+}
+
+.upload-section:active {
+  transform: scale(0.98);
+}
+
+
+@media (max-width: 600px) {
+  .container-c-task, .tu-trabajo {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+

@@ -8,6 +8,7 @@ import ObtenerDatos from "./ObtenerDatosTareaSlice";
 import ControlUsuariosSlice from "./ControlUsuariosSlice";
 import AuthSlice from "./AuthSlice";
 import Fetchs from "./FetchsSlice";
+import Comunicaciones from "./ComunicacionesSlice"
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     ControlUsuarios: ControlUsuariosSlice,
     Auth: AuthSlice,
     Fetchs: Fetchs,
+    Comunicaciones: Comunicaciones
   },
 });

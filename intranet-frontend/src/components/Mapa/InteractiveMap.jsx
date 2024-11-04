@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -29,10 +29,14 @@ const InteractiveMap = () => {
   };
   return (
     // mediante la longitud del la ubicacion qu se desea se encuenta la ubicacion exacta
+    // <div style={{ marginTop: "90px", position: "relative" }}>
+    <div id="map-container" style={{ marginTop: "10px" }}>
+
+   
     <MapContainer
       center={[9.9758, -84.8351]}
       zoom={13}
-      style={{ height: "200px", width: "30%", minHeight: "60px" }} // ACA EDITO LA POSICION Y TAMAÑO DEL MAPA
+      style={{ height: "100px", width: "90%" }} // ACA EDITO LA POSICION Y TAMAÑO DEL MAPA
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -50,6 +54,7 @@ const InteractiveMap = () => {
         </Marker>
       ))}
     </MapContainer>
+    </div>
   );
 };
 export default InteractiveMap;

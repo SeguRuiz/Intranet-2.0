@@ -1,28 +1,47 @@
-.read-container-modal-{
+.read-container-modal- {
   display: grid;
   grid-template-columns: 33.3% 33.3% 33.3%;
+  background-color: var(--SurfaceDarked-color);
   border: none;
+  transition: 0.3s;
+  user-select: none;
+
+ 
+}
+
+.read-container-modal-open {
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  background-color: var(--SecondaryContainer-color);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  color: var(--OnSecondary-color);
+  transition: 0.3s;
+  border: none;
+  user-select: none;
 }
 
 .read-nombre-modal,
 .read-opciones-modal,
 .read-contenidos-modal {
   height: 10.5vh;
-  background-color: gainsboro;
+
+  color: var(--OnsurfaceVariant);
 }
 
-.read-opciones-modal{
-    display: flex;
-    place-items: center;
-    justify-content: center;
+.read-opciones-modal {
+  display: flex;
+  place-items: center;
+  justify-content: end;
+  gap: 4px;
+  padding-right: 10px;
 }
-
 
 .read-nombre-modal {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  font-size: 20px;
+  font-size: 25px;
+  padding-left: 15px;
 }
 
 .subCont-container {

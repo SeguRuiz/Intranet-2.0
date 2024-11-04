@@ -1,0 +1,18 @@
+.UserInfoContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: var(--SecondaryContainer-color);
+  color: var(--OnSecondary-color);
+  padding-top: 7px;
+  padding-bottom: 7px;
+  gap: 1px;
+  border-radius: 65px;
+  padding-right: 10px;
+  font-size: 13px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  user-select: none;
+  height: 25px;
+  width: 110px;
+}

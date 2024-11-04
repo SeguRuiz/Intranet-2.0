@@ -5,22 +5,22 @@ import { set_archivo_mostrandose } from "../../../../redux/CursosContenidosSlice
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setData } from "../../../../redux/modalSlice";
-import AddCurso from "./add/AddCurso";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { DecodeToken } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
+import Select_cursos_home from "./Read/Select_cursos_home";
+import { CircularProgress } from "@mui/material";
 
-const Content = () => {
+const Content = ({ grupos = [] }) => {
   const { cursos } = useSelector((state) => state.modal);
   const { Es_admin } = useSelector((state) => state.IsAdmin);
+  const { userInSession } = useSelector((state) => state.Auth);
 
-  const { grupos_cursos, grupos } = useSelector(
-    (state) => state.ControlUsuarios
-  );
- 
+  const { grupos_cursos } = useSelector((state) => state.ControlUsuarios);
+
   const token = getCookie("token");
 
-  const { fetch_the_data } = useFetch(); 
+  const { fetch_the_data, fetching } = useFetch();
 
   const accion = useDispatch();
 
@@ -40,13 +40,16 @@ const Content = () => {
     data();
   }, []);
 
-  const grupos_del_usuario = () => {
+  const grupos_del_usuario = (grupos = []) => {
     const grupos_usuario_fun = [];
     const cursos_permitidos = [];
     const cursos_filtrados = [];
+    if (grupos[0] == undefined && !Es_admin) {
+      return [];
+    }
     grupos.forEach((e) => {
-      e.integrantes.forEach((x) => {
-        x == jwtDecode(token).user_id && grupos_usuario_fun.push(e.id);
+      e?.integrantes.forEach((x) => {
+        x == DecodeToken(token).user_id && grupos_usuario_fun.push(e.id);
       });
     });
 
@@ -65,32 +68,15 @@ const Content = () => {
 
   return (
     <>
-      <div className="container">
-        {Es_admin && <AddCurso />}
-        <div className="diseno_content">
-          {grupos_del_usuario().map((e) => (
-            <div key={e.id} id={e.id} className="note-container">
-              <div
-                onClick={() => {
-                  navigate(`/cursos/${e.id}/contenidos`);
-                }}
-                className="icono"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="100%"
-                  viewBox="0 -960 960 960"
-                  width="100%"
-                  fill="#00000"
-                >
-                  <path d="M40-120v-80h880v80H40Zm120-120q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240H160Zm0-80h640v-440H160v440Zm0 0v-440 440Z" />
-                </svg>
-              </div>
-              <div className="titulo">{e.nombre}</div>
-            </div>
-          ))}
+      
+        <div className="container">
+          <div className="cursos-home-grid">
+            {grupos_del_usuario(grupos).map((e) => (
+              <Select_cursos_home key={e?.id} nombre={e?.nombre} id={e?.id} />
+            ))}
+          </div>
         </div>
-      </div>
+     
     </>
   );
 };

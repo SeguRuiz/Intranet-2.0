@@ -5,13 +5,14 @@ import { useCustomNotis } from "../../../../../utils/customHooks";
 import "./Delete_integrantes.css";
 import { closeModal } from "../../../../../redux/modalSlice";
 import { getCookie } from "../../../../../utils/Cookies";
+import { eliminar_usuarios_en_grupo } from "../../../../../redux/ControlUsuariosSlice";
 
 const Deelete_integrantes = ({ grupo_id, integrante_id }) => {
-  const {  fetch_the_data } = useFetch();
+  const { fetch_the_data } = useFetch();
   const { error_mensaje } = useCustomNotis("A ocurrido un error");
   const accion = useDispatch();
   const token = getCookie("token");
-
+ 
   const eliminar_integrante = async () => {
     console.log(integrante_id, grupo_id);
 
@@ -31,6 +32,12 @@ const Deelete_integrantes = ({ grupo_id, integrante_id }) => {
         eliminar_integrantes({
           grupo_id: grupo_id,
           integrante_id: integrante_id,
+        })
+      );
+      accion(
+        eliminar_usuarios_en_grupo({
+          grupo_id: grupo_id,
+          usuario_id: integrante_id,
         })
       );
     } else {

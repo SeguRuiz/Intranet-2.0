@@ -14,17 +14,17 @@ class Roles(models.Model):
     class Meta:
         db_table = "Roles"
         indexes = [
-            models.Index(fields=['tipo', 'id'], name='tipo-id-indx'),
-            models.Index(fields=['tipo'], name='tipo-indx')
+            models.Index(fields=["tipo", "id"], name="tipo-id-indx"),
+            models.Index(fields=["tipo"], name="tipo-indx"),
         ]
-        
 
 
 class Usuarios(AbstractUser):
     cedula = models.IntegerField(null=True, unique=True)
     rol_id = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True)
     fecha_editado = models.DateTimeField(auto_now=True)
-               
+    is_socioemocional = models.BooleanField(default=False)
+
     class Meta:
         db_table = "Usuarios"
         indexes = [
@@ -42,19 +42,27 @@ class Estudiantes(models.Model):
     id = models.UUIDField(
         editable=False, null=False, primary_key=True, default=uuid.uuid4, unique=True
     )
-    usuario_id = models.ForeignKey(Usuarios, on_delete=models.CASCADE, null=False)
+    usuario_id = models.ForeignKey(
+        Usuarios,
+        on_delete=models.CASCADE,
+        null=True,
+    )
     nota = models.FloatField(null=False, default=0)
     reportes = models.IntegerField(null=False, default=0)
-    activo = models.BooleanField(null=False, default=False)
+    activo = models.BooleanField(null=False, default=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     faltas = models.IntegerField(default=0, null=False)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "Estudiantes"
-        unique_together = ['id', 'usuario_id']
+        unique_together = ["id", "usuario_id"]
         indexes = [
-            models.Index(fields=['usuario_id'], name='usuario_id-indx'),
-            models.Index(fields=['usuario_id', 'activo'], name='usuario_id-activo-indx'),
-            models.Index(fields=['id'], name='id-indx')
+            models.Index(fields=["usuario_id"], name="usuario_id-indx"),
+            models.Index(
+                fields=["usuario_id", "activo"], name="usuario_id-activo-indx"
+            ),
+            models.Index(fields=["id"], name="id-indx"),
         ]
+
+
