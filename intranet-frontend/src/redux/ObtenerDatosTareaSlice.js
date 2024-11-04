@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   contenidos_tareas: [],
+  tareas_asignadas_api: [],
   tareas_asignadas: [],
+  tareas_subidas: [],
   archivo_mostrandose: null,
 };
 
@@ -12,6 +14,9 @@ const datos_tarea = createSlice({
   reducers: {
     pushContenidoTareas: (state, action) => {
       state.contenidos_tareas.push(action.payload);
+    },
+    pushTareasAsignadas: (state, action) => {
+      state.tareas_asignadas_api.push(action.payload);
     },
     setDatos: (state, action) => {
       state.contenidos_tareas = action.payload;
@@ -23,6 +28,14 @@ const datos_tarea = createSlice({
       );
       state.contenidos_tareas = ContentFiltered;
     },
+    borrarArchivos: (state, action) => {
+      const { id } = action.payload;
+      const tareas_borradas = state.tareas_asignadas.filter(
+        (contenidos) => contenidos.id !== id
+      );
+      state.tareas_asignadas = tareas_borradas;
+    },
+
     subirArchivosTareas: (state, action) => {
       const { id_tareas_asignadas, data_tareas } = action.payload;
       state.tareas_asignadas.forEach((e) => {
@@ -31,21 +44,16 @@ const datos_tarea = createSlice({
         }
       });
     },
-    set_archivo_mostrandose: (state, action) => {
-      state.archivo_mostrandose = action.payload;
-    },
-    borrar_archivos_contenidos: (state, action) => {
-      const { contenido_id } = action.payload;
-
-      const contenidos_copy = [...state.Contenidos];
-
-      contenidos_copy.forEach((e) => {
-        if (e.id == contenido_id) {
-          x.archivo = null;
+    subirArchivosTareasEstudiantes: (state, action) => {
+      const { id_tareas_asignadas, data_tareas } = action.payload;
+      state.tareas_subidas.forEach((e) => {
+        if (e.id == id_tareas_asignadas) {
+          e.archivo = data_tareas.id;
         }
       });
-
-      state.Contenidos = contenidos_copy;
+    },
+    set_archivo_mostrandose: (state, action) => {
+      state.archivo_mostrandose = action.payload;
     },
   },
 });
@@ -56,6 +64,8 @@ export const {
   deleteContenidosTareas,
   subirArchivosTareas,
   set_archivo_mostrandose,
-  borrar_archivos_contenidos,
+  pushTareasAsignadas,
+  subirArchivosTareasEstudiantes,
+  borrarArchivos,
 } = datos_tarea.actions;
 export default datos_tarea.reducer;

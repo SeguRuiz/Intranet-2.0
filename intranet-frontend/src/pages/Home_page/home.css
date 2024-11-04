@@ -1,0 +1,9 @@
+.home_page_container {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 19% auto;
+}
+
+.mapa {
+  width: 30%;
+}

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Contenido from "../pages/info_cursos/Info_cursos";
 import Cursos from "../pages/Cursos_page/Cursos_page.jsx";
-import Home from "../pages/Home_page";
+import Home from "../pages/Home_page/Home_page.jsx";
 import Social from "../pages/Social_page";
 import Anuncios from "../pages/Anuncios_page";
 import Demolab from "../pages/Demolab_page";

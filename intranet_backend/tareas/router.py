@@ -3,18 +3,18 @@ from .views import Info_tareasCreate, Tareas_asignadasCreate, Intermedia_tareas_
 
 router = DefaultRouter()
 router.register(
-    prefix=r'info', basename='info-tareas', viewset=Info_tareasCreate
+    prefix=r'info_tarea', basename='info-tareas', viewset=Info_tareasCreate
 )
 router.register(
-    prefix=r'tasks_student', basename='tareas-asignadas', viewset=Tareas_asignadasCreate
-)
-
-router.register(
-    prefix=r'archivos', basename='tareas-archivos', viewset=Intermedia_tareas_archivosCreate
+    prefix=r'tarea_asignada', basename='tareas-asignadas', viewset=Tareas_asignadasCreate
 )
 
 router.register(
-    prefix=r'archivos_asignados', basename='tareas-asignadas-archivos', viewset=Intermedia_archivos_entregablesCreate
+    prefix=r'intermedia_tarea_archivo', basename='tareas-archivos', viewset=Intermedia_tareas_archivosCreate
+)
+
+router.register(
+    prefix=r'intermedia_archivo_entregable', basename='tareas-asignadas-archivos', viewset=Intermedia_archivos_entregablesCreate
 )
 
 

@@ -62,9 +62,7 @@ const Content = ({ grupos = [] }) => {
       curso != false && cursos_filtrados.push(c);
     });
 
-    return Es_admin 
-      ? [...cursos]
-      : cursos_filtrados;
+    return Es_admin ? [...cursos] : cursos_filtrados;
   };
 
   return (

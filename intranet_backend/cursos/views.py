@@ -27,6 +27,8 @@ from .serializers import (
     IntengratesGruposSerializer,
     SedesSerializer,
 )
+from api.models import Estudiantes
+from api.serializers import EstudiantesSerializer
 
 # Create your views here.
 
@@ -299,6 +301,7 @@ def get_usurios_de_grupo(request):
 
         # Clasifica los usuarios en 'profesores' y 'estudiantes' según su rol
         profesores = [n for n in usuarios if n["rol"].upper() == "PROFESOR"]
+        
         estudiantes = [n for n in usuarios if n["rol"].upper() == "ESTUDIANTE"]
 
         # Retorna listas separadas de profesores y estudiantes

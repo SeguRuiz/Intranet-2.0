@@ -6,7 +6,7 @@ import Delete_grupos from "../Grupos_Crud/delete/Delete_grupos"; // Componente p
 import Add_grupos from "../Grupos_Crud/add/Add_grupos"; // Componente para agregar grupos
 import Delete_sedes from "../Sedes-crud/delete/Delete_sedes"; // Componente para eliminar sedes
 import "./edit_crud.css"; // Importa estilos del componente
-import { IconButton } from "@mui/material"; // Componente de Material-UI
+
 
 const Edit_crud = () => {
   // Desestructura el estado del store de Redux

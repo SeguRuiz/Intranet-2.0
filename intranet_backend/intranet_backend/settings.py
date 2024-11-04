@@ -34,6 +34,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://intranet_container_front:5173",
     "http://localhost:5173",
     "http://192.168.100.38:8000",
+    "http://localhost"
 ]
 
 # Application definition
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = "api.Usuarios"
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -67,7 +69,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "intranet_backend.urls"
