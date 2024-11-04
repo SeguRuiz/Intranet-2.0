@@ -1,41 +1,114 @@
-.container_filter {
-  border: black 1px solid;
-  display: flex;
-  justify-content: space-evenly;
-  margin: 0% 0% 3% 63%;
-  width: 430px;
-  height: 30px;
-  border-radius: 3px;
+/* clase que envuelve todo el componente */
+.main-container {
+  font-family: Arial, sans-serif; /*fuente de letra  */
+  padding: 20px; /* espacio alrededor del contenedor */
 }
 
-.container_main {
-  display: flex;
-  justify-content: center;
+/* clase para los botones de atrasadas, revisadas y entregadas */
+.filter-container {
+  display: flex; /* flexbox para alinear los elementos */
+  justify-content: space-around; /* distribuye un espacio igual entre los botones  */
+  margin-bottom: 20px; /* margen para separar  */
 }
-
+/* clases para la tarea, descripción, fecha de entrega y estado. */
 .content_name_HW,
 .content_description,
 .content_date,
 .content_date_check {
   border: 1px black solid;
-  width: 290px;
+  width: 290px; /*todos con el mismo tamaño  */
 }
-
-.b-t-n {
+/* clase para el boton de agregar nueva tarea  */
+.btn-add-task {
   margin: 30px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px 20px; /*tamaño del boton  */
+  border-radius: 5px; /* bordes redondeados */
+  cursor: pointer; /*  cambia el cursor al estar sobre el boton*/
+  margin-bottom: 20px; /*espacio al rededor de boton  */
 }
 
-/* div div p {
-  border: 1px black solid;
-  width: 300px;
-  text-align: center;
-} */
+/* clase para los campos de entrada */
+.task-form input {
+  display: block; /* ocupa toda la línea */
+  width: 100%;
+  padding: 10px; /*espacio interior  */
+  margin-bottom: 15px; /* margen inferior entre los inputs  */
+  border: 1px solid #ccc;
+  border-radius: 5px; /* bordes redondeados  */
+}
 
-.nombre-tarea,
-.descripcion-tarea,
-.fecha-tarea,
-.fecha-revision {
-  border: 1px black solid;
-  width: 300px;
-  text-align: center;
+/* clase de cada tarea individual */
+.task-container {
+  display: flex; /* alinear los elementos de la tarea */
+  justify-content: space-between; /* espacio entre los elementos */
+  align-items: center; /*alinea de forma vertical los elementos  */
+  padding: 15px; /* espacio interno */
+  border: 1px solid #ddd;
+  margin-bottom: 10px; /* espacio entre los contenedores de tarea  */
+  border-radius: 5px; /* bordes redondeados */
+  background-color: #f8f9fa;
+}
+
+/* clases de la fecha de entrega, información y estado de la tarea. */
+.task-date,
+.task-info,
+.task-status {
+  flex-grow: 2; /* el espacio de agranda segun el contenido */
+  text-align: center; /*  */
+  border: 1px solid #ddd;
+  cursor: pointer; /* cambia el cursor al estar sobre el boton */
+  padding: 20px 10px; /*  tamaño del boton */
+  border-radius: 30px; /* bordes redondeados */
+  margin: 0 9px; /*  */
+}
+
+/* clase para informacion sobre la tarea */
+.task-info {
+  color: #007bff;
+  text-decoration: none; /* para eliminar las lineas  */
+}
+.filter-btn {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 10px 20px; /* tamaño del boton */
+  border-radius: 30px; /*bordes redondeados  */
+  cursor: pointer; /* cambia el cursor al estar sobre el boton */
+}
+/* clase para el estado de entrega de la tarea */
+.task-status {
+  color: red;
+}
+/* clase para el nombre de la tarea */
+.task-name {
+  flex: 2; /* mas espacio */
+}
+
+/* clase para el boton de eliminar */
+.btn-delete {
+  background-color: #dc3545; /*color del boton */
+  color: white; /* Texto en blanco para mejor contraste */
+  border: none; /* Sin borde */
+  padding: 10px 20px; /* Tamaño del botón */
+  border-radius: 30px; /* Bordes redondeados */
+  cursor: pointer; /* Cambiar cursor al puntero */
+  font-size: 16px; /* Ajuste del tamaño del texto */
+  transition: background-color 0.3s ease; /* Transición suave en hover */
+}
+/* responsivo */
+@media (max-width: 768px) {
+  .task-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-name,
+  .task-date,
+  .task-info,
+  .task-status {
+    text-align: left;
+    margin-bottom: 10px;
+    border-radius: 30px;
+  }
 }

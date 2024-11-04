@@ -2,10 +2,11 @@
 
 .sidemenu-container{
     display: grid;
-    grid-template-rows: 90% 10%;
-    height: 82vh;
+    grid-template-rows: 100%;
+    height: 80.5vh;
     position: fixed;
     width: 20%;
+    
     
 }
 
@@ -13,9 +14,10 @@
     display: grid;
     grid-template-rows: 100%;
     height: 80.5vh;
+   
+   
     position: fixed;
     width: 20%;
-
 }
 
 .menu-container {

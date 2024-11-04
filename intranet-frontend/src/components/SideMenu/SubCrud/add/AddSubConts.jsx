@@ -4,11 +4,14 @@ import { addSubcontenido } from "../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
 import "./AddSubConts.css";
 import { getCookie } from "../../../../utils/Cookies";
+import { TextField } from "@mui/material";
+import { IconButton } from "@mui/material";
 const AddSubConts = ({ Contenido_id }) => {
   const [error, setError] = useState(false);
   const input_ref = useRef();
   const accion = useDispatch();
-  const { define_fetch, fetch_the_data } = useFetch();
+  const form_ref = useRef();
+  const { fetch_the_data } = useFetch();
   const token = getCookie("token");
 
   const addSubCont = async (o) => {
@@ -23,7 +26,7 @@ const AddSubConts = ({ Contenido_id }) => {
       );
       console.log(data);
       accion(addSubcontenido({ contenido_id: Contenido_id, data: data[1] }));
-      input_ref.current.value = "";
+      form_ref.current.reset();
       return;
     }
     setError(true);
@@ -36,27 +39,27 @@ const AddSubConts = ({ Contenido_id }) => {
       className="addSubConts-form"
       style={{ height: "10vh" }}
       onSubmit={addSubCont}
+      ref={form_ref}
     >
-      <input
-        type="text"
-        className="add-subcont-inpt"
-        ref={input_ref}
-        placeholder={
-          error ? "No debe estar en blanco" : "nombra tu subcontenido"
-        }
+      <TextField
+        label="Nombra tu subcontenido"
+        inputRef={input_ref}
+        variant="standard"
+        size="big"
+        error={error}
+        sx={{ width: "60%" }}
       />
-      <button className="add-subcont-btn">
+      <IconButton type="submit">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="35px"
           viewBox="0 -960 960 960"
-          width="38px"
-          fill="#d3d3d3"
-          className="add-subcont-icon"
+          width="35px"
+          fill="var(--PrymaryContainer-color)"
         >
           <path d="M120-160v-640l760 320-760 320Zm66.67-102 520.66-218-520.66-220v158.67L428-480l-241.33 60v158Zm0 0v-438 438Z" />
         </svg>
-      </button>
+      </IconButton>
     </form>
   );
 };

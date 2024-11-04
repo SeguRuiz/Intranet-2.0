@@ -1,7 +1,8 @@
 .grupos-page-container {
   height: 100vh;
   display: grid;
-  grid-template-rows: 19% auto;
+  grid-template-rows: 19% 81%;
+  background-color: var(--SurfaceBrigth-color);
 }
 
 @media only screen and (max-height: 1000px) and (max-width: 415px) {
@@ -9,4 +10,19 @@
     display: grid;
     grid-template-rows: 13.5% auto;
   }
+}
+
+.grupos-page-content-center{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap: 20px;
+ flex-direction: column;
+}
+
+.no-content-grupos{
+  height: 50%;
+  margin-top: 70px;
+  
+  
 }

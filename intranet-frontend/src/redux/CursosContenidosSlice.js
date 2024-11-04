@@ -1,16 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  page: localStorage.getItem('page') || 'sin definir',
   Contenidos: [],
+  grupo_mostrandose: null,
   Arhivos_subcontenidos: [],
-  archivo_mostrandose: null
+  archivo_mostrandose: null,
+  profesores: [],
+  estudiantes: [] 
 };
 
 const CursosContenidos = createSlice({
   name: "CursosContenidos",
   initialState,
   reducers: {
-    
+    set_current_page: (state, action) => {
+      state.page = action.payload
+    },
+    set_grupo_mostrandose: (state, action) => {
+      state.grupo_mostrandose = action.payload
+    },
+    set_usuarios_del_grupo: (state, action) => {
+      const {rol, data} = action.payload
+      switch (rol) {
+        case 'estudiantes':
+          state.estudiantes = data
+          break;
+      
+        case 'profesores':
+          state.profesores = data
+          break
+        default:
+        console.log('accion no permitida');
+        
+          break;
+      }
+    },
     setContenidos: (state, action) => {
       state.Contenidos = action.payload;
     },
@@ -104,5 +129,8 @@ export const {
   add_archivos_subcontenidos,
   delete_archivos_subcontenidos,
   set_archivo_mostrandose,
+  set_usuarios_del_grupo,
+  set_grupo_mostrandose,
+  set_current_page
 } = CursosContenidos.actions;
 export default CursosContenidos.reducer;

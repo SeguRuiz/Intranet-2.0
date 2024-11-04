@@ -1,14 +1,29 @@
-import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setToken } from "../redux/tokenSlice";
+import { useEffect, useRef, useState } from "react";
 import { setCookie, getCookie } from "../utils/Cookies";
 import { jwtDecode } from "jwt-decode";
+import Swal from "sweetalert2";
 
 export const useFetch = () => {
   const [fetching, setFetching] = useState(null);
   const [error, setError] = useState(false);
   const [ok, setOk] = useState(false);
   const data_ref = useRef([]);
+
+  const [sesion_expirada, set_sesion_expirada] = useState(false);
+
+  useEffect(() => {
+    if (sesion_expirada) {
+      Swal.fire({
+        icon: "info",
+        title: "La sesion a expirado",
+        confirmButtonText: "Iniciar Sesion",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/";
+        }
+      });
+    }
+  }, [sesion_expirada]);
 
   const fetch_the_data = async (
     url,
@@ -33,6 +48,11 @@ export const useFetch = () => {
     setFetching(true);
 
     const verificar = await verificar_token(token);
+
+    if (verificar[0] == "refresh_expirado" || token == "") {
+      set_sesion_expirada(true);
+      return;
+    }
 
     if (verificar[0] && token != null) {
       const token_nuevo = verificar[1];
@@ -153,20 +173,29 @@ export const delete_fetch = async (url, id) => {
 };
 
 export const verificar_token = async (token) => {
-  if (isTokenExpired(token)) {
-    // aqui si el token expiro lo seteas donde lo estes guardando
+  try {
+    if (isTokenExpired(token)) {
+      // aqui si el token expiro lo seteas donde lo estes guardando
+      const refresh = getCookie("refresh");
 
-    const nuevo_token = await refrescar_token();
+      if (refresh == "") {
+        return ["refresh_expirado"];
+      }
 
-    setCookie("token", nuevo_token, 1);
-    return [true, nuevo_token];
-  } else {
-    return [false, ""];
+      const nuevo_token = await refrescar_token(refresh);
+      setCookie("token", nuevo_token, 1);
+      return [true, nuevo_token];
+    } else {
+      return [false, ""];
+    }
+  } catch (error) {
+    console.log(error);
+
+    return ["refresh_expirado"];
   }
 };
 
-const refrescar_token = async () => {
-  const refresh = getCookie("refresh");
+const refrescar_token = async (refresh) => {
   try {
     const response = await fetch("http://localhost:8000/api/token/refresh/", {
       // cambias el link por tu refresh link
@@ -179,7 +208,7 @@ const refrescar_token = async () => {
       }),
     });
     const data = await response.json();
-    
+
     return data.access;
   } catch (error) {
     console.log(error);
@@ -192,8 +221,15 @@ const isTokenExpired = (token) => {
     const decodedToken = jwtDecode(token);
     const currentTime = Date.now() / 1000;
     return decodedToken.exp < currentTime;
-  } catch (error) {
-    console.error("Error decoding token:", error);
+  } catch {
     return true;
+  }
+};
+
+export const DecodeToken = (token) => {
+  try {
+    return jwtDecode(token);
+  } catch {
+    return null;
   }
 };

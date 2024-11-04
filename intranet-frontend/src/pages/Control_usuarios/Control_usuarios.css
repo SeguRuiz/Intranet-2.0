@@ -27,9 +27,10 @@
   cursor: pointer;
 }
 .C-U-Nav{
-  
+ 
   display: grid;
   grid-template-columns: 6.5% auto;
+ 
 }
 
 
@@ -39,12 +40,15 @@ main {
 }
 
 .navbar-edit-options {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  gap: 20px;
   
+  display: flex;
+justify-content: start;
+align-items: center;
+gap: 20px;
+
 }
+
+
 
 .navbar-edit-options > svg {
   cursor: pointer;

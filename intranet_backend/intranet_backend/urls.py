@@ -23,5 +23,6 @@ urlpatterns = [
     path('cursos/', include('cursos.urls')),
     path('files/', include('files.urls')),
     path('cursos_contenidos/', include('cursos_contenidos.urls')),
-    path('info_tareas/', include('tareas.urls'))
+    path('tareas/', include('tareas.urls')),
+    path('reportes/', include('reportes.urls'))
 ]

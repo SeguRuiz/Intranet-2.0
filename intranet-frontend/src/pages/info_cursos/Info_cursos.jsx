@@ -9,13 +9,24 @@ import { useEffect } from "react";
 import Header_student from "../../components/Home/header/Header_student";
 import File_preview from "../../components/file_preview/File_preview";
 import Navbar from "../../components/Home/navbar/NavBar";
+import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_actions_cursos";
+import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
+import MenuModal from "../../components/SideMenu/MenuCrud/Add/MenuModal";
+import { getCookie } from "../../utils/Cookies";
 const Info_cursos = () => {
   const { fetch_the_data } = useFetch();
   const accion = useDispatch();
   const { id_curso } = useParams();
+  const ids = useParams()
+  const token = getCookie('token')
+  console.log(ids);
+  
   const cursosLinks = [
     { href: `/cursos/${id_curso}/contenidos`, label: "Contenidos" },
     { href: `/cursos/${id_curso}/grupos`, label: "Grupos" },
+    { href: `/cursos/${id_curso}/tareas `, label: "Tareas" },
+    { href: `/cursos/${id_curso}/comunicaciones`, label: "Comunicaciones" },
+    
   ];
 
   useEffect(() => {
@@ -23,13 +34,13 @@ const Info_cursos = () => {
       accion(set_archivo_mostrandose(null));
       const data = await fetch_the_data(
         "http://localhost:8000/cursos_contenidos/get_contenidos_and_subcontenidos",
-        null,
+        token,
         "GET",
         null,
         id_curso
       );
       console.log(data);
-      accion(setContenidos(data[1]));
+      accion(setContenidos(data[1].reverse()));
       accion(set_archivo_mostrandose(null));
     })();
   }, [id_curso]);
@@ -47,6 +58,10 @@ const Info_cursos = () => {
           </div>
           <div className="Info-page-file">
             <File_preview />
+            <Admin_actions_cursos>
+              <Go_to_admin/>
+              <MenuModal/>
+            </Admin_actions_cursos>
           </div>
         </div>
       </div>

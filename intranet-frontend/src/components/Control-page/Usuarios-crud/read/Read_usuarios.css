@@ -9,6 +9,11 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 }
 
+.user-avatar-container{
+  align-self: center;
+  margin-left: 5px;
+}
+
 .user-info-card-animated {
   border-radius: 5px;
   height: 35vh;
@@ -18,7 +23,7 @@
   grid-template-rows: 25% auto;
   cursor: pointer;
   transition: 0.2s;
-  background-color:var(--SurfaceLow-color);
+  background-color: var(--SurfaceLow-color);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 }
 
@@ -33,9 +38,31 @@
   transition: 0.2s;
   margin-bottom: 25px;
   grid-template-rows: 25% auto;
+  overflow: hidden;
   background-color: var(--SurfaceLow-color);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 }
+
+.user-info-card-en-grupo {
+  justify-self: center;
+  align-self: center;
+  border-radius: 5px;
+  margin-right: 35px;
+  height: 30vh;
+  width: 32vh;
+  display: grid;
+  transition: 0.2s;
+  margin-bottom: 25px;
+  grid-template-rows: 25% auto;
+  background-color: var(--SurfaceLow-color);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  opacity: 0.5;
+  .chekbox-users{
+    display: none;
+  }
+  
+}
+
 
 .chekbox-users {
   border: 1.5px solid var(--PrymaryContainer-color);
@@ -63,22 +90,22 @@
 }
 
 @keyframes tilt-shaking {
-    0% {
-      transform: rotate(0deg);
-    }
-    25% {
-      transform: rotate(1.5deg);
-    }
-    50% {
-      transform: rotate(0deg);
-    }
-    75% {
-      transform: rotate(-1.5deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
   }
+  25% {
+    transform: rotate(1.5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-1.5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
 
 .user-Profile {
   display: grid;

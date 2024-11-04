@@ -1,8 +1,7 @@
 from django.db import models
 import uuid
-from api.models import Usuarios
+from api.models import Usuarios, Estudiantes
 from cursos.models import Cursos
-from api.models import Estudiantes
 from files.models import Archivos_referencia
 
 
@@ -12,7 +11,7 @@ class Info_tareas(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, null=False, default=uuid.uuid4)
     titulo = models.CharField(max_length=150, null=False)
     descripcion = models.CharField(max_length=200, null=False)
-    fecha_entrega = models.DateTimeField(max_length=200, null=False)
+    fecha_entrega = models.DateTimeField(auto_now_add=True)
     fecha_revision = models.DateTimeField(max_length=200, null=False)
     profesor_id = models.ForeignKey(Usuarios,on_delete=models.SET_NULL, null=True)
     cursos = models.ForeignKey(Cursos, on_delete= models.CASCADE)
@@ -29,6 +28,7 @@ class Tareas_asignadas(models.Model):
     revisada = models.BooleanField(default=False)
     profesor_id = models.ForeignKey(Usuarios,on_delete=models.SET_NULL, null=True)
     calificacion = models.FloatField(default=0)
+    info_tarea_id = models.ForeignKey(Info_tareas, on_delete=models.CASCADE, null=True)
     
     class Meta:
         db_table = 'Tareas_asignadas'

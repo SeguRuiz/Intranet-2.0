@@ -1,12 +1,17 @@
 .drag-div {
   width: 65px;
-  background-color: #dcdcdc;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   border-radius: 50px;
   display: flex;
-padding: 5px;
+  padding: 5px;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  
+}
+
+.drag-div:hover{
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
 
 .drag-div-label {

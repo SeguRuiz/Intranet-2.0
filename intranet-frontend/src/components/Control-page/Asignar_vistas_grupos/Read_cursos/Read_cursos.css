@@ -3,11 +3,8 @@
   height: 35vh;
   width: 37vh;
   display: grid;
-  
-
   background-color: var(--SecondaryContainer-color);
   overflow: hidden;
-
   transition: 0.2s;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   cursor: pointer;

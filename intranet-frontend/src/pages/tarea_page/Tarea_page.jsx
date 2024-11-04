@@ -4,7 +4,6 @@ import Header from "../../components/Home/header/Header_student";
 import Navbar from "../../components/Home/navbar/NavBar";
 import { useParams } from "react-router-dom";
 import "./tarea.css";
-// import InteractiveMap from "../../components/Home/cursos/cronograma/InteractiveMap";
 
 const Tarea_page = () => {
   const { id_curso } = useParams();
@@ -13,7 +12,6 @@ const Tarea_page = () => {
     { href: `/cursos/${id_curso}/grupos`, label: "Grupos" },
     { href: `/cursos/${id_curso}/tareas`, label: "Tareas" },
     { href: `/cursos/${id_curso}/comunicaciones`, label: "Comunicaciones" },
-    { href: `/cursos/${id_curso}/cronograma`, label: "Cronograma" },
   ];
 
   return (
@@ -25,7 +23,6 @@ const Tarea_page = () => {
       <div>
         <Tarea />
       </div>
-      {/* <InteractiveMap /> */}
     </div>
   );
 };

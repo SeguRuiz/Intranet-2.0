@@ -1,0 +1,18 @@
+.add_report_container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.add-report-form{
+    height: 100%;
+    width: 95%;
+    display: flex;
+    justify-content: start;
+    gap: 15px;
+    flex-direction: column;
+    padding-top: 35px;
+}
