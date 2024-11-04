@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useFetch } from "../../../../services/llamados";
 import { borrarArchivos } from "../../../../redux/ObtenerDatosTareaSlice";
 
-const BorrarArchivoTarea = ({ id }) => {
+const BorrarArchivoTarea = ({ id }) => {{/*Funcion para borrar los archivos de las tareas, enviando su id por la url */}
   const token = sessionStorage.getItem("token");
   const accion = useDispatch();
   const { fetch_the_data } = useFetch();
@@ -37,7 +37,7 @@ const BorrarArchivoTarea = ({ id }) => {
 
   return (
     <div>
-      <button id={id} onClick={borrarTarea}>
+      <button className="btn-delete" id={id} onClick={borrarTarea}>
         Eliminar
       </button>
     </div>

@@ -11,6 +11,9 @@ import Subir_tareas from "./Subir_tareas_prof";
 import uuid from "react-uuid";
 import { getCookie } from "../../../../utils/Cookies";
 
+{
+  /*Componente encargado de mostrar el contenido especifico de cada tarea, junto con su archivo especifico*/
+}
 const Contenido_tarea = () => {
   const { estudiantes } = useSelector((state) => state.CursosContenidos);
   const { userInSession } = useSelector((state) => state.Auth);
@@ -32,7 +35,9 @@ const Contenido_tarea = () => {
     };
     data();
   }, []);
-
+  {
+    /*Acá, buscamos el id dentro del reducer, y sí este concide con el id de la tarea obtenido del useParams, entonces mostrará datos especificos de ese contenido */
+  }
   const { contenidos_tareas } = useSelector((state) => state.datos_tarea);
   const tareaSeleccionada = contenidos_tareas.find(
     (tarea) => tarea.id === id_tarea
@@ -41,7 +46,9 @@ const Contenido_tarea = () => {
   if (!tareaSeleccionada) {
     return <div>No se encontró la tarea seleccionada.</div>;
   }
-
+  {
+    /*FUncion encargada de subir el archivo a la tabla de intermedia de archivos entregables */
+  }
   const subir_Archivo_Tarea_estudiante = async (archivo) => {
     const token = sessionStorage.getItem("token");
     const estudiante_id = estudiantes.find((x) => x.id == userInSession.id);
@@ -70,7 +77,9 @@ const Contenido_tarea = () => {
       })
     );
   };
-
+  {
+    /*Funcion encargada de leer cada archivo haciendo una instancia del filereader */
+  }
   const handleUpload = () => {
     if (!archivoAsignado) {
       Swal.fire("Por favor selecciona al menos un archivo.");
@@ -91,7 +100,9 @@ const Contenido_tarea = () => {
       };
     });
   };
-
+  {
+    /*Funcion que se encarga de convertido de tomar el archivo y convertirlo en array  */
+  }
   const convertAnArrayArchives = (archives) => {
     const file_array = Array.from(archives);
     setSelectedFiles(file_array);
@@ -102,17 +113,19 @@ const Contenido_tarea = () => {
     <div className="outer-container">
       <div className="container-c-task">
         <h1 className="title-c-task">Detalles de la Tarea</h1>
+
         <div>
-          <h2>{tareaSeleccionada.titulo}</h2>
-          <p>Descripción: {tareaSeleccionada.descripcion}</p>
+          <h1 className="section-title">Nombre: {tareaSeleccionada.titulo}</h1>
+  
+          <p className="section-title">
+            Descripción: {tareaSeleccionada.descripcion}
+          </p>
         </div>
         <div>
-          <p>
+          <p className="section-title">
             Fecha limite de entrega:
             {new Date(tareaSeleccionada.fecha_entrega).toLocaleDateString()}
           </p>
-          <p className="status">Sin entregar</p>
-          {}
           <Subir_tareas />
         </div>
       </div>
@@ -124,7 +137,9 @@ const Contenido_tarea = () => {
           onChange={(e) => convertAnArrayArchives(e.target.files)}
           accept=".pdf"
         />
-        <button onClick={handleUpload}>Subir Tarea</button>
+        <button className="b-t-n-taskUp" onClick={handleUpload}>
+          Subir Tarea
+        </button>
       </div>
     </div>
   );

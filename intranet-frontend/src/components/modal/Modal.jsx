@@ -1,6 +1,8 @@
 import React from "react";
 import "./modal.css";
-
+{
+  /*Modal encargado de abrir una pantalla con una descrpcion */
+}
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
   return (
@@ -8,7 +10,7 @@ const Modal = ({ isOpen, onClose, children }) => {
       <div className="modal-content">
         <form>
           <button className="close-button" onClick={onClose}>
-            X
+            Cerrrar
           </button>
         </form>
         {children}

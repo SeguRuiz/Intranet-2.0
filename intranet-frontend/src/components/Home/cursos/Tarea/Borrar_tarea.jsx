@@ -2,7 +2,7 @@ import { deleteContenidosTareas } from "../../../../redux/ObtenerDatosTareaSlice
 import { useDispatch } from "react-redux";
 import { useFetch } from "../../../../services/llamados";
 import "./Tarea.css";
-
+{/*Funcion que borra las tareas, usando su id en el cuerpo*/}
 const Borrar_tarea = ({ id }) => {
   const accion = useDispatch();
   const token = sessionStorage.getItem("token");
@@ -18,11 +18,6 @@ const Borrar_tarea = ({ id }) => {
     );
     accion(deleteContenidosTareas({ id: id }));
   };
-
-
-  
-
-  
 
   return (
     <div>

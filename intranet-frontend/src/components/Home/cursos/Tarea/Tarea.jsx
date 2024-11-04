@@ -12,7 +12,9 @@ import Borrar_tarea from "./Borrar_tarea";
 import { useNavigate } from "react-router-dom";
 import { pushTareasAsignadas } from "../../../../redux/ObtenerDatosTareaSlice";
 import Swal from "sweetalert2";
-
+{
+  /*Componente encargado de mostrar la lista de tarea a cada estudiante, al mismo tiempo que el profesor o admin, las puedes crear */
+}
 const Tarea = () => {
   const navigate = useNavigate();
   const { estudiantes } = useSelector((e) => e.CursosContenidos);
@@ -36,34 +38,47 @@ const Tarea = () => {
   const modalCerrado = () => {
     setIsModalOpen(false);
   };
+
+  {
+    /*Funcion que hace el post en la tabla de info_tarea */
+  }
   const subirTareaProfesor = async (evento) => {
     evento.preventDefault();
-    if (estudiantes[0] != undefined) {
-      const datos_post = await fetch_the_data(
-        "http://localhost:8000/tareas/info_tarea",
-        null,
-        "POST",
-        {
-          titulo: title,
-          descripcion: descripcion,
-          fecha_revision: dateCheck,
-          cursos: id_curso,
-          profesor_id: userInSession.id,
-        }
-      );
-      accion(pushContenidoTareas(datos_post[1]));
-      asignarTarea(datos_post[1]?.id);
-      console.log(contenidos_tareas);
-      setTitle("");
-      setDescripcion("");
-      setDate("");
-      setDateCheck("");
+    if (
+      title.trim() === "" ||
+      descripcion.trim() === "" ||
+      dateCheck.trim() === ""
+    ) {
+      return Swal.fire("No puedes subir una tarea con campos en blanco");
+    } else {
+      if (estudiantes[0] != undefined) {
+        const datos_post = await fetch_the_data(
+          "http://localhost:8000/tareas/info_tarea",
+          null,
+          "POST",
+          {
+            titulo: title,
+            descripcion: descripcion,
+            fecha_revision: dateCheck,
+            cursos: id_curso,
+            profesor_id: userInSession.id,
+          }
+        );
+        accion(pushContenidoTareas(datos_post[1]));
+        asignarTarea(datos_post[1]?.id);
+        setTitle("");
+        setDescripcion("");
+        setDate("");
+        setDateCheck("");
+      }
     }
     if (estudiantes[0] == undefined) {
       Swal.fire("No se puede subir una tarea sino se ha seleccionado un grupo");
     }
   };
-
+  {
+    /*Funcion que hace el post en la tabla de tarea_asignadas */
+  }
   const asignarTarea = async (id) => {
     console.log(id);
 
@@ -87,7 +102,9 @@ const Tarea = () => {
       accion(pushTareasAsignadas(taskAsigned[1]));
     }
   };
-
+  {
+    /*Acá se van a obtener todas las tarea creadas anteriormente */
+  }
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
@@ -129,7 +146,7 @@ const Tarea = () => {
             value={dateCheck}
             min={hoy}
           />
-          <button>Subir Tarea</button>
+          <button className="b-t-n-upload">Subir Tarea</button>
         </form>
       </Modal>
       {contenidos_tareas.map((contenido, index) => (

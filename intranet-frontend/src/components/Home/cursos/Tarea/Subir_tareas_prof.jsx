@@ -9,8 +9,10 @@ import { subirArchivosTareas } from "../../../../redux/ObtenerDatosTareaSlice";
 import BorrarArchivoTarea from "./BorrarArchivoTarea";
 import { set_usuarios_del_grupo } from "../../../../redux/CursosContenidosSlice";
 import { DecodeToken } from "../../../../services/llamados";
+import "./subir_tarea.css"
 
 const Subir_tareas = ({ contenido_id }) => {
+  const { userInSession } = useSelector((state) => state.Auth);
   const { fetch_the_data } = useFetch();
   const { id_tarea } = useParams();
   const { estudiantes, grupo_mostrandose } = useSelector(
@@ -28,6 +30,9 @@ const Subir_tareas = ({ contenido_id }) => {
   const [selectedArchivo, setSelectedArchivo] = useState(null); // Estado para seleccionar archivo
   const { tareas_asignadas } = useSelector((state) => state.datos_tarea);
 
+  {
+    /*Funcion que se encarga de subir el archivo del profesor a la tabla de archivos_referencia */
+  }
   const subirArchivoTarea = async (archivo) => {
     const data = await fetch_the_data(
       "http://localhost:8000/tareas/guardar_archivo_tarea",
@@ -49,7 +54,9 @@ const Subir_tareas = ({ contenido_id }) => {
     console.log(data[1]);
     obtenerArchivosSubidos(); // Volvemos a cargar la lista de archivos subidos
   };
-
+  {
+    /*Funcion encargada de leer cada archivo haciendo una instancia del filereader */
+  }
   const handleUpload = () => {
     if (!archivoAsinado) {
       Swal.fire("Por favor selecciona al menos un archivo.");
@@ -73,7 +80,9 @@ const Subir_tareas = ({ contenido_id }) => {
       });
     });
   };
-
+  {
+    /*Funcion que se encarga de convertido de tomar el archivo y convertirlo en array  */
+  }
   const convertAnArrayArchives = (Archives) => {
     const file_array = Array.from(Archives);
 
@@ -137,6 +146,9 @@ const Subir_tareas = ({ contenido_id }) => {
   }, [selectedArchivo]);
 
   useEffect(() => {
+    {
+      /*Funcion que se encarga de filtrar a los estudiantes de acuerdo al grupo seleccionado */
+    }
     (async () => {
       const data = await fetch_the_data(
         "http://localhost:8000/cursos/get_usuarios_grupo",
@@ -169,34 +181,45 @@ const Subir_tareas = ({ contenido_id }) => {
 
   return (
     <div>
-      <input
-        type="file"
-        style={{ marginBottom: "10px" }}
-        ref={file_ref}
-        onChange={(e) => convertAnArrayArchives(e.target.files)}
-        accept=".pdf"
-      />
-      <button onClick={handleUpload}>Subir archivo</button>
-
-      {/* Mostrar solo el archivo más reciente */}
-      <div style={{ marginTop: "20px" }}>
-        <h3>Tarea Asignada</h3>
-        {archivoSubido ? (
+      <>
+        {userInSession.is_staff && (
           <>
-            <div
-              onClick={(e) => {
-                e.preventDefault();
-                obtenerTarea(archivoSubido);
-              }}
-            >
-              {archivoSubido.nombre}
-            </div>
-            <BorrarArchivoTarea id={archivoSubido.id} />
+            <input
+              type="file"
+              style={{ marginBottom: "10px" }}
+              ref={file_ref}
+              onChange={(e) => convertAnArrayArchives(e.target.files)}
+              accept=".pdf"
+              className="upload-section"
+            />
+            <button className="b-t-n-taskUp" onClick={handleUpload}>Subir archivo</button>
           </>
-        ) : (
-          <p>No hay archivos subidos.</p>
         )}
-      </div>
+
+        {/* Mostrar solo el archivo más reciente */}
+        <div style={{ marginTop: "20px" }}>
+          <h3>Tarea Asignada</h3>
+          {archivoSubido ? (
+            <>
+              <div
+                onClick={(e) => {
+                  e.preventDefault();
+                  obtenerTarea(archivoSubido);
+                }}
+              >
+                {archivoSubido.nombre}
+              </div>
+              {userInSession.is_staff && (
+                <>
+                  <BorrarArchivoTarea id={archivoSubido.id} />
+                </>
+              )}
+            </>
+          ) : (
+            <p>No hay archivos subidos.</p>
+          )}
+        </div>
+      </>
 
       {/* Mostrar el contenido del archivo seleccionado */}
       {selectedArchivo && selectedArchivo.contenido && (

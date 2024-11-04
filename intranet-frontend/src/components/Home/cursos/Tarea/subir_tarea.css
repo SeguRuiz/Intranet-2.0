@@ -1,0 +1,10 @@
+.b-t-n-taskUp{
+  margin: 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 15px 20px; /*tamaño del boton  */
+  border-radius: 5px; /* bordes redondeados */
+  cursor: pointer; /*  cambia el cursor al estar sobre el boton*/
+  margin-bottom: 1px; /*espacio al rededor de boton  */
+  color: #007bff;
+}

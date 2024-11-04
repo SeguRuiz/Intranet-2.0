@@ -40,13 +40,16 @@ class Intermedia_archivos_entregablesCreate(ModelViewSet):
   
   
 @api_view(["POST", "GET"])
+# vista que nos permite hacer un post y get de las tareas, guardando en aws y en la tablas requeridas
 def guardar_archivo_tareas(request):
   if request.method == "GET":
+    
     data = Archivos_referencia.objects.all()
     
     serializer= ArchivosSerializer(instance=data,many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
   try:
+    # aqui se hace un doble posteo, uno va a aws, donde se va a guardar el archivo y el otro en las tablas de archivos referencia e Intermedia_tareas_archivos
       response = requests.post(
       "https://dknht1by8b.execute-api.us-east-2.amazonaws.com/default/PutData",
       json=request.data,
@@ -59,7 +62,7 @@ def guardar_archivo_tareas(request):
       
         if serializer.is_valid():
             serializer.save()
-        
+        #se a buscar en la tabla de archivos, la pk, id y info tarea, el id se envia desde el FE, en el cuerpo del post
         file = get_object_or_404(Archivos_referencia, pk=serializer.data["id"])
         tarea = get_object_or_404(Info_tareas, pk=request.data["id"])
         files.append(file)
@@ -84,6 +87,9 @@ def guardar_archivo_tareas(request):
     status=status.HTTP_400_BAD_REQUEST,
   )
     
+    
+    
+# vista que va a borrar el archivo de aws, buscando su id enviado en la url para ejecutar la función de borrar
 @api_view(["DELETE"])
 def borrar_archivo_tarea(request, pk):
   try:
@@ -111,7 +117,7 @@ def borrar_archivo_tarea(request, pk):
       {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
     )
 
-    
+# vista para obtener un solo archivo de aws, y mostrarlo
 @api_view(["POST"])
 def obtener_archivo_tarea(request):
     archivo = get_object_or_404(Archivos_referencia, pk=request.data["archivo"]['id'])
@@ -126,9 +132,12 @@ def obtener_archivo_tarea(request):
     content = json.loads(request_fetch.content)
     return Response({"archivo": content["data_archivo"]}, status=status.HTTP_200_OK)
     
+    
+#vista para que hacer un post, guardando en la tabla de tareas asignadas    
 @api_view(["POST"])
 def asignar_tareas_estudiantes(request):
     try:
+      #se va a buscar en el cuerpo del post, tarea info, así como el de estudiantes
         tarea_info:dict = request.data["tarea_info"] 
         estudiantes: list[str] = request.data["estudiantes"]
         for n in estudiantes: 
@@ -145,6 +154,9 @@ def asignar_tareas_estudiantes(request):
         return Response({"Info":"Objeto mal formulado"}, status=status.HTTP_400_BAD_REQUEST)
     
      
+     
+     
+# vista para hacer subir archivos y obtenerlos de la tabla de intermedia archivos entregables.
 @api_view(["POST","GET"])
 def subir_tarea_estudiante(request):
     if request.method == "GET":
@@ -164,7 +176,7 @@ def subir_tarea_estudiante(request):
            )
            if serializer.is_valid():
                serializer.save()
-               
+           # va a buscar la pk de archivos_referencia, y dentro del cuerpo del cuerpo del post, espera, estudiante_id y info_tarea_id, para lograr hacer el post    
            archivo = get_object_or_404(Archivos_referencia, pk=serializer.data["id"])
            asignacion_id = get_object_or_404(Tareas_asignadas, estudiante_id=request.data["estudiante_id"],info_tarea_id=request.data["info_tarea_id"])
            archivos.append(archivo)
@@ -172,6 +184,7 @@ def subir_tarea_estudiante(request):
            serializer_intermedia_archivo_entregables = Intermedia_archivos_entregablesSerializer(
                data = {"archivo_id":archivo.pk, "asignacion_id":asignacion_id.pk, "info_tarea_id":request.data["info_tarea_id"]}
            )
+           # una vez hecho eso, los guarda.
            if serializer_intermedia_archivo_entregables.is_valid():
                serializer_intermedia_archivo_entregables.save()
                
@@ -185,7 +198,7 @@ def subir_tarea_estudiante(request):
         
         return Response({"Info":"Hubo un error al subir el archivo de la tarea"}, status=status.HTTP_400_BAD_REQUEST)
     
-    
+# vista para obtener los archivos de la tabla intermedia, tareas_archivos    
 @api_view(["POST"])
 def mostrar_archivo(request):
     try:
