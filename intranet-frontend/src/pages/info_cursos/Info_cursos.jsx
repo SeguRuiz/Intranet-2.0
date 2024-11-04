@@ -12,11 +12,13 @@ import Navbar from "../../components/Home/navbar/NavBar";
 import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_actions_cursos";
 import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 import MenuModal from "../../components/SideMenu/MenuCrud/Add/MenuModal";
+import { getCookie } from "../../utils/Cookies";
 const Info_cursos = () => {
   const { fetch_the_data } = useFetch();
   const accion = useDispatch();
   const { id_curso } = useParams();
   const ids = useParams()
+  const token = getCookie('token')
   console.log(ids);
   
   const cursosLinks = [
@@ -32,7 +34,7 @@ const Info_cursos = () => {
       accion(set_archivo_mostrandose(null));
       const data = await fetch_the_data(
         "http://localhost:8000/cursos_contenidos/get_contenidos_and_subcontenidos",
-        null,
+        token,
         "GET",
         null,
         id_curso

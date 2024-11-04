@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Loginpage } from "../pages/Loginpage";
 import Contenido from "../pages/info_cursos/Info_cursos";
 import Cursos from "../pages/Cursos_page/Cursos_page.jsx";
 import Home from "../pages/Home_page";
@@ -11,7 +10,6 @@ import Grupo from "../pages/grupos_page/Grupo_page.jsx";
 import Tarea from "../pages/tarea_page/Tarea_page.jsx";
 import Comunicaciones from "../pages/Comuniciones/Comunicaciones_page.jsx";
 import Cronograma from "../pages/Cronograma_page/Cronograma_page.jsx";
-import Register from "../pages/Register_page.jsx";
 import Control_usuarios_page from "../pages/Control_usuarios/Control_usuarios.jsx";
 import { useFetch } from "../services/llamados.js";
 import { useEffect } from "react";
@@ -28,6 +26,7 @@ import { set_roles } from "../redux/ControlUsuariosSlice.js";
 import { estado_admin, estado_no_admin } from "../redux/IsAdminSlice.js";
 import { set_fetching } from "../redux/FetchsSlice.js";
 import Contenido_tarea from "../pages/tarea_page/Contenido_tarea_page.jsx";
+import { Login } from "../components/login/Login.jsx";
 
 export const Routing = () => {
   const { fetch_the_data } = useFetch();
@@ -84,15 +83,14 @@ export const Routing = () => {
   }, [retraer]);
 
   return (
-    <div>
+    <>
       <ToastContainer />
       <Router>
         <Routes>
-          <Route path="/" element={<Loginpage />} />
+          <Route path="/" element={<Login/>} />
 
           {authorized && (
             <>
-              <Route path="/registro" element={<Register />} />
               <Route path="/home" element={<Home />} />
               <Route path="/social" element={<Social />} />
               <Route path="/anuncios" element={<Anuncios />} />
@@ -133,6 +131,6 @@ export const Routing = () => {
           <Route path="/*" element={"Not found"} />
         </Routes>
       </Router>
-    </div>
+    </>
   );
 };

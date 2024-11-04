@@ -1,4 +1,4 @@
-const stringToColor = (string) => {
+export const stringToColor = (string) => {
   let hash = 0;
   let i;
 
@@ -26,3 +26,12 @@ export const stringAvatar = (name, sx = {}) => {
     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
   };
 };
+
+export const promesa = (duracion) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, duracion);
+    });
+  };
+

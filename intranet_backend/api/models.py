@@ -23,6 +23,7 @@ class Usuarios(AbstractUser):
     cedula = models.IntegerField(null=True, unique=True)
     rol_id = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True)
     fecha_editado = models.DateTimeField(auto_now=True)
+    is_socioemocional = models.BooleanField(default=False)
 
     class Meta:
         db_table = "Usuarios"
@@ -48,7 +49,7 @@ class Estudiantes(models.Model):
     )
     nota = models.FloatField(null=False, default=0)
     reportes = models.IntegerField(null=False, default=0)
-    activo = models.BooleanField(null=False, default=False)
+    activo = models.BooleanField(null=False, default=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     faltas = models.IntegerField(default=0, null=False)
     fecha_actualizacion = models.DateTimeField(auto_now=True)

@@ -36,9 +36,7 @@ const Contenido_tarea = () => {
     return <div>No se encontró la tarea seleccionada.</div>;
   }
 
-  const subirTareaStudent = () => {
-    
-  };
+  
 
   return (
     <div className="outer-container">
@@ -50,12 +48,12 @@ const Contenido_tarea = () => {
         </div>
         <div>
           <p>Fecha limite de entrega:{tareaSeleccionada.fecha_entrega}</p>
-          <p class="status">Sin entregar</p>
+          <p className="status">Sin entregar</p>
           <Subir_tareas />
         </div>
       </div>
       <div className="tu-trabajo">
-        <p class="section-title">Tu trabajo</p>
+        <p className="section-title">Tu trabajo</p>
         <input className="upload-section" type="file" />
         <button>Subir Tarea</button>
       </div>
