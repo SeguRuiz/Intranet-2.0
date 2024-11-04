@@ -32,7 +32,7 @@ class UsersCreate(ModelViewSet):
     queryset = Usuarios.objects.all()
     serializer_class = UsersSerializer
     lookup_field = "id"
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
 
@@ -44,10 +44,12 @@ def register(request):
     pw = PasswordGenerator()
     pw.minlen = 8  # Longitud mínima de la contraseña
     pw.maxlen = 8  # Longitud máxima de la contraseña
-    
+
     # Obtener información del usuario desde la solicitud y generar contraseña
     user_info: dict = request.data
-    user_info['password'] = pw.generate()  # Genera y asigna la contraseña al diccionario de información del usuario
+    user_info["password"] = (
+        pw.generate()
+    )  # Genera y asigna la contraseña al diccionario de información del usuario
 
     # Serializar los datos del usuario para validación y creación
     serializer = UsersSerializer(data=user_info)
@@ -61,11 +63,9 @@ def register(request):
 
         # Crear cuerpo del correo para notificar al usuario de su registro
         body = f"""
-        Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de evaluación.
-        Aquí está la información de tu correo: {user.email} y tu respectiva contraseña: {user_info['password']}.
-        Recuerda no compartirla con nadie más y suerte en este proceso.
+Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de evaluación, aquí está la información de tu correo: {user.email} y tu respectiva contraseña: {user_info['password']}. Recuerda no compartirla con nadie más y suerte en este proceso.
         """
-        
+
         # Enviar un correo electrónico al usuario con sus credenciales
         sendEmail(email_receiver=user.email, subject="Reenvío contraseña", body=body)
 
@@ -127,44 +127,54 @@ def login(request):
 
 
 @api_view(["POST", "GET"])
-@authentication_classes([JWTAuthentication]) 
-@permission_classes([IsAuthenticated])  
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def roles(request):
-
     if request.method not in ["POST"]:
-        roles = Roles.objects.all() 
-        serializer = RolesSerializer(instance=roles, many=True) 
+        roles = Roles.objects.all()
+        serializer = RolesSerializer(instance=roles, many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)  # Retorno los datos serializados con un código 200 (éxito)
+        return Response(
+            serializer.data, status=status.HTTP_200_OK
+        )  # Retorno los datos serializados con un código 200 (éxito)
 
     # Si el método de la solicitud es POST, crea un nuevo rol con los datos proporcionados
-    rol = RolesSerializer(data=request.data)  
+    rol = RolesSerializer(data=request.data)
 
     # Verifica si los datos proporcionados son válidos
     if rol.is_valid():
         rol.save()  # Guarda el nuevo rol en la base de datos
 
-        return Response(rol.data, status.HTTP_201_CREATED)  # Retorna los datos del rol creado con un código 201 (creado)
+        return Response(
+            rol.data, status.HTTP_201_CREATED
+        )  # Retorna los datos del rol creado con un código 201 (creado)
 
     # Si los datos no son válidos, retorna los errores de validación con un código 400 (solicitud incorrecta)
     return Response(rol.errors, status.HTTP_400_BAD_REQUEST)
 
 
-
 @api_view(["PATCH"])
-@authentication_classes([JWTAuthentication])  
-@permission_classes([IsAdminUser])  
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAdminUser])
 def aignar_rol_a(request, pk=None):
     # Obtiene el usuario especificado por el parámetro 'pk'
-    user = get_object_or_404(Usuarios, pk=pk)  # Lanza un error 404 si no encuentra el usuario
-    user_serializer = UsersSerializer(instance=user)  # Serializa la información del usuario
+    user = get_object_or_404(
+        Usuarios, pk=pk
+    )  # Lanza un error 404 si no encuentra el usuario
+    user_serializer = UsersSerializer(
+        instance=user
+    )  # Serializa la información del usuario
 
     try:
         # Obtiene el rol especificado en el cuerpo de la solicitud
-        rol = get_object_or_404(Roles, tipo=request.data["rol"])  # Lanza un error 404 si no encuentra el rol
+        rol = get_object_or_404(
+            Roles, tipo=request.data["rol"]
+        )  # Lanza un error 404 si no encuentra el rol
         rol_serializer = RolesSerializer(instance=rol)  # Serializa el rol
         user.rol_id = rol  # Asigna el rol al usuario
-        user.is_staff = rol.tipo.upper() == "ADMIN"  # Marca al usuario como 'staff' si el rol es "ADMIN"
+        user.is_staff = (
+            rol.tipo.upper() == "ADMIN"
+        )  # Marca al usuario como 'staff' si el rol es "ADMIN"
         user.save()  # Guarda los cambios del usuario
 
         # Si el rol asignado es "estudiante", activa o crea un registro de estudiante
@@ -240,15 +250,17 @@ def verificar_token(request):
     try:
         # Intento obtener el usuario asociado al token proporcionado en la solicitud
         user = Token.objects.get(key=request.data["token"]).user
-        user_serializer = UsersSerializer(instance=user)  # Serializa la información del usuario
+        user_serializer = UsersSerializer(
+            instance=user
+        )  # Serializa la información del usuario
 
         # Retorno la información del usuario y una bandera de validez positiva si el token es válido
         return Response(
             {
-                "id": user_serializer.data["id"],  
-                "email": user_serializer.data["email"],  
-                "rol_id": user_serializer.data["rol_id"], 
-                "validez": True,  
+                "id": user_serializer.data["id"],
+                "email": user_serializer.data["email"],
+                "rol_id": user_serializer.data["rol_id"],
+                "validez": True,
             },
             status=status.HTTP_200_OK,
         )
@@ -258,7 +270,6 @@ def verificar_token(request):
     except Token.DoesNotExist:
         # Retorno una respuesta 400 si el token no existe en la base de datos
         return Response({"validez": False}, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 @api_view(["DELETE"])
@@ -291,7 +302,9 @@ def verify_token(request):
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomJWTSerializer  # Usa un serializer personalizado para obtener tokens JWT
+    serializer_class = (
+        CustomJWTSerializer  # Usa un serializer personalizado para obtener tokens JWT
+    )
 
 
 @api_view(["GET"])
@@ -302,7 +315,7 @@ def get_user_info(request, pk):
         # Obtiene el usuario por su ID (pk) y lo serializa
         user = get_object_or_404(Usuarios, pk=pk)
         user_data = UsersSerializer(instance=user)
-        
+
         # Obtiene el rol del usuario y los grupos a los que pertenece
         role = Roles.objects.get(pk=user_data.data["rol_id"])
         grupos = Intengrantes_de_grupo.objects.filter(
@@ -368,7 +381,7 @@ def get_estudiantes_activos(request):
     estudiantes = Estudiantes.objects.filter(usuario_id__in=usuarios_en_grupo).exclude(
         activo=False
     )
-    
+
     # Serializa la lista de estudiantes activos
     serializer = EstudiantesSerializer(instance=estudiantes, many=True)
     # Copia los datos básicos del estudiante para su procesamiento
@@ -402,20 +415,20 @@ def get_estudiante(request):
         # Obtiene el estudiante y su información relacionada
         estudiante = get_object_or_404(Estudiantes, pk=request.data["estudiante"])
         estudiante_ser = EstudiantesSerializer(instance=estudiante)
-        
+
         # Obtiene el usuario correspondiente al estudiante
         user = get_object_or_404(Usuarios, pk=estudiante_ser.data["usuario_id"])
         user_serializer = UsersSerializer(instance=user)
-        
+
         # Obtiene el grupo del estudiante y su sede
         grupo_id = get_object_or_404(
             Intengrantes_de_grupo, usuario_id=user_serializer.data["id"]
         )
         integrante_ser = IntengratesGruposSerializer(instance=grupo_id)
-        
+
         grupo = get_object_or_404(Grupos, pk=integrante_ser.data["grupo_id"])
         grupo_serializer = GruposSerializer(instance=grupo)
-        
+
         sede = get_object_or_404(Sedes, pk=grupo_serializer.data["sede_id"])
 
         # Retorna información detallada del estudiante, incluyendo su grupo y sede

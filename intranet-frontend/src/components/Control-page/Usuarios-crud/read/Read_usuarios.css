@@ -38,6 +38,7 @@
   transition: 0.2s;
   margin-bottom: 25px;
   grid-template-rows: 25% auto;
+  overflow: hidden;
   background-color: var(--SurfaceLow-color);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 }

@@ -7,7 +7,7 @@ import "./Read_grupos_tabla.css";
 
 const Read_grupos_tabla = () => {
   const { grupos, curso_seleccionado } = useSelector((e) => e.ControlUsuarios);
-
+  
   return (
     <>
       {(() => {

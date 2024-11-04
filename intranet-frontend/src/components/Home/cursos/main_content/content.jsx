@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { DecodeToken } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
 import Select_cursos_home from "./Read/Select_cursos_home";
+import { CircularProgress } from "@mui/material";
 
 const Content = ({ grupos = [] }) => {
   const { cursos } = useSelector((state) => state.modal);
@@ -19,7 +20,7 @@ const Content = ({ grupos = [] }) => {
 
   const token = getCookie("token");
 
-  const { fetch_the_data } = useFetch();
+  const { fetch_the_data, fetching } = useFetch();
 
   const accion = useDispatch();
 
@@ -67,13 +68,15 @@ const Content = ({ grupos = [] }) => {
 
   return (
     <>
-      <div className="container">
-        <div className="cursos-home-grid">
-          {grupos_del_usuario(grupos).map((e) => (
-             <Select_cursos_home key={e?.id} nombre={e?.nombre} id={e?.id}/>
-          ))}
+      
+        <div className="container">
+          <div className="cursos-home-grid">
+            {grupos_del_usuario(grupos).map((e) => (
+              <Select_cursos_home key={e?.id} nombre={e?.nombre} id={e?.id} />
+            ))}
+          </div>
         </div>
-      </div>
+     
     </>
   );
 };

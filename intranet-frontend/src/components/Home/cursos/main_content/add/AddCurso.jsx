@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCookie } from "../../../../../utils/Cookies";
 import { Button } from "@mui/material";
 import { Tooltip } from "@mui/material";
-import { useCustomModal, useCustomNotis } from "../../../../../utils/customHooks";
+import {
+  useCustomModal,
+  useCustomNotis,
+} from "../../../../../utils/customHooks";
 import Retractile_menu from "../../../../Control-page/Retractile_menu/Retractile_menu";
 import { TextField } from "@mui/material";
 
@@ -14,11 +17,15 @@ const AddCurso = () => {
   const { fetch_the_data } = useFetch();
   const { userInSession } = useSelector((x) => x.Auth);
   const [error, setError] = useState("");
-  const {ok_mensaje, error_mensaje} = useCustomNotis('Ocurrio un error', 'Se agrego correctamente')
+  const { ok_mensaje, error_mensaje } = useCustomNotis(
+    "Ocurrio un error",
+    "Se agrego correctamente"
+  );
   const dlg_ref = useRef();
   const token = getCookie("token");
   const { openModal, closeModalDlg, closeModal } = useCustomModal(dlg_ref);
   const ref_input = useRef();
+  const form_ref = useRef();
   const accion = useDispatch();
 
   const subirDatosCursos = async (evento) => {
@@ -34,18 +41,19 @@ const AddCurso = () => {
       );
 
       if (data[0] == 201 && data != undefined) {
-        ok_mensaje()
+        ok_mensaje();
         accion(setCursos(data[1]));
-        closeModal()
-      }else{
-        error_mensaje()
+        form_ref.current.reset();
+        closeModal();
+      } else {
+        error_mensaje();
       }
-      return
+      return;
     }
 
-    setError('El espacio no puede estar en blanco')
+    setError("El espacio no puede estar en blanco");
     setTimeout(() => {
-      setError('')
+      setError("");
     }, 3000);
   };
 
@@ -73,7 +81,11 @@ const AddCurso = () => {
       >
         <div className="agrear-curso-content">
           <Retractile_menu titulo="Agrega un curso" altura={26}>
-            <form onSubmit={subirDatosCursos} className="add-cursos-form">
+            <form
+              onSubmit={subirDatosCursos}
+              className="add-cursos-form"
+              ref={form_ref}
+            >
               <TextField
                 type="text"
                 label="Nombre Curso"
@@ -84,7 +96,7 @@ const AddCurso = () => {
                 error={error != ""}
                 helperText={error}
               />
-              <Button type='submit' variant="text" style={{ alignSelf: "end" }}>
+              <Button type="submit" variant="text" style={{ alignSelf: "end" }}>
                 agregar
               </Button>
             </form>
