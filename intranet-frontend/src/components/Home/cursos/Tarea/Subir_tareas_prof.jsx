@@ -7,10 +7,17 @@ import { useDispatch, useSelector } from "react-redux";
 import uuid from "react-uuid";
 import { subirArchivosTareas } from "../../../../redux/ObtenerDatosTareaSlice";
 import BorrarArchivoTarea from "./BorrarArchivoTarea";
+import { set_usuarios_del_grupo } from "../../../../redux/CursosContenidosSlice";
+import { DecodeToken } from "../../../../services/llamados";
 
-const Subir_tareas = ({ id, contenido_id, archivo }) => {
+const Subir_tareas = ({ contenido_id }) => {
   const { fetch_the_data } = useFetch();
   const { id_tarea } = useParams();
+  const { estudiantes, grupo_mostrandose } = useSelector(
+    (x) => x.CursosContenidos
+  );
+  console.log(id_tarea);
+
   const token = getCookie("token");
   const file_ref = useRef();
   const dispatch = useDispatch();
@@ -23,10 +30,10 @@ const Subir_tareas = ({ id, contenido_id, archivo }) => {
 
   const subirArchivoTarea = async (archivo) => {
     const data = await fetch_the_data(
-      "http://localhost:8000/info_tareas/guardar_archivo_tarea",
+      "http://localhost:8000/tareas/guardar_archivo_tarea",
       token,
       "POST",
-      { method: "POST", files_info: [archivo] }
+      { method: "POST", files_info: [archivo], id: id_tarea }
     );
     console.log(archivo);
     dispatch(
@@ -80,9 +87,10 @@ const Subir_tareas = ({ id, contenido_id, archivo }) => {
   // Función para obtener los archivos subidos de la tarea
   const obtenerArchivosSubidos = async () => {
     const data = await fetch_the_data(
-      "http://localhost:8000/info_tareas/guardar_archivo_tarea",
+      "http://localhost:8000/tareas/mostrar_archivo",
       token,
-      "GET"
+      "POST",
+      { info_tarea_id: id_tarea }
     );
     setArchivoSubido(data[1][0]); // Guardamos los archivos en el estado
     console.log(data);
@@ -91,7 +99,7 @@ const Subir_tareas = ({ id, contenido_id, archivo }) => {
   const obtenerTarea = async (archivo) => {
     try {
       const data = await fetch_the_data(
-        "http://localhost:8000/info_tareas/obtener_archivo_tarea",
+        "http://localhost:8000/tareas/obtener_archivo_tarea",
         token,
         "POST",
         { method: "GET", archivo: archivo }
@@ -128,6 +136,37 @@ const Subir_tareas = ({ id, contenido_id, archivo }) => {
     console.log("selectedArchivo:", selectedArchivo);
   }, [selectedArchivo]);
 
+  useEffect(() => {
+    (async () => {
+      const data = await fetch_the_data(
+        "http://localhost:8000/cursos/get_usuarios_grupo",
+        token,
+        "POST",
+        {
+          usuario_id: DecodeToken(token).user_id,
+          grupo_id:
+            grupo_mostrandose == null ? "sin definir" : grupo_mostrandose,
+        }
+      );
+      console.log(data);
+
+      if ((await data[0]) == 200) {
+        dispatch(
+          set_usuarios_del_grupo({
+            rol: "estudiantes",
+            data: data[1]?.estudiantes,
+          })
+        );
+        dispatch(
+          set_usuarios_del_grupo({
+            rol: "profesores",
+            data: data[1]?.profesores,
+          })
+        );
+      }
+    })();
+  }, [grupo_mostrandose]);
+
   return (
     <div>
       <input
@@ -143,15 +182,17 @@ const Subir_tareas = ({ id, contenido_id, archivo }) => {
       <div style={{ marginTop: "20px" }}>
         <h3>Tarea Asignada</h3>
         {archivoSubido ? (
-          <div
-            onClick={(e) => {
-              e.preventDefault();
-              obtenerTarea(archivoSubido);
-            }}
-          >
-            {archivoSubido.nombre}
+          <>
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                obtenerTarea(archivoSubido);
+              }}
+            >
+              {archivoSubido.nombre}
+            </div>
             <BorrarArchivoTarea id={archivoSubido.id} />
-          </div>
+          </>
         ) : (
           <p>No hay archivos subidos.</p>
         )}

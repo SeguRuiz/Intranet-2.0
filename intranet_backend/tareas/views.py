@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import json
 import requests
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
@@ -61,13 +61,23 @@ def guardar_archivo_tareas(request):
             serializer.save()
         
         file = get_object_or_404(Archivos_referencia, pk=serializer.data["id"])
+        tarea = get_object_or_404(Info_tareas, pk=request.data["id"])
         files.append(file)
+        
+        serializer_intermedia_tarea = Intermedia_tareas_archivosSerializer(
+            data = {"archivo_id":file.pk, "info_tarea_id":tarea.pk}
+        )
+        if serializer_intermedia_tarea.is_valid():
+            serializer_intermedia_tarea.save()
+        
       serializer_list = ArchivosSerializer(instance=files, many=True)
       
+      
+      
       return Response(
-    {"aws_state":response.ok,"archivo_creado":serializer_list.data},
-    status=status.HTTP_200_OK,
-  )
+        {"aws_state":response.ok,"archivo_creado":serializer_list.data},
+        status=status.HTTP_200_OK,
+        )
   except KeyError:
     return Response(
     {"info":"el objetivo no cuenta con los valores necesarios"},
@@ -114,6 +124,79 @@ def obtener_archivo_tarea(request):
     )
 
     content = json.loads(request_fetch.content)
-    # print(request_fetch.content)
     return Response({"archivo": content["data_archivo"]}, status=status.HTTP_200_OK)
     
+@api_view(["POST"])
+def asignar_tareas_estudiantes(request):
+    try:
+        tarea_info:dict = request.data["tarea_info"] 
+        estudiantes: list[str] = request.data["estudiantes"]
+        for n in estudiantes: 
+            tarea_info.update(estudiante_id=n["estu_id"])
+            Tareas_asignadas = Tareas_asignadasSerializer(data=tarea_info)
+            if Tareas_asignadas.is_valid():
+                Tareas_asignadas.save()
+            
+            
+        return Response({"Info":"Se agrego con exito"},status=status.HTTP_200_OK)
+            
+    except KeyError: 
+        
+        return Response({"Info":"Objeto mal formulado"}, status=status.HTTP_400_BAD_REQUEST)
+    
+     
+@api_view(["POST","GET"])
+def subir_tarea_estudiante(request):
+    if request.method == "GET":
+        data = Intermedia_archivos_entregables.objects.all()
+    
+        serializer_intermedia_archivo_entregables= Intermedia_archivos_entregablesSerializer(instance=data,many=True)
+        return Response(serializer_intermedia_archivo_entregables.data, status=status.HTTP_200_OK)
+    try:
+       response = requests.post(
+      "https://dknht1by8b.execute-api.us-east-2.amazonaws.com/default/PutData",
+      json=request.data,
+      )
+       archivos = []
+       for n in request.data["files_info"]:
+           serializer= ArchivosSerializer(
+                data = {"key": n["id"], "nombre": n["nombre"]}
+           )
+           if serializer.is_valid():
+               serializer.save()
+               
+           archivo = get_object_or_404(Archivos_referencia, pk=serializer.data["id"])
+           asignacion_id = get_object_or_404(Tareas_asignadas, estudiante_id=request.data["estudiante_id"],info_tarea_id=request.data["info_tarea_id"])
+           archivos.append(archivo)
+           
+           serializer_intermedia_archivo_entregables = Intermedia_archivos_entregablesSerializer(
+               data = {"archivo_id":archivo.pk, "asignacion_id":asignacion_id.pk, "info_tarea_id":request.data["info_tarea_id"]}
+           )
+           if serializer_intermedia_archivo_entregables.is_valid():
+               serializer_intermedia_archivo_entregables.save()
+               
+               
+           
+       list_archives = ArchivosSerializer(instance=archivos,many=True)
+        
+       return Response({"Info":list_archives.data}, status=status.HTTP_200_OK)
+    
+    except KeyError:
+        
+        return Response({"Info":"Hubo un error al subir el archivo de la tarea"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+@api_view(["POST"])
+def mostrar_archivo(request):
+    try:
+        tarea_id = request.data["info_tarea_id"]
+        archivo_tarea = get_object_or_404(Intermedia_tareas_archivos,info_tarea_id=tarea_id)
+        archivo_tarea_serializer = Intermedia_tareas_archivosSerializer(instance = archivo_tarea)
+        archivo = get_list_or_404(Archivos_referencia, pk=archivo_tarea_serializer.data["archivo_id"])
+        archivo_serializer = ArchivosSerializer(instance=archivo, many=True)
+       
+        return Response(archivo_serializer.data,status=status.HTTP_200_OK)
+     
+    except KeyError:
+        
+        return Response({"Info":"No se logró hacer el post"},status=status.HTTP_400_BAD_REQUEST)

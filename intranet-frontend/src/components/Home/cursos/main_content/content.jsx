@@ -45,7 +45,7 @@ const Content = ({ grupos = [] }) => {
     const grupos_usuario_fun = [];
     const cursos_permitidos = [];
     const cursos_filtrados = [];
-    if (grupos[0] == undefined) {
+    if (grupos[0] == undefined && !Es_admin) {
       return [];
     }
     grupos.forEach((e) => {
@@ -64,9 +64,7 @@ const Content = ({ grupos = [] }) => {
       curso != false && cursos_filtrados.push(c);
     });
 
-    return Es_admin 
-      ? [...cursos]
-      : cursos_filtrados;
+    return Es_admin ? [...cursos] : cursos_filtrados;
   };
 
   return (

@@ -24,6 +24,8 @@ from .serializers import (
     IntengratesGruposSerializer,
     SedesSerializer,
 )
+from api.models import Estudiantes
+from api.serializers import EstudiantesSerializer
 
 # Create your views here.
 
@@ -229,11 +231,22 @@ def get_usurios_de_grupo(request):
         for n in usuarios:
             try:
                 rol = Roles.objects.get(id=n["rol_id_id"])
+                estudiante= Estudiantes.objects.get(usuario_id=n['id'])
+                estudiante_ser = EstudiantesSerializer(instance=estudiante)
                 n.update(rol=rol.tipo)
+                n.update(estu_id=estudiante_ser.data['id'])
             except Roles.DoesNotExist:
                 n.update(rol="No definido")
-
+                
+            except Estudiantes.DoesNotExist:
+                
+                rol = Roles.objects.get(id=n["rol_id_id"])
+                
+                n.update(rol=rol.tipo)
+                n.update(estu_id='no definido')
+                
         profesores = [n for n in usuarios if n["rol"].upper() == "PROFESOR"]
+        
         estudiantes = [n for n in usuarios if n["rol"].upper() == "ESTUDIANTE"]
 
         return Response(

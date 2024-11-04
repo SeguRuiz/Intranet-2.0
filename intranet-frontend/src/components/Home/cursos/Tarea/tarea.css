@@ -1,7 +1,7 @@
 /* clase que envuelve todo el componente */
 .main-container {
   font-family: Arial, sans-serif; /*fuente de letra  */
-  padding: 20px; /* espacio alrededor del contenedor */ 
+  padding: 20px; /* espacio alrededor del contenedor */
 }
 
 /* clase para los botones de atrasadas, revisadas y entregadas */
@@ -11,7 +11,7 @@
   margin-bottom: 20px; /* margen para separar  */
 }
 /* clases para la tarea, descripción, fecha de entrega y estado. */
-.content_name_HW, 
+.content_name_HW,
 .content_description,
 .content_date,
 .content_date_check {
@@ -20,8 +20,8 @@
 }
 /* clase para el boton de agregar nueva tarea  */
 .btn-add-task {
-  margin: 30px; 
-  background-color: #fff; 
+  margin: 30px;
+  background-color: #fff;
   border: 1px solid #ccc;
   padding: 10px 20px; /*tamaño del boton  */
   border-radius: 5px; /* bordes redondeados */
@@ -29,38 +29,19 @@
   margin-bottom: 20px; /*espacio al rededor de boton  */
 }
 
-
-/* clase */
-/* .nombre-tarea,
-.descripcion-tarea,
-.fecha-tarea,
-.fecha-revision {
-  border: 1px rgb(255, 250, 250) solid;
-  width: 300px;
-  text-align: center;
-} */
-
 /* clase para los campos de entrada */
 .task-form input {
   display: block; /* ocupa toda la línea */
-  width: 100%; 
+  width: 100%;
   padding: 10px; /*espacio interior  */
   margin-bottom: 15px; /* margen inferior entre los inputs  */
   border: 1px solid #ccc;
   border-radius: 5px; /* bordes redondeados  */
 }
-/* clase del boton para enviar tarea */
-.btn-submit-task {
-  background-color: #ffffff;
-  color: white;
-  padding: 10px 20px; /* tamaño del boton */
-  border: none; /*  */
-  border-radius: 5px; /* bordes redondeados */
-  cursor: pointer; /*cambia el cursor al estar sobre el boton  */
-}
+
 /* clase de cada tarea individual */
-.task-container{
- display: flex; /* alinear los elementos de la tarea */
+.task-container {
+  display: flex; /* alinear los elementos de la tarea */
   justify-content: space-between; /* espacio entre los elementos */
   align-items: center; /*alinea de forma vertical los elementos  */
   padding: 15px; /* espacio interno */
@@ -80,14 +61,13 @@
   cursor: pointer; /* cambia el cursor al estar sobre el boton */
   padding: 20px 10px; /*  tamaño del boton */
   border-radius: 30px; /* bordes redondeados */
-  margin: 0 9px;  /*  */
+  margin: 0 9px; /*  */
 }
 
 /* clase para informacion sobre la tarea */
 .task-info {
-  cursor: pointer;  /*  cambia el cursor al estar sobre el boton*/
   color: #007bff;
-  text-decoration: none;  /* para eliminar las lineas  */
+  text-decoration: none; /* para eliminar las lineas  */
 }
 .filter-btn {
   background-color: #f8f9fa;
@@ -101,7 +81,7 @@
   color: red;
 }
 /* clase para el nombre de la tarea */
-.task-name{
+.task-name {
   flex: 2; /* mas espacio */
 }
 

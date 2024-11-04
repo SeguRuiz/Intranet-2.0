@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useFetch } from "../../../../services/llamados";
-import { deleteContenidosTareas } from "../../../../redux/ObtenerDatosTareaSlice";
+import { borrarArchivos } from "../../../../redux/ObtenerDatosTareaSlice";
 
 const BorrarArchivoTarea = ({ id }) => {
   const token = sessionStorage.getItem("token");
@@ -13,19 +13,22 @@ const BorrarArchivoTarea = ({ id }) => {
       return;
     }
 
-    const archivo_id = id; // Convertir a entero
+    const archivo_id = id;
     console.log(id);
 
     try {
       const response = await fetch_the_data(
-        `http://localhost:8000/info_tareas/borrar_archivo_tarea/${archivo_id}`,
-        token,
+        `http://localhost:8000/tareas/borrar_archivo_tarea/${archivo_id}`,
+        null,
         "DELETE"
       );
+
+      // Verifica response[0]
       if (response[0] === 200) {
-        accion(deleteContenidosTareas({ id: archivo_id }));
+        accion(borrarArchivos({ id: archivo_id }));
+        console.log("Archivo eliminado exitosamente.");
       } else {
-        console.log("Error al eliminar el archivo:", response[1]);
+        console.log("Error al eliminar el archivo:", response.data);
       }
     } catch (error) {
       console.error("Error en la solicitud de eliminación:", error);
