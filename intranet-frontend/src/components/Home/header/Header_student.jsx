@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { IconButton, Tooltip } from "@mui/material";
 import UserInfoCard from "../../userInfoCard/UserInfoCard";
+import flecha_4 from "../../../assets/flechas/flecha4.png";
 import "./header.css";
 import { useSelector } from "react-redux";
 
@@ -38,17 +39,19 @@ const Header_student = ({ imgSrc, buttonText }) => {
       );
     }
     return (
-      <UserInfoCard
-        right={15}
-        nombre={`${userInSession?.nombre} ${userInSession?.apellidos}`}
-      />
+      <>
+        <UserInfoCard
+          right={15}
+          nombre={`${userInSession?.nombre} ${userInSession?.apellidos}`}
+        />
+      </>
     );
   };
 
   return (
     <div className="header_style">
-      <div className="flecha-container">
-        {/* <img className="flecha5" src={flecha5} alt="flecha5" /> */}
+      <div className="flecha-navbar">
+        <img src={flecha_4} alt="" style={{ height: "100%", width: "100%" }} />
       </div>
       {renderCircularContent()}
     </div>

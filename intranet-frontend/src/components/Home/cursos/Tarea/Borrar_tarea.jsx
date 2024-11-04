@@ -1,8 +1,8 @@
 import { deleteContenidosTareas } from "../../../../redux/ObtenerDatosTareaSlice";
 import { useDispatch } from "react-redux";
 import { useFetch } from "../../../../services/llamados";
-import "./Tarea.css";
-{/*Funcion que borra las tareas, usando su id en el cuerpo*/}
+import "./tarea.css";
+
 const Borrar_tarea = ({ id }) => {
   const accion = useDispatch();
   const token = sessionStorage.getItem("token");

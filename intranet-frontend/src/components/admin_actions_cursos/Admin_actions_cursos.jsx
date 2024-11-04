@@ -4,15 +4,13 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 
 const Admin_actions_cursos = ({ children }) => {
-  const { Es_admin } = useSelector((x) => x.IsAdmin);
-  const { userInSession } = useSelector((x) => x.Auth);
-  const [abrir, setAbrir] = useState(false);
-
-  console.log(Es_admin);
+  const { Es_admin } = useSelector((x) => x.IsAdmin); // Verifica si el usuario es administrador
+  const { userInSession } = useSelector((x) => x.Auth); // Obtiene el usuario en sesión
+  const [abrir, setAbrir] = useState(false); // Estado para controlar la apertura del botón
 
   return (
     <>
-      {Es_admin || userInSession?.rol == "profesor" ? (
+      {Es_admin || userInSession?.rol === "profesor" ? ( // Condición para mostrar los botones
         <ButtonGroup
           size="large"
           variant="contained"
@@ -25,11 +23,9 @@ const Admin_actions_cursos = ({ children }) => {
           }}
         >
           <Button
-            onClick={() => {
-              setAbrir(!abrir);
-            }}
+            onClick={() => setAbrir(!abrir)} // Alterna el estado de abrir
           >
-            {!abrir ? (
+            {!abrir ? ( // Muestra un icono diferente dependiendo del estado
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="30px"
@@ -51,10 +47,10 @@ const Admin_actions_cursos = ({ children }) => {
               </svg>
             )}
           </Button>
-          {abrir && children}
+          {abrir && children} {/* Renderiza los hijos si abrir es verdadero */}
         </ButtonGroup>
       ) : (
-        <></>
+        <></> // No renderiza nada si no es administrador ni profesor
       )}
     </>
   );

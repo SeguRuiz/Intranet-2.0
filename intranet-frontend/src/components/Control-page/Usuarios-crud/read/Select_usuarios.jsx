@@ -1,12 +1,12 @@
-import Select_role from "../../select-role/Select_role";
-import { useDispatch, useSelector } from "react-redux";
-import "./Read_usuarios.css";
-import { useEffect, useRef, useState } from "react";
-import { agregar_a_seleccion_multiple } from "../../../../redux/ControlUsuariosSlice";
-import { eliminar_de_seleccion_multiple } from "../../../../redux/ControlUsuariosSlice";
-import { useCustomSelection } from "../../../../utils/customHooks";
-import { Avatar } from "@mui/material";
-import { stringAvatar } from "../../../../utils/Utils";
+import Select_role from "../../select-role/Select_role"; // Importa el componente para seleccionar roles
+import { useDispatch, useSelector } from "react-redux"; // Hooks para trabajar con Redux
+import "./Read_usuarios.css"; // Importa el archivo CSS para estilos
+import { useEffect, useRef, useState } from "react"; // Hooks de React para efectos, referencias y estado
+import { agregar_a_seleccion_multiple } from "../../../../redux/ControlUsuariosSlice"; // Acción para agregar a la selección múltiple
+import { eliminar_de_seleccion_multiple } from "../../../../redux/ControlUsuariosSlice"; // Acción para eliminar de la selección múltiple
+import { useCustomSelection } from "../../../../utils/customHooks"; // Hook personalizado para selección
+import { Avatar } from "@mui/material"; // Componente Avatar de Material-UI
+import { stringAvatar } from "../../../../utils/Utils"; // Función para crear un avatar a partir de una cadena
 
 const Select_usuarios = ({
   username,
@@ -17,7 +17,8 @@ const Select_usuarios = ({
   email,
   nombre,
 }) => {
-  const accion = useDispatch();
+  const accion = useDispatch(); // Hook para despachar acciones
+  // Obtiene el estado necesario de Redux
   const {
     seleccion_multiple_activado,
     usuarios_en_grupos,
@@ -30,10 +31,11 @@ const Select_usuarios = ({
     user_id,
     seleccion_multiple_activado
   );
-  const userCheckBox = useRef();
-  const [usuarioEnGrupo, setUsuarioGrupo] = useState(false);
-  const [userInSeleccion, setUserInSeleccion] = useState(false);
+  const userCheckBox = useRef(); // Referencia al checkbox
+  const [usuarioEnGrupo, setUsuarioGrupo] = useState(false); // Estado para verificar si el usuario está en un grupo
+  const [userInSeleccion, setUserInSeleccion] = useState(false); // Estado para verificar si el usuario está en la selección
 
+  // Efecto para verificar la pertenencia del usuario a un grupo y su estado de selección
   useEffect(() => {
     const user =
       usuarios_en_grupos.find((x) => x.usuario_id == user_id) ?? false;
@@ -41,11 +43,12 @@ const Select_usuarios = ({
       seleccion_multiple.find((x) => x == user_id) ?? false;
     user != false ? setUsuarioGrupo(true) : setUsuarioGrupo(false);
     if (grupo_seleccionado != null && user_seleccionado != false) {
-      accion(eliminar_de_seleccion_multiple(user_id));
+      accion(eliminar_de_seleccion_multiple(user_id)); // Elimina el usuario de la selección si pertenece a un grupo
       setSelected(false);
     }
   }, [grupo_seleccionado, usuarios_en_grupos, seleccion_multiple_activado]);
 
+  // Función para determinar el estilo del componente basado en el estado del usuario
   const select_style = () => {
     switch (grupo_seleccionado) {
       case null:
@@ -57,7 +60,7 @@ const Select_usuarios = ({
 
       default:
         if (usuarioEnGrupo) {
-          return "user-info-card-en-grupo";
+          return "user-info-card-en-grupo"; // Estilo si el usuario está en un grupo
         } else {
           return seleccion_multiple_activado && !selected
             ? "user-info-card-animated"
@@ -70,15 +73,15 @@ const Select_usuarios = ({
 
   return (
     <div
-      className={select_style()}
+      className={select_style()} // Estilo basado en el estado
       onClick={() => {
         switch (grupo_seleccionado) {
           case null:
-            click_Checkbox();
+            click_Checkbox(); // Maneja el clic en el checkbox
             break;
 
           default:
-            !usuarioEnGrupo && click_Checkbox();
+            !usuarioEnGrupo && click_Checkbox(); // Solo permite seleccionar si no está en grupo
             break;
         }
       }}
@@ -87,14 +90,14 @@ const Select_usuarios = ({
         type="checkbox"
         name=""
         id=""
-        style={{ display: "none" }}
+        style={{ display: "none" }} // Oculta el checkbox nativo
         ref={userCheckBox}
       />
       <div className="user-Profile">
-           <div className="user-avatar-container">
-          <Avatar  {...stringAvatar(`${nombre} ${apellidos}`)} />
-          </div>
-        
+        <div className="user-avatar-container">
+          <Avatar {...stringAvatar(`${nombre} ${apellidos}`)} /> {/* Crea un avatar con el nombre del usuario */}
+        </div>
+
         <div className="user-name">
           <p
             style={{
@@ -105,7 +108,7 @@ const Select_usuarios = ({
             }}
           ></p>
           {!selected && !seleccion_multiple_activado && (
-            <Select_role user_id={user_id} rol_de_usuario_id={rol_id} />
+            <Select_role user_id={user_id} rol_de_usuario_id={rol_id} /> 
           )}
           {seleccion_multiple_activado && (
             <div
@@ -124,7 +127,7 @@ const Select_usuarios = ({
                   fill="var(--OnPrymary-color)"
                 >
                   <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-                </svg>
+                </svg> // Marca de selección
               )}
             </div>
           )}
@@ -198,4 +201,4 @@ const Select_usuarios = ({
   );
 };
 
-export default Select_usuarios;
+export default Select_usuarios; // Exporta el componente para su uso en otras partes de la aplicación

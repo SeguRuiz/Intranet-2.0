@@ -1,7 +1,8 @@
 .cursos-page-container {
   height: 100vh;
   display: grid;
-  grid-template-rows: 19% auto;
+  grid-template-rows: 16% auto;
+ 
 }
 
 @media only screen and (max-height: 1000px) and (max-width: 415px) {

@@ -70,7 +70,13 @@
     padding-left: 2px;
     transition: 0.2s;
 }
-.switch-container{
-
+.select-grupos-vacio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 90%;
+    color: var(--OnsurfaceVariant);
+    font-size: 25px;
 }
-

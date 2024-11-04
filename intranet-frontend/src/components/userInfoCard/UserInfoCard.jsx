@@ -2,32 +2,41 @@ import "./UserInfoCard.css";
 import { Avatar } from "@mui/material";
 import { stringAvatar } from "../../utils/Utils";
 import { Tooltip } from "@mui/material";
-const UserInfoCard = ({ nombre, right = 0, left = 0 }) => {
+import Menu_options_reportes from "../Control-page/Reportes/read/Menu_options_reportes";
+import Log_out from "./Log_out";
+const UserInfoCard = ({ nombre, right = 0 }) => {
   
   return (
     <div
       className="UserInfoContainer"
-      style={{ marginRight: `${right}px`, marginLeft: `${left}px` }}
+      style={{ position: "absolute", right: right }}
     >
-      <Avatar
-        {...stringAvatar(nombre, {
-          fontSize: "15px",
-          width: 30,
-          height: 30,
-
-        })}
-      />
+      <Menu_options_reportes
+        customBtn={true}
+        btn={
+         
+            <Avatar
+            
+              {...stringAvatar(nombre, {
+                fontSize: "15px",
+                width: 30,
+                height: 30,
+              })}
+            ></Avatar>
+         
+        }
+      >
+        <Log_out />
+      </Menu_options_reportes>
       <Tooltip title={nombre}>
         <strong
-          style={{
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis",
-            overflow: "hidden",
-            maxWidth: "100px",
-          }}
-        >
-          {nombre}
-        </strong>
+         style={{
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          maxWidth: "70px",
+        }}
+        >{nombre}</strong>
       </Tooltip>
     </div>
   );

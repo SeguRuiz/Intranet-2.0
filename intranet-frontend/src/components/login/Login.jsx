@@ -2,23 +2,26 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import logo from "../../assets/FWD - Logotipo-01.svg";
-import flecha2 from "../../assets/flechas/flechas2.png";
-import flecha from "../../assets/flechas/Flechas-03.svg";
 import d from "../../assets/flechas/d.png";
 import { useFetch, verificar_token } from "../../services/llamados";
-import { setTokenUser } from "../../redux/AuthSlice";
 import Swal from "sweetalert2";
-import { setUserSession } from "../../redux/AuthSlice";
 import { useDispatch } from "react-redux";
 import { setAutorized } from "../../redux/AuthSlice";
 import { setCookie, getCookie } from "../../utils/Cookies";
-import { DecodeToken } from "../../services/llamados";
+import foto_1 from "../../assets/Fotos/foto_fwd_1.jpg";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { actualizar } from "../../redux/AuthSlice";
+import { toast } from "react-toastify";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [mostrar, setMostrar] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const info = () => toast.info('Bienvenido devuelta')
 
   const { log_fetch } = useFetch();
   const accion = useDispatch();
@@ -30,10 +33,23 @@ export const Login = () => {
 
   const validar_espacios = async (evento) => {
     evento.preventDefault();
-    if (email.trim() === "" || password.trim() === "") {
-      Swal.fire("No olvides llenar todos los recuadros");
+
+    if (email.trim() == "") {
+      setEmailError("Ingresa tu correo");
+      setTimeout(() => {
+        setEmailError("");
+      }, 2000);
       return;
     }
+
+    if (password.trim() == "") {
+      setPasswordError("Ingresa tu contraseña");
+      setTimeout(() => {
+        setPasswordError("");
+      }, 2000);
+      return;
+    }
+
     const status_fetch = await log_fetch(
       "http://localhost:8000/api/token",
       null,
@@ -49,51 +65,103 @@ export const Login = () => {
       Swal.fire("Datos incorrectos, intentelo nuevamente");
       return;
     }
-    Swal.fire("Bienvenido");
 
     setCookie("token", status_fetch[1].access, 1);
     setCookie("refresh", status_fetch[1].refresh, 1);
     accion(setAutorized(true));
     accion(actualizar());
     navigate("/cursos");
+    info()
   };
 
   return (
-    <div className="login-div-container">
-      <form onSubmit={validar_espacios} className="login-form">
-        <div className="Cuadro_login">
-          <div className="img-inputs">
-            <div className="foward-logo-container">
-              <img className="foward-logo" src={logo} alt="logo" />
-            </div>
-
-            <div className="square_email_password">
-              <div className="inputs-containers">
-                <input
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                  className="inputs"
-                  type="email"
-                  placeholder="Email"
+    <div className="login">
+      <div className="login-container">
+        <div className="login-inpts">
+          <div className="padding-container">
+            <div className="logo-fwd-area">
+              <div className="logo-container">
+                <img
+                  src={logo}
+                  style={{ height: "100%", width: "100%" }}
+                  alt=""
                 />
-                <input
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                  className="inputs"
-                  type="password"
-                  placeholder="Password"
-                />
-                <button onClick={validar_espacios} className="b-t-n_class">
-                  Log in
-                </button>
               </div>
             </div>
-          </div>
-          <div className="triangulo-container">
-            <img className="imagen-triangulo" src={flecha} alt="" />
+            <div className="inputs-area-login">
+              <form
+                action=""
+                className="inputs-form-login"
+                onSubmit={validar_espacios}
+              >
+                <TextField
+                  label="Correo"
+                  type="email"
+                  required
+                  fullWidth
+                  value={email}
+                  onChange={(x) => {
+                    setEmail(x.target.value);
+                  }}
+                  error={emailError != ""}
+                  helperText={emailError}
+                  
+                />
+                <TextField
+                  onChange={(x) => {
+                    setPassword(x.target.value);
+                  }}
+                  error={passwordError != ""}
+                  helperText={passwordError}
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => {
+                              setMostrar(!mostrar);
+                            }}
+                          >
+                            {!mostrar ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="30px"
+                                viewBox="0 -960 960 960"
+                                width="30px"
+                                fill="var(--OnsurfaceVariant)"
+                              >
+                                <path d="M480.12-330q70.88 0 120.38-49.62t49.5-120.5q0-70.88-49.62-120.38T479.88-670Q409-670 359.5-620.38T310-499.88q0 70.88 49.62 120.38t120.5 49.5Zm-.36-58q-46.76 0-79.26-32.74-32.5-32.73-32.5-79.5 0-46.76 32.74-79.26 32.73-32.5 79.5-32.5 46.76 0 79.26 32.74 32.5 32.73 32.5 79.5 0 46.76-32.74 79.26-32.73 32.5-79.5 32.5Zm.24 188q-146 0-264-83T40-500q58-134 176-217t264-83q146 0 264 83t176 217q-58 134-176 217t-264 83Z" />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="30px"
+                                viewBox="0 -960 960 960"
+                                width="30px"
+                                fill="var(--OnsurfaceVariant)"
+                              >
+                                <path d="M816-64 648-229q-35 14-79 21.5t-89 7.5q-146 0-265-81.5T40-500q20-52 55.5-101.5T182-696L56-822l42-43 757 757-39 44ZM480-330q14 0 30-2.5t27-7.5L320-557q-5 12-7.5 27t-2.5 30q0 72 50 121t120 49Zm278 40L629-419q10-16 15.5-37.5T650-500q0-71-49.5-120.5T480-670q-22 0-43 5t-38 16L289-760q35-16 89.5-28T485-800q143 0 261.5 81.5T920-500q-26 64-67 117t-95 93ZM585-463 443-605q29-11 60-4.5t54 28.5q23 23 32 51.5t-4 66.5Z" />
+                              </svg>
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                  label="Contraseña"
+                  required
+                  fullWidth
+                  type={mostrar ? "text" : "password"}
+                />
+                <Button variant="outlined" type="submit">
+                  Log in
+                </Button>
+              </form>
+            </div>
           </div>
         </div>
-      </form>
+        <img src={foto_1} alt="Foto_1" className="fondo-login" />
+      </div>
     </div>
   );
 };

@@ -19,6 +19,7 @@ import { setData } from "../../redux/modalSlice";
 import { useEffect } from "react";
 import UserInfoCard from "../../components/userInfoCard/UserInfoCard";
 import { set_usuarios_en_grupos } from "../../redux/ControlUsuariosSlice";
+import Read_reportes from "../../components/Control-page/Reportes/read/Read_reportes";
 import {
   desactivar_seleccion_multiple,
   desactivar_seleccion_multiple_sedes,
@@ -26,9 +27,10 @@ import {
 import { set_grupos } from "../../redux/ControlUsuariosSlice";
 import Read_grupos from "../../components/Control-page/Grupos_Crud/read/Read_grupos";
 import { set_fetching } from "../../redux/FetchsSlice";
-import { LinearProgress } from "@mui/material";
+import { IconButton, LinearProgress } from "@mui/material";
 import Add_integrantes_grupo from "../../components/Control-page/Add-integrantes-grupo/Add_integrantes_grupo";
 import { getCookie } from "../../utils/Cookies";
+import Empty_page from "../../components/Control-page/Empty-case/Empty_page";
 
 const Control_usuarios_page = () => {
   const { aside_abierto } = useSelector((state) => state.ControlUsuarios);
@@ -45,19 +47,6 @@ const Control_usuarios_page = () => {
     userInSession?.rol == "profesor" &&
       accion(set_pestaña_seleccionada("reportes"));
   }, [fetching]);
-
-  useLayoutEffect(() => {
-    (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/api/user",
-        token,
-        "GET"
-      );
-      console.log(data);
-
-      accion(set_usuarios(data[1]));
-    })();
-  }, []);
 
   useLayoutEffect(() => {
     (async () => {
@@ -129,9 +118,34 @@ const Control_usuarios_page = () => {
     }
   };
 
+  const switch_pages = () => {
+    switch (pestaña_seleccionada) {
+      case "usuarios":
+        return <Read_usuarios />;
+      case "grupos":
+        return <Read_grupos />;
+      case "sedes":
+        return <Read_sedes />;
+      case "reportes":
+        return <Read_reportes />;
+      case "permisos":
+        return <Read_cursos_disponibles />;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="CUP-container">
-      <nav className="C-U-Nav">
+      <nav
+        className="C-U-Nav"
+        style={{
+          gridTemplateColumns:
+            !userInSession.is_staff && userInSession.is_socioemocional
+              ? "0% auto"
+              : "6.5% auto",
+        }}
+      >
         {pestaña_seleccionada != "grupos" &&
         pestaña_seleccionada != "permisos" ? (
           <div
@@ -140,15 +154,17 @@ const Control_usuarios_page = () => {
               aside_abierto ? accion(cerrar_aside()) : accion(abrir_aside());
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="30px"
-              viewBox="0 -960 960 960"
-              width="30px"
-              fill="#3f4850"
-            >
-              <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
-            </svg>
+            <IconButton sx={{padding: '10px'}}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 -960 960 960"
+                width="30px"
+                fill="#3f4850"
+              >
+                <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
+              </svg>
+            </IconButton>
           </div>
         ) : (
           <div className="side-menu-icon">
@@ -169,10 +185,12 @@ const Control_usuarios_page = () => {
           }
         >
           <div className="navbar-edit-options">
-            {pestaña_seleccionada != "permisos" && <Edit_crud />}
+            {pestaña_seleccionada != "permisos" &&
+              pestaña_seleccionada != "reportes" && <Edit_crud />}
             {pestaña_seleccionada == "usuarios" && <Add_integrantes_grupo />}
             <UserInfoCard
               nombre={`${userInSession.nombre} ${userInSession.apellidos}`}
+              right={16}
             />
           </div>
 
@@ -307,7 +325,7 @@ const Control_usuarios_page = () => {
                 "var(--SurfaceDarked-color)",
             }}
             onClick={() => {
-              if (pestaña_seleccionada != "permisos") {
+              if (pestaña_seleccionada != "reportes") {
                 accion(set_pestaña_seleccionada("reportes"));
                 accion(desactivar_seleccion_multiple());
                 accion(desactivar_seleccion_multiple_sedes());
@@ -327,22 +345,18 @@ const Control_usuarios_page = () => {
             <p>Reportes</p>
           </div>
         </div>
-
         <aside className="aside-nav">
           <Add_menu />
         </aside>
-        <div
+        <Empty_page
           className={
             aside_abierto || pestaña_seleccionada == "permisos"
               ? "CUP-Iteradores-2"
               : "CUP-Iteradores"
           }
         >
-          {pestaña_seleccionada == "usuarios" && <Read_usuarios />}
-          {pestaña_seleccionada == "sedes" && <Read_sedes />}
-          {pestaña_seleccionada == "grupos" && <Read_grupos />}
-          {pestaña_seleccionada == "permisos" && <Read_cursos_disponibles />}
-        </div>
+          {switch_pages()}
+        </Empty_page>
       </main>
     </div>
   );

@@ -27,6 +27,7 @@
     --OnError-color:#410002;
 }
 
-#root{
+#root, body{
     background-color: var(--SurfaceBrigth-color);
 }
+

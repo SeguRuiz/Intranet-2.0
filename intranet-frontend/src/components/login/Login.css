@@ -1,168 +1,137 @@
-.triangulos-grandes-fondo {
-  height: 50%;
-  width: 40%;
-  margin: -5% 63%;
-  
-  z-index: -1;
-  position: absolute;
-}
-
-.foward-logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 50px;
-}
-
-.login-form {
-  width: 60%;
-  height: 60%;
-}
-
-.d-logo {
-  height: 50%;
-  width: 40%;
-  z-index: -1;
-  position: absolute;
-  margin: 30% 3%;
-  margin: 30% 3%;
-}
-.Cuadro_login {
-  display: grid;
-  grid-template-rows: auto 20%;
-  width: 100%;
-  border: solid 1px black;
-  padding: 2%;
-  padding-bottom: 15px;
-  height: 100%;
-
-  border-radius: 4px;
-
-  background-color: white;
-}
-
-.square_email_password {
-  display: grid;
-  grid-template-rows: auto;
-  padding: 35px;
-}
-
-.inputs-containers {
-  display: flex;
-  flex-direction: column;
-}
-.img-inputs {
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
-
-.foward-logo {
-  height: 60%;
-  width: 100%;
-  margin-right: 15%;
-}
-.inputs { 
-  border-top: none;
-  border-left: none;
-  border-right: none;
-
-  padding: 10px;
-  margin-bottom: 20%;
-  width: auto;
-}
-
-.inputs:focus {
-  outline: none;
-}
-
-.b-t-n_class {
-  padding: 13px;
-  align-self: center;
-  color: white;
-  border: none;
-  width: 50%;
-  background-color: rgb(180, 179, 179);
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.imagen-triangulo {
-  height: 85%;
-  width: 10%;
-}
-
-.login-div-container {
+.login {
   height: 100vh;
   display: flex;
   justify-content: center;
+  background-color: var(--SurfaceDarked-color);
   align-items: center;
 }
 
-.triangulo-container {
-  height: 90%;
-  width: 98%;
+.login-container {
+  height: 80%;
+  width: 65%;
+  border-radius: 10px;
+  background-color: var(--SurfaceBrigth-color);
+  overflow: hidden;
   display: flex;
   justify-content: end;
+  align-items: center;
 }
 
-@media only screen and (max-width: 700px) {
-  .img-inputs {
-    display: grid;
-    grid-template-rows: 50% auto;
-    grid-template-columns: auto;
-  }
+.login-inpts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--SurfaceBrigth-color);
+  position: absolute;
+  width: 35%;
+  height: 77.5%;
+  margin-right: 6.5px;
+  align-self: center;
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  background-color: rgba(247, 249, 255, 0.76);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
 
-  .foward-logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.padding-container {
+  display: grid;
+  grid-template-rows: 40% auto;
+  gap: 10px;
+  height: 90%;
+  width: 90%;
+}
 
-  .foward-logo {
+.logo-container {
+  height: 100%;
+}
+
+.logo-fwd-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputs-form-login {
+  width: 100%;
+  display: flex;
+  justify-items: start;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.greetings-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inputs-area-login {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+
+  color: var(--OnsurfaceVariant);
+}
+
+.fondo-login {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media only screen and (max-width: 810px) {
+  .login-inpts {
+    width: 70%;
     height: 70%;
-    width: 100%;
   }
 
-  .login-form {
-    width: 80%;
-    height: auto;
-    margin-right: 20px;
+  .login-container {
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0);
   }
 
-  .Cuadro_login {
-    display: grid;
-    grid-template-rows: auto;
-    width: 100%;
-    border: solid 1px black;
-    padding: 2%;
-
-    height: 100%;
-
-    border-radius: 4px;
-
-    background-color: white;
-    padding-bottom: 50px;
+  .login-container > img {
+    visibility: hidden;
   }
 
-  .b-t-n_class {
-    padding: 13px;
-    align-self: end;
-    color: white;
-    border: none;
-    width: 35%;
-    background-color: rgb(180, 179, 179);
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 10px;
+  .login {
+    background-image: url("../../assets/Fotos/foto_fwd_1.jpg");
+  }
+}
+
+@media only screen and (max-width: 450px) and (min-height: 900px) {
+  .login-inpts {
+    width: 88%;
+    height: 50%;
   }
 
-  .triangulo-container {
-    display: none;
+  .login-container {
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  .login-container > img {
+    visibility: hidden;
+  }
+
+  .login {
+    background-image: url("../../assets/Fotos/foto_fwd_1.jpg");
   }
 }
 
 @media only screen and (max-height: 500px) {
-  .triangulo-container {
-    display: none;
+  .login-container {
+    height: 90%;
+  }
+  .login-inpts {
+    height: 85%;
   }
 }

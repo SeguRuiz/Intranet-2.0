@@ -26,8 +26,7 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
       token,
       "POST",
       { method: "POST", subcontenido: id, files_info: [archivo] }
-    );
-    console.log(data);
+    )
     accion(
       add_archivos_subcontenidos({
         subcontenido_id: id,

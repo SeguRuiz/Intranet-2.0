@@ -2,11 +2,12 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 15px;
+  padding-bottom: 10px;
 }
 
 .profesores-table {
-  width: 60%;
+  width: 80%;
   border-collapse: collapse; /*permite tomar todos los bordes de la tabla y visualizarlos 
   como uno solo sin necesidad que se vean gruesos al chocar entre ambos. 
   También tiene "separate" el cual le da espaciado a toda la tabla */

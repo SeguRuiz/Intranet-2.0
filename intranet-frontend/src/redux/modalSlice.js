@@ -25,9 +25,15 @@ const modalState = createSlice({
     setData: (state, action) => {
       state.cursos = action.payload;
     },
-    
+    eliminar_curso: (state, action) =>{
+      const {curso_id} = action.payload
+
+      const cursos_filtrados = state.cursos.filter(x => x.id != curso_id)
+
+      state.cursos = cursos_filtrados
+    }
   },
 });
 
-export const { openModal, closeModal, setCursos, setData } = modalState.actions;
+export const { openModal, closeModal, setCursos, setData, eliminar_curso } = modalState.actions;
 export default modalState.reducer;
