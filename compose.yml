@@ -1,6 +1,6 @@
 services:
   react:
-    container_name: intranet_container_front
+    container_name: react-production
     image: react-production:prod
     build:
       context: ./intranet-frontend
@@ -10,7 +10,9 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - 80:80
- 
+
+  
+
   django:
     container_name: intranet_container_back
     image: intranet_image_back
@@ -44,7 +46,7 @@ services:
       - MYSQL_DATABASE=intranet_db
     volumes:
       - intranet_data:/data/db
-      # - ./mysql-init:/docker-entrypoint-initdb.d:ro
+      - ./mysql-init:/docker-entrypoint-initdb.d:ro
 
 volumes:
   intranet_data:

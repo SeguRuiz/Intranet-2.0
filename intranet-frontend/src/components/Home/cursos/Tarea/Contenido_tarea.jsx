@@ -17,6 +17,10 @@ const Contenido_tarea = () => {
   const { id_tarea } = useParams();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [archivoAsignado, setArchivoAsignado] = useState(false);
+  const { contenidos_tareas } = useSelector((state) => state.datos_tarea);
+  const tareaSeleccionada = contenidos_tareas.find(
+    (tarea) => tarea.id === id_tarea
+  );
 
   const dispatch = useDispatch();
   const { fetch_the_data } = useFetch();
@@ -33,10 +37,7 @@ const Contenido_tarea = () => {
     data();
   }, []);
 
-  const { contenidos_tareas } = useSelector((state) => state.datos_tarea);
-  const tareaSeleccionada = contenidos_tareas.find(
-    (tarea) => tarea.id === id_tarea
-  );
+  
 
   if (!tareaSeleccionada) {
     return <div>No se encontró la tarea seleccionada.</div>;
@@ -100,23 +101,12 @@ const Contenido_tarea = () => {
 
   return (
     <div className="outer-container">
-      <div className="container-c-task">
-        <h1 className="title-c-task">Detalles de la Tarea</h1>
-        <div>
-          <h2>{tareaSeleccionada.titulo}</h2>
-          <p>Descripción: {tareaSeleccionada.descripcion}</p>
-        </div>
-        <div>
-          <p>
-            Fecha limite de entrega:
-            {new Date(tareaSeleccionada.fecha_entrega).toLocaleDateString()}
-          </p>
-          <p className="status">Sin entregar</p>
-          {}
+     
+         
           <Subir_tareas />
-        </div>
-      </div>
-      <div className="tu-trabajo">
+       
+
+      {/* <div className="tu-trabajo">
         <p className="section-title">Tu trabajo</p>
         <input
           className="upload-section"
@@ -125,7 +115,7 @@ const Contenido_tarea = () => {
           accept=".pdf"
         />
         <button onClick={handleUpload}>Subir Tarea</button>
-      </div>
+      </div> */}
     </div>
   );
 };
