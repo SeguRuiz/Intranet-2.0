@@ -20,6 +20,10 @@ const Contenido_tarea = () => {
   const { id_tarea } = useParams();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [archivoAsignado, setArchivoAsignado] = useState(false);
+  const { contenidos_tareas } = useSelector((state) => state.datos_tarea);
+  const tareaSeleccionada = contenidos_tareas.find(
+    (tarea) => tarea.id === id_tarea
+  );
 
   const dispatch = useDispatch();
   const { fetch_the_data } = useFetch();
@@ -35,13 +39,8 @@ const Contenido_tarea = () => {
     };
     data();
   }, []);
-  {
-    /*Acá, buscamos el id dentro del reducer, y sí este concide con el id de la tarea obtenido del useParams, entonces mostrará datos especificos de ese contenido */
-  }
-  const { contenidos_tareas } = useSelector((state) => state.datos_tarea);
-  const tareaSeleccionada = contenidos_tareas.find(
-    (tarea) => tarea.id === id_tarea
-  );
+
+  
 
   if (!tareaSeleccionada) {
     return <div>No se encontró la tarea seleccionada.</div>;
@@ -111,25 +110,12 @@ const Contenido_tarea = () => {
 
   return (
     <div className="outer-container">
-      <div className="container-c-task">
-        <h1 className="title-c-task">Detalles de la Tarea</h1>
-
-        <div>
-          <h1 className="section-title">Nombre: {tareaSeleccionada.titulo}</h1>
-  
-          <p className="section-title">
-            Descripción: {tareaSeleccionada.descripcion}
-          </p>
-        </div>
-        <div>
-          <p className="section-title">
-            Fecha limite de entrega:
-            {new Date(tareaSeleccionada.fecha_entrega).toLocaleDateString()}
-          </p>
+     
+         
           <Subir_tareas />
-        </div>
-      </div>
-      <div className="tu-trabajo">
+       
+
+      {/* <div className="tu-trabajo">
         <p className="section-title">Tu trabajo</p>
         <input
           className="upload-section"
@@ -137,10 +123,8 @@ const Contenido_tarea = () => {
           onChange={(e) => convertAnArrayArchives(e.target.files)}
           accept=".pdf"
         />
-        <button className="b-t-n-taskUp" onClick={handleUpload}>
-          Subir Tarea
-        </button>
-      </div>
+        <button onClick={handleUpload}>Subir Tarea</button>
+      </div> */}
     </div>
   );
 };

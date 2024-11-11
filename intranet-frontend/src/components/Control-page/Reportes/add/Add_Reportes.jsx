@@ -318,7 +318,7 @@ const Add_Reportes = () => {
                   form_ref.current.reset(); // Resetea el formulario
                 }}
               >
-                Dejar de editar // Botón para cancelar la edición
+                Dejar de editar 
               </Button>
             )}
           </div>

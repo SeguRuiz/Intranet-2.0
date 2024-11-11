@@ -79,6 +79,13 @@
   justify-content: center;
 }
 
+.cursos-home-grid-loading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
 .titulo{
   display: grid;
   place-items: center;

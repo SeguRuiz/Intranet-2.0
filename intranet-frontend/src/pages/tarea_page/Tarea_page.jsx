@@ -3,6 +3,7 @@ import Tarea from "../../components/Home/cursos/Tarea/Tarea";
 import Header from "../../components/Home/header/Header_student";
 import Navbar from "../../components/Home/navbar/NavBar";
 import { useParams } from "react-router-dom";
+import { Divider } from "@mui/material";
 import "./tarea.css";
 
 const Tarea_page = () => {

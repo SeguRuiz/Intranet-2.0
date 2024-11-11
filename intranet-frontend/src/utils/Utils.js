@@ -35,3 +35,19 @@ export const promesa = (duracion) => {
     });
   };
 
+export const get_fecha_hora = (fecha_str = '') => {
+  const fecha = new Date(fecha_str);
+  
+  const dia = fecha.toLocaleDateString("en-GB");
+
+  const hora = fecha.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+
+  return {
+    dia,
+    hora
+  }
+}

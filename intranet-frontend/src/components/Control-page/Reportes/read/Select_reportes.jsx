@@ -30,7 +30,7 @@ const Select_reportes = ({
   const { userInSession } = useSelector((x) => x.Auth); // Obtiene el usuario en sesión
   const fecha = new Date(fecha_creacion); // Convierte la fecha de creación a un objeto Date
   const dia = fecha.toLocaleDateString("en-GB"); // Formatea la fecha a un formato específico
-  const nombre_usuario = usuarios.find((x) => x.id == usuario_id); // Busca el usuario por ID
+  const nombre_usuario = usuarios?.find((x) => x.id == usuario_id); // Busca el usuario por ID
   const [animated, setAnimated] = useState("report-card-cont"); // Estado para la animación del contenedor
   const { editando_reporte } = useSelector((x) => x.ControlUsuarios); // Obtiene información sobre el reporte que se está editando
 

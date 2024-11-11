@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
   /*Componente encargado de mostrar la lista de tarea a cada estudiante, al mismo tiempo que el profesor o admin, las puedes crear */
 }
 const Tarea = () => {
+  
   const navigate = useNavigate();
   const { estudiantes } = useSelector((e) => e.CursosContenidos);
   console.log(estudiantes);
@@ -44,33 +45,25 @@ const Tarea = () => {
   }
   const subirTareaProfesor = async (evento) => {
     evento.preventDefault();
-    if (
-      title.trim() === "" ||
-      descripcion.trim() === "" ||
-      dateCheck.trim() === ""
-    ) {
-      return Swal.fire("No puedes subir una tarea con campos en blanco");
-    } else {
-      if (estudiantes[0] != undefined) {
-        const datos_post = await fetch_the_data(
-          "http://localhost:8000/tareas/info_tarea",
-          null,
-          "POST",
-          {
-            titulo: title,
-            descripcion: descripcion,
-            fecha_revision: dateCheck,
-            cursos: id_curso,
-            profesor_id: userInSession.id,
-          }
-        );
-        accion(pushContenidoTareas(datos_post[1]));
-        asignarTarea(datos_post[1]?.id);
-        setTitle("");
-        setDescripcion("");
-        setDate("");
-        setDateCheck("");
-      }
+    if (estudiantes[0] != undefined) {
+      const datos_post = await fetch_the_data(
+        "http://localhost:8000/tareas/info_tarea",
+        null,
+        "POST",
+        {
+          titulo: title,
+          descripcion: descripcion,
+          fecha_revision: dateCheck,
+          cursos: id_curso,
+          profesor_id: userInSession.id,
+        }
+      );
+      accion(pushContenidoTareas(datos_post[1]));
+      asignarTarea(datos_post[1]?.id);
+      setTitle("");
+      setDescripcion("");
+      setDate("");
+      setDateCheck("");
     }
     if (estudiantes[0] == undefined) {
       Swal.fire("No se puede subir una tarea sino se ha seleccionado un grupo");
@@ -108,9 +101,10 @@ const Tarea = () => {
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
-        "http://localhost:8000/tareas/info_tarea",
+        "http://localhost:8000/tareas/get_tareas_de_curso",
         null,
-        "GET"
+        "POST",
+        {curso_id:id_curso}
       );
       accion(setDatos(datos[1]));
     };

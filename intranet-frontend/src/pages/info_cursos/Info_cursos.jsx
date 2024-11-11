@@ -1,6 +1,6 @@
 import "./Info_cursos.css";
 import { Sidemenu } from "../../components/SideMenu/Sidemenu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFetch } from "../../services/llamados";
 import { useParams } from "react-router-dom";
 import { setContenidos } from "../../redux/CursosContenidosSlice";
@@ -13,20 +13,21 @@ import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_ac
 import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 import MenuModal from "../../components/SideMenu/MenuCrud/Add/MenuModal";
 import { getCookie } from "../../utils/Cookies";
+
 const Info_cursos = () => {
   const { fetch_the_data } = useFetch();
+  const { userInSession } = useSelector((x) => x.Auth);
   const accion = useDispatch();
   const { id_curso } = useParams();
-  const ids = useParams()
-  const token = getCookie('token')
+  const ids = useParams();
+  const token = getCookie("token");
   console.log(ids);
-  
+
   const cursosLinks = [
     { href: `/cursos/${id_curso}/contenidos`, label: "Contenidos" },
     { href: `/cursos/${id_curso}/grupos`, label: "Grupos" },
     { href: `/cursos/${id_curso}/tareas `, label: "Tareas" },
     { href: `/cursos/${id_curso}/comunicaciones`, label: "Comunicaciones" },
-    
   ];
 
   useEffect(() => {
@@ -58,10 +59,12 @@ const Info_cursos = () => {
           </div>
           <div className="Info-page-file">
             <File_preview />
-            <Admin_actions_cursos>
-              <Go_to_admin/>
-              <MenuModal/>
-            </Admin_actions_cursos>
+            {userInSession?.is_staff && (
+              <Admin_actions_cursos>
+                <Go_to_admin />
+                <MenuModal />
+              </Admin_actions_cursos>
+            )}
           </div>
         </div>
       </div>

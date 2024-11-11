@@ -37,7 +37,7 @@ class SedesCreate(ModelViewSet):
     queryset = Sedes.objects.all()
     serializer_class = SedesSerializer
     lookup_field = "pk"
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
 
@@ -69,7 +69,7 @@ class IntengrantesGrupoCreate(ModelViewSet):
     queryset = Intengrantes_de_grupo.objects.all()
     serializer_class = IntengratesGruposSerializer
     lookup_field = "pk"
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
 

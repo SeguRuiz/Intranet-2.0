@@ -15,7 +15,7 @@ const Read_Comu = () => {
 
   // Filtra los avisos según el rol del usuario
   const filter_avisos = (avisos) => {
-    return userInSession?.rol === "profesor"
+    return userInSession?.rol === "profesor" || userInSession?.rol == 'estudiante'
       ? avisos.filter((x) => x.grupo_id === userInSession?.grupos[0]?.grupo_id)
       : grupo_mostrandose != null
       ? avisos.filter((x) => x.grupo_id === grupo_mostrandose)
