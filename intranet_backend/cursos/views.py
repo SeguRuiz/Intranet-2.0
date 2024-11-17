@@ -27,8 +27,6 @@ from .serializers import (
     IntengratesGruposSerializer,
     SedesSerializer,
 )
-from api.models import Estudiantes
-from api.serializers import EstudiantesSerializer
 
 # Create your views here.
 
@@ -301,7 +299,7 @@ def get_usurios_de_grupo(request):
 
         # Clasifica los usuarios en 'profesores' y 'estudiantes' según su rol
         profesores = [n for n in usuarios if n["rol"].upper() == "PROFESOR"]
-        
+
         estudiantes = [n for n in usuarios if n["rol"].upper() == "ESTUDIANTE"]
 
         # Retorna listas separadas de profesores y estudiantes
@@ -320,4 +318,41 @@ def get_usurios_de_grupo(request):
         return Response(
             {"info": "El usuario no está en ningún grupo"},
             status=status.HTTP_204_NO_CONTENT,
+        )
+
+
+@api_view(["POST"])
+def get_user_courses(request):
+    try:
+        user_id: str = request.data["user_id"]
+        user_groups: list = IntengratesGruposSerializer(
+            instance=Intengrantes_de_grupo.objects.filter(usuario_id=user_id), many=True
+        ).data
+
+        userObject = get_object_or_404(Usuarios, pk=user_id)
+
+        if userObject.is_staff:
+            return Response(
+                CursosSerializer(instance=Cursos.objects.all(), many=True).data,
+                status=status.HTTP_200_OK,
+            )
+
+        estudent_groups_ids: list = [n["grupo_id"] for n in user_groups]
+        estudent_courses: list = Grupos_cursos_intermedia.objects.filter(
+            grupo_id__in=estudent_groups_ids
+        )
+        estudent_courses_ids: list = [
+            n["curso_id"]
+            for n in GruposCursosSerializer(instance=estudent_courses, many=True).data
+        ]
+        estudent_courses_data: list = Cursos.objects.filter(pk__in=estudent_courses_ids)
+
+        return Response(
+            CursosSerializer(instance=estudent_courses_data, many=True).data,
+            status=status.HTTP_200_OK,
+        )
+    except KeyError:
+        return Response(
+            {"info": "the object is missing the required keys"},
+            status=status.HTTP_400_BAD_REQUEST,
         )

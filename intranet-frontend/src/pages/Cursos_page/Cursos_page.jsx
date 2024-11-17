@@ -15,41 +15,8 @@ import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 import AddCurso from "../../components/Home/cursos/main_content/add/AddCurso";
 
 const Cursos_page = () => {
-  const { grupos } = useSelector((state) => state.ControlUsuarios);
   const { userInSession } = useSelector((x) => x.Auth);
-  const studentLinks = [
-    { href: "/social", label: "Social" },
-    { href: "/anuncios ", label: "Anuncios" },
-    { href: "/cursos ", label: "Cursos" },
-    { href: "/demolab", label: "Demolab" },
-    { href: "/ingles ", label: "Ingles" },
-  ];
-  const accion = useDispatch();
-  const { fetch_the_data } = useFetch();
-  const token = getCookie("token");
-
-  useEffect(() => {
-    (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/cursos/grupos_cursos",
-        token,
-        "GET"
-      );
-
-      accion(set_grupos_cursos(data[1]));
-    })();
-  }, []);
-  useEffect(() => {
-    (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/cursos/get_grupos_integrantes",
-        token,
-        "GET"
-      );
-
-      accion(set_grupos(data[1]));
-    })();
-  }, []);
+ 
 
   return (
     <div className="cursos-page-container">
@@ -57,7 +24,7 @@ const Cursos_page = () => {
         <Header />
       </div>
       <div className="cursos-page-content-area">
-        <Content grupos={grupos} />
+        <Content />
         {userInSession?.is_staff | userInSession?.is_socioemocional ? (
           <Admin_actions_cursos>
             <Go_to_admin />
