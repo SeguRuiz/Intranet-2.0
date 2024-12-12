@@ -1,9 +1,8 @@
 import "./Grupo_card.css";
 import { useSelector } from "react-redux";
-import { useFetch } from "../../services/llamados";
+
 import { useState } from "react";
-import { getCookie } from "../../utils/Cookies";
-import { useEffect } from "react";
+
 import { useLayoutEffect } from "react";
 
 const Grupo_card = () => {
@@ -11,7 +10,6 @@ const Grupo_card = () => {
   const { Es_admin } = useSelector((x) => x.IsAdmin);
   const { grupos } = useSelector((x) => x.ControlUsuarios);
   const [nombreGrupo, setNombreGrupo] = useState("");
-  const { fetch_the_data } = useFetch();
 
   useLayoutEffect(() => {
     (async () => {
