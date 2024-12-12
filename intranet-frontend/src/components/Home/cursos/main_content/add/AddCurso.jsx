@@ -1,6 +1,6 @@
 import "./AddCurso.css";
 import { useFetch } from "../../../../../services/llamados";
-import { useEffect, useState, useRef } from "react";
+import {  useState, useRef } from "react";
 import { setCursos } from "../../../../../redux/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getCookie } from "../../../../../utils/Cookies";

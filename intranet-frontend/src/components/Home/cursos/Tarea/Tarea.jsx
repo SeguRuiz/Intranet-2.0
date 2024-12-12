@@ -14,8 +14,6 @@ import { pushTareasAsignadas } from "../../../../redux/ObtenerDatosTareaSlice";
 import Swal from "sweetalert2";
 
 const Tarea = () => {
-  const hola = 'hola'
-  console.log(hola);
   
   const navigate = useNavigate();
   const { estudiantes } = useSelector((e) => e.CursosContenidos);
@@ -56,7 +54,6 @@ const Tarea = () => {
       );
       accion(pushContenidoTareas(datos_post[1]));
       asignarTarea(datos_post[1]?.id);
-      console.log(contenidos_tareas);
       setTitle("");
       setDescripcion("");
       setDate("");
@@ -94,9 +91,10 @@ const Tarea = () => {
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
-        "http://localhost:8000/tareas/info_tarea",
+        "http://localhost:8000/tareas/get_tareas_de_curso",
         null,
-        "GET"
+        "POST",
+        {curso_id:id_curso}
       );
       accion(setDatos(datos[1]));
     };

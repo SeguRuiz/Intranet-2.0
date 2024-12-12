@@ -1,5 +1,98 @@
 .tarea-page-container {
   height: 100vh;
   display: grid;
-  grid-template-rows: 19% auto;
+  grid-template-rows: 16% auto;
+}
+
+
+.tarea-content-page{
+ display: grid;
+ grid-template-columns: 25% 50% 25%;
+ padding-top: 15px;
+ background-color: var(--SurfaceDarked-color);
+}
+
+.central-div-tarea{
+  background-color: var(--SurfaceBrigth-color);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: grid;
+  grid-template-rows: 15% 4% 8% 4% auto;
+  overflow: hidden;
+}
+
+.profesor-info{
+
+}
+
+
+
+
+.explicacion-info{
+ 
+}
+
+
+.profesor-info{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 30px;
+  padding-left: 15.5px;
+  padding-right: 15.5px;
+  color: var(--OnsurfaceVariant);
+}
+
+.fecha-entrega-info{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 15.5px;
+  gap: 15px;
+}
+
+.fecha-info-tarea{
+  
+ 
+  height: 80%;
+}
+
+.hora-info-tarea{
+  
+  
+  height: 80%;
+}
+
+.hora-info-tarea, .fecha-info-tarea{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--OnsurfaceVariant);
+  gap: 6px;
+  font-size: 15px;
+}
+
+.explicacion-info{
+  padding-left: 15.5px;
+  padding-right: 15.5px;
+  font-size: 17px;
+  color: var(--OnsurfaceVariant);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.text-area-tarea{
+  resize: none;
+  width: 100%;
+  border: none;
+  font-size: 17px;
+  color: var(--OnsurfaceVariant);
+  background-color: var(--SurfaceBrigth-color);
+ 
+}
+.text-area-tarea:focus{
+  outline: none;
 }

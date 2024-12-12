@@ -9,7 +9,7 @@ const Delete_comunicado = ({ id }) => {
   const accion = useDispatch();
   const token = getCookie("token");
   const eliminar_aviso = async () => {
-    const data = await fetch_the_data(
+    await fetch_the_data(
       "http://localhost:8000/cursos_contenidos/comunicados_edit",
       token,
       "DELETE",

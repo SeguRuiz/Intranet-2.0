@@ -1,4 +1,1 @@
-# Intranet-2.0
-# dev
-# Luis
-# Alex Dios
+# Intranet-2.0 - guia en proceso - 
