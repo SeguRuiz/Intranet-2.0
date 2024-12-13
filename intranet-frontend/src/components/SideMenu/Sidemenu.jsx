@@ -9,11 +9,7 @@ export const Sidemenu = () => {
 
   return (
     <>
-      <div
-        className={
-          Es_admin ? "sidemenu-container" : "sidemenu-container-noAdmin"
-        }
-      >
+      <div className={"sidemenu-container"}>
         <div className="menu-container">
           {Contenidos.map((contenido) => (
             <MenuContenido
@@ -23,7 +19,6 @@ export const Sidemenu = () => {
             />
           ))}
         </div>
-        {Es_admin ? <MenuModal /> : <></>}
       </div>
     </>
   );
