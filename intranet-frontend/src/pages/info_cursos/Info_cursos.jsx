@@ -23,12 +23,6 @@ const Info_cursos = () => {
   const token = getCookie("token");
   console.log(ids);
 
-  const cursosLinks = [
-    { href: `/cursos/${id_curso}/contenidos`, label: "Contenidos" },
-    { href: `/cursos/${id_curso}/grupos`, label: "Grupos" },
-    { href: `/cursos/${id_curso}/tareas `, label: "Tareas" },
-    { href: `/cursos/${id_curso}/comunicaciones`, label: "Comunicaciones" },
-  ];
 
   useEffect(() => {
     (async () => {
@@ -51,7 +45,6 @@ const Info_cursos = () => {
       <div className="Info-page">
         <div className="Info-nav-container">
           <Header_student />
-          <Navbar links={cursosLinks} />
         </div>
         <div className="Info-page-main">
           <div className="side-menu-page">

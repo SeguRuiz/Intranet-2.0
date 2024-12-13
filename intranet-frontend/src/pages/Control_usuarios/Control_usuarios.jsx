@@ -48,7 +48,7 @@ const Control_usuarios_page = () => {
       accion(set_pestaña_seleccionada("reportes"));
   }, [fetching]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
         "http://localhost:8000/cursos/sedes",
@@ -57,10 +57,12 @@ const Control_usuarios_page = () => {
       );
 
       accion(set_sedes(data[1]));
+        
+      
     })();
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
         "http://localhost:8000/cursos/get_grupos_integrantes",
@@ -71,7 +73,7 @@ const Control_usuarios_page = () => {
     })();
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
         "http://localhost:8000/cursos/grupos_cursos",
@@ -95,7 +97,7 @@ const Control_usuarios_page = () => {
     data();
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
         "http://localhost:8000/cursos/integrantes_de_grupo",
