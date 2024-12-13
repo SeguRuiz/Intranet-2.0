@@ -3,40 +3,34 @@ import Select_usuarios from "./Select_usuarios";
 import { useSelector } from "react-redux";
 import { useFetch } from "../../../../services/llamados";
 import { set_usuarios } from "../../../../redux/ControlUsuariosSlice";
-import { useEffect } from "react";
+import {  useEffect } from "react";
 import { getCookie } from "../../../../utils/Cookies";
 import { useDispatch } from "react-redux";
 import { set_empty } from "../../../../redux/ControlUsuariosSlice";
 const Read_usuarios = () => {
-  const { fetch_the_data } = useFetch();
-  const { usuarios, pestaña_seleccionada } = useSelector(
-    (state) => state.ControlUsuarios
-  );
+ const {fetch_the_data} = useFetch()
+ const { usuarios, pestaña_seleccionada } = useSelector((state) => state.ControlUsuarios);
+ 
+ const accion = useDispatch()
+ const token = getCookie('token')
 
-  const accion = useDispatch();
-  const token = getCookie("token");
+ useEffect(()=>{
+  accion(set_empty(usuarios[0] == undefined))
+ },[usuarios, pestaña_seleccionada])
 
-  useEffect(() => {
-    accion(set_empty(usuarios[0] == undefined));
-  }, [usuarios, pestaña_seleccionada]);
+ useEffect(() => {
+  (async () => {
+    const data = await fetch_the_data(
+      "http://localhost:8000/api/user",
+      token,
+      "GET"
+    );
+    console.log(data);
 
-  useEffect(() => {
-    (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/api/user",
-        token,
-        "GET"
-      );
-      console.log(data);
-
-      accion(set_usuarios(data[1]));
-    })();
-
-    // return () => {
-    //   accion(set_usuarios([]));
-    // };
-  }, []);
-
+    accion(set_usuarios(data[1]));
+  })();
+}, []);
+  
   return (
     <>
       {usuarios.map((usuario) => (
