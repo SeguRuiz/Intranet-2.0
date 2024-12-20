@@ -1,5 +1,5 @@
 from api.models import Estudiantes, Roles, Usuarios
-from api.serializers import EstudiantesSerializer
+from api.serializers import EstudiantesSerializer, UsersSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import (
@@ -354,5 +354,24 @@ def get_user_courses(request):
     except KeyError:
         return Response(
             {"info": "the object is missing the required keys"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+@api_view(["POST"])
+def obtener_integrantes_de_grupo(request):
+    try:
+        ids_de_usuarios: list[int] = request.data["ids_de_usuarios"]
+
+        usuarios_del_grupo = Usuarios.objects.filter(pk__in=ids_de_usuarios)
+        usuarios_del_grupo_serializados = UsersSerializer(
+            instance=usuarios_del_grupo, many=True
+        )
+
+        return Response(usuarios_del_grupo_serializados.data, status=status.HTTP_200_OK)
+
+    except KeyError:
+        return Response(
+            {"error": "El objeto esta mal formulado"},
             status=status.HTTP_400_BAD_REQUEST,
         )

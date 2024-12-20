@@ -32,9 +32,6 @@ const Read_usuarios = () => {
       accion(set_usuarios(data[1]));
     })();
 
-    // return () => {
-    //   accion(set_usuarios([]));
-    // };
   }, []);
 
   return (

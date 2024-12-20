@@ -15,6 +15,7 @@ from .views import (
     get_user_courses,
     get_usurios_de_grupo,
     usuarios_en_grupos,
+    obtener_integrantes_de_grupo
 )
 
 urlpatterns = [
@@ -54,4 +55,5 @@ urlpatterns = [
     path("usuarios_en_grupos/", usuarios_en_grupos, name="usuarios_en_grupos"),
     path("get_usuarios_grupo/", get_usurios_de_grupo, name="get-usuarios-de-grupo"),
     path("get_user_courses/", get_user_courses, name="get_user_courses"),
+    path("obtener_integrantes_de_grupo/", obtener_integrantes_de_grupo, name="obtener_integrantes_de_grupo"),
 ]
