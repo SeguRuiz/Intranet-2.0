@@ -1,36 +1,55 @@
 import "./Read_integrantes.css";
 import { useSelector } from "react-redux";
 import Select_integrantes from "./Select_integrantes";
+import { useFetch } from "../../../../../services/llamados";
+import { useEffect, useState } from "react";
+import { getCookie } from "../../../../../utils/Cookies";
+import { set_integrantes_de_grupo } from "../../../../../redux/ControlUsuariosSlice";
+import { useDispatch } from "react-redux";
+import Log_out from "../../../../userInfoCard/Log_out";
 
 const Read_interantes = ({ usuarios_grupo, grupo_id }) => {
-  const { usuarios } = useSelector((e) => e.ControlUsuarios);
+  const accion = useDispatch();
+  const { integrantes_de_grupo } = useSelector((x) => x.ControlUsuarios);
+  const [usuarios, set_usuarios] = useState([]);
+  const token = getCookie("token");
+  const { fetch_the_data } = useFetch();
 
-  const usuarios_filtrados = () => {
-    const filtrado = []
-    if (usuarios_grupo[0] != undefined) {
-      usuarios_grupo.forEach((e) => {
-        const usuario = usuarios.find(x => x.id == e) ?? false
-        usuario != false && filtrado.push(usuario)
-      });
-      return filtrado
-    }
-    return filtrado
-  };
+  useEffect(() => {
+    (async () => {
+      const data = await fetch_the_data(
+        "http://localhost:8000/cursos/obtener_integrantes_de_grupo",
+        token,
+        "POST",
+        {
+          ids_de_usuarios: usuarios_grupo,
+        }
+      );
+      if (data[0] == 200) {
+        accion(
+          set_integrantes_de_grupo({ usuarios: data[1], grupo_id: grupo_id })
+        );
+        set_usuarios(integrantes_de_grupo);
+      }
+    })();
+  }, []);
 
   return (
     <>
-      {usuarios_filtrados().map((user) => (
-        <Select_integrantes
-          key={user?.id}
-          nombre={user?.first_name}
-          apellidos={user?.last_name}
-          cedula={user?.cedula}
-          nombre_usuario={user?.username}
-          email={user?.email}
-          grupo_id={grupo_id}
-          user_id={user?.id}
-        />
-      ))}
+      {integrantes_de_grupo
+        .find((x) => x?.grupo_id == grupo_id)
+        ?.usuarios.map((user) => (
+          <Select_integrantes
+            key={user?.id}
+            nombre={user?.first_name}
+            apellidos={user?.last_name}
+            cedula={user?.cedula}
+            nombre_usuario={user?.username}
+            email={user?.email}
+            grupo_id={grupo_id}
+            user_id={user?.id}
+          />
+        ))}
     </>
   );
 };

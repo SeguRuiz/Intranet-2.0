@@ -22,6 +22,7 @@ const initialState = {
   reportes: [],
   usuarios_en_grupos: [],
   grupos_cursos: [],
+  integrantes_de_grupo: [],
   seleccion_multiple_activado: false,
   seleccion_multiple_activado_sedes: false,
   seleccion_multiple_activado_grupos: false,
@@ -36,8 +37,15 @@ const ControlUsuarios = createSlice({
   name: "ControlUsuarios",
   initialState,
   reducers: {
+    set_integrantes_de_grupo: (state, action) => {
+      const { usuarios, grupo_id } = action.payload;
+      state.integrantes_de_grupo = [
+        ...state.integrantes_de_grupo,
+        { grupo_id: grupo_id, usuarios: usuarios },
+      ];
+    },
     set_empty: (state, action) => {
-      state.empty = action.payload
+      state.empty = action.payload;
     },
     set_reporte: (state, action) => {
       const { reporte_id, estado } = action.payload;
@@ -154,6 +162,15 @@ const ControlUsuarios = createSlice({
             (e) => e != integrante_id
           );
           e.integrantes = integrantes_filtrados;
+        }
+      });
+
+      state.integrantes_de_grupo.forEach((x) => {
+        if (x.grupo_id == grupo_id) {
+          const usuarios_filtrados = x.usuarios.filter(
+            (x) => x.id != integrante_id
+          );
+          x.usuarios = usuarios_filtrados;
         }
       });
     },
@@ -302,7 +319,6 @@ const ControlUsuarios = createSlice({
           state.seleccion_multiple_integrantes = [];
           break;
         default:
-          console.log("default");
           break;
       }
     },
@@ -369,6 +385,7 @@ export const {
   agregar_archivo_reportes,
   set_editando_reporte,
   set_reporte,
-  set_empty
+  set_empty,
+  set_integrantes_de_grupo,
 } = ControlUsuarios.actions;
 export default ControlUsuarios.reducer;
