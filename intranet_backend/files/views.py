@@ -1,8 +1,16 @@
+import datetime
 import json
+import mimetypes
+import os
 
 import requests
 from cursos_contenidos.models import SubContenidos
 from django.shortcuts import get_object_or_404
+from dotenv import load_dotenv
+from google.cloud import storage
+from google.oauth2 import service_account
+from google_auth import read_credentials
+from pyprojroot import here
 from reportes.models import Reportes_info
 from rest_framework import status
 from rest_framework.decorators import (
@@ -19,6 +27,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Archivos_referencia
 from .serializers import ArchivosSerializer
 
+read_credentials()
+
 
 class ArchivosCreate(ModelViewSet):
     queryset = Archivos_referencia.objects.all()
@@ -34,6 +44,78 @@ class ArchivosEdit(RetrieveUpdateDestroyAPIView):
     lookup_field = "pk"
     permission_classes = [IsAdminUser]
     authentication_classes = [JWTAuthentication]
+
+
+def delete_file(bucket_name, blob_name, folder_name: str | None = None):
+    load_dotenv()
+    creds_path = here() / os.getenv("GOOGLE_CREDENTIALS_FILE")
+    creds_init = service_account.Credentials.from_service_account_file(creds_path)
+    google_client = storage.Client(credentials=creds_init)
+
+    bucket = google_client.get_bucket(bucket_name)
+
+    blob = (
+        bucket.blob(f"{folder_name}/{blob_name}")
+        if folder_name
+        else bucket.blob(blob_name)
+    )
+    blob.delete()
+
+    return (
+        f"File {blob_name} deleted"
+        if folder_name
+        else f"File {folder_name}/{blob_name} deleted"
+    )
+
+
+def is_valid_pdf(file):
+    mime_type, _ = mimetypes.guess_type(file.name)
+    return mime_type == "application/pdf"
+
+
+def get_files_cloud(bucket_name, expiration_minutes=2, folderName=None):
+    load_dotenv()
+    creds_path = here() / os.getenv("GOOGLE_CREDENTIALS_FILE")
+    creds_init = service_account.Credentials.from_service_account_file(creds_path)
+    google_client = storage.Client(credentials=creds_init)
+
+    bucket = google_client.get_bucket(bucket_name)
+
+    blobs = bucket.list_blobs(prefix=folderName)
+    files_data = []
+
+    for blob in blobs:
+        blob_name: str = blob.name
+        if blob_name == folderName or blob_name.endswith("/"):
+            continue
+        blob_name = blob_name.split("/")[-1]
+        signed_url = blob.generate_signed_url(
+            version="v4",
+            expiration=datetime.timedelta(minutes=expiration_minutes),
+            method="GET",
+        )
+        files_data.append({"name": blob_name, "url": signed_url})
+
+    return files_data
+
+
+def create_file_signed_url_by_name(folder_name: str | None = None, name: str = None):
+    load_dotenv()
+    creds_path = here() / os.getenv("GOOGLE_CREDENTIALS_FILE")
+    creds_init = service_account.Credentials.from_service_account_file(creds_path)
+    google_client = storage.Client(credentials=creds_init)
+
+    bucket = google_client.get_bucket(os.getenv("GOOGLE_CLOUD_BUCKET"))
+
+    blob = bucket.blob(f"{folder_name}/{name}") if folder_name else bucket.blob(name)
+
+    signed_url = blob.generate_signed_url(
+        version="v4",
+        expiration=datetime.timedelta(minutes=15),
+        method="GET",
+    )
+
+    return signed_url
 
 
 @api_view(["POST", "GET"])
@@ -95,7 +177,6 @@ def guardar_archivo(request):
             {"info": "el objeto no cuenta con los valores necesarios"},
             status=status.HTTP_400_BAD_REQUEST,
         )
-
 
 
 @api_view(["DELETE"])

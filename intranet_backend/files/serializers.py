@@ -6,3 +6,6 @@ class ArchivosSerializer(serializers.ModelSerializer):
         model = Archivos_referencia
         fields = '__all__'
         
+class FileSerializer(serializers.Serializer):
+    file = serializers.FileField()
+ 
