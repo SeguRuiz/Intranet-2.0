@@ -161,3 +161,4 @@ def send_emails_to_group(request):
     except KeyError:
         # Maneja el caso en que falta algún dato en la solicitud
         return Response({"info": "error de objeto"}, status=status.HTTP_400_BAD_REQUEST)
+

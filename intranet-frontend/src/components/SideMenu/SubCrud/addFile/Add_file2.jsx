@@ -1,5 +1,5 @@
 import "./addFile.css";
-import { useRef, useState } from "react";
+import { act, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { add_archivos_subcontenidos } from "../../../../redux/CursosContenidosSlice";
 import { useSelector } from "react-redux";
@@ -38,7 +38,7 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
       "",
       formData
     );
-    console.log(data);
+    
 
     if (data[0] == 200) {
       accion(
@@ -49,7 +49,9 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
             id: data[1].id,
             archivo: data[1].url,
             nombre: data[1].nombre,
+            expira_en: data[1].expira_en,
           },
+          action_file: "add",
         })
       );
     }else{
@@ -77,7 +79,6 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
           if (e.id == id && e.archivo != null) {
             setArchivo_key(e.archivo);
             setAcrhivoAsignado(true);
-            
           }
         });
       }

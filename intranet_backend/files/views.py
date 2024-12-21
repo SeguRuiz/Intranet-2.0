@@ -121,7 +121,9 @@ def get_files_cloud(bucket_name, expiration_minutes=2, folderName=None):
     return files_data
 
 
-def create_file_signed_url_by_name(folder_name: str | None = None, name: str = None):
+def create_file_signed_url_by_name(
+    folder_name: str | None = None, name: str = None, expiration_minutes=15
+):
     load_dotenv()
     creds_path = here / os.getenv("GOOGLE_CREDENTIALS_FILE")
     creds_init = service_account.Credentials.from_service_account_file(creds_path)
@@ -133,7 +135,7 @@ def create_file_signed_url_by_name(folder_name: str | None = None, name: str = N
 
     signed_url = blob.generate_signed_url(
         version="v4",
-        expiration=datetime.timedelta(minutes=15),
+        expiration=datetime.timedelta(minutes=expiration_minutes),
         method="GET",
     )
 
@@ -219,6 +221,12 @@ def save_file_of_subcont_to_google_cloud(request):
 
         if google_bucket_serializer.is_valid():
             google_bucket_serializer.save()
+        else:
+            return Response(
+                google_bucket_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+        
+    
 
         file_from_db = get_object_or_404(GoogleCloudBucketFiles, nombre=file_name)
         subContent_id = fileSerializer.validated_data["subContent_id"]
@@ -230,11 +238,17 @@ def save_file_of_subcont_to_google_cloud(request):
         upload_file_to_bucket(bucket_name, file, "CursosContenidos")
 
         signed_url = create_file_signed_url_by_name(
-            name=file_name, folder_name="CursosContenidos"
+            name=file_name, folder_name="CursosContenidos", expiration_minutes=1
         )
+        expires_in = datetime.datetime.now() + datetime.timedelta(minutes=1)
 
         return Response(
-            {"id": file_from_db.pk, "nombre": file_name, "url": signed_url},
+            {
+                "id": file_from_db.pk,
+                "nombre": file_name,
+                "url": signed_url,
+                "expira_en": expires_in,
+            },
             status=status.HTTP_200_OK,
         )
     else:
@@ -299,10 +313,14 @@ def get_file_from_google_cloud(request):
         file_id: int = request.data["archivo_id"]
         file = get_object_or_404(GoogleCloudBucketFiles, pk=file_id)
         signed_url = create_file_signed_url_by_name(
-            name=file.nombre, folder_name="CursosContenidos"
+            name=file.nombre, folder_name="CursosContenidos", expiration_minutes=15
         )
+        expires_in = datetime.datetime.now() - datetime.timedelta(hours=6) + datetime.timedelta(minutes=1)
 
-        return Response({"archivo": signed_url}, status=status.HTTP_200_OK)
+        return Response(
+            {"archivo": signed_url, "expira_en": expires_in, "nombre": file.nombre},
+            status=status.HTTP_200_OK,
+        )
     except KeyError:
         return Response(
             {"error": "El objeto esta mal formulado"},
