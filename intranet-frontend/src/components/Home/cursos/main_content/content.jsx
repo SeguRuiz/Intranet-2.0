@@ -15,9 +15,6 @@ const Content = () => {
   console.log(cursos);
   
   
-  
-
-  
 
   const token = getCookie("token");
 
