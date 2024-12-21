@@ -2,10 +2,10 @@ import json
 import os
 
 from dotenv import load_dotenv
-from pyprojroot import here
+from pyprojroot import here, find_root
 
 load_dotenv()
-
+project_root = find_root('.here')
 
 def read_credentials():
     # se crea un diccionaro copiando el json de las credenciales del gooogle service account
@@ -23,5 +23,5 @@ def read_credentials():
         "universe_domain": "googleapis.com",
     }
     # y luego en base a ese diccionario creamos un json temporal para que sea usado para autenticacion de la cuenta
-    with open(here() / os.getenv("GOOGLE_CREDENTIALS_FILE"), "w+") as f:
+    with open(project_root / os.getenv("GOOGLE_CREDENTIALS_FILE"), "w+") as f:
         f.write(json.dumps(creds))
