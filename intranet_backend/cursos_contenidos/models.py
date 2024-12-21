@@ -3,7 +3,7 @@ import uuid
 from api.models import Usuarios
 from cursos.models import Cursos, Grupos
 from django.db import models
-from files.models import Archivos_referencia
+from files.models import GoogleCloudBucketFiles
 
 # Create your models here.
 
@@ -29,7 +29,7 @@ class SubContenidos(models.Model):
     )
     nombre = models.CharField(max_length=150, null=False)
     archivo = models.ForeignKey(
-        Archivos_referencia, null=True, on_delete=models.SET_NULL
+       GoogleCloudBucketFiles, null=True, on_delete=models.SET_NULL
     )
     contenido = models.ForeignKey(Contenidos, on_delete=models.CASCADE, null=True)
 

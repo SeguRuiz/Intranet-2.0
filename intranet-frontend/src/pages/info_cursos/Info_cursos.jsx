@@ -5,7 +5,7 @@ import { useFetch } from "../../services/llamados";
 import { useParams } from "react-router-dom";
 import { setContenidos } from "../../redux/CursosContenidosSlice";
 import { set_archivo_mostrandose } from "../../redux/CursosContenidosSlice";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import Header_student from "../../components/Home/header/Header_student";
 import File_preview from "../../components/file_preview/File_preview";
 import Navbar from "../../components/Home/navbar/NavBar";
@@ -19,10 +19,14 @@ const Info_cursos = () => {
   const { userInSession } = useSelector((x) => x.Auth);
   const accion = useDispatch();
   const { id_curso } = useParams();
-  const ids = useParams();
   const token = getCookie("token");
-  console.log(ids);
 
+  useEffect(() => {
+    return () => {
+      accion(setContenidos([]));
+      accion(set_archivo_mostrandose(null));
+    };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -34,9 +38,13 @@ const Info_cursos = () => {
         null,
         id_curso
       );
-      console.log(data);
+
       accion(setContenidos(data[1].reverse()));
-      accion(set_archivo_mostrandose(null));
+    
+
+      return () => {
+        console.log("unmounting");
+      };
     })();
   }, [id_curso]);
 

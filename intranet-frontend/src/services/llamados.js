@@ -30,7 +30,8 @@ export const useFetch = () => {
     token = null,
     method = "GET",
     body = null,
-    id = ""
+    id = "",
+    formData = null
   ) => {
     let fetch_body = {
       method: method,
@@ -43,7 +44,10 @@ export const useFetch = () => {
     body != null
       ? (fetch_body.body = JSON.stringify(body))
       : delete fetch_body?.body;
+
+    formData != null && (fetch_body.body = formData);
     token == null && delete fetch_body.headers?.Authorization;
+    formData != null && delete fetch_body.headers["Content-Type"];
 
     setFetching(true);
 

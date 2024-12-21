@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux"; // Hook para despachar acciones de Re
 import { add_archivos_subcontenidos } from "../../redux/CursosContenidosSlice"; // Acción para agregar archivos a subcontendidos
 import { useParams } from "react-router-dom"; // Hook para acceder a los parámetros de la URL
 import Select_file from "../../assets/Empty/Select_file.svg"; // Imagen de archivo vacío
-
+import { useCustomNotis } from "../../utils/customHooks";
 import "./File_preview.css"; // Importa estilos CSS
 import { getCookie } from "../../utils/Cookies"; // Función para obtener cookies
 
@@ -14,6 +14,7 @@ function File_preview() {
   const [archivo, setArchivo] = useState(null); // Estado para almacenar el archivo a mostrar
   const token = getCookie('token'); // Obtiene el token de autenticación de las cookies
   const accion = useDispatch(); // Hook para despachar acciones
+  const {error_mensaje} = useCustomNotis(); 
 
   // Obtiene el archivo actualmente mostrado desde el estado de Redux
   const { archivo_mostrandose } = useSelector(
@@ -31,25 +32,31 @@ function File_preview() {
   // Función para obtener el archivo desde el servidor
   const fetch_archivo = async () => {
     const data = await fetch_the_data(
-      "http://localhost:8000/files/get_archivo",
+      "http://localhost:8000/files/obtener_archivo_from_google_cloud",
       token,
       "POST",
       {
-        archivo: archivo_mostrandose.archivo, // Envía el archivo a buscar
+        archivo_id: archivo_mostrandose.archivo, // Envía el archivo a buscar
       }
     );
-    console.log(data);
-    setArchivo(data[1].archivo); // Establece el archivo obtenido en el estado
-    accion(
-      add_archivos_subcontenidos({
-        subcontenido_id: archivo_mostrandose.subcontenido,
-        contenido_id: archivo_mostrandose.contenido,
-        data: {
-          id: archivo_mostrandose.archivo,
-          archivo: data[1].archivo,
-        },
-      })
-    ); // Agrega el archivo a los subcontenidos en el estado de Redux
+   
+    
+    if (data[0]== 200) {
+      console.log(data);
+      setArchivo(data[1].archivo); // Establece el archivo obtenido en el estado
+      accion(
+        add_archivos_subcontenidos({
+          subcontenido_id: archivo_mostrandose.subcontenido,
+          contenido_id: archivo_mostrandose.contenido,
+          data: {
+            id: archivo_mostrandose.archivo,
+            archivo: data[1].archivo,
+          },
+        })
+      ); //
+    }else{
+      error_mensaje('Ocurrio un eror al mostrar el archivo')
+    }
   };
 
   // Efecto para buscar el archivo cuando el archivo mostrado cambia
@@ -59,7 +66,8 @@ function File_preview() {
         Arhivos_subcontenidos.find(
           (e) => e.id == archivo_mostrandose?.archivo
         ) ?? false; // Verifica si el archivo ya se encuentra en los subcontenidos
-
+      
+      
       archivo_encontrado != false
         ? setArchivo(archivo_encontrado?.archivo) // Si se encuentra, establece el archivo
         : setArchivo(null); // De lo contrario, establece archivo como null
@@ -68,6 +76,8 @@ function File_preview() {
       if (archivo_mostrandose?.archivo != null && archivo_encontrado == false) {
         fetch_archivo();
       }
+      console.log(archivo);
+      
     })();
   }, [archivo_mostrandose]); // Efecto se ejecuta cuando cambia archivo_mostrandose
 

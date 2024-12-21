@@ -2,6 +2,9 @@ import { useDispatch } from "react-redux";
 import "./SubCont.css";
 import { set_archivo_mostrandose } from "../../../redux/CursosContenidosSlice";
 const SelectSubcont = ({ id, nombre, archivo, contenido_id }) => {
+  
+  console.log(archivo);
+  
   const accion = useDispatch();
   return (
     <>

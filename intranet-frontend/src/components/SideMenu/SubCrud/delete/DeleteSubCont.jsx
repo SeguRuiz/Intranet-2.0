@@ -15,7 +15,7 @@ const DeleteSubCont = ({ id, contenido_id }) => {
       null,
       id
     );
-    console.log(data);
+    
     accion(
       deleteSubcontenidos({ contenidoId: contenido_id, subcontenidoId: id })
     );

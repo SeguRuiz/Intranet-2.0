@@ -8,9 +8,13 @@ import { useFetch } from "../../../../services/llamados";
 import uuid from "react-uuid";
 import DeleteFile from "./deleteFile/DeleteFile";
 import { getCookie } from "../../../../utils/Cookies";
+import { useCustomNotis } from "../../../../utils/customHooks";
 
 const Add_file2 = ({ id, contenido_id, archivo }) => {
+  console.log(archivo);
+  
   const file_ref = useRef();
+  const {error_mensaje} = useCustomNotis()
   const [archivoAsinado, setAcrhivoAsignado] = useState(false);
   const token = getCookie("token");
   const { fetching, fetch_the_data } = useFetch();
@@ -21,45 +25,42 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
   const accion = useDispatch();
 
   const subirArchivo = async (archivo) => {
+
+    const formData = new FormData();
+    formData.append("file", archivo);
+    formData.append("subContent_id", id);
+
     const data = await fetch_the_data(
-      "http://localhost:8000/files/guardar_archivo",
+      "http://localhost:8000/files/guardar_archivo_de_subcontenidos_a_cloud",
       token,
       "POST",
-      { method: "POST", subcontenido: id, files_info: [archivo] }
-    )
-    accion(
-      add_archivos_subcontenidos({
-        subcontenido_id: id,
-        contenido_id: contenido_id,
-        data: {
-          id: data[1].archivo_creado[0].id,
-          key: data[1].archivo_creado[0].key,
-          archivo: archivo.data_archivo,
-          nombre: archivo.nombre,
-        },
-      })
+      null,
+      "",
+      formData
     );
+    console.log(data);
+
+    if (data[0] == 200) {
+      accion(
+        add_archivos_subcontenidos({
+          subcontenido_id: id,
+          contenido_id: contenido_id,
+          data: {
+            id: data[1].id,
+            archivo: data[1].url,
+            nombre: data[1].nombre,
+          },
+        })
+      );
+    }else{
+     error_mensaje('Ocurrio un eror al subir el archivo')
+    }
   };
 
-  const convertAnArrayArchives = (Archives) => {
-    const file_array = Array.from(Archives);
-
-    file_array.forEach((e) => {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(e);
-
-      reader.addEventListener("load", () => {
-        const id_archivo = uuid();
-
-        const archivo_objeto = {
-          id: id_archivo,
-          nombre: e.name,
-          data_archivo: reader.result,
-        };
-        subirArchivo(archivo_objeto);
-      });
-    });
+  const handleChange = (file) => {
+    if (file) {
+      subirArchivo(file);
+    }
   };
 
   const seleccionarArchivo = () => {
@@ -76,6 +77,7 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
           if (e.id == id && e.archivo != null) {
             setArchivo_key(e.archivo);
             setAcrhivoAsignado(true);
+            
           }
         });
       }
@@ -90,7 +92,7 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
         className="file_inp"
         ref={file_ref}
         onChange={(e) => {
-          convertAnArrayArchives(e.target.files);
+          handleChange(e.target.files[0]);
         }}
         accept=".pdf"
       />

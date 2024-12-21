@@ -82,7 +82,7 @@ const CursosContenidos = createSlice({
         if (e.id == contenido_id) {
           e.subcontenidos.forEach((x) => {
             if (x.id == subcontenido_id) {
-              x.archivo = data.id  
+              x.archivo = data.id 
             }
           });
         }
