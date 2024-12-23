@@ -12,6 +12,7 @@ import Navbar from "../../components/Home/navbar/NavBar";
 import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_actions_cursos";
 import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 import MenuModal from "../../components/SideMenu/MenuCrud/Add/MenuModal";
+import { useState } from "react";
 import { getCookie } from "../../utils/Cookies";
 
 const Info_cursos = () => {
@@ -20,8 +21,11 @@ const Info_cursos = () => {
   const accion = useDispatch();
   const { id_curso } = useParams();
   const token = getCookie("token");
+ 
+ 
 
   useEffect(() => {
+    
     return () => {
       accion(setContenidos([]));
       accion(set_archivo_mostrandose(null));
@@ -39,12 +43,8 @@ const Info_cursos = () => {
         id_curso
       );
 
-      accion(setContenidos(data[1].reverse()));
+      accion(setContenidos(data[1]));
     
-
-      return () => {
-        console.log("unmounting");
-      };
     })();
   }, [id_curso]);
 
@@ -55,7 +55,7 @@ const Info_cursos = () => {
           <Header_student />
         </div>
         <div className="Info-page-main">
-          <div className="side-menu-page">
+          <div className="side-menu-page" >
             <Sidemenu />
           </div>
           <div className="Info-page-file">

@@ -14,6 +14,7 @@ class Contenidos(models.Model):
     )
     nombre = models.CharField(max_length=150, null=False)
     curso = models.ForeignKey(Cursos, on_delete=models.CASCADE)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "contenidos"
@@ -32,6 +33,8 @@ class SubContenidos(models.Model):
        GoogleCloudBucketFiles, null=True, on_delete=models.SET_NULL
     )
     contenido = models.ForeignKey(Contenidos, on_delete=models.CASCADE, null=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
 
     class Meta:
         db_table = "subcontenidos"

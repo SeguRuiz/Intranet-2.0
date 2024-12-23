@@ -1,25 +1,51 @@
-import { useEffect, useState } from "react";
 import "./Sidemenu.css";
 import MenuContenido from "./contenido/MenuContenido";
+import {
+  List,
+  ListItemButton,
+  ListSubheader,
+  ListItemText,
+  ListItemIcon,
+} from "@mui/material";
 import { useSelector } from "react-redux";
-import MenuModal from "./MenuCrud/Add/MenuModal";
+import FolderIcon from "@mui/icons-material/Folder";
+import { Paper } from "@mui/material";
+
 export const Sidemenu = () => {
-  const { Es_admin } = useSelector((state) => state.IsAdmin);
   const { Contenidos } = useSelector((state) => state.CursosContenidos);
 
   return (
     <>
-      <div className={"sidemenu-container"}>
-        <div className="menu-container">
-          {Contenidos.map((contenido) => (
+      <Paper
+        sx={{
+          maxHeight: "33rem",
+          height: "100%",
+          overflow: "auto",
+          borderRadius: 0,
+          scrollbarColor:
+            "var(--OnPrymary-color) var(--PrymaryContainer-color)",
+          scrollbarWidth: "thin",
+          bgcolor: "var(--PrymaryContainer-color)",
+        }}
+      >
+        <List
+          sx={{
+            width: "100%",
+            maxWidth: 360,
+            bgcolor: "var(--PrymaryContainer-color)",
+          }}
+          disablePadding
+        >
+          {Contenidos.map((contenido, index) => (
             <MenuContenido
               key={contenido.id}
               nombre={contenido.nombre}
               subcontenidos={contenido.subcontenidos}
+              index={index}
             />
           ))}
-        </div>
-      </div>
+        </List>
+      </Paper>
     </>
   );
 };

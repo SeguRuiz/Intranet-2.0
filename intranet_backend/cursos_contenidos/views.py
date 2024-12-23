@@ -98,7 +98,7 @@ def sendEmail(email_receiver: str, subject: str, body: str) -> None:
 @permission_classes([IsAuthenticated])
 def get_contenidos_and_subcontenidos(request, pk=None):
     # Filtra los contenidos según el curso especificado por 'pk'
-    contenidos = Contenidos.objects.filter(curso=pk)
+    contenidos = Contenidos.objects.filter(curso=pk).order_by("fecha_creacion")
     contenidos_serializer = ContenidosSerializer(instance=contenidos, many=True)
 
     # Serializa la lista de contenidos
@@ -106,7 +106,7 @@ def get_contenidos_and_subcontenidos(request, pk=None):
 
     # Para cada contenido, busca y agrega los subcontenidos relacionados
     for x in contenidos_list:
-        SubCont = SubContenidos.objects.filter(contenido=x["id"])
+        SubCont = SubContenidos.objects.filter(contenido=x["id"]).order_by("fecha_creacion")
         subContenidos_serializer = SubContenidosSerializer(instance=SubCont, many=True)
         SubCont_list = subContenidos_serializer.data
         x.update(subcontenidos=SubCont_list)  # Agrega la lista de subcontenidos al contenido correspondiente

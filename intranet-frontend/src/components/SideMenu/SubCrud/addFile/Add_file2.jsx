@@ -9,12 +9,15 @@ import uuid from "react-uuid";
 import DeleteFile from "./deleteFile/DeleteFile";
 import { getCookie } from "../../../../utils/Cookies";
 import { useCustomNotis } from "../../../../utils/customHooks";
+import { toast } from "react-toastify";
 
 const Add_file2 = ({ id, contenido_id, archivo }) => {
-  console.log(archivo);
-  
+  const advertencia_subiendo_archivo = (
+    advertencia = "Advertencia subiendo archivo"
+  ) => toast.warning(advertencia);
+  const error_subiendo_archivo = (error = "Error subiendo archivo") =>
+    toast.error(error);
   const file_ref = useRef();
-  const {error_mensaje} = useCustomNotis()
   const [archivoAsinado, setAcrhivoAsignado] = useState(false);
   const token = getCookie("token");
   const { fetching, fetch_the_data } = useFetch();
@@ -25,10 +28,16 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
   const accion = useDispatch();
 
   const subirArchivo = async (archivo) => {
-
     const formData = new FormData();
     formData.append("file", archivo);
     formData.append("subContent_id", id);
+
+    const file_type = archivo.type.split("/")[1];
+
+    if (file_type != "pdf") {
+      error_subiendo_archivo("Solo se permiten archivos PDF");
+      return;
+    }
 
     const data = await fetch_the_data(
       "http://localhost:8000/files/guardar_archivo_de_subcontenidos_a_cloud",
@@ -38,24 +47,37 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
       "",
       formData
     );
+
+    console.log(data);
     
 
-    if (data[0] == 200) {
-      accion(
-        add_archivos_subcontenidos({
-          subcontenido_id: id,
-          contenido_id: contenido_id,
-          data: {
-            id: data[1].id,
-            archivo: data[1].url,
-            nombre: data[1].nombre,
-            expira_en: data[1].expira_en,
-          },
-          action_file: "add",
-        })
-      );
-    }else{
-     error_mensaje('Ocurrio un eror al subir el archivo')
+    switch (data[0]) {
+      case 200:
+        accion(
+          add_archivos_subcontenidos({
+            subcontenido_id: id,
+            contenido_id: contenido_id,
+            data: {
+              id: data[1].id,
+              archivo: data[1].url,
+              nombre: data[1].nombre,
+              expira_en: data[1].expira_en,
+            },
+            action_file: "add",
+          })
+        );
+        break;
+      case 406:
+        error_subiendo_archivo("Solo se permiten archivos PDF");
+        break;
+      case 422:
+        advertencia_subiendo_archivo(
+          "El archivo ya existe, por favor sube uno que no hayas subido antes"
+        );
+        break;
+      default:
+        error_subiendo_archivo("Ocurrio un eror al subir el archivo");
+        break;
     }
   };
 

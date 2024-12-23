@@ -139,7 +139,13 @@ def create_file_signed_url_by_name(
         method="GET",
     )
 
-    return signed_url
+    expires_in: datetime = (
+        datetime.datetime.now()
+        - datetime.timedelta(hours=6)
+        + datetime.timedelta(minutes=expiration_minutes)
+    )
+
+    return signed_url, expires_in
 
 
 @api_view(["POST", "GET"])
@@ -211,12 +217,21 @@ def save_file_of_subcont_to_google_cloud(request):
     if fileSerializer.is_valid():
         if not is_valid_pdf(fileSerializer.validated_data["file"]):
             return Response(
-                {"info": "El archivo no es un PDF"}, status=status.HTTP_400_BAD_REQUEST
+                {"info": "El archivo no es un PDF"},
+                status=status.HTTP_406_NOT_ACCEPTABLE,
             )
         file = fileSerializer.validated_data["file"]
         file_name = file.name
+
+        if GoogleCloudBucketFiles.objects.filter(nombre=file_name).exists():
+            return Response(
+                {"info": "El archivo ya existe"}, status=status.HTTP_422_UNPROCESSABLE_ENTITY
+            )
+
         google_bucket_serializer = GoogleCloudBucketFilesSerializer(
-            data={"nombre": file_name}
+            data={
+                "nombre": file_name,
+            }
         )
 
         if google_bucket_serializer.is_valid():
@@ -225,8 +240,6 @@ def save_file_of_subcont_to_google_cloud(request):
             return Response(
                 google_bucket_serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
-        
-    
 
         file_from_db = get_object_or_404(GoogleCloudBucketFiles, nombre=file_name)
         subContent_id = fileSerializer.validated_data["subContent_id"]
@@ -237,10 +250,11 @@ def save_file_of_subcont_to_google_cloud(request):
         bucket_name = os.getenv("GOOGLE_CLOUD_BUCKET")
         upload_file_to_bucket(bucket_name, file, "CursosContenidos")
 
-        signed_url = create_file_signed_url_by_name(
-            name=file_name, folder_name="CursosContenidos", expiration_minutes=1
+        signed_url, expires_in = create_file_signed_url_by_name(
+            name=file_from_db.nombre,
+            folder_name="CursosContenidos",
+            expiration_minutes=1,
         )
-        expires_in = datetime.datetime.now() + datetime.timedelta(minutes=1)
 
         return Response(
             {
@@ -312,10 +326,9 @@ def get_file_from_google_cloud(request):
     try:
         file_id: int = request.data["archivo_id"]
         file = get_object_or_404(GoogleCloudBucketFiles, pk=file_id)
-        signed_url = create_file_signed_url_by_name(
-            name=file.nombre, folder_name="CursosContenidos", expiration_minutes=15
+        signed_url, expires_in = create_file_signed_url_by_name(
+            name=file.nombre, folder_name="CursosContenidos", expiration_minutes=1
         )
-        expires_in = datetime.datetime.now() - datetime.timedelta(hours=6) + datetime.timedelta(minutes=1)
 
         return Response(
             {"archivo": signed_url, "expira_en": expires_in, "nombre": file.nombre},
