@@ -6,51 +6,79 @@ import {
   ListItemIcon,
   Collapse,
   ListItemText,
+  ListItem,
 } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
 import ExpndLess from "@mui/icons-material/ExpandLess";
 import ExpndMore from "@mui/icons-material/ExpandMore";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
-const MenuContenido = ({ nombre, subcontenidos = [], index }) => {
+import DeleteContent from "../MenuCrud/Delete/DeleteContent";
+import Menu_options_reportes from "../../Control-page/Reportes/read/Menu_options_reportes";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Divider } from "@mui/material";
+import AddSubContV2 from "../SubCrud/addv2/AddSubContV2";
+
+const MenuContenido = ({ nombre, subcontenidos = [], id }) => {
   // Componente que recibe nombre y subcontenidos como props
   const [abrir, setAbrir] = useState(false); // Estado que controla si el menú está abierto o cerrado
   // Estado que controla el índice seleccionado
   // Función para alternar el estado del menú
+  const [addSub,setAddSub] = useState(false)
   const abrirCerrar = () => {
-    if (subcontenidos.length > 0) {
+    if (subcontenidos.length > 0 || addSub) {
       setAbrir(!abrir);
+      setAddSub(false)
     }
   };
-
   
-
   return (
     <>
-      <ListItemButton
-        onClick={() => {
-          abrirCerrar();
-        }}
-        disabled={subcontenidos.length == 0}
+      <ListItem
+        secondaryAction={
+          <Menu_options_reportes
+            customBtn={true}
+            btn={
+              <MoreHorizIcon
+                sx={{ fontSize: "large", color: "var(--OnPrymary-color)" }}
+              />
+            }
+            bgColor="var(--SurfaceBrigth-color)"
+          >
+            <AddSubContV2 setAddSubcont={setAddSub} setOpen={setAbrir}/>
+            <Divider />
+            <DeleteContent id={id} />
+          </Menu_options_reportes>
+        }
+        disablePadding
       >
-        <ListItemIcon>
-          {abrir ? (
-            <FolderOpenIcon sx={{ color: "var(--OnPrymary-color)" }} />
+        <ListItemButton
+          onClick={() => {
+            abrirCerrar();
+          }}
+          // disabled={subcontenidos.length == 0}
+        >
+          <ListItemIcon>
+            {abrir ? (
+              <FolderOpenIcon sx={{ color: "var(--OnPrymary-color)" }} />
+            ) : (
+              <FolderIcon sx={{ color: "var(--OnPrymary-color)" }} />
+            )}
+          </ListItemIcon>
+          <ListItemText
+            primary={nombre}
+            sx={{ color: "var(--OnPrymary-color)" }}
+          />
+
+          {subcontenidos.length == 0 && !addSub ? null : abrir ? (
+            <ExpndLess sx={{ color: "var(--OnPrymary-color)" }} />
           ) : (
-            <FolderIcon sx={{ color: "var(--OnPrymary-color)" }} />
+            <ExpndMore sx={{ color: "var(--OnPrymary-color)" }} />
           )}
-        </ListItemIcon>
-        <ListItemText
-          primary={nombre}
-          sx={{ color: "var(--OnPrymary-color)" }}
-        />
-        {subcontenidos.length == 0 ? null : abrir ? (
-          <ExpndLess sx={{ color: "var(--OnPrymary-color)" }} />
-        ) : (
-          <ExpndMore sx={{ color: "var(--OnPrymary-color)" }} />
-        )}
-      </ListItemButton>
+        </ListItemButton>
+      </ListItem>
       <Collapse in={abrir} timeout="auto" unmountOnExit>
-        <SubCont subcontenidos={subcontenidos} />
+         
+        <SubCont subcontenidos={subcontenidos} addSub={addSub} open={abrir} setAddSub={setAddSub} contenido_id={id} setOpen={setAbrir} />
       </Collapse>
     </>
   );

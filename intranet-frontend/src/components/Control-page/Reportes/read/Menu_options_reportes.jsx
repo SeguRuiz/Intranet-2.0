@@ -1,11 +1,11 @@
-import { IconButton } from "@mui/material";
+import { IconButton, MenuList } from "@mui/material";
 import { useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import { createContext } from "react";
 
 export const MenuContext = createContext();
 
-const Menu_options_reportes = ({ children, customBtn = false, btn, sx }) => {
+const Menu_options_reportes = ({ children, customBtn = false, btn, sx, bgColor = '#f0f0f0'  }) => {
   const [menu, setMenu] = useState(null);
   const open = Boolean(menu);
   return (
@@ -45,9 +45,22 @@ const Menu_options_reportes = ({ children, customBtn = false, btn, sx }) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
+        sx={{ "& .MuiPaper-root": {
+          backgroundColor: bgColor, // Change menu background color
+        },}}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
       >
         <MenuContext.Provider value={{ setMenu }}>
+          <MenuList dense disablePadding>
           {children}
+          </MenuList>
         </MenuContext.Provider>
       </Menu>
     </>

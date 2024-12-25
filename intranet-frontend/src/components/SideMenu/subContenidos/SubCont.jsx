@@ -1,14 +1,27 @@
 import "./SubCont.css";
 import SelectSubcont from "./SelectSubcont";
+import AddSubContInpt from "../SubCrud/addv2/AddSubContInpt";
 import { List } from "@mui/material";
 
-const SubCont = ({ subcontenidos }) => {
-  console.log(subcontenidos);
-
+const SubCont = ({
+  subcontenidos,
+  addSub = false,
+  open = false,
+  setAddSub,
+  contenido_id = null,
+  setOpen,
+}) => {
   return (
     <>
-    
-      <List sx={{bgcolor: 'var(--SurfaceBrigth-color)'}} disablePadding>
+      <List sx={{ bgcolor: "var(--SurfaceBrigth-color)" }} disablePadding>
+        {addSub && open && (
+          <AddSubContInpt
+            setAddSub={setAddSub}
+            contenido_id={contenido_id}
+            setOpen={setOpen}
+            subcontenidos={subcontenidos}
+          />
+        )}
         {subcontenidos.map((subCont) => (
           <SelectSubcont
             key={subCont.id}

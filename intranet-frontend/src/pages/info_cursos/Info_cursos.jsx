@@ -5,14 +5,13 @@ import { useFetch } from "../../services/llamados";
 import { useParams } from "react-router-dom";
 import { setContenidos } from "../../redux/CursosContenidosSlice";
 import { set_archivo_mostrandose } from "../../redux/CursosContenidosSlice";
-import { use, useEffect } from "react";
+import {  useEffect } from "react";
 import Header_student from "../../components/Home/header/Header_student";
 import File_preview from "../../components/file_preview/File_preview";
-import Navbar from "../../components/Home/navbar/NavBar";
 import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_actions_cursos";
 import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 import MenuModal from "../../components/SideMenu/MenuCrud/Add/MenuModal";
-import { useState } from "react";
+
 import { getCookie } from "../../utils/Cookies";
 
 const Info_cursos = () => {
@@ -25,7 +24,6 @@ const Info_cursos = () => {
  
 
   useEffect(() => {
-    
     return () => {
       accion(setContenidos([]));
       accion(set_archivo_mostrandose(null));

@@ -1,14 +1,12 @@
 import "./addFile.css";
-import { act, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { add_archivos_subcontenidos } from "../../../../redux/CursosContenidosSlice";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useFetch } from "../../../../services/llamados";
-import uuid from "react-uuid";
 import DeleteFile from "./deleteFile/DeleteFile";
 import { getCookie } from "../../../../utils/Cookies";
-import { useCustomNotis } from "../../../../utils/customHooks";
 import { toast } from "react-toastify";
 
 const Add_file2 = ({ id, contenido_id, archivo }) => {
@@ -21,7 +19,6 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
   const [archivoAsinado, setAcrhivoAsignado] = useState(false);
   const token = getCookie("token");
   const { fetching, fetch_the_data } = useFetch();
-  const [archivo_key, setArchivo_key] = useState(null);
   const { Arhivos_subcontenidos, Contenidos } = useSelector(
     (state) => state.CursosContenidos
   );
@@ -49,7 +46,6 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
     );
 
     console.log(data);
-    
 
     switch (data[0]) {
       case 200:
@@ -74,6 +70,8 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
         advertencia_subiendo_archivo(
           "El archivo ya existe, por favor sube uno que no hayas subido antes"
         );
+        console.log('Error al subir archivo reached');
+        
         break;
       default:
         error_subiendo_archivo("Ocurrio un eror al subir el archivo");
@@ -99,7 +97,7 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
       if (e.id == contenido_id) {
         e.subcontenidos.forEach((e) => {
           if (e.id == id && e.archivo != null) {
-            setArchivo_key(e.archivo);
+            
             setAcrhivoAsignado(true);
           }
         });

@@ -2,19 +2,12 @@ import { MenuItem } from "@mui/material";
 import { useCustomModal } from "../../../../utils/customHooks";
 import { useEffect, useRef, useState } from "react";
 import { TextField } from "@mui/material";
-import { useSelector } from "react-redux";
 import { useFetch } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
 
 const More_info_reports = ({
   estudiante,
-  sede,
-  grupo,
- 
- 
-  comprobante,
   usuario,
-  fecha_creado,
   reporte_id,
 }) => {
   const modal_ref = useRef();
@@ -28,9 +21,7 @@ const More_info_reports = ({
   const [tipo_incidente, setIncidente] = useState('')
   const [dia_incidente, set_dia_incidente] = useState('')
 
-  
-  
-  
+
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
