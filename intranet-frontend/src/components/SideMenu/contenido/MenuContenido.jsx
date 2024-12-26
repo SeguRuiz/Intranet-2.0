@@ -1,4 +1,4 @@
-import { useState } from "react"; // Importa el hook useState para manejar el estado
+import { useEffect, useState } from "react"; // Importa el hook useState para manejar el estado
 import SubCont from "../subContenidos/SubCont"; // Importa el componente SubCont para mostrar subcontenidos
 import "./MenuCon.css"; // Importa estilos CSS
 import {
@@ -17,37 +17,45 @@ import Menu_options_reportes from "../../Control-page/Reportes/read/Menu_options
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Divider } from "@mui/material";
 import AddSubContV2 from "../SubCrud/addv2/AddSubContV2";
+import { useSelector } from "react-redux";
 
 const MenuContenido = ({ nombre, subcontenidos = [], id }) => {
+  const { userInSession } = useSelector((x) => x.Auth);
   // Componente que recibe nombre y subcontenidos como props
   const [abrir, setAbrir] = useState(false); // Estado que controla si el menú está abierto o cerrado
   // Estado que controla el índice seleccionado
   // Función para alternar el estado del menú
-  const [addSub,setAddSub] = useState(false)
+  const [addSub, setAddSub] = useState(false);
   const abrirCerrar = () => {
     if (subcontenidos.length > 0 || addSub) {
       setAbrir(!abrir);
-      setAddSub(false)
+      setAddSub(false);
     }
   };
-  
+
+  useEffect(() => {
+    subcontenidos.length == 0 && !addSub && setAbrir(false);
+  }, [subcontenidos]);
+
   return (
     <>
       <ListItem
         secondaryAction={
-          <Menu_options_reportes
-            customBtn={true}
-            btn={
-              <MoreHorizIcon
-                sx={{ fontSize: "large", color: "var(--OnPrymary-color)" }}
-              />
-            }
-            bgColor="var(--SurfaceBrigth-color)"
-          >
-            <AddSubContV2 setAddSubcont={setAddSub} setOpen={setAbrir}/>
-            <Divider />
-            <DeleteContent id={id} />
-          </Menu_options_reportes>
+          userInSession?.is_staff && (
+            <Menu_options_reportes
+              customBtn={true}
+              btn={
+                <MoreHorizIcon
+                  sx={{ fontSize: "large", color: "var(--OnPrymary-color)" }}
+                />
+              }
+              bgColor="var(--SurfaceBrigth-color)"
+            >
+              <AddSubContV2 setAddSubcont={setAddSub} setOpen={setAbrir} />
+              <Divider />
+              <DeleteContent id={id} subcontenidos={subcontenidos} />
+            </Menu_options_reportes>
+          )
         }
         disablePadding
       >
@@ -55,7 +63,7 @@ const MenuContenido = ({ nombre, subcontenidos = [], id }) => {
           onClick={() => {
             abrirCerrar();
           }}
-          // disabled={subcontenidos.length == 0}
+          disabled={subcontenidos.length == 0}
         >
           <ListItemIcon>
             {abrir ? (
@@ -77,8 +85,14 @@ const MenuContenido = ({ nombre, subcontenidos = [], id }) => {
         </ListItemButton>
       </ListItem>
       <Collapse in={abrir} timeout="auto" unmountOnExit>
-         
-        <SubCont subcontenidos={subcontenidos} addSub={addSub} open={abrir} setAddSub={setAddSub} contenido_id={id} setOpen={setAbrir} />
+        <SubCont
+          subcontenidos={subcontenidos}
+          addSub={addSub}
+          open={abrir}
+          setAddSub={setAddSub}
+          contenido_id={id}
+          setOpen={setAbrir}
+        />
       </Collapse>
     </>
   );

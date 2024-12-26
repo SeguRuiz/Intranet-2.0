@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"; // Hook para acceder al estado de Redux
 import { useFetch } from "../../services/llamados"; // Hook personalizado para realizar llamadas a servicios
 import { useEffect, useLayoutEffect, useState } from "react"; // Hooks de React para efectos y estado
-import { CircularProgress } from "@mui/material"; // Componente de carga de Material-UI
+import { CircularProgress, Paper } from "@mui/material"; // Componente de carga de Material-UI
 import { useDispatch } from "react-redux"; // Hook para despachar acciones de Redux
 import { add_archivos_subcontenidos } from "../../redux/CursosContenidosSlice"; // Acción para agregar archivos a subcontendidos
 import { useParams } from "react-router-dom"; // Hook para acceder a los parámetros de la URL
@@ -10,12 +10,14 @@ import { useCustomNotis } from "../../utils/customHooks";
 import "./File_preview.css"; // Importa estilos CSS
 import { getCookie } from "../../utils/Cookies"; // Función para obtener cookies
 import { get_fecha_hora } from "../../utils/Utils";
+import { Skeleton } from "@mui/material";
 
 function File_preview() {
   const [archivo, setArchivo] = useState(null); // Estado para almacenar el archivo a mostrar
   const token = getCookie("token"); // Obtiene el token de autenticación de las cookies
   const accion = useDispatch(); // Hook para despachar acciones
   const { error_mensaje } = useCustomNotis();
+  const { userInSession } = useSelector((x) => x.Auth);
 
   // Obtiene el archivo actualmente mostrado desde el estado de Redux
   const { archivo_mostrandose } = useSelector(
@@ -94,14 +96,21 @@ function File_preview() {
   // Efecto para establecer archivo como null si no está disponible en el contenido
   useLayoutEffect(() => {
     if (archivo_mostrandose) {
-      const contenido = Contenidos.find((c) => c.id === archivo_mostrandose.contenido);
+      const contenido = Contenidos.find(
+        (c) => c.id === archivo_mostrandose.contenido
+      );
       if (contenido) {
-        const subcontenido = contenido.subcontenidos.find((sc) => sc.id === archivo_mostrandose.subcontenido);
+        const subcontenido = contenido.subcontenidos.find(
+          (sc) => sc.id === archivo_mostrandose.subcontenido
+        );
         if (subcontenido) {
           if (!subcontenido.archivo) {
             setArchivo(null);
           } else {
-            const archivo_encontrado = Arhivos_subcontenidos.find((a) => a.id === subcontenido.archivo) || false;
+            const archivo_encontrado =
+              Arhivos_subcontenidos.find(
+                (a) => a.id === subcontenido.archivo
+              ) || false;
             if (archivo_encontrado) {
               setArchivo(archivo_encontrado.archivo);
             }
@@ -117,12 +126,14 @@ function File_preview() {
         <>
           <img src={Select_file} alt="" className="empty-file-content" />
         </>
-      ) : fetching ? ( // Muestra cargador mientras se obtiene el archivo
-        <CircularProgress />
+      ) : fetching ? (
+        <CircularProgress size={100} />
       ) : (
         <div className="file-container">
-          <iframe src={archivo} className="file-iframe"></iframe>{" "}
-          {/* Muestra el archivo en un iframe */}
+          <iframe
+            src={`${userInSession.is_staff ? archivo : archivo + "#toolbar=0"}`}
+            className="file-iframe"
+          ></iframe>
         </div>
       )}
     </>

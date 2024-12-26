@@ -18,7 +18,7 @@ const AddContenidoInpt = ({ setAdding }) => {
   useEffect(() => {
     if (inpt_ref.current) {
       inpt_ref.current.focus()
-      inpt_ref.current.value = 'Nombra tu contenido'
+      
     }
   }, []);
 
@@ -48,10 +48,11 @@ const AddContenidoInpt = ({ setAdding }) => {
         <ListItemIcon>
           <FolderIcon sx={{ color: "var(--OnPrymary-color)" }} />
         </ListItemIcon>
-        <form ref={form_ref} onSubmit={subirContenido}>
+        <form ref={form_ref} onSubmit={subirContenido} >
           <TextField
             size="small"
             inputRef={inpt_ref}
+            placeholder="Nombra tu carpeta"
             fullWidth
             sx={{
               "& .MuiInputBase-input": {

@@ -34,7 +34,7 @@ const AddContenidoV2 = ({ scroll }) => {
         </ListItemIcon>
         <ListItemText
           sx={{ color: "var(--OnPrymary-color)" }}
-          primary={adding ? "Cancelar" : "Agrega un contenido"}
+          primary={adding ? "Cancelar" : "Agrega una carpeta"}
         />
       </ListItemButton>
       {adding && <AddContenidoInpt setAdding={setAdding} />}

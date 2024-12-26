@@ -142,7 +142,7 @@ def create_file_signed_url_by_name(
     expires_in: datetime = (
         datetime.datetime.now()
         - datetime.timedelta(hours=6)
-        + datetime.timedelta(minutes=expiration_minutes)
+        + datetime.timedelta(minutes=expiration_minutes - 1)
     )
 
     return signed_url, expires_in
@@ -253,7 +253,7 @@ def save_file_of_subcont_to_google_cloud(request):
         signed_url, expires_in = create_file_signed_url_by_name(
             name=file_from_db.nombre,
             folder_name="CursosContenidos",
-            expiration_minutes=1,
+            expiration_minutes=16,
         )
 
         return Response(
@@ -327,9 +327,9 @@ def get_file_from_google_cloud(request):
         file_id: int = request.data["archivo_id"]
         file = get_object_or_404(GoogleCloudBucketFiles, pk=file_id)
         signed_url, expires_in = create_file_signed_url_by_name(
-            name=file.nombre, folder_name="CursosContenidos", expiration_minutes=1
+            name=file.nombre, folder_name="CursosContenidos", expiration_minutes=16
         )
-
+    
         return Response(
             {"archivo": signed_url, "expira_en": expires_in, "nombre": file.nombre},
             status=status.HTTP_200_OK,

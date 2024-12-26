@@ -2,32 +2,54 @@ import { useFetch } from "../../../../services/llamados";
 import { deleteContenidos } from "../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
 import { IconButton, ListItemIcon, ListItemText } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import "./DeleteContent.css";
 import { getCookie } from "../../../../utils/Cookies";
+import MuiModal from "../../../MuiModal/MuiModal";
 
-import {MenuItem} from "@mui/material";
-const DeleteContent = ({ id, open = false }) => {
+import { MenuItem } from "@mui/material";
+import { useState } from "react";
+const DeleteContent = ({ id, subcontenidos = [] }) => {
   const accion = useDispatch();
+  const [open, setOpen] = useState(false);
   const token = getCookie("token");
   const { fetch_the_data } = useFetch();
 
   const deleteC = async () => {
     fetch_the_data(
-      "http://localhost:8000/cursos_contenidos/contenidos_edit",
+      "http://localhost:8000/cursos_contenidos/eliminar_contenidos_files",
       token,
       "DELETE",
-      null,
-      id
+      {
+        contenido_id: id,
+      }
     );
     accion(deleteContenidos({ id: id }));
   };
-  return <MenuItem onClick={deleteC}>
-     <ListItemIcon>
-      <DeleteIcon sx={{color: 'var(--OnsurfaceVariant)', }}/>
-     </ListItemIcon>
-     <ListItemText primary="Eliminar"  sx={{color: 'var(--OnsurfaceVariant)'}}/>
-    </MenuItem>;
+  return (
+    <>
+      <MenuItem
+        onClick={() => {
+          subcontenidos.length == 0 ? deleteC() : setOpen(true);
+        }}
+      >
+        <ListItemIcon>
+          <DeleteIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
+        </ListItemIcon>
+        <ListItemText
+          primary="Eliminar"
+          sx={{ color: "var(--OnsurfaceVariant)" }}
+        />
+      </MenuItem>
+      <MuiModal
+        setOpen={setOpen}
+        open={open}
+        acceptFunction={deleteC}
+        Title="¿Borrar carpeta?"
+        body="Parece que esta carpeta contiene archivos dentro, ¿quieres eliminar todo?"
+      />
+    </>
+  );
 };
 
 export default DeleteContent;

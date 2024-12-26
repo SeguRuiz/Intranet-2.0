@@ -12,6 +12,7 @@ import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_ac
 import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 import MenuModal from "../../components/SideMenu/MenuCrud/Add/MenuModal";
 
+
 import { getCookie } from "../../utils/Cookies";
 
 const Info_cursos = () => {
@@ -61,7 +62,6 @@ const Info_cursos = () => {
             {userInSession?.is_staff && (
               <Admin_actions_cursos>
                 <Go_to_admin />
-                <MenuModal />
               </Admin_actions_cursos>
             )}
           </div>

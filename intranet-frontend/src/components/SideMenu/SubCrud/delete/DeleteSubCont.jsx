@@ -9,12 +9,13 @@ const DeleteSubCont = ({ id, contenido_id }) => {
   const token = getCookie("token");
   const accion = useDispatch();
   const deleteSubCont = async () => {
-    const data = await fetch_the_data(
-      "http://localhost:8000/cursos_contenidos/subcontenidos_edit",
+    fetch_the_data(
+      "http://localhost:8000/cursos_contenidos/eliminar_archivo_y_sub",
       token,
       "DELETE",
-      null,
-      id
+      {
+        id: id,
+      }
     );
 
     accion(
