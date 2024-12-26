@@ -1,7 +1,8 @@
 .Info-page {
   display: grid;
   height: 100vh;
-  grid-template-rows: 16.5% auto;
+  grid-template-rows: 11.5% auto;
+  background-color: var(--PrymaryContainer-color);
 }
 
 @media only screen and (max-height: 1000px) and (max-width: 415px) {
@@ -15,8 +16,10 @@
 
 .Info-page-main {
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 25% 75%;
 }
+
+
 
 .Info-page-sidebar {
   border: 1.5px black solid;
@@ -28,5 +31,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-top-left-radius: 5px;
+  background-color: var(--SurfaceBrigth-color);
 }
 

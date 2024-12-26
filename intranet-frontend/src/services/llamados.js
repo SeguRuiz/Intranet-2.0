@@ -30,7 +30,8 @@ export const useFetch = () => {
     token = null,
     method = "GET",
     body = null,
-    id = ""
+    id = "",
+    formData = null
   ) => {
     let fetch_body = {
       method: method,
@@ -43,7 +44,10 @@ export const useFetch = () => {
     body != null
       ? (fetch_body.body = JSON.stringify(body))
       : delete fetch_body?.body;
+
+    formData != null && (fetch_body.body = formData);
     token == null && delete fetch_body.headers?.Authorization;
+    formData != null && delete fetch_body.headers["Content-Type"];
 
     setFetching(true);
 
@@ -117,23 +121,25 @@ export const useFetch = () => {
         id == "" ? `${url}/` : `${url}/${id}`,
         fetch_body
       );
-      const data = await reponse.json();
-
+      
       if (!reponse.ok) {
         setError(true);
         setTimeout(() => {
           setError(false);
         }, 1000);
+        return[reponse.status]
       } else {
+        const data = await reponse.json();
+
         setOk(true);
         setTimeout(() => {
           setOk(false);
         }, 1000);
+        return [reponse.status, data];
       }
 
-      return [reponse.status, data];
-    } catch (error) {
-      console.log(error);
+      
+    } catch {
       setError(true);
       setOk(false);
       setTimeout(() => {

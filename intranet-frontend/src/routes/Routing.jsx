@@ -87,16 +87,16 @@ export const Routing = () => {
       <ToastContainer />
       <Router>
         <Routes>
-          <Route path="/" element={<Login/>} />
+          <Route path="/" element={<Login />} />
 
           {authorized && (
             <>
-              <Route path="/home" element={<Home />} />
+              {/* <Route path="/home" element={<Home />} />
               <Route path="/social" element={<Social />} />
               <Route path="/anuncios" element={<Anuncios />} />
               <Route path="/demolab" element={<Demolab />} />
               <Route path="/ingles" element={<Ingles />} />
-              <Route path="/cursos" element={<Cursos />} />
+              
 
               <Route path="/cursos/:id_curso/tareas" element={<Tarea />} />
               <Route
@@ -111,12 +111,14 @@ export const Routing = () => {
                 path="/cursos/:id_curso/cronograma"
                 element={<Cronograma />}
               />
+              <Route path={`/cursos/:id_curso/grupos`} element={<Grupo />} /> */}
+
+              <Route path="/cursos" element={<Cursos />} />
+
               <Route
                 path={`/cursos/:id_curso/contenidos`}
                 element={<Contenido />}
               />
-
-              <Route path={`/cursos/:id_curso/grupos`} element={<Grupo />} />
 
               {Es_admin || userInSession?.rol == "profesor" ? (
                 <Route

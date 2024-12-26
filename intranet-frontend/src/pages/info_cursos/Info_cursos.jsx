@@ -5,13 +5,14 @@ import { useFetch } from "../../services/llamados";
 import { useParams } from "react-router-dom";
 import { setContenidos } from "../../redux/CursosContenidosSlice";
 import { set_archivo_mostrandose } from "../../redux/CursosContenidosSlice";
-import { useEffect } from "react";
+import {  useEffect } from "react";
 import Header_student from "../../components/Home/header/Header_student";
 import File_preview from "../../components/file_preview/File_preview";
-import Navbar from "../../components/Home/navbar/NavBar";
 import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_actions_cursos";
 import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 import MenuModal from "../../components/SideMenu/MenuCrud/Add/MenuModal";
+
+
 import { getCookie } from "../../utils/Cookies";
 
 const Info_cursos = () => {
@@ -19,16 +20,16 @@ const Info_cursos = () => {
   const { userInSession } = useSelector((x) => x.Auth);
   const accion = useDispatch();
   const { id_curso } = useParams();
-  const ids = useParams();
   const token = getCookie("token");
-  console.log(ids);
+ 
+ 
 
-  const cursosLinks = [
-    { href: `/cursos/${id_curso}/contenidos`, label: "Contenidos" },
-    { href: `/cursos/${id_curso}/grupos`, label: "Grupos" },
-    { href: `/cursos/${id_curso}/tareas `, label: "Tareas" },
-    { href: `/cursos/${id_curso}/comunicaciones`, label: "Comunicaciones" },
-  ];
+  useEffect(() => {
+    return () => {
+      accion(setContenidos([]));
+      accion(set_archivo_mostrandose(null));
+    };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -40,9 +41,9 @@ const Info_cursos = () => {
         null,
         id_curso
       );
-      console.log(data);
-      accion(setContenidos(data[1].reverse()));
-      accion(set_archivo_mostrandose(null));
+
+      accion(setContenidos(data[1]));
+    
     })();
   }, [id_curso]);
 
@@ -51,10 +52,9 @@ const Info_cursos = () => {
       <div className="Info-page">
         <div className="Info-nav-container">
           <Header_student />
-          <Navbar links={cursosLinks} />
         </div>
         <div className="Info-page-main">
-          <div className="side-menu-page">
+          <div className="side-menu-page" >
             <Sidemenu />
           </div>
           <div className="Info-page-file">
@@ -62,7 +62,6 @@ const Info_cursos = () => {
             {userInSession?.is_staff && (
               <Admin_actions_cursos>
                 <Go_to_admin />
-                <MenuModal />
               </Admin_actions_cursos>
             )}
           </div>

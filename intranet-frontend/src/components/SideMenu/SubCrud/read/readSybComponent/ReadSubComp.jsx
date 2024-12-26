@@ -3,6 +3,8 @@ import Add_file2 from "../../addFile/Add_file2";
 import "./ReadSubConts.css";
 
 const ReadSubComp = ({ subcontenido = [] }) => {
+  console.log(subcontenido);
+  
   return (
     <div key={subcontenido.id} className="subcontenido-edit-container">
       <div className="subcontenidos-nombre">

@@ -10,6 +10,7 @@ const Fetchs = createSlice({
   reducers: {
     set_fetching : (state, action) => {
       state.fetching_state = action.payload
+      
     }
   },
 });

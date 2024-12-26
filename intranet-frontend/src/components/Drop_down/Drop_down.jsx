@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./Dropdown.css";
 const Drop_down = ({ children }) => {
   const [abrir, setAbrir] = useState(false);
-  console.log(children);
   
   return (
     <div
