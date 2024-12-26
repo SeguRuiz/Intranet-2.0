@@ -1,25 +1,63 @@
-import { useEffect, useState } from "react";
 import "./Sidemenu.css";
 import MenuContenido from "./contenido/MenuContenido";
+import { List } from "@mui/material";
 import { useSelector } from "react-redux";
-import MenuModal from "./MenuCrud/Add/MenuModal";
-export const Sidemenu = () => {
-  const { Es_admin } = useSelector((state) => state.IsAdmin);
-  const { Contenidos } = useSelector((state) => state.CursosContenidos);
+import FolderIcon from "@mui/icons-material/Folder";
+import { Paper } from "@mui/material";
+import AddContenidoV2 from "./MenuCrud/Add/AddContenidoV2/AddContenidoV2";
+import { useRef } from "react";
 
+export const Sidemenu = () => {
+  const { Contenidos } = useSelector((state) => state.CursosContenidos);
+  const { userInSession } = useSelector((state) => state.Auth);
+  const paperRef = useRef()
+  
+  const movePaper = () => {
+    paperRef.current.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    })
+  }
+
+
+   
   return (
     <>
-      <div className={"sidemenu-container"}>
-        <div className="menu-container">
+      <Paper
+        ref={paperRef}
+        sx={{
+          maxHeight: "34.9rem",
+          height: "100%",
+          overflow: "auto",
+          borderRadius: 0,
+          scrollbarColor:
+            "var(--OnPrymary-color) var(--PrymaryContainer-color)",
+          scrollbarWidth: "thin",
+          bgcolor: "var(--PrymaryContainer-color)",
+
+        }}
+        
+      >
+        <List
+          sx={{
+            width: "100%",
+            maxWidth: 360,
+            bgcolor: "var(--PrymaryContainer-color)",
+          }}
+          disablePadding
+        >
+          {userInSession?.is_staff && <AddContenidoV2 scroll={movePaper} />}
           {Contenidos.map((contenido) => (
             <MenuContenido
               key={contenido.id}
               nombre={contenido.nombre}
               subcontenidos={contenido.subcontenidos}
+              id={contenido.id}
             />
           ))}
-        </div>
-      </div>
+        </List>
+      </Paper>
     </>
   );
 };

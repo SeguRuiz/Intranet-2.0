@@ -7,7 +7,9 @@ from .views import (
     SubContenidosEdit,
     get_comunicados_by_date,
     get_contenidos_and_subcontenidos,
-    send_emails_to_group
+    send_emails_to_group,
+    delete_file_and_subcont,
+    delete_contenidos_and_files
 )
 
 urlpatterns = [
@@ -27,5 +29,8 @@ urlpatterns = [
         "comunicados_edit/<uuid:pk>/", ComunicadosEdit.as_view(), name="comunicados-edit"
     ),
     path("comunicados_date/", get_comunicados_by_date, name="comunicados-by-date"),
-    path("enviar_emails_grupo/", send_emails_to_group, name="send_emails_g")
+    path("enviar_emails_grupo/", send_emails_to_group, name="send_emails_g"),
+    path("eliminar_archivo_y_sub/", delete_file_and_subcont, name="eliminar-archvo-sub"),
+    path("eliminar_contenidos_files/", delete_contenidos_and_files, name="eliminar-archvo-contenidos"),
+    
 ]

@@ -24,6 +24,7 @@ const Grupo_card = () => {
     })();
   }, [grupo_mostrandose]);
 
+  
   return (
     <>
       {Es_admin && (

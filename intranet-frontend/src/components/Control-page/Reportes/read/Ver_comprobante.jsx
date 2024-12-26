@@ -3,33 +3,32 @@ import { useCustomModal } from "../../../../utils/customHooks";
 import { useFetch } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
 import { Backdrop } from "@mui/material";
-import {CircularProgress} from "@mui/material";
+import { CircularProgress } from "@mui/material";
 const Ver_comprobante = ({ comprobante_id }) => {
   const modal_ref = useRef();
   const [archivo, setArchivo] = useState(null);
-  const [open,setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const token = getCookie("token");
   const { closeModalDlg, openModal } = useCustomModal(modal_ref);
-  const { fetch_the_data} = useFetch();
+  const { fetch_the_data } = useFetch();
 
   const get_archivo = async () => {
-    setOpen(true)
-    
+    setOpen(true);
+
     const data = await fetch_the_data(
       "http://localhost:8000/files/get_archivo",
       token,
       "POST",
       {
-        archivo: comprobante_id
-      },
+        archivo: comprobante_id,
+      }
     );
-    
+
     if (data[0] == 200) {
-        setArchivo(data[1].archivo)
-        setOpen(false)
-        openModal()
+      setArchivo(data[1].archivo);
+      setOpen(false);
+      openModal();
     }
-    
   };
   return (
     <>
@@ -45,11 +44,15 @@ const Ver_comprobante = ({ comprobante_id }) => {
         </svg>
         <p>Ver comprobante</p>
       </div>
-      <dialog ref={modal_ref} className="comprobante-dlg" onClick={closeModalDlg}>
-        <iframe src={archivo} height={'100%'} width={'100%'}></iframe>
+      <dialog
+        ref={modal_ref}
+        className="comprobante-dlg"
+        onClick={closeModalDlg}
+      >
+        <iframe src={archivo} height={"100%"} width={"100%"}></iframe>
       </dialog>
       <Backdrop open={open}>
-       <CircularProgress/>
+        <CircularProgress />
       </Backdrop>
     </>
   );
