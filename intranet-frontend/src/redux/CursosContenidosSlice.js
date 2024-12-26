@@ -76,7 +76,8 @@ const CursosContenidos = createSlice({
       state.Contenidos = contenidos_copy;
     },
     add_archivos_subcontenidos: (state, action) => {
-      const { contenido_id, subcontenido_id, data, action_file } = action.payload;
+      const { contenido_id, subcontenido_id, data, action_file } =
+        action.payload;
 
       switch (action_file) {
         case "add":
@@ -95,8 +96,8 @@ const CursosContenidos = createSlice({
           (() => {
             state.Arhivos_subcontenidos.forEach((e) => {
               if (e.id == data.id) {
-                e.expira_en = data.expira_en
-                e.archivo = data.archivo
+                e.expira_en = data.expira_en;
+                e.archivo = data.archivo;
               }
             });
           })();
@@ -126,6 +127,14 @@ const CursosContenidos = createSlice({
     set_archivo_mostrandose: (state, action) => {
       state.archivo_mostrandose = action.payload;
     },
+    bloquear_o_desbloquear_contenido: (state, action) => {
+      const { id, bloqueado } = action.payload;
+      state.Contenidos.forEach((x) => {
+        if (x.id == id) {
+          x.bloqueado = bloqueado;
+        }
+      });
+    },
   },
 });
 
@@ -141,5 +150,6 @@ export const {
   set_usuarios_del_grupo,
   set_grupo_mostrandose,
   set_current_page,
+  bloquear_o_desbloquear_contenido
 } = CursosContenidos.actions;
 export default CursosContenidos.reducer;

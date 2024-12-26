@@ -50,10 +50,11 @@ export const Sidemenu = () => {
           {userInSession?.is_staff && <AddContenidoV2 scroll={movePaper} />}
           {Contenidos.map((contenido) => (
             <MenuContenido
-              key={contenido.id}
-              nombre={contenido.nombre}
-              subcontenidos={contenido.subcontenidos}
-              id={contenido.id}
+              key={contenido?.id}
+              nombre={contenido?.nombre}
+              subcontenidos={contenido?.subcontenidos}
+              bloqueado={contenido?.bloqueado}
+              id={contenido?.id}
             />
           ))}
         </List>
