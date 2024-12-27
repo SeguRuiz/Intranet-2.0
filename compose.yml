@@ -13,20 +13,8 @@ services:
     depends_on:
       - backend
 
-  # Para desarrollo
-  # react:
-  #   container_name: intranet_container_front
-  #   image: intranet_image_front
-  #   build:
-  #     context: ./intranet-frontend
 
-  #   volumes:
-  #     - ./intranet-frontend:/app
-  #     - /app/node_modules
-  #   ports:
-  #     - "5173:5173"
-
-  frontend:
+  backend:
     container_name: intranet-back
     image: intranet-backend:v2
     build:
