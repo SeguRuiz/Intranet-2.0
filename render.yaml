@@ -1,0 +1,44 @@
+services:
+  - name: intranet-frontend
+    type: web
+    env: docker
+    dockerfilePath: Dockerfile.frontend
+    buildCommand: docker build --target production --build-arg NODE_ENV=production -t intranet-frontend:v2 .
+    startCommand: docker run -p 80:80 intranet-frontend:v2
+    envVars:
+      - key: NODE_ENV
+        value: production
+    dependsOn:
+      - intranet-backend
+
+  - name: intranet-backend
+    type: web
+    env: docker
+    dockerfilePath: Dockerfile.backend
+    buildCommand: docker build -t intranet-backend:v2 .
+    startCommand: >
+      ./wait-for-it.sh -t 30 mysql:3306 -- python manage.py runserver 0.0.0.0:8000
+    envVars:
+      - key: DATABASE_URL
+        value: mysql://intranet-admin:fwd2025t@mysql-host:3306/intranet_db 
+    volumes:
+      - path: ./intranet_backend
+        mountPath: /app
+    dependsOn:
+      - mysql-db
+
+  - name: mysql-db
+    type: database
+    databaseType: mysql
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        value: root
+      - key: MYSQL_DATABASE
+        value: intranet_db
+      - key: MYSQL_USER
+        value: intranet-admin
+      - key: MYSQL_PASSWORD
+        value: fwd2025
+    volumes:
+      - path: ./mysql-init
+        mountPath: /docker-entrypoint-initdb.d
