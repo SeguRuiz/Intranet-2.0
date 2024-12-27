@@ -1,7 +1,7 @@
 services:
-  react:
+  frontend:
     container_name: intranet-front
-    image: intranet-frontend:v1
+    image: intranet-frontend:v2
     build:
       context: .
       target: production
@@ -11,7 +11,7 @@ services:
     ports:
       - 80:80
     depends_on:
-      - django
+      - backend
 
   # Para desarrollo
   # react:
@@ -26,9 +26,9 @@ services:
   #   ports:
   #     - "5173:5173"
 
-  django:
+  frontend:
     container_name: intranet-back
-    image: intranet-backend:v1
+    image: intranet-backend:v2
     build:
       context: .
       dockerfile: Dockerfile.backend
@@ -61,6 +61,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=intranet_db
+      - MYSQL_USER=intranet-admin
+      - MYSQL_PASSWORD=fwd2025
     volumes:
       - intranet_data:/data/db
       - ./mysql-init:/docker-entrypoint-initdb.d:ro
