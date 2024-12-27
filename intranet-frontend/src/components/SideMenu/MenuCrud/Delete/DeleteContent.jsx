@@ -9,7 +9,7 @@ import MuiModal from "../../../MuiModal/MuiModal";
 
 import { MenuItem } from "@mui/material";
 import { useState } from "react";
-const DeleteContent = ({ id, subcontenidos = [] }) => {
+const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta='' }) => {
   const accion = useDispatch();
   const [open, setOpen] = useState(false);
   const token = getCookie("token");
@@ -46,7 +46,7 @@ const DeleteContent = ({ id, subcontenidos = [] }) => {
         open={open}
         acceptFunction={deleteC}
         Title="¿Borrar carpeta?"
-        body="Parece que esta carpeta contiene archivos dentro, ¿quieres eliminar todo?"
+        body={`Parece que la carpeta ${nombreCarpeta} contiene archivos dentro, ¿quieres eliminarla de todas formas?`}
       />
     </>
   );

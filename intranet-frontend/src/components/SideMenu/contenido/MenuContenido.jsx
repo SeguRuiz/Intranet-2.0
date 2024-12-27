@@ -18,8 +18,15 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Divider } from "@mui/material";
 import AddSubContV2 from "../SubCrud/addv2/AddSubContV2";
 import { useSelector } from "react-redux";
+import BloquearContenido from "../MenuCrud/BloquearContenido/BloquearContenido";
+import BlockIcon from "@mui/icons-material/Block";
 
-const MenuContenido = ({ nombre, subcontenidos = [], id }) => {
+const MenuContenido = ({
+  nombre,
+  subcontenidos = [],
+  id,
+  bloqueado = false,
+}) => {
   const { userInSession } = useSelector((x) => x.Auth);
   // Componente que recibe nombre y subcontenidos como props
   const [abrir, setAbrir] = useState(false); // Estado que controla si el menú está abierto o cerrado
@@ -51,9 +58,22 @@ const MenuContenido = ({ nombre, subcontenidos = [], id }) => {
               }
               bgColor="var(--SurfaceBrigth-color)"
             >
-              <AddSubContV2 setAddSubcont={setAddSub} setOpen={setAbrir} />
+              <BloquearContenido
+                contenido_id={id}
+                bloqueado={bloqueado}
+                setOpen={setAbrir}
+              />
+              <AddSubContV2
+                setAddSubcont={setAddSub}
+                setOpen={setAbrir}
+                bloqueado={bloqueado}
+              />
               <Divider />
-              <DeleteContent id={id} subcontenidos={subcontenidos} />
+              <DeleteContent
+                id={id}
+                subcontenidos={subcontenidos}
+                nombreCarpeta={nombre}
+              />
             </Menu_options_reportes>
           )
         }
@@ -63,7 +83,8 @@ const MenuContenido = ({ nombre, subcontenidos = [], id }) => {
           onClick={() => {
             abrirCerrar();
           }}
-          disabled={subcontenidos.length == 0}
+          disabled={bloqueado}
+          disableTouchRipple={subcontenidos.length == 0}
         >
           <ListItemIcon>
             {abrir ? (
@@ -77,7 +98,9 @@ const MenuContenido = ({ nombre, subcontenidos = [], id }) => {
             sx={{ color: "var(--OnPrymary-color)" }}
           />
 
-          {subcontenidos.length == 0 && !addSub ? null : abrir ? (
+          {bloqueado && !addSub ? (
+            <BlockIcon sx={{ color: "var(--OnPrymary-color)" }} />
+          ) : subcontenidos.length == 0 ? null : abrir ? (
             <ExpndLess sx={{ color: "var(--OnPrymary-color)" }} />
           ) : (
             <ExpndMore sx={{ color: "var(--OnPrymary-color)" }} />
