@@ -9,10 +9,9 @@ services:
         - NODE_ENV=production
       dockerfile: Dockerfile.frontend
     ports:
-      - 80:80
+      - "80:80"
     depends_on:
       - backend
-
 
   backend:
     container_name: intranet-back
@@ -23,7 +22,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=mysql://root:root@db:3306/intranet_db
+      - DATABASE_URL=postgres://intranet-admin:fwd2025@postgres:5432/intranet_db
     volumes:
       - ./intranet_backend:/app
     command:
@@ -31,7 +30,7 @@ services:
         "./wait-for-it.sh",
         "-t",
         "30",
-        "mysql:3306",
+        "postgres:5432",
         "--",
         "python",
         "manage.py",
@@ -39,21 +38,20 @@ services:
         "0.0.0.0:8000",
       ]
     depends_on:
-      - mysql
+      - postgres
 
-  mysql:
-    image: mysql:latest
+  postgres:
+    image: postgres:latest
     restart: always
     ports:
-      - "3307:3306"
+      - "5432:5432"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=intranet_db
-      - MYSQL_USER=intranet-admin
-      - MYSQL_PASSWORD=fwd2025
+      - POSTGRES_USER=intranet-admin
+      - POSTGRES_PASSWORD=fwd2025
+      - POSTGRES_DB=intranet_db
     volumes:
-      - intranet_data:/data/db
-      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+      - intranet_postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
 
 volumes:
-  intranet_data:
+  intranet_postgres_data:
