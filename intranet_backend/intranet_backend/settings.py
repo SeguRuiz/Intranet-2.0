@@ -26,7 +26,12 @@ SECRET_KEY = "django-insecure-o=%+c)0z#azw9-h2x_iszs8n2+zpa1b!7#+^acdnctul_rp*6&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.100.38", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "192.168.100.38",
+    "localhost",
+    "127.0.0.1",
+    "intranet-2-0-api.onrender.com",
+]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
@@ -34,7 +39,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://intranet_container_front:5173",
     "http://localhost:5173",
     "http://192.168.100.38:8000",
-    "http://localhost"
+    "http://localhost",
 ]
 
 # Application definition
@@ -97,12 +102,12 @@ WSGI_APPLICATION = "intranet_backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'intranet_db_slfe',
-        'USER': 'intranet_admin',
-        'PASSWORD': 'sfcAZgrJ2m6OP1mxJL0cfLsfXoA5rEG7',
-        'HOST': 'dpg-cto47jrtq21c73crb0m0-a', #Aqui ira el io donde render lo tiene en linea
-        'PORT': '5432',
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "intranet_db_slfe",
+        "USER": "intranet_admin",
+        "PASSWORD": "sfcAZgrJ2m6OP1mxJL0cfLsfXoA5rEG7",
+        "HOST": "dpg-cto47jrtq21c73crb0m0-a",  # Aqui ira el io donde render lo tiene en linea
+        "PORT": "5432",
     }
 }
 
