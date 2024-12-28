@@ -22,7 +22,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgres://intranet-admin:fwd2025@postgres:5432/intranet_db
+      - DATABASE_URL=postgresql://intranet_admin:sfcAZgrJ2m6OP1mxJL0cfLsfXoA5rEG7@dpg-cto47jrtq21c73crb0m0-a.oregon-postgres.render.com/intranet_db_slfe
     volumes:
       - ./intranet_backend:/app
     command:
@@ -37,21 +37,20 @@ services:
         "runserver",
         "0.0.0.0:8000",
       ]
-    depends_on:
-      - postgres
+  
 
-  postgres:
-    image: postgres:latest
-    restart: always
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=intranet-admin
-      - POSTGRES_PASSWORD=fwd2025
-      - POSTGRES_DB=intranet_db
-    volumes:
-      - intranet_postgres_data:/var/lib/postgresql/data
-      - ./postgres-init:/docker-entrypoint-initdb.d:ro
+#   postgres:
+#     image: postgres:latest
+#     restart: always
+#     ports:
+#       - "5432:5432"
+#     environment:
+#       - POSTGRES_USER=intranet_admin
+#       - POSTGRES_PASSWORD=fwd2025
+#       - POSTGRES_DB=intranet_db
+#     volumes:
+#       - intranet_postgres_data:/var/lib/postgresql/data
+#       - ./postgres-init:/docker-entrypoint-initdb.d:ro
 
-volumes:
-  intranet_postgres_data:
+# volumes:
+#   intranet_postgres_data:

@@ -20,25 +20,7 @@ services:
       ./wait-for-it.sh -t 30 mysql:3306 -- python manage.py runserver 0.0.0.0:8000
     envVars:
       - key: DATABASE_URL
-        value: mysql://intranet-admin:fwd2025t@mysql-host:3306/intranet_db 
+        value: postgresql://intranet_admin:sfcAZgrJ2m6OP1mxJL0cfLsfXoA5rEG7@dpg-cto47jrtq21c73crb0m0-a.oregon-postgres.render.com/intranet_db_slfe  # Use the Render-provided MySQL connection string
     volumes:
       - path: ./intranet_backend
         mountPath: /app
-    dependsOn:
-      - mysql-db
-
-  - name: mysql-db
-    type: database
-    databaseType: mysql
-    envVars:
-      - key: MYSQL_ROOT_PASSWORD
-        value: root
-      - key: MYSQL_DATABASE
-        value: intranet_db
-      - key: MYSQL_USER
-        value: intranet-admin
-      - key: MYSQL_PASSWORD
-        value: fwd2025
-    volumes:
-      - path: ./mysql-init
-        mountPath: /docker-entrypoint-initdb.d

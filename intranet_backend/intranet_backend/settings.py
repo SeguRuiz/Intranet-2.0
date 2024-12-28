@@ -99,7 +99,7 @@ DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'intranet_db',
-        'USER': 'intranet-admin',
+        'USER': 'intranet_admin',
         'PASSWORD': 'fwd2025',
         'HOST': 'postgres', #Aqui ira el io donde render lo tiene en linea
         'PORT': '5432',

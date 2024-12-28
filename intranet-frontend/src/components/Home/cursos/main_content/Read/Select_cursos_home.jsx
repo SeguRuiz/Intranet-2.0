@@ -42,7 +42,7 @@ const Select_cursos_home = ({ id, nombre }) => {
         <div
           className="entrar-curso-btn"
           onClick={() => {
-            navigate(`/cursos/${id}/contenidos`);
+            navigate(`/cursos/${id}/carpetas`);
           }}
         >
           Entrar
