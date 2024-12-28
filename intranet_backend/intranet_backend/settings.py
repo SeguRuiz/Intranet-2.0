@@ -63,6 +63,10 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://intranet-2-0-api.onrender.com',
+]
+
 AUTH_USER_MODEL = "api.Usuarios"
 
 MIDDLEWARE = [
