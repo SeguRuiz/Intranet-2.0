@@ -12,14 +12,14 @@ export const Delete_cursos = ({ id }) => {
 
   const eliminar_curso_back = async () => {
     const data = await fetch_the_data(
-      "http://localhost:8000/cursos/cursos_edit",
+      "https://intranet-2-0-api.onrender.com/cursos/cursos_edit",
       token,
       "DELETE",
       null,
       id
     );
-   console.log(data);
-   
+    console.log(data);
+
     accion(eliminar_curso({ curso_id: id }));
   };
   return <MenuItem onClick={eliminar_curso_back}>Eliminar</MenuItem>;

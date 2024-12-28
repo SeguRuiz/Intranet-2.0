@@ -14,7 +14,6 @@ import { pushTareasAsignadas } from "../../../../redux/ObtenerDatosTareaSlice";
 import Swal from "sweetalert2";
 
 const Tarea = () => {
-  
   const navigate = useNavigate();
   const { estudiantes } = useSelector((e) => e.CursosContenidos);
   console.log(estudiantes);
@@ -41,7 +40,7 @@ const Tarea = () => {
     evento.preventDefault();
     if (estudiantes[0] != undefined) {
       const datos_post = await fetch_the_data(
-        "http://localhost:8000/tareas/info_tarea",
+        "https://intranet-2-0-api.onrender.com/tareas/info_tarea",
         null,
         "POST",
         {
@@ -69,7 +68,7 @@ const Tarea = () => {
 
     if (estudiantes[0] != undefined) {
       const taskAsigned = await fetch_the_data(
-        "http://localhost:8000/tareas/asignar_tareas_estudiantes",
+        "https://intranet-2-0-api.onrender.com/tareas/asignar_tareas_estudiantes",
         null,
         "POST",
         {
@@ -91,10 +90,10 @@ const Tarea = () => {
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
-        "http://localhost:8000/tareas/get_tareas_de_curso",
+        "https://intranet-2-0-api.onrender.com/tareas/get_tareas_de_curso",
         null,
         "POST",
-        {curso_id:id_curso}
+        { curso_id: id_curso }
       );
       accion(setDatos(datos[1]));
     };

@@ -17,8 +17,7 @@ const AddContenidoInpt = ({ setAdding }) => {
 
   useEffect(() => {
     if (inpt_ref.current) {
-      inpt_ref.current.focus()
-      
+      inpt_ref.current.focus();
     }
   }, []);
 
@@ -28,7 +27,7 @@ const AddContenidoInpt = ({ setAdding }) => {
     if (nombre_value != "") {
       // Verifica que el nombre no esté vacío
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos_contenidos/contenidos", // URL de la API
+        "https://intranet-2-0-api.onrender.com/cursos_contenidos/contenidos", // URL de la API
         token, // Token de autenticación
         "POST", // Método HTTP
         {
@@ -48,7 +47,7 @@ const AddContenidoInpt = ({ setAdding }) => {
         <ListItemIcon>
           <FolderIcon sx={{ color: "var(--OnPrymary-color)" }} />
         </ListItemIcon>
-        <form ref={form_ref} onSubmit={subirContenido} >
+        <form ref={form_ref} onSubmit={subirContenido}>
           <TextField
             size="small"
             inputRef={inpt_ref}

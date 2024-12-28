@@ -1,6 +1,6 @@
 import "./AddCurso.css";
 import { useFetch } from "../../../../../services/llamados";
-import {  useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { setCursos } from "../../../../../redux/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getCookie } from "../../../../../utils/Cookies";
@@ -34,7 +34,7 @@ const AddCurso = () => {
 
     if (valor_input != "") {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/cursos",
+        "https://intranet-2-0-api.onrender.com/cursos/cursos",
         token,
         "POST",
         { nombre: valor_input }

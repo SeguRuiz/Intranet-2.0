@@ -9,7 +9,7 @@ import MuiModal from "../../../MuiModal/MuiModal";
 
 import { MenuItem } from "@mui/material";
 import { useState } from "react";
-const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta='' }) => {
+const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta = "" }) => {
   const accion = useDispatch();
   const [open, setOpen] = useState(false);
   const token = getCookie("token");
@@ -17,7 +17,7 @@ const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta='' }) => {
 
   const deleteC = async () => {
     fetch_the_data(
-      "http://localhost:8000/cursos_contenidos/eliminar_contenidos_files",
+      "https://intranet-2-0-api.onrender.com/cursos_contenidos/eliminar_contenidos_files",
       token,
       "DELETE",
       {

@@ -21,7 +21,7 @@ const Select_role = ({ user_id, rol_de_usuario_id }) => {
   useLayoutEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/api/roles",
+        "https://intranet-2-0-api.onrender.com/api/roles",
         token,
         "GET" // Realiza una solicitud GET para obtener roles
       );
@@ -32,7 +32,7 @@ const Select_role = ({ user_id, rol_de_usuario_id }) => {
   // Función para asignar un rol al usuario
   const asignar_rol = async () => {
     const data = await fetch_the_data(
-      "http://localhost:8000/api/asignar_rol_a",
+      "https://intranet-2-0-api.onrender.com/api/asignar_rol_a",
       token,
       "PATCH", // Realiza una solicitud PATCH para asignar un rol
       {
@@ -55,15 +55,20 @@ const Select_role = ({ user_id, rol_de_usuario_id }) => {
       ) : (
         <></>
       )}
-      {roles.map((rol, i) => ( // Mapea los roles y crea opciones
-        <Role_options
-          key={rol?.id ?? i} // Usa el ID del rol o el índice como clave
-          value={rol?.tipo ?? "default"} // Valor de la opción
-          user_id={user_id} // ID del usuario
-          rol_id={rol_de_usuario_id} // ID del rol de usuario
-          id={rol?.id} // ID del rol
-        />
-      ))}
+      {roles.map(
+        (
+          rol,
+          i // Mapea los roles y crea opciones
+        ) => (
+          <Role_options
+            key={rol?.id ?? i} // Usa el ID del rol o el índice como clave
+            value={rol?.tipo ?? "default"} // Valor de la opción
+            user_id={user_id} // ID del usuario
+            rol_id={rol_de_usuario_id} // ID del rol de usuario
+            id={rol?.id} // ID del rol
+          />
+        )
+      )}
     </select>
   );
 };

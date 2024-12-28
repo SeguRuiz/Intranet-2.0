@@ -28,7 +28,7 @@ const Add_integrantes_btn = () => {
   const agregar_integrante = async () => {
     if (grupo_seleccionado != null) {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/agregar_lista_integrantes", // Endpoint de la API
+        "https://intranet-2-0-api.onrender.com/cursos/agregar_lista_integrantes", // Endpoint de la API
         token,
         "POST",
         {

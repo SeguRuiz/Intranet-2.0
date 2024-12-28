@@ -12,12 +12,12 @@ const Deelete_integrantes = ({ grupo_id, integrante_id }) => {
   const { error_mensaje } = useCustomNotis("A ocurrido un error");
   const accion = useDispatch();
   const token = getCookie("token");
- 
+
   const eliminar_integrante = async () => {
     console.log(integrante_id, grupo_id);
 
     const data = await fetch_the_data(
-      "http://localhost:8000/cursos/eliminar_integrantes",
+      "https://intranet-2-0-api.onrender.com/cursos/eliminar_integrantes",
       token,
       "DELETE",
       {

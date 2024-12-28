@@ -28,7 +28,7 @@ const Delete_grupos = () => {
     accion(set_fetching(true)); // Indica que se está cargando
 
     const data = await fetch_the_data(
-      "http://localhost:8000/cursos/eliminar_lista_grupos",
+      "https://intranet-2-0-api.onrender.com/cursos/eliminar_lista_grupos",
       token,
       "DELETE",
       {
@@ -38,7 +38,8 @@ const Delete_grupos = () => {
 
     if (data == undefined) {
       error_mensaje(); // Muestra mensaje de error si no hay respuesta
-    } else if (data[0] == 200) { // Verifica si la respuesta es exitosa
+    } else if (data[0] == 200) {
+      // Verifica si la respuesta es exitosa
       ok_mensaje(); // Mensaje de éxito
       let grupos_copia = [...grupos]; // Crea una copia del estado de grupos
       let usuarios_copia = [...usuarios_en_grupos]; // Crea una copia del estado de usuarios en grupos
@@ -79,4 +80,4 @@ const Delete_grupos = () => {
   );
 };
 
-export default Delete_grupos; 
+export default Delete_grupos;

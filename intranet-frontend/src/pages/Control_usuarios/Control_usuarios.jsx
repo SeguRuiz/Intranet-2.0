@@ -51,21 +51,19 @@ const Control_usuarios_page = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/sedes",
+        "https://intranet-2-0-api.onrender.com/cursos/sedes",
         token,
         "GET"
       );
 
       accion(set_sedes(data[1]));
-        
-      
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/get_grupos_integrantes",
+        "https://intranet-2-0-api.onrender.com/cursos/get_grupos_integrantes",
         token,
         "GET"
       );
@@ -76,7 +74,7 @@ const Control_usuarios_page = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/grupos_cursos",
+        "https://intranet-2-0-api.onrender.com/cursos/grupos_cursos",
         token,
         "GET"
       );
@@ -88,7 +86,7 @@ const Control_usuarios_page = () => {
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
-        "http://localhost:8000/cursos/cursos",
+        "https://intranet-2-0-api.onrender.com/cursos/cursos",
         null,
         "GET"
       );
@@ -100,7 +98,7 @@ const Control_usuarios_page = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/integrantes_de_grupo",
+        "https://intranet-2-0-api.onrender.com/cursos/integrantes_de_grupo",
         token,
         "GET"
       );

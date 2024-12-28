@@ -26,12 +26,11 @@ const Comunicaciones_page = () => {
     { href: `/cursos/${id_curso}/grupos`, label: "Grupos" },
     { href: `/cursos/${id_curso}/tareas`, label: "Tareas" },
     { href: `/cursos/${id_curso}/comunicaciones`, label: "Comunicaciones" },
-   
   ];
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/get_grupos_integrantes",
+        "https://intranet-2-0-api.onrender.com/cursos/get_grupos_integrantes",
         token,
         "GET"
       );
@@ -42,7 +41,7 @@ const Comunicaciones_page = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos_contenidos/comunicados_date",
+        "https://intranet-2-0-api.onrender.com/cursos_contenidos/comunicados_date",
         token,
         "GET"
       );
@@ -66,7 +65,7 @@ const Comunicaciones_page = () => {
           <Read_grupos_del_curso />
         </Admin_actions_cursos>
       </div>
-      <Grupo_card/>
+      <Grupo_card />
     </div>
   );
 };

@@ -12,7 +12,7 @@ import { CircularProgress } from "@mui/material";
 
 const Content = () => {
   const { cursos } = useSelector((state) => state.modal);
- 
+
   const token = getCookie("token");
 
   const { fetch_the_data, fetching } = useFetch();
@@ -22,7 +22,7 @@ const Content = () => {
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
-        "http://localhost:8000/cursos/get_user_courses",
+        "https://intranet-2-0-api.onrender.com/cursos/get_user_courses",
         null,
         "POST",
         {
@@ -39,9 +39,7 @@ const Content = () => {
   return (
     <>
       <div className="container">
-        <div
-          className={"cursos-home-grid"}
-        >
+        <div className={"cursos-home-grid"}>
           {fetching ? (
             <CircularProgress />
           ) : (

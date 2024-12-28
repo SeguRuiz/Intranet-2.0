@@ -10,7 +10,8 @@ import { useCustomNotis } from "../../../../utils/customHooks"; // Hook para man
 const Add_file_Report = ({ reporte_id }) => {
   const file_ref = useRef(); // Referencia para el input de archivos
   const { fetch_the_data } = useFetch(); // Hook para realizar solicitudes HTTP
-  const { ok_mensaje, error_mensaje } = useCustomNotis( // Mensajes de éxito y error
+  const { ok_mensaje, error_mensaje } = useCustomNotis(
+    // Mensajes de éxito y error
     "Ocurrio un error",
     "Se agrego el comprobante"
   );
@@ -23,7 +24,7 @@ const Add_file_Report = ({ reporte_id }) => {
     // Función para agregar archivos al reporte
     setOpen(true); // Abre el Backdrop de carga
     const data = await fetch_the_data(
-      "http://localhost:8000/files/guardar_reporte",
+      "https://intranet-2-0-api.onrender.com/files/guardar_reporte",
       token,
       "POST",
       {
@@ -38,7 +39,12 @@ const Add_file_Report = ({ reporte_id }) => {
     // Manejo de respuesta después de subir el archivo
     if (data[0] == 200 && data != undefined) {
       // Si la subida fue exitosa
-      accion(agregar_archivo_reportes({ reporte_id: reporte_id, archivo_id: data[1].archivo_id })); // Agrega el archivo al estado de Redux
+      accion(
+        agregar_archivo_reportes({
+          reporte_id: reporte_id,
+          archivo_id: data[1].archivo_id,
+        })
+      ); // Agrega el archivo al estado de Redux
       setOpen(false); // Cierra el Backdrop
       ok_mensaje(); // Mensaje de éxito
     } else {
@@ -87,7 +93,7 @@ const Add_file_Report = ({ reporte_id }) => {
           convertAnArrayArchives(x.target.files); // Convierte y procesa los archivos seleccionados
         }}
       />
-      <Backdrop open={open}> 
+      <Backdrop open={open}>
         <CircularProgress color="inherit" />
       </Backdrop>
     </>

@@ -32,7 +32,7 @@ const Delete_users = () => {
   // Función para eliminar la lista de usuarios seleccionados
   const eliminar_lista_usuarios = async () => {
     const data = await fetch_the_data(
-      "http://localhost:8000/api/eliminar_lista_usuarios",
+      "https://intranet-2-0-api.onrender.com/api/eliminar_lista_usuarios",
       token,
       "DELETE", // Realiza una solicitud DELETE para eliminar usuarios
       {
@@ -71,4 +71,4 @@ const Delete_users = () => {
   );
 };
 
-export default Delete_users; 
+export default Delete_users;

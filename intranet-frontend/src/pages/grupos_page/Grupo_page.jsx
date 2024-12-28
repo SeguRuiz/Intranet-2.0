@@ -23,7 +23,7 @@ const Grupo_pagina = () => {
   const { estudiantes, profesores, grupo_mostrandose } = useSelector(
     (x) => x.CursosContenidos
   );
-  const token = getCookie('token')
+  const token = getCookie("token");
   console.log(grupo_mostrandose);
 
   const { Es_admin } = useSelector((x) => x.IsAdmin);
@@ -35,16 +35,14 @@ const Grupo_pagina = () => {
     { href: `/cursos/${id_curso}/grupos`, label: "Grupos" },
     { href: `/cursos/${id_curso}/tareas `, label: "Tareas" },
     { href: `/cursos/${id_curso}/comunicaciones`, label: "Comunicaciones" },
-    
   ];
 
   const accion = useDispatch();
-  
 
   useLayoutEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/get_grupos_integrantes",
+        "https://intranet-2-0-api.onrender.com/cursos/get_grupos_integrantes",
         token,
         "GET"
       );
@@ -56,7 +54,7 @@ const Grupo_pagina = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/get_usuarios_grupo",
+        "https://intranet-2-0-api.onrender.com/cursos/get_usuarios_grupo",
         token,
         "POST",
         {
@@ -66,8 +64,8 @@ const Grupo_pagina = () => {
         }
       );
       console.log(data);
-      
-      if (await data[0] == 200) {
+
+      if ((await data[0]) == 200) {
         accion(
           set_usuarios_del_grupo({
             rol: "estudiantes",

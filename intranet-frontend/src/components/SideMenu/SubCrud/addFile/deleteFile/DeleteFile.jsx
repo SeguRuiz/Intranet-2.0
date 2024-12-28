@@ -20,7 +20,7 @@ const DeleteFile = ({ id, contenido_id, archivo_key, set }) => {
 
   const DeleteFile = async () => {
     const data = await fetch_the_data(
-      "http://localhost:8000/files/eliminar_archivo_from_google_cloud_and_subcont",
+      "https://intranet-2-0-api.onrender.com/files/eliminar_archivo_from_google_cloud_and_subcont",
       token,
       "DELETE",
       {

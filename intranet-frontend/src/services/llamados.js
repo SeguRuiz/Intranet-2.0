@@ -121,13 +121,13 @@ export const useFetch = () => {
         id == "" ? `${url}/` : `${url}/${id}`,
         fetch_body
       );
-      
+
       if (!reponse.ok) {
         setError(true);
         setTimeout(() => {
           setError(false);
         }, 1000);
-        return[reponse.status]
+        return [reponse.status];
       } else {
         const data = await reponse.json();
 
@@ -137,8 +137,6 @@ export const useFetch = () => {
         }, 1000);
         return [reponse.status, data];
       }
-
-      
     } catch {
       setError(true);
       setOk(false);
@@ -203,16 +201,19 @@ export const verificar_token = async (token) => {
 
 const refrescar_token = async (refresh) => {
   try {
-    const response = await fetch("http://localhost:8000/api/token/refresh/", {
-      // cambias el link por tu refresh link
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        refresh: refresh,
-      }),
-    });
+    const response = await fetch(
+      "https://intranet-2-0-api.onrender.com/api/token/refresh/",
+      {
+        // cambias el link por tu refresh link
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          refresh: refresh,
+        }),
+      }
+    );
     const data = await response.json();
 
     return data.access;

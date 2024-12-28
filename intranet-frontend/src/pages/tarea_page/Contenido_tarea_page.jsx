@@ -23,7 +23,7 @@ const Contenido_tarea_page = () => {
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
-        "http://localhost:8000/tareas/info_tarea",
+        "https://intranet-2-0-api.onrender.com/tareas/info_tarea",
         token,
         "GET",
         null,
@@ -40,7 +40,7 @@ const Contenido_tarea_page = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/api/get_user_info",
+        "https://intranet-2-0-api.onrender.com/api/get_user_info",
         token,
         "GET",
         null,
@@ -121,7 +121,7 @@ const Contenido_tarea_page = () => {
               readOnly
               defaultValue={tarea?.descripcion}
             />
-            <Subir_tareas/>
+            <Subir_tareas />
           </div>
         </div>
         <div></div>
