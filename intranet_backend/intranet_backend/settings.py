@@ -40,6 +40,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://192.168.100.38:8000",
     "http://localhost",
+    "https://intranet-2-0-front-end.onrender.com"
 ]
 
 # Application definition
