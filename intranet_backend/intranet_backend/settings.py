@@ -112,11 +112,11 @@ WSGI_APPLICATION = "intranet_backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME_DEV"),
-        "USER": os.getenv("DB_USER_DEV"),
-        "PASSWORD": os.getenv("DB_USER_PASSWORD_DEV"),
-        "HOST": os.getenv("DB_HOST_DEV"),
-        "PORT": os.getenv("DB_PORT_DEV"),
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_USER_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),
     }
 }
 
