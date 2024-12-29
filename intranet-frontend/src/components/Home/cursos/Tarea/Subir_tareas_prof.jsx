@@ -38,14 +38,14 @@ const Subir_tareas = ({ contenido_id }) => {
   const { tareas_asignadas } = useSelector((state) => state.datos_tarea);
 
   const subirArchivoTarea = async (archivo) => {
-    set_fetching_file(true)
+    set_fetching_file(true);
     const data = await fetch_the_data(
       "http://localhost:8000/tareas/guardar_archivo_tarea",
       token,
       "POST",
       { method: "POST", files_info: [archivo], id: id_tarea }
     );
-    
+
     dispatch(
       subirArchivosTareas({
         data: {
@@ -57,9 +57,8 @@ const Subir_tareas = ({ contenido_id }) => {
       })
     );
 
-   
     obtenerArchivosSubidos(); // Volvemos a cargar la lista de archivos subido
-    set_fetching_file(false) 
+    set_fetching_file(false);
   };
 
   const handleUpload = () => {

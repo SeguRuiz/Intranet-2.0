@@ -121,7 +121,7 @@ const Contenido_tarea_page = () => {
               readOnly
               defaultValue={tarea?.descripcion}
             />
-            <Subir_tareas/>
+            <Subir_tareas />
           </div>
         </div>
         <div></div>

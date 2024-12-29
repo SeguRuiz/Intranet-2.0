@@ -21,7 +21,7 @@ export const Login = () => {
   const [mostrar, setMostrar] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const info = () => toast.info('Bienvenido devuelta')
+  const info = () => toast.info("Bienvenido devuelta");
 
   const { log_fetch } = useFetch();
   const accion = useDispatch();
@@ -71,7 +71,7 @@ export const Login = () => {
     accion(setAutorized(true));
     accion(actualizar());
     navigate("/cursos");
-    info()
+    info();
   };
 
   return (
@@ -105,7 +105,6 @@ export const Login = () => {
                   }}
                   error={emailError != ""}
                   helperText={emailError}
-                  
                 />
                 <TextField
                   onChange={(x) => {

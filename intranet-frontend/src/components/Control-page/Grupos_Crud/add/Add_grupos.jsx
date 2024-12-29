@@ -34,9 +34,10 @@ const Add_grupos = () => {
     o.preventDefault(); // Previene el comportamiento por defecto del formulario
     const grupo_nombre_value = grupo_nombre_inpt.current.value.trim(); // Obtiene el valor del input
 
-    if (grupo_nombre_value != "") { // Solo procede si el nombre no está vacío
+    if (grupo_nombre_value != "") {
+      // Solo procede si el nombre no está vacío
       accion(set_fetching(true)); // Indica que se está cargando
-      
+
       const data = await fetch_the_data(
         "http://localhost:8000/cursos/grupos",
         token,
@@ -49,7 +50,8 @@ const Add_grupos = () => {
 
       if (data == undefined) {
         error_mensaje(); // Muestra mensaje de error si no hay respuesta
-      } else if (data[0] == 201) { // Respuesta exitosa
+      } else if (data[0] == 201) {
+        // Respuesta exitosa
         ok_mensaje(); // Mensaje de éxito
         accion(agregar_grupos({ ...data[1], integrantes: [] })); // Agrega el grupo al estado
         accion(desactivar_seleccion_multiple_sedes()); // Desactiva la selección de sedes
@@ -109,4 +111,4 @@ const Add_grupos = () => {
   );
 };
 
-export default Add_grupos; 
+export default Add_grupos;

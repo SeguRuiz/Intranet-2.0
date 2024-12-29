@@ -5,11 +5,7 @@ import { TextField } from "@mui/material";
 import { useFetch } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
 
-const More_info_reports = ({
-  estudiante,
-  usuario,
-  reporte_id,
-}) => {
+const More_info_reports = ({ estudiante, usuario, reporte_id }) => {
   const modal_ref = useRef();
   const { fetch_the_data } = useFetch();
   const { openModal, closeModalDlg } = useCustomModal(modal_ref);
@@ -17,10 +13,9 @@ const More_info_reports = ({
   const [nombre_estudiante, set_nombre_estudiante] = useState("");
   const [grupo_nombre, set_grupo_nombre] = useState("");
   const [sede_nombre, set_sede_nombre] = useState("");
-  const [detalles, setDetalles] = useState('')
-  const [tipo_incidente, setIncidente] = useState('')
-  const [dia_incidente, set_dia_incidente] = useState('')
-
+  const [detalles, setDetalles] = useState("");
+  const [tipo_incidente, setIncidente] = useState("");
+  const [dia_incidente, set_dia_incidente] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -50,21 +45,18 @@ const More_info_reports = ({
         token,
         "GET",
         null,
-        reporte_id + '/'
-        
+        reporte_id + "/"
       );
       console.log(data);
 
       if (data[0] == 200 && data != undefined) {
-        setDetalles(data[1]?.detalles)
-        setIncidente(data[1]?.tipo_incidente)
-        set_dia_incidente(data[1]?.dia_incidente)
+        setDetalles(data[1]?.detalles);
+        setIncidente(data[1]?.tipo_incidente);
+        set_dia_incidente(data[1]?.dia_incidente);
       }
     })();
   }, []);
 
-
-   
   return (
     <>
       <MenuItem onClick={openModal}>Más info</MenuItem>

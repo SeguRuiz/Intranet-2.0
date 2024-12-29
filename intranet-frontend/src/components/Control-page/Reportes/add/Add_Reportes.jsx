@@ -305,20 +305,22 @@ const Add_Reportes = () => {
             }}
           >
             <Button type="submit" sx={{ marginRight: "10px" }}>
-              {editando_reporte.editando ? 'Subir cambios' : 'Agregar reporte'} 
+              {editando_reporte.editando ? "Subir cambios" : "Agregar reporte"}
             </Button>
             {editando_reporte.editando && (
               <Button
-                sx={{ marginRight: '10px' }}
+                sx={{ marginRight: "10px" }}
                 onClick={() => {
                   accion(cerrar_aside()); // Cierra el menú lateral
                   setTipoReporte(null); // Resetea el tipo de reporte
-                  accion(set_editando_reporte({ editanto: false, reporte_id: null })); // Resetea el estado de edición
+                  accion(
+                    set_editando_reporte({ editanto: false, reporte_id: null })
+                  ); // Resetea el estado de edición
                   setEstudiante(null); // Resetea el estado del estudiante
                   form_ref.current.reset(); // Resetea el formulario
                 }}
               >
-                Dejar de editar 
+                Dejar de editar
               </Button>
             )}
           </div>

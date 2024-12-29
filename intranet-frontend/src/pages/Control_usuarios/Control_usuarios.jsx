@@ -57,8 +57,6 @@ const Control_usuarios_page = () => {
       );
 
       accion(set_sedes(data[1]));
-        
-      
     })();
   }, []);
 

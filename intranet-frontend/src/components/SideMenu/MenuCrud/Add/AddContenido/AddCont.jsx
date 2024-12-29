@@ -23,7 +23,8 @@ export const AddCont = () => {
   const subirContenido = async (o) => {
     o.preventDefault(); // Previene el comportamiento por defecto del formulario
     const nombre_value = inputNombre.current.value.trim(); // Obtiene el valor del input y elimina espacios en blanco
-    if (nombre_value != "") { // Verifica que el nombre no esté vacío
+    if (nombre_value != "") {
+      // Verifica que el nombre no esté vacío
       const data = await fetch_the_data(
         "http://localhost:8000/cursos_contenidos/contenidos", // URL de la API
         token, // Token de autenticación
@@ -48,7 +49,9 @@ export const AddCont = () => {
       <div
         className={abrir ? "add-cont-retractile-open" : "add-cont-retractile"} // Clase CSS para el contenedor según si está abierto o cerrado
       >
-        <div className={"add-cont-btn-area"}> {/* Área del botón para abrir/cerrar el formulario */}
+        <div className={"add-cont-btn-area"}>
+          {" "}
+          {/* Área del botón para abrir/cerrar el formulario */}
           <button
             onClick={() => {
               abrir ? setAbrir(false) : setAbrir(true); // Alterna el estado de abrir
@@ -78,7 +81,8 @@ export const AddCont = () => {
                 <path d="M450-450H200v-60h250v-250h60v250h250v60H510v250h-60v-250Z" />
               </svg>
             )}
-            <p style={{ display: abrir && "none" }}>Agregar</p> {/* Texto que se oculta cuando el formulario está abierto */}
+            <p style={{ display: abrir && "none" }}>Agregar</p>{" "}
+            {/* Texto que se oculta cuando el formulario está abierto */}
           </button>
         </div>
         <form

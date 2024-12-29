@@ -18,8 +18,8 @@ export const Delete_cursos = ({ id }) => {
       null,
       id
     );
-   console.log(data);
-   
+    console.log(data);
+
     accion(eliminar_curso({ curso_id: id }));
   };
   return <MenuItem onClick={eliminar_curso_back}>Eliminar</MenuItem>;

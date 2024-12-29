@@ -9,7 +9,7 @@ import MuiModal from "../../../MuiModal/MuiModal";
 
 import { MenuItem } from "@mui/material";
 import { useState } from "react";
-const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta='' }) => {
+const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta = "" }) => {
   const accion = useDispatch();
   const [open, setOpen] = useState(false);
   const token = getCookie("token");

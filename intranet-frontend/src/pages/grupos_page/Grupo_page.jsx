@@ -23,7 +23,7 @@ const Grupo_pagina = () => {
   const { estudiantes, profesores, grupo_mostrandose } = useSelector(
     (x) => x.CursosContenidos
   );
-  const token = getCookie('token')
+  const token = getCookie("token");
   console.log(grupo_mostrandose);
 
   const { Es_admin } = useSelector((x) => x.IsAdmin);
@@ -35,11 +35,9 @@ const Grupo_pagina = () => {
     { href: `/cursos/${id_curso}/grupos`, label: "Grupos" },
     { href: `/cursos/${id_curso}/tareas `, label: "Tareas" },
     { href: `/cursos/${id_curso}/comunicaciones`, label: "Comunicaciones" },
-    
   ];
 
   const accion = useDispatch();
-  
 
   useLayoutEffect(() => {
     (async () => {
@@ -66,8 +64,8 @@ const Grupo_pagina = () => {
         }
       );
       console.log(data);
-      
-      if (await data[0] == 200) {
+
+      if ((await data[0]) == 200) {
         accion(
           set_usuarios_del_grupo({
             rol: "estudiantes",

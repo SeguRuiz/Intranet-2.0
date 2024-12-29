@@ -55,15 +55,20 @@ const Select_role = ({ user_id, rol_de_usuario_id }) => {
       ) : (
         <></>
       )}
-      {roles.map((rol, i) => ( // Mapea los roles y crea opciones
-        <Role_options
-          key={rol?.id ?? i} // Usa el ID del rol o el índice como clave
-          value={rol?.tipo ?? "default"} // Valor de la opción
-          user_id={user_id} // ID del usuario
-          rol_id={rol_de_usuario_id} // ID del rol de usuario
-          id={rol?.id} // ID del rol
-        />
-      ))}
+      {roles.map(
+        (
+          rol,
+          i // Mapea los roles y crea opciones
+        ) => (
+          <Role_options
+            key={rol?.id ?? i} // Usa el ID del rol o el índice como clave
+            value={rol?.tipo ?? "default"} // Valor de la opción
+            user_id={user_id} // ID del usuario
+            rol_id={rol_de_usuario_id} // ID del rol de usuario
+            id={rol?.id} // ID del rol
+          />
+        )
+      )}
     </select>
   );
 };

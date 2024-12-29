@@ -1,15 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Contenido from "../pages/info_cursos/Info_cursos";
 import Cursos from "../pages/Cursos_page/Cursos_page.jsx";
-import Home from "../pages/Home_page/Home_page.jsx";
-import Social from "../pages/Social_page";
-import Anuncios from "../pages/Anuncios_page";
-import Demolab from "../pages/Demolab_page";
-import Ingles from "../pages/Ingles_page";
-import Grupo from "../pages/grupos_page/Grupo_page.jsx";
-import Tarea from "../pages/tarea_page/Tarea_page.jsx";
-import Comunicaciones from "../pages/Comuniciones/Comunicaciones_page.jsx";
-import Cronograma from "../pages/Cronograma_page/Cronograma_page.jsx";
 import Control_usuarios_page from "../pages/Control_usuarios/Control_usuarios.jsx";
 import { useFetch } from "../services/llamados.js";
 import { useEffect } from "react";
@@ -25,7 +16,6 @@ import { DecodeToken } from "../services/llamados.js";
 import { set_roles } from "../redux/ControlUsuariosSlice.js";
 import { estado_admin, estado_no_admin } from "../redux/IsAdminSlice.js";
 import { set_fetching } from "../redux/FetchsSlice.js";
-import Contenido_tarea from "../pages/tarea_page/Contenido_tarea_page.jsx";
 import { Login } from "../components/login/Login.jsx";
 
 export const Routing = () => {
@@ -116,7 +106,7 @@ export const Routing = () => {
               <Route path="/cursos" element={<Cursos />} />
 
               <Route
-                path={`/cursos/:id_curso/contenidos`}
+                path={`/cursos/:id_curso/carpetas`}
                 element={<Contenido />}
               />
 

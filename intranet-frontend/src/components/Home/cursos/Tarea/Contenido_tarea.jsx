@@ -37,8 +37,6 @@ const Contenido_tarea = () => {
     data();
   }, []);
 
-  
-
   if (!tareaSeleccionada) {
     return <div>No se encontró la tarea seleccionada.</div>;
   }
@@ -101,10 +99,7 @@ const Contenido_tarea = () => {
 
   return (
     <div className="outer-container">
-     
-         
-          <Subir_tareas />
-       
+      <Subir_tareas />
 
       {/* <div className="tu-trabajo">
         <p className="section-title">Tu trabajo</p>

@@ -12,7 +12,7 @@ import { CircularProgress } from "@mui/material";
 
 const Content = () => {
   const { cursos } = useSelector((state) => state.modal);
- 
+
   const token = getCookie("token");
 
   const { fetch_the_data, fetching } = useFetch();
@@ -39,9 +39,7 @@ const Content = () => {
   return (
     <>
       <div className="container">
-        <div
-          className={"cursos-home-grid"}
-        >
+        <div className={"cursos-home-grid"}>
           {fetching ? (
             <CircularProgress />
           ) : (

@@ -1,29 +1,39 @@
 services:
   frontend:
-    container_name: intranet-front
-    image: intranet-frontend:v2
+    container_name: intranet-front-dev
+    image: intranet-front-dev:1.1.0
     build:
       context: .
-      target: production
-      args:
-        - NODE_ENV=production
-      dockerfile: Dockerfile.frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-
-  backend:
-    container_name: intranet-back
-    image: intranet-backend:v2
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
-    ports:
-      - "8000:8000"
+      dockerfile: Dockerfile.frontend-dev
 
     volumes:
+      - ./intranet-frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+
+  backend:
+    container_name: intranet-back-dev
+    image: intranet-back-dev:1.1.0
+    build:
+      context: .
+      dockerfile: Dockerfile.backend-dev
+    ports:
+      - "8000:8000"
+    volumes:
       - ./intranet_backend:/app
+    command:
+      [
+        "./wait-for-it.sh",
+        "-t",
+        "30",
+        "postgres:5432",
+        "--",
+        "python",
+        "manage.py",
+        "runserver",
+        "0.0.0.0:8000",
+      ]
 
     depends_on:
       - postgres

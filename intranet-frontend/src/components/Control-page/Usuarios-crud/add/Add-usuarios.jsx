@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { agregar_usuarios } from "../../../../redux/ControlUsuariosSlice";
 import { useCustomNotis } from "../../../../utils/customHooks";
 import { set_fetching } from "../../../../redux/FetchsSlice";
-import {  TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import "./Add_users.css";
 import { useEffect, useRef } from "react";
 import { Button } from "@mui/material";
@@ -54,11 +54,10 @@ const Add_usuarios = () => {
           username: nombre_usuario,
           last_name: apellidos,
           email: email,
-          cedula: cedula
+          cedula: cedula,
         }
       );
       data == undefined && error_mensaje();
-  
 
       if (data[0] == 201) {
         ok_mensaje();

@@ -1,4 +1,7 @@
-import { abrir_aside, set_editando_reporte } from "../../../../redux/ControlUsuariosSlice"; // Importa acciones de Redux para manejar el estado
+import {
+  abrir_aside,
+  set_editando_reporte,
+} from "../../../../redux/ControlUsuariosSlice"; // Importa acciones de Redux para manejar el estado
 import { useDispatch, useSelector } from "react-redux"; // Hooks de Redux para manejar acciones y acceder al estado
 import { MenuItem } from "@mui/material"; // Componente para crear un elemento de menú
 import { getCookie } from "../../../../utils/Cookies"; // Función para obtener cookies
@@ -18,7 +21,7 @@ function Edit_reporte({ reporte_id }) {
     const reporte = reportes.find((x) => x.id == reporte_id); // Busca el reporte por su ID
 
     const data = await fetch_the_data(
-      "http://localhost:8000/api/get_estudiante", 
+      "http://localhost:8000/api/get_estudiante",
       token,
       "POST",
       {

@@ -71,4 +71,4 @@ const Delete_users = () => {
   );
 };
 
-export default Delete_users; 
+export default Delete_users;

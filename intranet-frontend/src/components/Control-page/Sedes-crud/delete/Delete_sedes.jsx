@@ -37,7 +37,7 @@ const Delete_sedes = () => {
 
     // Si no hay datos, muestra un mensaje de error
     data == undefined && error_mensaje();
-    
+
     // Si la respuesta es exitosa, actualiza el estado
     if (data[0] == 200) {
       console.log(data); // Muestra los datos en consola para depuración
@@ -49,7 +49,9 @@ const Delete_sedes = () => {
       // Filtra las sedes y grupos que no están en la selección para eliminar
       seleccion_multiple_sedes.forEach((e) => {
         const sedes_filtered = sedes_copia.filter((x) => x.id != e.sede_id);
-        const grupos_filtered = grupos_copia.filter(x => x.sede_id != e.sede_id);
+        const grupos_filtered = grupos_copia.filter(
+          (x) => x.sede_id != e.sede_id
+        );
         sedes_copia = sedes_filtered;
         grupos_copia = grupos_filtered;
       });
