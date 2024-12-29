@@ -4,7 +4,7 @@ services:
     image: intranet-front-dev:1.1.0
     build:
       context: .
-      dockerfile: Dockerfile.frontenddev
+      dockerfile: Dockerfile.frontend-dev
 
     volumes:
       - ./intranet-frontend:/app
@@ -17,7 +17,7 @@ services:
     image: intranet-back-dev:1.1.0
     build:
       context: .
-      dockerfile: Dockerfile.backenddev
+      dockerfile: Dockerfile.backend-dev
     ports:
       - "8000:8000"
     volumes:
