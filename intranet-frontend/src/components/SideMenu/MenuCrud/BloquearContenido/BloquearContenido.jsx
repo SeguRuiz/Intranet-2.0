@@ -24,7 +24,7 @@ const BloquearContenido = ({
 
   const bloquear_o_debloquear_carpeta = async () => {
     const data = await fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/cursos_contenidos/contenidos_edit",
+      "http://localhost:8000/cursos_contenidos/contenidos_edit",
       token,
       "PATCH",
       {

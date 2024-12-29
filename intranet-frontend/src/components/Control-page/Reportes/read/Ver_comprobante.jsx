@@ -16,7 +16,7 @@ const Ver_comprobante = ({ comprobante_id }) => {
     setOpen(true);
 
     const data = await fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/files/get_archivo",
+      "http://localhost:8000/files/get_archivo",
       token,
       "POST",
       {

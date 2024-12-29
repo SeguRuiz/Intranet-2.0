@@ -28,7 +28,7 @@ const Contenido_tarea = () => {
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/tareas/info_tarea",
+        "http://localhost:8000/tareas/info_tarea",
         null,
         "GET"
       );
@@ -46,7 +46,7 @@ const Contenido_tarea = () => {
     const estudiante_id = estudiantes.find((x) => x.id == userInSession.id);
     console.log(estudiante_id);
     const data = await fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/tareas/subir_tarea_estudiante",
+      "http://localhost:8000/tareas/subir_tarea_estudiante",
       token,
       "POST",
       {

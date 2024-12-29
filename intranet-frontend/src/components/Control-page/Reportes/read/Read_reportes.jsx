@@ -20,7 +20,7 @@ const Read_reportes = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/reportes/reportes",
+        "http://localhost:8000/reportes/reportes",
         token,
         "GET"
       );

@@ -34,7 +34,7 @@ const AddCurso = () => {
 
     if (valor_input != "") {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/cursos/cursos",
+        "http://localhost:8000/cursos/cursos",
         token,
         "POST",
         { nombre: valor_input }

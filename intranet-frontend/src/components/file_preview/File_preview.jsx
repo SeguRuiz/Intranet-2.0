@@ -35,7 +35,7 @@ function File_preview() {
   // Función para obtener el archivo desde el servidor
   const fetch_archivo = async (action = "add") => {
     const data = await fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/files/obtener_archivo_from_google_cloud",
+      "http://localhost:8000/files/obtener_archivo_from_google_cloud",
       token,
       "POST",
       {

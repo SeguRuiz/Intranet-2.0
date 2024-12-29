@@ -20,7 +20,7 @@ const More_info_reports = ({ estudiante, usuario, reporte_id }) => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/api/get_estudiante",
+        "http://localhost:8000/api/get_estudiante",
         token,
         "POST",
         {
@@ -41,7 +41,7 @@ const More_info_reports = ({ estudiante, usuario, reporte_id }) => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/reportes/reportes",
+        "http://localhost:8000/reportes/reportes",
         token,
         "GET",
         null,

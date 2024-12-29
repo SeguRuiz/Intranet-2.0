@@ -30,7 +30,7 @@ const Comunicaciones_page = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/cursos/get_grupos_integrantes",
+        "http://localhost:8000/cursos/get_grupos_integrantes",
         token,
         "GET"
       );
@@ -41,7 +41,7 @@ const Comunicaciones_page = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/cursos_contenidos/comunicados_date",
+        "http://localhost:8000/cursos_contenidos/comunicados_date",
         token,
         "GET"
       );

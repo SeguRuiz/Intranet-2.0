@@ -21,7 +21,7 @@ const Select_role = ({ user_id, rol_de_usuario_id }) => {
   useLayoutEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/api/roles",
+        "http://localhost:8000/api/roles",
         token,
         "GET" // Realiza una solicitud GET para obtener roles
       );
@@ -32,7 +32,7 @@ const Select_role = ({ user_id, rol_de_usuario_id }) => {
   // Función para asignar un rol al usuario
   const asignar_rol = async () => {
     const data = await fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/api/asignar_rol_a",
+      "http://localhost:8000/api/asignar_rol_a",
       token,
       "PATCH", // Realiza una solicitud PATCH para asignar un rol
       {

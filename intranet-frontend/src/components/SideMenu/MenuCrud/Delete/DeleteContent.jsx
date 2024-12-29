@@ -17,7 +17,7 @@ const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta = "" }) => {
 
   const deleteC = async () => {
     fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/cursos_contenidos/eliminar_contenidos_files",
+      "http://localhost:8000/cursos_contenidos/eliminar_contenidos_files",
       token,
       "DELETE",
       {

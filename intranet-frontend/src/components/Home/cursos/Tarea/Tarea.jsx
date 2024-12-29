@@ -40,7 +40,7 @@ const Tarea = () => {
     evento.preventDefault();
     if (estudiantes[0] != undefined) {
       const datos_post = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/tareas/info_tarea",
+        "http://localhost:8000/tareas/info_tarea",
         null,
         "POST",
         {
@@ -68,7 +68,7 @@ const Tarea = () => {
 
     if (estudiantes[0] != undefined) {
       const taskAsigned = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/tareas/asignar_tareas_estudiantes",
+        "http://localhost:8000/tareas/asignar_tareas_estudiantes",
         null,
         "POST",
         {
@@ -90,7 +90,7 @@ const Tarea = () => {
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/tareas/get_tareas_de_curso",
+        "http://localhost:8000/tareas/get_tareas_de_curso",
         null,
         "POST",
         { curso_id: id_curso }

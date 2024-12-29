@@ -72,7 +72,7 @@ const Add_Reportes = () => {
     setLoading(true); // Activa el estado de carga
 
     const data = await fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/api/estudiantes_activos",
+      "http://localhost:8000/api/estudiantes_activos",
       token,
       "POST",
       {
@@ -102,7 +102,7 @@ const Add_Reportes = () => {
     ) {
       const data = !editando_reporte.editando
         ? await fetch_the_data(
-            "https://intranet-2-0-api.onrender.com/reportes/agregar_reporte",
+            "http://localhost:8000/reportes/agregar_reporte",
             token,
             "POST",
             {
@@ -115,7 +115,7 @@ const Add_Reportes = () => {
             }
           )
         : await fetch_the_data(
-            "https://intranet-2-0-api.onrender.com/reportes/reportes_edit",
+            "http://localhost:8000/reportes/reportes_edit",
             token,
             "PATCH",
             {

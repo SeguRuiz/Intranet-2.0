@@ -19,7 +19,7 @@ const AddSubConts = ({ Contenido_id }) => {
     const input_value = input_ref.current.value.trim();
     if (input_value != "") {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/cursos_contenidos/subcontenidos",
+        "http://localhost:8000/cursos_contenidos/subcontenidos",
         token,
         "POST",
         { nombre: input_ref.current.value.trim(), contenido: Contenido_id }

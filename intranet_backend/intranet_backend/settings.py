@@ -108,10 +108,10 @@ WSGI_APPLICATION = "intranet_backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "intranet_db_slfe",
+        "NAME": "intranet_db",
         "USER": "intranet_admin",
-        "PASSWORD": "sfcAZgrJ2m6OP1mxJL0cfLsfXoA5rEG7",
-        "HOST": "dpg-cto47jrtq21c73crb0m0-a",  # Aqui ira el io donde render lo tiene en linea
+        "PASSWORD": "fwd2025",
+        "HOST": "postgres",  # Aqui ira el io donde render lo tiene en linea
         "PORT": "5432",
     }
 }

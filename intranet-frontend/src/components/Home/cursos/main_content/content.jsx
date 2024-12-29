@@ -22,7 +22,7 @@ const Content = () => {
   useEffect(() => {
     const data = async () => {
       const datos = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/cursos/get_user_courses",
+        "http://localhost:8000/cursos/get_user_courses",
         null,
         "POST",
         {

@@ -10,7 +10,7 @@ const Borrar_tarea = ({ id }) => {
 
   const borrarTarea = async () => {
     fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/tareas/delete",
+      "http://localhost:8000/tareas/delete",
       token,
       "DELETE",
       null,

@@ -24,7 +24,7 @@ const Add_file_Report = ({ reporte_id }) => {
     // Función para agregar archivos al reporte
     setOpen(true); // Abre el Backdrop de carga
     const data = await fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/files/guardar_reporte",
+      "http://localhost:8000/files/guardar_reporte",
       token,
       "POST",
       {

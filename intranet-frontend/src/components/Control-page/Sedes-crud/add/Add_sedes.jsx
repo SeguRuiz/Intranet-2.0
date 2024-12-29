@@ -29,7 +29,7 @@ const Add_sedes = () => {
 
     if (sede_nombre_value != "" && sede_ubicacion_value != "") {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/cursos/sedes",
+        "http://localhost:8000/cursos/sedes",
         token,
         "POST",
         {

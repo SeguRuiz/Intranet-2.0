@@ -10,7 +10,7 @@ const DeleteSubCont = ({ id, contenido_id }) => {
   const accion = useDispatch();
   const deleteSubCont = async () => {
     fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/cursos_contenidos/eliminar_archivo_y_sub",
+      "http://localhost:8000/cursos_contenidos/eliminar_archivo_y_sub",
       token,
       "DELETE",
       {

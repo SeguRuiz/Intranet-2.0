@@ -46,7 +46,7 @@ const Add_usuarios = () => {
       nombre_usuario != ""
     ) {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/api/register",
+        "http://localhost:8000/api/register",
         token,
         "POST",
         {

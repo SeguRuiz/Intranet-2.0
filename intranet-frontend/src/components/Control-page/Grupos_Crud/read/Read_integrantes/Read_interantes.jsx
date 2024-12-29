@@ -18,7 +18,7 @@ const Read_interantes = ({ usuarios_grupo, grupo_id }) => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/cursos/obtener_integrantes_de_grupo",
+        "http://localhost:8000/cursos/obtener_integrantes_de_grupo",
         token,
         "POST",
         {

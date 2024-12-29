@@ -32,7 +32,7 @@ const Info_cursos = () => {
     (async () => {
       accion(set_archivo_mostrandose(null));
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/cursos_contenidos/get_contenidos_and_subcontenidos",
+        "http://localhost:8000/cursos_contenidos/get_contenidos_and_subcontenidos",
         token,
         "GET",
         null,

@@ -10,7 +10,7 @@ const Delete_comunicado = ({ id }) => {
   const token = getCookie("token");
   const eliminar_aviso = async () => {
     await fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/cursos_contenidos/comunicados_edit",
+      "http://localhost:8000/cursos_contenidos/comunicados_edit",
       token,
       "DELETE",
       null,

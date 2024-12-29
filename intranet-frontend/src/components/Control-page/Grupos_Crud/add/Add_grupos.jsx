@@ -39,7 +39,7 @@ const Add_grupos = () => {
       accion(set_fetching(true)); // Indica que se está cargando
 
       const data = await fetch_the_data(
-        "https://intranet-2-0-api.onrender.com/cursos/grupos",
+        "http://localhost:8000/cursos/grupos",
         token,
         "POST",
         {

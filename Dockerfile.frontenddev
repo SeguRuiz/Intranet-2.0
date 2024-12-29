@@ -1,6 +1,6 @@
 FROM node:22.9.0
 WORKDIR /app
-COPY package*.json ./
+COPY ./intranet-frontend/package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 5173

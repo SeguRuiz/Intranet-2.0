@@ -17,7 +17,7 @@ const Deelete_integrantes = ({ grupo_id, integrante_id }) => {
     console.log(integrante_id, grupo_id);
 
     const data = await fetch_the_data(
-      "https://intranet-2-0-api.onrender.com/cursos/eliminar_integrantes",
+      "http://localhost:8000/cursos/eliminar_integrantes",
       token,
       "DELETE",
       {
