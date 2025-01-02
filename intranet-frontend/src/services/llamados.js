@@ -12,7 +12,7 @@ export const useFetch = () => {
   const [sesion_expirada, set_sesion_expirada] = useState(false);
 
   useEffect(() => {
-    if (sesion_expirada) {
+    if (sesion_expirada && window.location.href != "/") {
       Swal.fire({
         icon: "info",
         title: "La sesion a expirado",
