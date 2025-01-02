@@ -2,7 +2,6 @@ import "./Sidemenu.css";
 import MenuContenido from "./contenido/MenuContenido";
 import { List } from "@mui/material";
 import { useSelector } from "react-redux";
-import FolderIcon from "@mui/icons-material/Folder";
 import { Paper } from "@mui/material";
 import AddContenidoV2 from "./MenuCrud/Add/AddContenidoV2/AddContenidoV2";
 import { useRef } from "react";
@@ -50,11 +49,11 @@ export const Sidemenu = () => {
           {userInSession?.is_staff && <AddContenidoV2 scroll={movePaper} />}
           {Contenidos.map((contenido) => (
             <MenuContenido
-              key={contenido?.id}
-              nombre={contenido?.nombre}
-              subcontenidos={contenido?.subcontenidos}
-              bloqueado={contenido?.bloqueado}
-              id={contenido?.id}
+              key={contenido.id}
+              nombre={contenido.nombre}
+              subcontenidos={contenido.subcontenidos}
+              bloqueado={contenido.bloqueado}
+              id={contenido.id}
             />
           ))}
         </List>
