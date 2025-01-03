@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import "./SubCont.css";
 import { set_archivo_mostrandose } from "../../../redux/CursosContenidosSlice";
 import {
+  CircularProgress,
   Divider,
   ListItem,
   ListItemButton,
@@ -24,6 +25,7 @@ const SelectSubcont = ({ id, nombre, archivo, contenido_id }) => {
     (state) => state.CursosContenidos
   );
   const { userInSession } = useSelector((state) => state.Auth);
+  const { fetching_archivo } = useSelector((state) => state.CursosContenidos);
   const [selected, setSelected] = useState(false);
 
   useEffect(() => {
@@ -82,16 +84,20 @@ const SelectSubcont = ({ id, nombre, archivo, contenido_id }) => {
             },
           }}
           selected={selected}
-          disabled={!archivo}
+          disabled={!archivo || fetching_archivo}
         >
           <ListItemIcon>
-            <ArticleOutlinedIcon
-              sx={{
-                color: selected
-                  ? "var(--OnSecondary-color)"
-                  : "var(--OnsurfaceVariant)",
-              }}
-            />
+            {fetching_archivo && archivo_mostrandose?.subcontenido == id ? (
+              <CircularProgress size={20} color="var(--OnsurfaceVariant)" />
+            ) : (
+              <ArticleOutlinedIcon
+                sx={{
+                  color: selected
+                    ? "var(--OnSecondary-color)"
+                    : "var(--OnsurfaceVariant)",
+                }}
+              />
+            )}
           </ListItemIcon>
           <ListItemText
             primary={nombre}

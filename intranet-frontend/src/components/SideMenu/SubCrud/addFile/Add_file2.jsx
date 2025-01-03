@@ -40,7 +40,7 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
 
     if (file_type != "pdf") {
       error_subiendo_archivo("Solo se permiten archivos PDF");
-
+      
       return;
     }
 
