@@ -1,4 +1,9 @@
-import { MenuItem, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  CircularProgress,
+} from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { useFetch } from "../../../../services/llamados";
@@ -15,7 +20,7 @@ const BloquearContenido = ({
   const token = getCookie("token");
   const accion = useDispatch();
 
-  const { fetch_the_data } = useFetch();
+  const { fetch_the_data, fetching } = useFetch();
   const [EstaBloqueado, setEstaBloqueado] = useState(bloqueado);
 
   useEffect(() => {
@@ -44,20 +49,33 @@ const BloquearContenido = ({
   };
 
   return (
-    <MenuItem onClick={bloquear_o_debloquear_carpeta}>
-      <ListItemIcon>
-        {EstaBloqueado ? (
-          <LockIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
-        ) : (
-          <LockOpenIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
-        )}
-      </ListItemIcon>
-      <ListItemText
-        primary={`${
-          EstaBloqueado ? "Bloquear carpeta" : "Desbloquear carpeta"
-        }`}
-        sx={{ color: "var(--OnsurfaceVariant)" }}
-      />
+    <MenuItem onClick={bloquear_o_debloquear_carpeta} disabled={fetching}>
+      {fetching ? (
+        <>
+          <ListItemIcon>
+            <CircularProgress size={20} color="var(--OnsurfaceVariant)" />
+          </ListItemIcon>
+          <ListItemText
+            primary={!EstaBloqueado ? "Desbloqueando..." : "Bloqueando..."}
+          ></ListItemText>
+        </>
+      ) : (
+        <>
+          <ListItemIcon>
+            {EstaBloqueado ? (
+              <LockIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
+            ) : (
+              <LockOpenIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
+            )}
+          </ListItemIcon>
+          <ListItemText
+            primary={`${
+              EstaBloqueado ? "Bloquear carpeta" : "Desbloquear carpeta"
+            }`}
+            sx={{ color: "var(--OnsurfaceVariant)" }}
+          />
+        </>
+      )}
     </MenuItem>
   );
 };

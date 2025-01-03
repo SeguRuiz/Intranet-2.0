@@ -1,16 +1,17 @@
 import { useSelector } from "react-redux"; // Hook para acceder al estado de Redux
 import { useFetch } from "../../services/llamados"; // Hook personalizado para realizar llamadas a servicios
 import { useEffect, useLayoutEffect, useState } from "react"; // Hooks de React para efectos y estado
-import { CircularProgress, Paper } from "@mui/material"; // Componente de carga de Material-UI
+import { Paper } from "@mui/material"; // Componente de carga de Material-UI
 import { useDispatch } from "react-redux"; // Hook para despachar acciones de Redux
-import { add_archivos_subcontenidos } from "../../redux/CursosContenidosSlice"; // Acción para agregar archivos a subcontendidos
-import { useParams } from "react-router-dom"; // Hook para acceder a los parámetros de la URL
+import {
+  add_archivos_subcontenidos,
+  set_fetching_archivo,
+} from "../../redux/CursosContenidosSlice"; // Acción para agregar archivos a subcontendidos
 import Select_file from "../../assets/Empty/Select_file.svg"; // Imagen de archivo vacío
 import { useCustomNotis } from "../../utils/customHooks";
 import "./File_preview.css"; // Importa estilos CSS
 import { getCookie } from "../../utils/Cookies"; // Función para obtener cookies
-import { get_fecha_hora } from "../../utils/Utils";
-import { Skeleton } from "@mui/material";
+import { Skeleton, LinearProgress } from "@mui/material";
 
 function File_preview() {
   const [archivo, setArchivo] = useState(null); // Estado para almacenar el archivo a mostrar
@@ -33,19 +34,20 @@ function File_preview() {
   );
 
   // Función para obtener el archivo desde el servidor
-  const fetch_archivo = async (action = "add") => {
+  const fetch_archivo = async (action = "add", archivo_id) => {
+    accion(set_fetching_archivo(true));
     const data = await fetch_the_data(
       "http://localhost:8000/files/obtener_archivo_from_google_cloud",
       token,
       "POST",
       {
-        archivo_id: archivo_mostrandose.archivo, // Envía el archivo a buscar
+        archivo_id: archivo_id, // Envía el archivo a buscar
       }
     );
+    accion(set_fetching_archivo(false));
 
     if (data[0] == 200) {
-      console.log(data);
-      setArchivo(data[1].archivo); // Establece el archivo obtenido en el estado
+      archivo_id == archivo_mostrandose.archivo && setArchivo(data[1].archivo); // Establece el archivo obtenido en el estado
       accion(
         add_archivos_subcontenidos({
           subcontenido_id: archivo_mostrandose.subcontenido,
@@ -65,7 +67,7 @@ function File_preview() {
   };
 
   // Efecto para buscar el archivo cuando el archivo mostrado cambia
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
       const archivo_encontrado =
         Arhivos_subcontenidos.find(
@@ -73,7 +75,7 @@ function File_preview() {
         ) ?? false; // Verifica si el archivo ya se encuentra en los subcontenidos
 
       archivo_encontrado != false
-        ? setArchivo(archivo_encontrado?.archivo) // Si se encuentra, establece el archivo
+        ? setArchivo(archivo_encontrado.archivo) // Si se encuentra, establece el archivo
         : setArchivo(null); // De lo contrario, establece archivo como null
 
       // Si hay un archivo seleccionado que no se ha encontrado, lo busca
@@ -83,12 +85,13 @@ function File_preview() {
         const fecha_expiracion = new Date(archivo_encontrado?.expira_en);
 
         if (fecha_expiracion < currentDate) {
-          fetch_archivo("reset");
+          fetch_archivo("reset", archivo_mostrandose.archivo);
         }
       }
 
+      
       if (archivo_mostrandose?.archivo != null && archivo_encontrado == false) {
-        fetch_archivo();
+        fetch_archivo("add", archivo_mostrandose.archivo);
       }
     })();
   }, [archivo_mostrandose]); // Efecto se ejecuta cuando cambia archivo_mostrandose
@@ -127,7 +130,25 @@ function File_preview() {
           <img src={Select_file} alt="" className="empty-file-content" />
         </>
       ) : fetching ? (
-        <CircularProgress size={100} />
+        <>
+          <Paper sx={{ width: "100%", height: "100%" }}>
+            <LinearProgress
+              sx={{
+                backgroundColor: "var(--PrymaryContainer-color)", // Background color of the bar
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "var(--SecondaryContainer-color)", // Color of the progress indicator
+                },
+              }}
+            />
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              width={"100%"}
+              height={"99.2%"}
+              sx={{ bgcolor: "#525659" }}
+            ></Skeleton>
+          </Paper>
+        </>
       ) : (
         <div className="file-container">
           <iframe
