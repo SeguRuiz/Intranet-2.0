@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 const fetch_login_errors = {
   404: "Tus datos son incorrectos, intenta denuevo",
   500: "Ocurrio un error al conectar con el servidor..😶‍🌫️",
+  401: "Tus datos son incorrectos, intenta denuevo",
 };
 
 export const Login = () => {

@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 const initialState = {
   page: localStorage.getItem("page") || "sin definir",
   Contenidos: [],
   grupo_mostrandose: null,
   Arhivos_subcontenidos: [],
   archivo_mostrandose: null,
+  fetching_archivo: false,
   profesores: [],
   estudiantes: [],
 };
@@ -135,6 +137,9 @@ const CursosContenidos = createSlice({
         }
       });
     },
+    set_fetching_archivo: (state, action) => {
+      state.fetching_archivo = Boolean(action.payload);
+    },
   },
 });
 
@@ -150,6 +155,7 @@ export const {
   set_usuarios_del_grupo,
   set_grupo_mostrandose,
   set_current_page,
-  bloquear_o_desbloquear_contenido
+  bloquear_o_desbloquear_contenido,
+  set_fetching_archivo
 } = CursosContenidos.actions;
 export default CursosContenidos.reducer;
