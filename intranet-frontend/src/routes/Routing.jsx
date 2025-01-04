@@ -17,10 +17,12 @@ import { set_roles } from "../redux/ControlUsuariosSlice.js";
 import { estado_admin, estado_no_admin } from "../redux/IsAdminSlice.js";
 import { set_fetching } from "../redux/FetchsSlice.js";
 import { Login } from "../components/login/Login.jsx";
+import { useState } from "react";
 
 export const Routing = () => {
-  const { fetch_the_data } = useFetch();
+  const { fetch_the_data, fetching } = useFetch();
   const { Es_admin } = useSelector((e) => e.IsAdmin);
+  const [notFound, setNotFound] = useState(false);
   const { userInSession } = useSelector((x) => x.Auth);
 
   const { authorized, retraer } = useSelector((e) => e.Auth);
@@ -69,6 +71,7 @@ export const Routing = () => {
       } else {
         accion(setAutorized(false));
       }
+      setNotFound(true);
     })();
   }, [retraer]);
 
@@ -120,7 +123,7 @@ export const Routing = () => {
               )}
             </>
           )}
-          <Route path="/*" element={"Not found"} />
+          {notFound && <Route path="/*" element={"Not found"} />}
         </Routes>
       </Router>
     </>
