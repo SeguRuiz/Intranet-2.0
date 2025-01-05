@@ -73,11 +73,16 @@ Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de
 
         # Guardar la contraseña cifrada en la base de datos
         user.set_password(serializer.data["password"])
+        if user_rol.tipo.upper() == "ADMIN":
+            user.is_staff = True
         user.rol_id = user_rol
         user.save()
 
         # Retornar la información del usuario creado con estado HTTP 201 (creado)
-        return Response({"user": UsersSerializer(instance=user).data}, status=status.HTTP_201_CREATED)
+        return Response(
+            {"user": UsersSerializer(instance=user).data},
+            status=status.HTTP_201_CREATED,
+        )
 
     # Si la solicitud es de tipo GET, retornar una lista de usuarios
     if request.method == "GET":
