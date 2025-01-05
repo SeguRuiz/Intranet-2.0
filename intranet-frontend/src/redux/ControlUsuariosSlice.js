@@ -39,10 +39,21 @@ const ControlUsuarios = createSlice({
   reducers: {
     set_integrantes_de_grupo: (state, action) => {
       const { usuarios, grupo_id } = action.payload;
-      state.integrantes_de_grupo = [
-        ...state.integrantes_de_grupo,
-        { grupo_id: grupo_id, usuarios: usuarios },
-      ];
+      const grupo_existente =
+        state.integrantes_de_grupo.find((x) => x.grupo_id == grupo_id) ?? false;
+
+      if (!grupo_existente) {
+        state.integrantes_de_grupo.push({
+          grupo_id: grupo_id,
+          usuarios: usuarios,
+        });
+      } else {
+        state.integrantes_de_grupo.forEach((x) => {
+          if (x.grupo_id == grupo_id) {
+            x.usuarios = usuarios;
+          }
+        });
+      }
     },
     set_empty: (state, action) => {
       state.empty = action.payload;

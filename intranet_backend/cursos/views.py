@@ -362,7 +362,7 @@ def get_user_courses(request):
 def obtener_integrantes_de_grupo(request):
     try:
         ids_de_usuarios: list[int] = request.data["ids_de_usuarios"]
-
+        
         usuarios_del_grupo = Usuarios.objects.filter(pk__in=ids_de_usuarios)
         usuarios_del_grupo_serializados = UsersSerializer(
             instance=usuarios_del_grupo, many=True
