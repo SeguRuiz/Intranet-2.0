@@ -1,3 +1,4 @@
+"componente deprecado"
 import './Read_role.css'
 
 

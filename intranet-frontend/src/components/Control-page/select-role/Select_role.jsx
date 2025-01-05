@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"; // Hook para acceder al estado de Redux
 import Role_options from "./Role_options"; // Componente para mostrar opciones de rol
 import { useFetch } from "../../../services/llamados"; // Hook personalizado para realizar solicitudes
-import { useLayoutEffect, useRef } from "react"; // Hooks de React
+import { useEffect, useLayoutEffect, useRef } from "react"; // Hooks de React
 import { useDispatch } from "react-redux"; // Hook para despachar acciones de Redux
 import { set_roles } from "../../../redux/ControlUsuariosSlice"; // Acción para establecer los roles
 import { set_user_rol } from "../../../redux/ControlUsuariosSlice"; // Acción para establecer el rol de un usuario
@@ -18,14 +18,13 @@ const Select_role = ({ user_id, rol_de_usuario_id }) => {
   const token = getCookie("token"); // Obtiene el token de la cookie
 
   // Efecto que se ejecuta al montar el componente
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/api/roles",
-        token,
-        "GET" // Realiza una solicitud GET para obtener roles
-      );
-      accion(set_roles(data[1])); // Almacena los roles en el estado de Redux
+      const rol = roles?.find((x) => x.id == rol_de_usuario_id)?.tipo;
+      userInSession?.id == user_id &&
+        accion(setRolUser({ rol_id: rol_de_usuario_id, rol_tipo: rol })); // Actualiza el rol del usuario en sesión si es el mismo usuario
+      accion(set_user_rol({ rol_id: rol_de_usuario_id, usuario_id: user_id }));
+      // Almacena los roles en el estado de Redux
     })();
   }, []);
 

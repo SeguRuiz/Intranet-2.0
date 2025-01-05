@@ -1,3 +1,5 @@
+"componente deprecado"
+
 import DeleteSubCont from "../../delete/DeleteSubCont";
 import Add_file2 from "../../addFile/Add_file2";
 import "./ReadSubConts.css";
