@@ -1,3 +1,4 @@
+"componente deprecado"
 import './MenuRead.css'
 import { ReadCont } from './ReadCont/ReadCont';
 import { useSelector } from 'react-redux'

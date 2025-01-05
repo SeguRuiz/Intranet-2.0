@@ -1,18 +1,25 @@
 import { useFetch } from "../../../../services/llamados";
 import Retractile_menu from "../../Retractile_menu/Retractile_menu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { agregar_usuarios } from "../../../../redux/ControlUsuariosSlice";
 import { useCustomNotis } from "../../../../utils/customHooks";
 import { set_fetching } from "../../../../redux/FetchsSlice";
-import { TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import "./Add_users.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@mui/material";
 import { getCookie } from "../../../../utils/Cookies";
+import { ROLES_DE_USUARIO } from "../../../../utils/Globals.d";
 
 const Add_usuarios = () => {
   const { fetch_the_data, fetching, ok, error } = useFetch();
+  const { roles } = useSelector((state) => state.ControlUsuarios);
+  const roles_options = roles?.map((x) => ({
+    label: x?.tipo?.toUpperCase(),
+    id: x?.id,
+  }));
+
   const { ok_mensaje, error_mensaje } = useCustomNotis(
     "Ocurrio un error",
     "El usuario se agrego con exito"
@@ -26,6 +33,8 @@ const Add_usuarios = () => {
   const nombre_usuario_inpt = useRef();
   const form_ref = useRef();
   const token = getCookie("token");
+  const [rol, setRol] = useState(null);
+  console.log(rol);
 
   useEffect(() => {
     accion(set_fetching(fetching));
@@ -43,18 +52,23 @@ const Add_usuarios = () => {
       nombre != "" &&
       apellidos != "" &&
       cedula != "" &&
-      nombre_usuario != ""
+      nombre_usuario != "" &&
+      rol != null
     ) {
+      console.log(rol?.id);
       const data = await fetch_the_data(
         "http://localhost:8000/api/register",
         token,
         "POST",
         {
-          first_name: nombre,
-          username: nombre_usuario,
-          last_name: apellidos,
-          email: email,
-          cedula: cedula,
+          user_info: {
+            first_name: nombre,
+            username: nombre_usuario,
+            last_name: apellidos,
+            email: email,
+            cedula: cedula,
+          },
+          user_rol: rol?.id,
         }
       );
       data == undefined && error_mensaje();
@@ -62,6 +76,9 @@ const Add_usuarios = () => {
       if (data[0] == 201) {
         ok_mensaje();
         accion(agregar_usuarios(data[1]?.user));
+        setRol(null);
+        console.log(data[1]);
+
         form_ref.current.reset();
       } else {
         error_mensaje();
@@ -71,7 +88,7 @@ const Add_usuarios = () => {
   return (
     <>
       <Retractile_menu
-        altura={60}
+        altura={68}
         titulo={"Usuarios"}
         loading={fetching}
         ok={ok}
@@ -119,6 +136,25 @@ const Add_usuarios = () => {
             variant="standard"
             size="small"
           />
+
+          <Autocomplete
+            options={roles_options}
+            onChange={(event, value) => {
+              setRol(value);
+            }}
+            value={rol}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Rol inicial"
+                placeholder="Escoje un rol"
+                variant="standard"
+                size="small"
+                required
+              />
+            )}
+          />
+
           <Button type="submit">Subir</Button>
         </form>
       </Retractile_menu>
