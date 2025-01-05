@@ -26,7 +26,7 @@ const Deelete_integrantes = ({ grupo_id, integrante_id }) => {
       }
     );
     data == undefined && error_mensaje();
-
+     
     if (data[0] == 200) {
       accion(
         eliminar_integrantes({

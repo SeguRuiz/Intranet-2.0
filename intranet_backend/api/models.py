@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+
+
 class Roles(models.Model):
     id = models.UUIDField(
         unique=True, primary_key=True, editable=False, null=False, default=uuid.uuid4
@@ -24,7 +26,7 @@ class Usuarios(AbstractUser):
     rol_id = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True)
     fecha_editado = models.DateTimeField(auto_now=True)
     is_socioemocional = models.BooleanField(default=False)
-
+    
     class Meta:
         db_table = "Usuarios"
         indexes = [

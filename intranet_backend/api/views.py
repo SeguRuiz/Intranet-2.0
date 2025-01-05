@@ -63,11 +63,11 @@ def register(request):
 
         # Crear cuerpo del correo para notificar al usuario de su registro
         body = f"""
-Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de evaluación, aquí está la información de tu correo: {user.email} y tu respectiva contraseña: {user_info['password']}. Recuerda no compartirla con nadie más y suerte en este proceso.
+Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de evaluación, aquí está la información de tu correo: {user.email} y tu respectiva contraseña: {user_info['password']} Recuerda no compartirla con nadie más y suerte en este proceso.
         """
 
         # Enviar un correo electrónico al usuario con sus credenciales
-        sendEmail(email_receiver=user.email, subject="Reenvío contraseña", body=body)
+        sendEmail(email_receiver=user.email, subject="Reenvío de contraseña", body=body)
 
         # Guardar la contraseña cifrada en la base de datos
         user.set_password(serializer.data["password"])

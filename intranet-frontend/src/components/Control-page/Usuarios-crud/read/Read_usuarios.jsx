@@ -27,7 +27,6 @@ const Read_usuarios = () => {
         token,
         "GET"
       );
-      console.log(data);
 
       accion(set_usuarios(data[1]));
     })();
