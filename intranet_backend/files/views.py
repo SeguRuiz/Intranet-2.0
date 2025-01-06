@@ -269,7 +269,7 @@ def save_file_of_subcont_to_google_cloud(request):
         bucket_name = os.getenv("GOOGLE_CLOUD_BUCKET")
         upload_file_to_bucket(bucket_name, file, os.getenv("FOLDER_ARCHIVOS_CURSOS"))
 
-        signed_url, expires_in = create_file_signed_url_by_name(
+        signed_url, expires_in, file_type = create_file_signed_url_by_name(
             name=file_from_db.nombre,
             folder_name=os.getenv("FOLDER_ARCHIVOS_CURSOS"),
             expiration_minutes=16,
