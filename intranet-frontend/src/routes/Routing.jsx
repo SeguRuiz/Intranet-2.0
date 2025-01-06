@@ -35,7 +35,7 @@ export const Routing = () => {
     if (token) {
       (async () => {
         const data = await fetch_the_data(
-          "http://localhost:8000/api/roles",
+          "https://intranet-2-0-api.onrender.com/api/roles",
           token,
           "GET"
         );
@@ -51,7 +51,7 @@ export const Routing = () => {
       if (token) {
         const id = DecodeToken(token)?.user_id;
         const data = await fetch_the_data(
-          "http://localhost:8000/api/get_user_info",
+          "https://intranet-2-0-api.onrender.com/api/get_user_info",
           token,
           "GET",
           null,

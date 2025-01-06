@@ -1,4 +1,4 @@
-"componente deprecado"
+"componente deprecado";
 import { useFetch } from "../../../../services/llamados";
 import { deleteContenidos } from "../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
@@ -18,7 +18,7 @@ const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta = "" }) => {
 
   const deleteC = async () => {
     fetch_the_data(
-      "http://localhost:8000/cursos_contenidos/eliminar_contenidos_files",
+      "https://intranet-2-0-api.onrender.com/cursos_contenidos/eliminar_contenidos_files",
       token,
       "DELETE",
       {

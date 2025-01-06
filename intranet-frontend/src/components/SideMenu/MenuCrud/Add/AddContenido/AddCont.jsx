@@ -26,7 +26,7 @@ export const AddCont = () => {
     if (nombre_value != "") {
       // Verifica que el nombre no esté vacío
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos_contenidos/contenidos", // URL de la API
+        "https://intranet-2-0-api.onrender.com/cursos_contenidos/contenidos", // URL de la API
         token, // Token de autenticación
         "POST", // Método HTTP
         {

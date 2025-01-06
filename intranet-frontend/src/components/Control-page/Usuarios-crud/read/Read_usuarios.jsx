@@ -23,7 +23,7 @@ const Read_usuarios = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/api/user",
+        "https://intranet-2-0-api.onrender.com/api/user",
         token,
         "GET"
       );

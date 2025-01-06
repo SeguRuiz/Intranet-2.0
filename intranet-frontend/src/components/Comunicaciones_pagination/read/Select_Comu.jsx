@@ -30,7 +30,7 @@ const Select_Comu = ({
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/api/get_user_info",
+        "https://intranet-2-0-api.onrender.com/api/get_user_info",
         token,
         "GET",
         null,

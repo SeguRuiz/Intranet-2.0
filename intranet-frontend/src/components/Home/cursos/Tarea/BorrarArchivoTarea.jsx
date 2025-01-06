@@ -19,7 +19,7 @@ const BorrarArchivoTarea = ({ id }) => {
 
     try {
       const response = await fetch_the_data(
-        `http://localhost:8000/tareas/borrar_archivo_tarea/${archivo_id}`,
+        `https://intranet-2-0-api.onrender.com/tareas/borrar_archivo_tarea/${archivo_id}`,
         token,
         "DELETE"
       );

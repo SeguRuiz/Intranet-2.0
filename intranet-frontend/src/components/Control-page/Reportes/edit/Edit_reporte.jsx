@@ -21,7 +21,7 @@ function Edit_reporte({ reporte_id }) {
     const reporte = reportes.find((x) => x.id == reporte_id); // Busca el reporte por su ID
 
     const data = await fetch_the_data(
-      "http://localhost:8000/api/get_estudiante",
+      "https://intranet-2-0-api.onrender.com/api/get_estudiante",
       token,
       "POST",
       {

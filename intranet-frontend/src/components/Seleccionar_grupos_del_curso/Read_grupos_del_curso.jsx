@@ -21,7 +21,7 @@ const Read_grupos_del_curso = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/grupos_cursos",
+        "https://intranet-2-0-api.onrender.com/cursos/grupos_cursos",
         token,
         "GET"
       );

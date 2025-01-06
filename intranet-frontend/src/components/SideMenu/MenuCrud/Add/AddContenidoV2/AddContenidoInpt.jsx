@@ -33,7 +33,7 @@ const AddContenidoInpt = ({ setAdding }) => {
     if (nombre_value != "" && !fetching) {
       // Verifica que el nombre no esté vacío
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos_contenidos/contenidos", // URL de la API
+        "https://intranet-2-0-api.onrender.com/cursos_contenidos/contenidos", // URL de la API
         token, // Token de autenticación
         "POST", // Método HTTP
         {

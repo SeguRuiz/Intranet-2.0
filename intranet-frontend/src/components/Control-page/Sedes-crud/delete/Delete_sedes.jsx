@@ -27,7 +27,7 @@ const Delete_sedes = () => {
   // Función para eliminar la lista de sedes seleccionadas
   const eliminar_lista_sedes = async () => {
     const data = await fetch_the_data(
-      "http://localhost:8000/cursos/eliminar_lista_sedes",
+      "https://intranet-2-0-api.onrender.com/cursos/eliminar_lista_sedes",
       token,
       "DELETE",
       {

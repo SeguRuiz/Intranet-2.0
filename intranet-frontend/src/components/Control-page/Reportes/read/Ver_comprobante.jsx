@@ -21,7 +21,7 @@ const Ver_comprobante = ({ comprobante_id }) => {
     setOpen(true);
 
     const data = await fetch_the_data(
-      "http://localhost:8000/files/obtener_archivo_from_google_cloud",
+      "https://intranet-2-0-api.onrender.com/files/obtener_archivo_from_google_cloud",
       token,
       "POST",
       {

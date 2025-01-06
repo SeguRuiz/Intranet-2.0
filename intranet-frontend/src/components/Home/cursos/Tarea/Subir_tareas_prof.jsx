@@ -40,7 +40,7 @@ const Subir_tareas = ({ contenido_id }) => {
   const subirArchivoTarea = async (archivo) => {
     set_fetching_file(true);
     const data = await fetch_the_data(
-      "http://localhost:8000/tareas/guardar_archivo_tarea",
+      "https://intranet-2-0-api.onrender.com/tareas/guardar_archivo_tarea",
       token,
       "POST",
       { method: "POST", files_info: [archivo], id: id_tarea }
@@ -100,7 +100,7 @@ const Subir_tareas = ({ contenido_id }) => {
   // Función para obtener los archivos subidos de la tarea
   const obtenerArchivosSubidos = async () => {
     const data = await fetch_the_data(
-      "http://localhost:8000/tareas/mostrar_archivo",
+      "https://intranet-2-0-api.onrender.com/tareas/mostrar_archivo",
       token,
       "POST",
       { info_tarea_id: id_tarea }
@@ -113,7 +113,7 @@ const Subir_tareas = ({ contenido_id }) => {
     set_fetching_file(true);
     try {
       const data = await fetch_the_data(
-        "http://localhost:8000/tareas/obtener_archivo_tarea",
+        "https://intranet-2-0-api.onrender.com/tareas/obtener_archivo_tarea",
         token,
         "POST",
         { method: "GET", archivo: archivo }
@@ -155,7 +155,7 @@ const Subir_tareas = ({ contenido_id }) => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/get_usuarios_grupo",
+        "https://intranet-2-0-api.onrender.com/cursos/get_usuarios_grupo",
         token,
         "POST",
         {

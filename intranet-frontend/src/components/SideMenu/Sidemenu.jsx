@@ -1,11 +1,6 @@
 import "./Sidemenu.css";
 import MenuContenido from "./contenido/MenuContenido";
-import {
-  Divider,
-  LinearProgress,
-  List,
-  ListSubheader,
-} from "@mui/material";
+import { Divider, LinearProgress, List, ListSubheader } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Paper } from "@mui/material";
 import AddContenidoV2 from "./MenuCrud/Add/AddContenidoV2/AddContenidoV2";
@@ -31,7 +26,7 @@ export const Sidemenu = ({ id_curso }) => {
     (async () => {
       accion(set_archivo_mostrandose(null));
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos_contenidos/get_contenidos_and_subcontenidos",
+        "https://intranet-2-0-api.onrender.com/cursos_contenidos/get_contenidos_and_subcontenidos",
         token,
         "GET",
         null,
@@ -47,10 +42,9 @@ export const Sidemenu = ({ id_curso }) => {
       top: 0,
       left: 0,
       behavior: "smooth",
-    })
-  }
+    });
+  };
 
-   
   return (
     <>
       <Paper

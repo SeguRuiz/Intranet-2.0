@@ -40,12 +40,12 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
 
     if (file_type != "pdf") {
       error_subiendo_archivo("Solo se permiten archivos PDF");
-      
+
       return;
     }
 
     const data = await fetch_the_data(
-      "http://localhost:8000/files/guardar_archivo_de_subcontenidos_a_cloud",
+      "https://intranet-2-0-api.onrender.com/files/guardar_archivo_de_subcontenidos_a_cloud",
       token,
       "POST",
       null,

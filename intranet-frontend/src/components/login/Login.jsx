@@ -61,7 +61,7 @@ export const Login = () => {
     }
 
     const status_fetch = await log_fetch(
-      "http://localhost:8000/api/token",
+      "https://intranet-2-0-api.onrender.com/api/token",
       null,
       "POST",
       {

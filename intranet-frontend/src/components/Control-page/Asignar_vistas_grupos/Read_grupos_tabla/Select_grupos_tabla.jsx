@@ -36,7 +36,7 @@ const Select_grupos_tabla = ({ nombre_grupo, id, sede_id }) => {
   const asignar_grupo = async () => {
     // Función para asignar un grupo a un curso
     const data = await fetch_the_data(
-      "http://localhost:8000/cursos/grupos_cursos",
+      "https://intranet-2-0-api.onrender.com/cursos/grupos_cursos",
       token,
       "POST",
       {
@@ -54,7 +54,7 @@ const Select_grupos_tabla = ({ nombre_grupo, id, sede_id }) => {
     )?.id; // Encuentra el ID del grupo que se quiere eliminar
 
     const data = await fetch_the_data(
-      "http://localhost:8000/cursos/grupos_cursos_edit",
+      "https://intranet-2-0-api.onrender.com/cursos/grupos_cursos_edit",
       token,
       "DELETE",
       null,

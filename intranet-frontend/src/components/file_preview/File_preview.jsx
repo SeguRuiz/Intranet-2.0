@@ -37,11 +37,11 @@ function File_preview() {
   const fetch_archivo = async (action = "add", archivo_id) => {
     accion(set_fetching_archivo(true));
     const data = await fetch_the_data(
-      "http://localhost:8000/files/obtener_archivo_from_google_cloud",
+      "https://intranet-2-0-api.onrender.com/files/obtener_archivo_from_google_cloud",
       token,
       "POST",
       {
-        folder: 'CC',
+        folder: "CC",
         archivo_id: archivo_id, // Envía el archivo a buscar
       }
     );

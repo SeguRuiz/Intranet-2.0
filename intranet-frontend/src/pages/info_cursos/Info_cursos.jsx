@@ -36,7 +36,7 @@ const Info_cursos = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch_the_data(
-        "http://localhost:8000/cursos/cursos",
+        "https://intranet-2-0-api.onrender.com/cursos/cursos",
         token,
         "GET",
         null,

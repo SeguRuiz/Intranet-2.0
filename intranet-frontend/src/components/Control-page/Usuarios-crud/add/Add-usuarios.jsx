@@ -57,7 +57,7 @@ const Add_usuarios = () => {
     ) {
       console.log(rol?.id);
       const data = await fetch_the_data(
-        "http://localhost:8000/api/register",
+        "https://intranet-2-0-api.onrender.com/api/register",
         token,
         "POST",
         {
