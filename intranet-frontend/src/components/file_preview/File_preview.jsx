@@ -41,6 +41,7 @@ function File_preview() {
       token,
       "POST",
       {
+        folder: 'CC',
         archivo_id: archivo_id, // Envía el archivo a buscar
       }
     );

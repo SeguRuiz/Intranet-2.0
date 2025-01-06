@@ -63,7 +63,9 @@ def upload_file_to_bucket(bucket_name, file, folder_name: str | None = None):
         if not folder_name
         else bucket.blob(f"{folder_name}/{file.name}")
     )
-    blob.upload_from_file(file, content_type="application/pdf")
+    blob_type, _ = mimetypes.guess_type(file.name)
+    
+    blob.upload_from_file(file, content_type=blob_type)
 
     return f"File {file.name} uploaded"
 
@@ -95,6 +97,18 @@ def is_valid_pdf(file):
     return mime_type == "application/pdf"
 
 
+def is_valid_img(file):
+    mime_type, _ = mimetypes.guess_type(file.name)
+    return mime_type in [
+        "image/jpe",
+        "image/jpg",
+        "image/png",
+        "image/svg+xml",
+        "image/jpeg",
+        "image/pdf",
+    ]
+
+
 def get_files_cloud(bucket_name, expiration_minutes=2, folderName=None):
     load_dotenv()
     creds_path = here / os.getenv("GOOGLE_CREDENTIALS_FILE")
@@ -116,7 +130,8 @@ def get_files_cloud(bucket_name, expiration_minutes=2, folderName=None):
             expiration=datetime.timedelta(minutes=expiration_minutes),
             method="GET",
         )
-        files_data.append({"name": blob_name, "url": signed_url})
+        file_type, _ = mimetypes.guess_type(blob_name)
+        files_data.append({"name": blob_name, "url": signed_url, 'type': file_type})
 
     return files_data
 
@@ -132,6 +147,8 @@ def create_file_signed_url_by_name(
     bucket = google_client.get_bucket(os.getenv("GOOGLE_CLOUD_BUCKET"))
 
     blob = bucket.blob(f"{folder_name}/{name}") if folder_name else bucket.blob(name)
+    
+    blob_type, _ = mimetypes.guess_type(name)
 
     signed_url = blob.generate_signed_url(
         version="v4",
@@ -145,7 +162,7 @@ def create_file_signed_url_by_name(
         + datetime.timedelta(minutes=expiration_minutes - 1)
     )
 
-    return signed_url, expires_in
+    return signed_url, expires_in, blob_type
 
 
 @api_view(["POST", "GET"])
@@ -213,6 +230,7 @@ def guardar_archivo(request):
 @permission_classes([IsAdminUser])
 @authentication_classes([JWTAuthentication])
 def save_file_of_subcont_to_google_cloud(request):
+    load_dotenv()
     fileSerializer = SubContFileSerializer(data=request.data)
     if fileSerializer.is_valid():
         if not is_valid_pdf(fileSerializer.validated_data["file"]):
@@ -225,7 +243,8 @@ def save_file_of_subcont_to_google_cloud(request):
 
         if GoogleCloudBucketFiles.objects.filter(nombre=file_name).exists():
             return Response(
-                {"info": "El archivo ya existe"}, status=status.HTTP_422_UNPROCESSABLE_ENTITY
+                {"info": "El archivo ya existe"},
+                status=status.HTTP_422_UNPROCESSABLE_ENTITY,
             )
 
         google_bucket_serializer = GoogleCloudBucketFilesSerializer(
@@ -248,11 +267,11 @@ def save_file_of_subcont_to_google_cloud(request):
         subContent.save()
 
         bucket_name = os.getenv("GOOGLE_CLOUD_BUCKET")
-        upload_file_to_bucket(bucket_name, file, "CursosContenidos")
+        upload_file_to_bucket(bucket_name, file, os.getenv("FOLDER_ARCHIVOS_CURSOS"))
 
         signed_url, expires_in = create_file_signed_url_by_name(
             name=file_from_db.nombre,
-            folder_name="CursosContenidos",
+            folder_name=os.getenv("FOLDER_ARCHIVOS_CURSOS"),
             expiration_minutes=16,
         )
 
@@ -309,7 +328,11 @@ def delete_file_from_google_cloud_and_subcont(request):
         subcontent = SubContenidos.objects.get(archivo=file)
         file.delete()
 
-        delete_file(os.getenv("GOOGLE_CLOUD_BUCKET"), file.nombre, "CursosContenidos")
+        delete_file(
+            os.getenv("GOOGLE_CLOUD_BUCKET"),
+            file.nombre,
+            os.getenv("FOLDER_ARCHIVOS_CURSOS"),
+        )
 
         return Response({"subcontenido_id": subcontent.id}, status=status.HTTP_200_OK)
     except KeyError:
@@ -323,15 +346,23 @@ def delete_file_from_google_cloud_and_subcont(request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
 def get_file_from_google_cloud(request):
+    load_dotenv()
+    folder_choices = {
+        "CC": os.getenv("FOLDER_ARCHIVOS_CURSOS"),
+        "RC": os.getenv("FOLDER_ARCHIVOS_REPORTES"),
+    }
     try:
+        folder = folder_choices[request.data["folder"]]
         file_id: int = request.data["archivo_id"]
         file = get_object_or_404(GoogleCloudBucketFiles, pk=file_id)
-        signed_url, expires_in = create_file_signed_url_by_name(
-            name=file.nombre, folder_name="CursosContenidos", expiration_minutes=16
+        signed_url, expires_in, file_type = create_file_signed_url_by_name(
+            name=file.nombre,
+            folder_name=folder,
+            expiration_minutes=16,
         )
-    
+
         return Response(
-            {"archivo": signed_url, "expira_en": expires_in, "nombre": file.nombre},
+            {"archivo": signed_url, "expira_en": expires_in, "nombre": file.nombre, "tipo_archivo": file_type},
             status=status.HTTP_200_OK,
         )
     except KeyError:
