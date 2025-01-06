@@ -190,7 +190,7 @@ def delete_file_and_subcont(request):
 
     if bool(file_name):
         delete_file(
-            bucket_name=bucket_name, blob_name=file_name, folder_name="CursosContenidos"
+            bucket_name=bucket_name, blob_name=file_name, folder_name=os.getenv('FOLDER_ARCHIVOS_CURSOS')
         )
         return Response({"info": "archivo y sub borrados"}, status=status.HTTP_200_OK)
 
@@ -213,7 +213,7 @@ def delete_contenidos_and_files(request):
                 delete_file(
                     bucket_name=bucket_name,
                     blob_name=file_name,
-                    folder_name="CursosContenidos",
+                    folder_name=os.getenv('FOLDER_ARCHIVOS_CURSOS'),
                 )
         contenido.delete()
         return Response({"info": "Contenido eliminado"}, status=status.HTTP_200_OK)
