@@ -20,11 +20,18 @@ const Select_role = ({ user_id, rol_de_usuario_id }) => {
   // Efecto que se ejecuta al montar el componente
   useEffect(() => {
     (async () => {
-      const rol = roles?.find((x) => x.id == rol_de_usuario_id)?.tipo;
-      userInSession?.id == user_id &&
-        accion(setRolUser({ rol_id: rol_de_usuario_id, rol_tipo: rol })); // Actualiza el rol del usuario en sesión si es el mismo usuario
-      accion(set_user_rol({ rol_id: rol_de_usuario_id, usuario_id: user_id }));
-      // Almacena los roles en el estado de Redux
+      const data = await fetch_the_data(
+        "http://localhost:8000/api/roles",
+        token,
+        "GET"
+      );
+
+      if (data[0] == 200) {
+        console.log(data);
+        
+        accion(set_roles(data[1]));
+      }
+
     })();
   }, []);
 
