@@ -56,7 +56,7 @@ export const Sidemenu = ({ id_curso }) => {
       <Paper
         ref={paperRef}
         sx={{
-          maxHeight: "34.9rem",
+          maxHeight: "100%",
           height: "100%",
           overflow: "auto",
           borderRadius: 0,
@@ -80,7 +80,7 @@ export const Sidemenu = ({ id_curso }) => {
           <List
             sx={{
               width: "100%",
-              maxWidth: 360,
+              maxWidth: "100%",
               bgcolor: "var(--PrymaryContainer-color)",
             }}
             disablePadding
@@ -91,7 +91,7 @@ export const Sidemenu = ({ id_curso }) => {
           <List
             sx={{
               width: "100%",
-              maxWidth: 360,
+              maxWidth: "100%",
               bgcolor: "var(--PrymaryContainer-color)",
             }}
             disablePadding
