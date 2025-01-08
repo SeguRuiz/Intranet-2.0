@@ -3,6 +3,7 @@ import Drop_down from "../../../../Drop_down/Drop_down";
 import Deelete_integrantes from "../Delete_integrantes/Deelete_integrantes";
 import { stringAvatar } from "../../../../../utils/Utils";
 import { Avatar } from "@mui/material";
+import Menu_options_reportes from "../../../Reportes/read/Menu_options_reportes";
 const Select_integrantes = ({
   nombre_usuario,
   apellidos,
@@ -29,9 +30,8 @@ const Select_integrantes = ({
           >
             {nombre_usuario}
           </p>
-          <Drop_down>
-            <Deelete_integrantes grupo_id={grupo_id} integrante_id={user_id} />
-          </Drop_down>
+
+          <Deelete_integrantes grupo_id={grupo_id} integrante_id={user_id} />
         </div>
       </div>
       <div className="user-info-text">

@@ -55,7 +55,7 @@ const Add_usuarios = () => {
       nombre_usuario != "" &&
       rol != null
     ) {
-      console.log(rol?.id);
+     
       const data = await fetch_the_data(
         "http://localhost:8000/api/register",
         token,
