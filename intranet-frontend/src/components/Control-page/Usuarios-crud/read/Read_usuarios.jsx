@@ -8,16 +8,21 @@ import { getCookie } from "../../../../utils/Cookies";
 import { useDispatch } from "react-redux";
 import { set_roles } from "../../../../redux/ControlUsuariosSlice";
 import { Paper } from "@mui/material";
+import { set_empty } from "../../../../redux/ControlUsuariosSlice";
 
 import UsuariosLoader from "./UsuariosLoader";
 const Read_usuarios = () => {
-  const { fetch_the_data } = useFetch();
+  const { fetch_the_data, fetching } = useFetch();
   const [f, setF] = useState(false);
 
   const { usuarios, roles } = useSelector((state) => state.ControlUsuarios);
 
   const accion = useDispatch();
   const token = getCookie("token");
+
+  useEffect(() => {
+    accion(set_empty(usuarios.length == 0 && !fetching));
+  }, [usuarios]);
 
   useEffect(() => {
     (async () => {
@@ -58,7 +63,6 @@ const Read_usuarios = () => {
           ))}
         </>
       )}
-      
     </>
   );
 };

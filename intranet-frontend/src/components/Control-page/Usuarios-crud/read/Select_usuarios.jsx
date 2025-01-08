@@ -96,7 +96,8 @@ const Select_usuarios = ({
       />
       <div className="user-Profile">
         <div className="user-avatar-container">
-          <Avatar {...stringAvatar(`${nombre} ${apellidos}`)} /> {/* Crea un avatar con el nombre del usuario */}
+          <Avatar {...stringAvatar(`${nombre} ${apellidos}`)} />{" "}
+          {/* Crea un avatar con el nombre del usuario */}
         </div>
 
         <div className="user-name">
@@ -109,7 +110,7 @@ const Select_usuarios = ({
             }}
           ></p>
           {!selected && !seleccion_multiple_activado && (
-            <Select_role user_id={user_id} rol_de_usuario_id={rol_id} /> 
+            <Select_role user_id={user_id} rol_de_usuario_id={rol_id} />
           )}
           {seleccion_multiple_activado && (
             <div
