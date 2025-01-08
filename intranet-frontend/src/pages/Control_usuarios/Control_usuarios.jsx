@@ -5,9 +5,9 @@ import { abrir_aside } from "../../redux/ControlUsuariosSlice";
 import "./Control_usuarios.css";
 import { useFetch } from "../../services/llamados";
 import { cerrar_aside } from "../../redux/ControlUsuariosSlice";
-import { useLayoutEffect } from "react";
+
 import Read_usuarios from "../../components/Control-page/Usuarios-crud/read/Read_usuarios";
-import { set_usuarios } from "../../redux/ControlUsuariosSlice";
+
 import { set_pestaña_seleccionada } from "../../redux/ControlUsuariosSlice";
 import { set_sedes } from "../../redux/ControlUsuariosSlice";
 import Read_sedes from "../../components/Control-page/Sedes-crud/read/Read_sedes";
@@ -52,59 +52,45 @@ const Control_usuarios_page = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/cursos/sedes",
-        token,
-        "GET"
-      );
+      const [
+        sedes,
+        integrantes_grupo,
+        grupos_cursos,
+        cursos,
+        integrantes_de_grupo,
+      ] = await Promise.all([
+        fetch_the_data("http://localhost:8000/cursos/sedes", token, "GET"),
+        fetch_the_data(
+          "http://localhost:8000/cursos/get_grupos_integrantes",
+          token,
+          "GET"
+        ),
+        fetch_the_data(
+          "http://localhost:8000/cursos/grupos_cursos",
+          token,
+          "GET"
+        ),
+        fetch_the_data("http://localhost:8000/cursos/cursos", null, "GET"),
+        fetch_the_data(
+          "http://localhost:8000/cursos/integrantes_de_grupo",
+          token,
+          "GET"
+        ),
+      ]);
 
-      accion(set_sedes(data[1]));
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/cursos/get_grupos_integrantes",
-        token,
-        "GET"
-      );
-      accion(set_grupos(data[1]));
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/cursos/grupos_cursos",
-        token,
-        "GET"
-      );
-
-      accion(set_grupos_cursos(data[1]));
-    })();
-  }, []);
-
-  useEffect(() => {
-    const data = async () => {
-      const datos = await fetch_the_data(
-        "http://localhost:8000/cursos/cursos",
-        null,
-        "GET"
-      );
-      accion(setData(datos[1]));
-    };
-    data();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/cursos/integrantes_de_grupo",
-        token,
-        "GET"
-      );
-      accion(set_usuarios_en_grupos(data[1]));
+      if (
+        sedes[0] == 200 &&
+        integrantes_grupo[0] == 200 &&
+        grupos_cursos[0] == 200 &&
+        cursos[0] == 200 &&
+        integrantes_de_grupo[0] == 200
+      ) {
+        accion(set_sedes(sedes[1]));
+        accion(set_grupos(integrantes_grupo[1]));
+        accion(set_grupos_cursos(grupos_cursos[1]));
+        accion(setData(cursos[1]));
+        accion(set_usuarios_en_grupos(integrantes_de_grupo[1]));
+      }
     })();
   }, []);
 

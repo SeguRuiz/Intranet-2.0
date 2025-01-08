@@ -5,6 +5,7 @@
     grid-template-rows: 100%;
     height: 90.5vh;
     position: fixed;
+   
     width: 25%;
 }
 
@@ -13,6 +14,7 @@
     overflow-y: auto;
     scrollbar-color: gray white;
     scrollbar-width: thin;
+   
     max-height: 34.9rem;
     height: 100%;
 }

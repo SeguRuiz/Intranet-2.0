@@ -1,12 +1,9 @@
-
-
 .CUP-container {
   display: grid;
   grid-template-rows: 10% 90%;
   height: 100vh;
   background-color: var(--SurfaceContainer-color);
 }
-
 
 .nav_info_main {
   display: grid;
@@ -26,29 +23,21 @@
   align-items: center;
   cursor: pointer;
 }
-.C-U-Nav{
- 
+.C-U-Nav {
   display: grid;
   grid-template-columns: 6.5% auto;
- 
 }
 
-
 main {
-  transition: 0.3s ease;
   display: grid;
 }
 
 .navbar-edit-options {
-  
   display: flex;
-justify-content: start;
-align-items: center;
-gap: 20px;
-
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
 }
-
-
 
 .navbar-edit-options > svg {
   cursor: pointer;
@@ -82,10 +71,10 @@ gap: 20px;
   border-radius: 5px;
 }
 
-.side-bar-nav > div:hover{
-    background-color: var(--SurfaceDarked-color);
-    border-radius: 5px;
-    color: var( --Onsurface-color);
+.side-bar-nav > div:hover {
+  background-color: var(--SurfaceDarked-color);
+  border-radius: 5px;
+  color: var(--Onsurface-color);
 }
 
 .side-bar-nav > svg {

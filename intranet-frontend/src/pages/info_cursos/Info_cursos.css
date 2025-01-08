@@ -1,6 +1,7 @@
 .Info-page {
   display: grid;
   height: 100vh;
+  max-height: 100vh;
   grid-template-rows: 11.5% auto;
   background-color: var(--SurfaceBrigth-color);
 }
@@ -30,6 +31,11 @@
   align-items: center;
 
   background-color: var(--SurfaceBrigth-color);
+}
+
+.side-menu-page{
+  background-color: red;
+  max-height: 88.5vh;
 }
 
 .not-found-cursos-container {

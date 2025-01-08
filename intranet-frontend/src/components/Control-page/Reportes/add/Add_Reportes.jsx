@@ -11,8 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { useFetch } from "../../../../services/llamados"; // Hook para manejar solicitudes HTTP
 import { getCookie } from "../../../../utils/Cookies"; // Función para obtener cookies
 import { DecodeToken } from "../../../../services/llamados"; // Función para decodificar el token
-import { agregar_reportes } from "../../../../redux/ControlUsuariosSlice"; // Acción para agregar reportes
-import { promesa } from "../../../../utils/Utils"; // Utilidad para manejar promesas
+import { agregar_reportes } from "../../../../redux/ControlUsuariosSlice"; // Acción para agregar reportes 
 import { useCustomNotis } from "../../../../utils/customHooks"; // Hook para manejar notificaciones personalizadas
 import { useDispatch } from "react-redux"; // Hook para despachar acciones a Redux
 import {
@@ -81,7 +80,7 @@ const Add_Reportes = () => {
     );
 
     if (data[0] == 200 && data != undefined) {
-      await promesa(500); // Espera medio segundo antes de continuar
+      
       setEstudiantes(data[1]); // Establece la lista de estudiantes
       estudiante_ref.current.value = ""; // Resetea el campo de estudiante
       setLoading(false); // Desactiva el estado de carga

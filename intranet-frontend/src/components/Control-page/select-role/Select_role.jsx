@@ -9,7 +9,7 @@ import "./Select_role.css"; // Importa el archivo de estilos CSS
 import { getCookie } from "../../../utils/Cookies"; // Función para obtener cookies
 import { setRolUser } from "../../../redux/AuthSlice"; // Acción para establecer el rol del usuario en sesión
 
-const Select_role = ({ user_id, rol_de_usuario_id }) => {
+const Select_role = ({ user_id, rol_de_usuario_id, cargando= false }) => {
   const { roles } = useSelector((state) => state.ControlUsuarios); // Obtiene los roles del estado de Redux
   const { userInSession } = useSelector((e) => e.Auth); // Obtiene el usuario en sesión desde el estado de Redux
   const { fetch_the_data } = useFetch(); // Hook para realizar solicitudes
@@ -17,24 +17,7 @@ const Select_role = ({ user_id, rol_de_usuario_id }) => {
   const select_ref = useRef(); // Referencia al elemento select
   const token = getCookie("token"); // Obtiene el token de la cookie
 
-  // Efecto que se ejecuta al montar el componente
-  useEffect(() => {
-    (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/api/roles",
-        token,
-        "GET"
-      );
-
-      if (data[0] == 200) {
-        console.log(data);
-        
-        accion(set_roles(data[1]));
-      }
-
-    })();
-  }, []);
-
+  
   // Función para asignar un rol al usuario
   const asignar_rol = async () => {
     const data = await fetch_the_data(

@@ -16,6 +16,7 @@ const Select_usuarios = ({
   cedula,
   email,
   nombre,
+  cargando,
 }) => {
   const accion = useDispatch(); // Hook para despachar acciones
   // Obtiene el estado necesario de Redux
