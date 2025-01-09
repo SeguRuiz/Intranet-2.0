@@ -1,12 +1,18 @@
-import { MenuItem, Input, Backdrop, CircularProgress } from "@mui/material"; // Importa componentes de Material UI
-import uuid from "react-uuid"; // Generador de IDs únicos
+import {
+  MenuItem,
+  Input,
+  Backdrop,
+  CircularProgress,
+  ListItemText,
+  ListItemIcon,
+} from "@mui/material"; // Importa componentes de Material UI// Generador de IDs únicos
 import { useRef, useState } from "react"; // Hooks de React
 import { useFetch } from "../../../../services/llamados"; // Hook para manejar solicitudes HTTP
 import { getCookie } from "../../../../utils/Cookies"; // Función para obtener cookies
 import { useDispatch } from "react-redux"; // Hook para despachar acciones a Redux
 import { agregar_archivo_reportes } from "../../../../redux/ControlUsuariosSlice"; // Acción para agregar archivos a reportes
 import { useCustomNotis } from "../../../../utils/customHooks"; // Hook para manejar notificaciones personalizadas
-
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 const Add_file_Report = ({ reporte_id }) => {
   const file_ref = useRef(); // Referencia para el input de archivos
   const { fetch_the_data } = useFetch(); // Hook para realizar solicitudes HTTP
@@ -35,7 +41,6 @@ const Add_file_Report = ({ reporte_id }) => {
       "",
       formDataReporte
     );
-    console.log(data);
 
     // Manejo de respuesta después de subir el archivo
     if (data[0] == 200 && data != undefined) {
@@ -69,7 +74,14 @@ const Add_file_Report = ({ reporte_id }) => {
           file_ref.current.click(); // Simula un clic en el input de archivo
         }}
       >
-        Agregar comprobante
+         <ListItemIcon>
+          <FileUploadIcon
+            sx={{ color: "var(--OnsurfaceVariant)" }}
+            fontSize="10px"
+          />
+        </ListItemIcon>
+        <ListItemText primary="Agregar comprobante" />
+       
       </MenuItem>
       <Input
         type="file" // Tipo de input para archivos
