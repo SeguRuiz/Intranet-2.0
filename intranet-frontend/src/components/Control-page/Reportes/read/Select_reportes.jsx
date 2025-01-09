@@ -1,5 +1,5 @@
 import "./Read_reportes.css"; // Importa estilos CSS para el componente
-import { Avatar, Tooltip } from "@mui/material"; // Importa componentes de Material UI
+import { Avatar, Divider, Tooltip } from "@mui/material"; // Importa componentes de Material UI
 import { stringAvatar } from "../../../../utils/Utils"; // Función utilitaria para crear avatares
 import { useSelector } from "react-redux"; // Hook para acceder al estado de Redux
 import { IconButton } from "@mui/material"; // Botón con icono de Material UI
@@ -56,14 +56,20 @@ const Select_reportes = ({
   };
 
   return (
-    <div className={animated}> {/* Contenedor principal con animación */}
+    <div className={animated}>
+      {" "}
+      {/* Contenedor principal con animación */}
       <div className="report-info">
         <div className="report-nav">
-          <div className={set_type(estado)}> {/* Clase basada en el estado del reporte */}
+          <div className={set_type(estado)}>
+            {" "}
+            {/* Clase basada en el estado del reporte */}
             <strong>{estado}</strong>
           </div>
           <div className="full-icon-report">
-            <Menu_options_reportes> {/* Componente que contiene las opciones de menú */}
+            <Menu_options_reportes>
+              {" "}
+              {/* Componente que contiene las opciones de menú */}
               <More_info_reports
                 estudiante={estudiante_id}
                 dia_incidente={dia_incidente}
@@ -85,9 +91,12 @@ const Select_reportes = ({
               ) : (
                 <></>
               )}
+              
               {userInSession.is_socioemocional || userInSession.is_staff ? (
                 // Opciones para cambiar el estado del reporte
+                
                 <>
+                <Divider/>
                   <Set_reporte_estado reporte_id={id} accion="Denegar" />
                   <Set_reporte_estado reporte_id={id} accion="Aprobar" />
                   <Set_reporte_estado
@@ -102,7 +111,8 @@ const Select_reportes = ({
           </div>
         </div>
         <div className="report-content">
-          {comprobante && <Ver_comprobante comprobante_id={comprobante_id} />} {/* Muestra el comprobante si existe */}
+          {comprobante && <Ver_comprobante comprobante_id={comprobante_id} />}{" "}
+          {/* Muestra el comprobante si existe */}
         </div>
       </div>
       <div className="info-dia-reporte">

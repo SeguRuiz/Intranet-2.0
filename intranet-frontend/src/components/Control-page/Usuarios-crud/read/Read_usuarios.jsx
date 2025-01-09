@@ -21,8 +21,8 @@ const Read_usuarios = () => {
   const token = getCookie("token");
 
   useEffect(() => {
-    accion(set_empty(usuarios.length == 0 && !fetching));
-  }, [usuarios]);
+    accion(set_empty(usuarios.length == 0 && !f));
+  }, [usuarios, f]);
 
   useEffect(() => {
     (async () => {

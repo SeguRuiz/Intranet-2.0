@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { useFetch } from "../../../../services/llamados"; // Hook para manejar solicitudes HTTP
 import { getCookie } from "../../../../utils/Cookies"; // Función para obtener cookies
 import { DecodeToken } from "../../../../services/llamados"; // Función para decodificar el token
-import { agregar_reportes } from "../../../../redux/ControlUsuariosSlice"; // Acción para agregar reportes 
+import { agregar_reportes } from "../../../../redux/ControlUsuariosSlice"; // Acción para agregar reportes
 import { useCustomNotis } from "../../../../utils/customHooks"; // Hook para manejar notificaciones personalizadas
 import { useDispatch } from "react-redux"; // Hook para despachar acciones a Redux
 import {
@@ -24,7 +24,7 @@ import { toast } from "react-toastify"; // Librería para mostrar notificaciones
 const Add_Reportes = () => {
   const token = getCookie("token"); // Obtiene el token de autenticación
   const { editando_reporte } = useSelector((x) => x.ControlUsuarios); // Estado de edición del reporte
-
+  const [fetchingReport, setFetchingReport] = useState(false);
   // Estados locales del componente
   const [estudiantes, setEstudiantes] = useState([]); // Almacena la lista de estudiantes
   const [loading, setLoading] = useState(false); // Estado de carga para el autocompletado
@@ -80,7 +80,6 @@ const Add_Reportes = () => {
     );
 
     if (data[0] == 200 && data != undefined) {
-      
       setEstudiantes(data[1]); // Establece la lista de estudiantes
       estudiante_ref.current.value = ""; // Resetea el campo de estudiante
       setLoading(false); // Desactiva el estado de carga
@@ -90,6 +89,7 @@ const Add_Reportes = () => {
   const subir_reporte = async (o) => {
     // Función para subir o editar un reporte
     o.preventDefault(); // Previene el comportamiento por defecto del formulario
+    setFetchingReport(true);
 
     // Validación de campos requeridos
     if (
@@ -133,6 +133,8 @@ const Add_Reportes = () => {
         ok_mensaje(); // Mensaje de éxito
         accion(agregar_reportes(data[1])); // Agrega el nuevo reporte al estado de Redux
         setEstudiante(null); // Resetea el estado del estudiante
+        setFetchingReport(false);
+
         form_ref.current.reset(); // Resetea el formulario
         return;
       }
@@ -143,12 +145,13 @@ const Add_Reportes = () => {
         accion(cerrar_aside()); // Cierra el menú lateral
         accion(set_editando_reporte({ editanto: false, reporte_id: null })); // Resetea el estado de edición
         setTipoReporte(null); // Resetea el tipo de reporte
+        setFetchingReport(false);
+
         form_ref.current.reset(); // Resetea el formulario
         return;
       }
 
       error_mensaje(); // Mensaje de error si la subida falla
-      return;
     }
   };
 
@@ -181,7 +184,7 @@ const Add_Reportes = () => {
             }}
             loading={loading} // Muestra carga si está en proceso
             value={estudiante} // Valor seleccionado
-            onChange={(envent, value) => {
+            onChange={(event, value) => {
               setEstudiante(value); // Actualiza el estudiante seleccionado
               console.log(value);
             }}
@@ -303,12 +306,26 @@ const Add_Reportes = () => {
               gap: "10px",
             }}
           >
-            <Button type="submit" sx={{ marginRight: "10px" }}>
+            <Button
+              type="submit"
+              sx={{ marginRight: "10px" }}
+              disabled={fetching}
+            >
               {editando_reporte.editando ? "Subir cambios" : "Agregar reporte"}
+              {fetchingReport && (
+                <CircularProgress
+                  size={20}
+                  sx={{
+                    color: "var(--PryamryContainer-color)",
+                    marginLeft: "5px",
+                  }}
+                />
+              )}
             </Button>
             {editando_reporte.editando && (
               <Button
                 sx={{ marginRight: "10px" }}
+                disabled={fetching}
                 onClick={() => {
                   accion(cerrar_aside()); // Cierra el menú lateral
                   setTipoReporte(null); // Resetea el tipo de reporte
