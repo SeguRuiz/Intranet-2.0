@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import { useFetch } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
 import { set_reporte } from "../../../../redux/ControlUsuariosSlice";
@@ -7,6 +7,9 @@ import { MenuContext } from "../read/Menu_options_reportes";
 import { useContext } from "react";
 import { set_fetching } from "../../../../redux/FetchsSlice";
 import { useCustomNotis } from "../../../../utils/customHooks";
+import BlockIcon from "@mui/icons-material/Block";
+import CheckIcon from "@mui/icons-material/Check";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 export const Set_reporte_estado = ({ reporte_id, accion = "denegar" }) => {
   const { fetch_the_data } = useFetch();
@@ -52,5 +55,20 @@ export const Set_reporte_estado = ({ reporte_id, accion = "denegar" }) => {
     }
   };
 
-  return <MenuItem onClick={set_estado}>{accion}</MenuItem>;
+  return (
+    <MenuItem onClick={set_estado}>
+      <ListItemIcon>
+        {accion.toLowerCase() == "denegar" && (
+          <BlockIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
+        )}
+        {accion.toLowerCase() == "aprobar" && (
+          <CheckIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
+        )}
+        {accion.toLowerCase() == "dejar en espera" && (
+          <AccessTimeIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
+        )}
+      </ListItemIcon>
+      <ListItemText primary={accion} />
+    </MenuItem>
+  );
 };

@@ -14,6 +14,7 @@ import { useFetch } from "../../../../services/llamados"; // Hook para realizar 
 import { MenuContext } from "../read/Menu_options_reportes"; // Contexto para manejar el menú
 import { useContext } from "react"; // Hook para usar el contexto
 import { useCustomNotis } from "../../../../utils/customHooks";
+import EditIcon from "@mui/icons-material/Edit";
 
 function Edit_reporte({ reporte_id }) {
   const accion = useDispatch(); // Inicializa el despachador de Redux
@@ -60,15 +61,17 @@ function Edit_reporte({ reporte_id }) {
 
   return (
     <MenuItem onClick={editando_reporte} disabled={fetching}>
-      <ListItemText primary="Editar" />
       <ListItemIcon>
-        {fetching && (
+        {fetching ? (
           <CircularProgress
             size={15}
             sx={{ color: "var(--Onsurfacevariant)" }}
           />
+        ) : (
+          <EditIcon sx={{ color: "var(--OnsurfaceVariant)" }} fontSize="10px" />
         )}
       </ListItemIcon>
+      <ListItemText primary="Editar" />
     </MenuItem>
   ); // Retorna un elemento de menú que ejecuta la función de edición al hacer clic
 }

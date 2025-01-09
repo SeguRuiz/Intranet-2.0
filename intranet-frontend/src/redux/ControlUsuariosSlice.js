@@ -343,6 +343,11 @@ const ControlUsuarios = createSlice({
     agregar_seleccion_integrantes: (state, action) => {
       state.seleccion_multiple_integrantes.push(action.payload);
     },
+    eliminar_reporte: (state, action) => {
+      const { id } = action.payload;
+      const reportes_filtrados = state.reportes.filter((x) => x.id != id);
+      state.reportes = reportes_filtrados;
+    },
   },
 });
 
@@ -398,5 +403,6 @@ export const {
   set_reporte,
   set_empty,
   set_integrantes_de_grupo,
+  eliminar_reporte
 } = ControlUsuarios.actions;
 export default ControlUsuarios.reducer;

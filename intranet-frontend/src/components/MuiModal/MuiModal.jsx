@@ -12,6 +12,8 @@ const MuiModal = ({
   Title = "Titulo del modal",
   body = "contenido del modal",
   open = false,
+  maxWidth = 30,
+  fullWidth = false,
   setOpen,
 }) => {
   return (
@@ -21,7 +23,8 @@ const MuiModal = ({
         onClose={() => {
           setOpen(false);
         }}
-        fullWidth
+        maxWidth={maxWidth}
+        fullWidth={fullWidth}
       >
         <DialogTitle>{Title}</DialogTitle>
         <DialogContent>

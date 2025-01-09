@@ -1,16 +1,17 @@
 import {
-  Backdrop,
-  CircularProgress,
   LinearProgress,
+  ListItemIcon,
+  ListItemText,
   MenuItem,
   Skeleton,
 } from "@mui/material";
-import { useCustomModal, useCustomNotis } from "../../../../utils/customHooks";
+import { useCustomModal } from "../../../../utils/customHooks";
 import { useEffect, useRef, useState } from "react";
 import { TextField } from "@mui/material";
 import { useFetch } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
 import { toast } from "react-toastify";
+import InfoIcon from "@mui/icons-material/Info";
 
 const More_info_reports = ({ estudiante, usuario, reporte_id }) => {
   const modal_ref = useRef();
@@ -79,7 +80,12 @@ const More_info_reports = ({ estudiante, usuario, reporte_id }) => {
 
   return (
     <>
-      <MenuItem onClick={openModal}>Más info</MenuItem>
+      <MenuItem onClick={openModal}>
+        <ListItemIcon>
+          <InfoIcon sx={{ color: "var(--OnsurfaceVariant)" }} fontSize="10px" />
+        </ListItemIcon>
+        <ListItemText primary="Más info" />
+      </MenuItem>
 
       <dialog
         ref={modal_ref}
