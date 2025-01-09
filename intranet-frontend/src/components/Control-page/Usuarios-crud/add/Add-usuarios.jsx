@@ -91,6 +91,7 @@ const Add_usuarios = () => {
     } else {
       setTipoValidacion(null);
       setCedulaValue("");
+      cedula_inpt.current.value = ''
     }
   }, [tipoCedula, cedulaValue]);
 
