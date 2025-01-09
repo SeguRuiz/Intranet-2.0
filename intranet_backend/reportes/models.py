@@ -47,7 +47,7 @@ class Reportes_info(models.Model):
     archivo_id = models.ForeignKey(
         GoogleCloudBucketFiles, on_delete=models.SET_NULL, null=True
     )
-
+     
     class Meta:
         db_table = "reportes_info"
         indexes = [

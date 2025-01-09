@@ -1,4 +1,3 @@
-import React from "react"; // Importa React
 import { useFetch } from "../../../../services/llamados"; // Hook personalizado para realizar llamadas a la API
 import { useSelector } from "react-redux"; // Hook para acceder al estado de Redux
 import { useDispatch } from "react-redux"; // Hook para enviar acciones a Redux
@@ -7,7 +6,7 @@ import { vaciar_ids_temporales } from "../../../../redux/ControlUsuariosSlice"; 
 import { useCustomNotis } from "../../../../utils/customHooks"; // Hook personalizado para notificaciones
 import { getCookie } from "../../../../utils/Cookies"; // Función para obtener cookies
 import { set_grupos } from "../../../../redux/ControlUsuariosSlice"; // Acción para actualizar la lista de grupos
-
+import { set_fetching } from "../../../../redux/FetchsSlice";
 const Delete_sedes = () => {
   // Hook para manejar las notificaciones
   const { ok_mensaje, error_mensaje } = useCustomNotis(
@@ -26,6 +25,7 @@ const Delete_sedes = () => {
 
   // Función para eliminar la lista de sedes seleccionadas
   const eliminar_lista_sedes = async () => {
+    accion(set_fetching(true))
     const data = await fetch_the_data(
       "http://localhost:8000/cursos/eliminar_lista_sedes",
       token,
@@ -63,6 +63,7 @@ const Delete_sedes = () => {
     } else {
       error_mensaje(); // Muestra un mensaje de error si la eliminación falla
     }
+    accion(set_fetching(false))
   };
 
   return (
