@@ -13,6 +13,7 @@ const Select_integrantes = ({
   grupo_id,
   user_id,
 }) => {
+  
   return (
     <div className="select-integrantes-container">
       <div className="user-Profile">

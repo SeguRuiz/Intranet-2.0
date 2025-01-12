@@ -25,12 +25,8 @@ const Read_interantes = ({ usuarios_grupo, grupo_id }) => {
           ids_de_usuarios: usuarios_grupo,
         }
       );
-      console.log(data);
-      console.log(integrantes_de_grupo);
-
+     
       if (data[0] == 200) {
-        console.log(data);
-
         accion(
           set_integrantes_de_grupo({ usuarios: data[1], grupo_id: grupo_id })
         );

@@ -15,6 +15,7 @@ const MuiModal = ({
   maxWidth = 30,
   fullWidth = false,
   setOpen,
+  Info = false,
 }) => {
   return (
     <>
@@ -35,10 +36,15 @@ const MuiModal = ({
             onClick={() => {
               setOpen(false);
             }}
+            variant="text"
           >
-            Denegar
+            {Info ? "Aceptar" : "Denegar"}
           </Button>
-          <Button onClick={acceptFunction}>Aceptar</Button>
+          {!Info && (
+            <Button onClick={acceptFunction} variant="text">
+              Aceptar
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </>

@@ -367,7 +367,9 @@ def obtener_integrantes_de_grupo(request):
         usuarios_del_grupo_serializados = UsersSerializer(
             instance=usuarios_del_grupo, many=True
         )
-
+               
+               
+               
         return Response(usuarios_del_grupo_serializados.data, status=status.HTTP_200_OK)
 
     except KeyError:

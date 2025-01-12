@@ -1,6 +1,7 @@
 import "./Sidemenu.css";
 import MenuContenido from "./contenido/MenuContenido";
 import {
+  Collapse,
   Divider,
   LinearProgress,
   List,
@@ -18,6 +19,7 @@ import {
 } from "../../redux/CursosContenidosSlice";
 import { getCookie } from "../../utils/Cookies";
 import ListItemLoader from "../loaders/ListItemLoader";
+import { TransitionGroup } from 'react-transition-group';
 
 export const Sidemenu = ({ id_curso }) => {
   const { Contenidos } = useSelector((state) => state.CursosContenidos);
@@ -109,7 +111,9 @@ export const Sidemenu = ({ id_curso }) => {
           >
             <Divider variant="middle" />
             {userInSession?.is_staff && <AddContenidoV2 scroll={movePaper} />}
+            <TransitionGroup>
             {Contenidos.map((contenido) => (
+              <Collapse key={contenido.id}>
               <MenuContenido
                 key={contenido.id}
                 nombre={contenido.nombre}
@@ -117,7 +121,9 @@ export const Sidemenu = ({ id_curso }) => {
                 bloqueado={contenido.bloqueado}
                 id={contenido.id}
               />
+              </Collapse>
             ))}
+            </TransitionGroup>
           </List>
         )}
       </Paper>

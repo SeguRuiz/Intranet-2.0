@@ -4,8 +4,8 @@
   grid-template-rows: 16.5% auto;
 }
 
-.comunicaciones-content{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.comunicaciones-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

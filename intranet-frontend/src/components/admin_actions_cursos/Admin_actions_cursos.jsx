@@ -2,6 +2,7 @@ import { ButtonGroup } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import { ROLES_DE_USUARIO } from "../../utils/Globals.d";
 
 const Admin_actions_cursos = ({ children }) => {
   const { Es_admin } = useSelector((x) => x.IsAdmin); // Verifica si el usuario es administrador
@@ -10,7 +11,7 @@ const Admin_actions_cursos = ({ children }) => {
 
   return (
     <>
-      {Es_admin || userInSession?.rol === "profesor" ? ( // Condición para mostrar los botones
+      {Es_admin || userInSession?.rol === ROLES_DE_USUARIO.profesor ? ( // Condición para mostrar los botones
         <ButtonGroup
           size="large"
           variant="contained"

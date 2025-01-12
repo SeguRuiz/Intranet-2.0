@@ -1,0 +1,8 @@
+.asistencias-page-cont{
+    height: 100vh;
+    background-color: var(--SurfaceBrigth-color);
+    display: grid;
+    grid-template-rows: 11.5% auto ;
+    
+}
+
