@@ -30,7 +30,7 @@ const Content = () => {
     const data = async () => {
       const datos = await fetch_the_data(
         "http://localhost:8000/cursos/get_user_courses",
-        null,
+        token,
         "POST",
         {
           user_id: DecodeToken(token).user_id,
@@ -59,7 +59,7 @@ const Content = () => {
             />
           ) : (
             <>
-              {cursos.map((e) => (
+              {cursos?.map((e) => (
                 <Select_cursos_home key={e?.id} nombre={e?.nombre} id={e?.id} />
               ))}
             </>

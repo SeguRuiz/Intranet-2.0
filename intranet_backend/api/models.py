@@ -51,6 +51,9 @@ class Usuarios(AbstractUser):
             models.Index(fields=["tipo_cedula"], name="tipo-cedula-indx"),
         ]
 
+    def get_Role(self):
+        return self.rol_id.tipo
+
 
 class Estudiantes(models.Model):
     id = models.UUIDField(

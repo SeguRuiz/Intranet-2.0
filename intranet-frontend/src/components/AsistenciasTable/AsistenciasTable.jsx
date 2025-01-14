@@ -4,13 +4,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   TableCell,
   TablePagination,
   Box,
   Grid2,
 } from "@mui/material";
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 
 const columnasDefault = [
   {
@@ -27,7 +26,6 @@ const columnasDefault = [
   },
 ];
 
-
 export const MuiTableFilasContext = createContext();
 
 const MuiTable = ({
@@ -41,7 +39,7 @@ const MuiTable = ({
   AccionesExtra = null,
   children,
 }) => {
-  const [filas, setFilas] = useState([])
+  const [filas, setFilas] = useState([]);
   const [page, setPage] = useState(0);
   const [filasPorPagina, setFilasPorPagina] = useState(10);
 
@@ -64,7 +62,7 @@ const MuiTable = ({
           );
         },
         setFilas,
-        filas
+        filas,
       }}
     >
       <Box
@@ -73,7 +71,7 @@ const MuiTable = ({
           width: width,
           borderRadius: "5px",
           overflow: "hidden",
-          bgcolor: headerColor
+          bgcolor: headerColor,
         }}
       >
         <TableContainer
@@ -131,7 +129,5 @@ const MuiTable = ({
     </MuiTableFilasContext.Provider>
   );
 };
-
-
 
 export default MuiTable;

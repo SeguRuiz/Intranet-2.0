@@ -207,6 +207,7 @@ const Control_usuarios_page = () => {
                 }}
                 onClick={() => {
                   if (pestaña_seleccionada != "usuarios") {
+                    navigate("/admin/control_usuarios/usuarios");
                     accion(set_pestaña_seleccionada("usuarios"));
                     accion(desactivar_seleccion_multiple_sedes());
                     accion(desactivar_seleccion_multiple());
@@ -234,6 +235,7 @@ const Control_usuarios_page = () => {
                 }}
                 onClick={() => {
                   if (pestaña_seleccionada != "grupos") {
+                    navigate("/admin/control_usuarios/grupos");
                     accion(set_pestaña_seleccionada("grupos"));
                     accion(desactivar_seleccion_multiple());
                     accion(desactivar_seleccion_multiple_sedes());
@@ -263,6 +265,7 @@ const Control_usuarios_page = () => {
                 }}
                 onClick={() => {
                   if (pestaña_seleccionada != "sedes") {
+                    navigate("/admin/control_usuarios/sedes");
                     accion(set_pestaña_seleccionada("sedes"));
                     accion(desactivar_seleccion_multiple());
                     accion(desactivar_seleccion_multiple_sedes());
@@ -290,6 +293,7 @@ const Control_usuarios_page = () => {
                 }}
                 onClick={() => {
                   if (pestaña_seleccionada != "permisos") {
+                    navigate("/admin/control_usuarios/permisos");
                     accion(set_pestaña_seleccionada("permisos"));
                     accion(desactivar_seleccion_multiple());
                     accion(desactivar_seleccion_multiple_sedes());
@@ -319,6 +323,7 @@ const Control_usuarios_page = () => {
             }}
             onClick={() => {
               if (pestaña_seleccionada != "reportes") {
+                navigate("/admin/control_usuarios/reportes");
                 accion(set_pestaña_seleccionada("reportes"));
                 accion(desactivar_seleccion_multiple());
                 accion(desactivar_seleccion_multiple_sedes());

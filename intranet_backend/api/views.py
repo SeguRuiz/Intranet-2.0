@@ -78,6 +78,12 @@ Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de
         user.rol_id = user_rol
         user.save()
 
+        if user_rol.tipo in ["estudiante", "ESTUDIANTE"]:
+            nuevo_estudiante = Estudiantes(usuario_id=user)
+            nuevo_estudiante.activo = True
+            nuevo_estudiante.save()
+            
+
         # Retornar la información del usuario creado con estado HTTP 201 (creado)
         return Response(
             {"user": UsersSerializer(instance=user).data},

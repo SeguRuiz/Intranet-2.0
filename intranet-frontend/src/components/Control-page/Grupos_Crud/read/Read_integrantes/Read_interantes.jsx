@@ -5,10 +5,13 @@ import { useEffect, useState } from "react";
 import { getCookie } from "../../../../../utils/Cookies";
 import { set_integrantes_de_grupo } from "../../../../../redux/ControlUsuariosSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { TransitionGroup } from "react-transition-group";
+import { Zoom } from "@mui/material";
 
 const Read_interantes = ({ usuarios_grupo, grupo_id }) => {
   const accion = useDispatch();
   const [usuarios, set_usuarios] = useState([]);
+  const [profesor_id, set_profesor_id] = useState(false);
   const { integrantes_de_grupo } = useSelector(
     (state) => state.ControlUsuarios
   );
@@ -25,10 +28,15 @@ const Read_interantes = ({ usuarios_grupo, grupo_id }) => {
           ids_de_usuarios: usuarios_grupo,
         }
       );
-     
+
       if (data[0] == 200) {
+        console.log(data);
+        set_profesor_id(data[1].profesor?.id);
         accion(
-          set_integrantes_de_grupo({ usuarios: data[1], grupo_id: grupo_id })
+          set_integrantes_de_grupo({
+            usuarios: data[1]?.usuarios,
+            grupo_id: grupo_id,
+          })
         );
         set_usuarios(integrantes_de_grupo);
       }
@@ -43,16 +51,19 @@ const Read_interantes = ({ usuarios_grupo, grupo_id }) => {
       {integrantes_de_grupo
         ?.find((x) => x.grupo_id == grupo_id)
         ?.usuarios.map((user) => (
-          <Select_integrantes
-            key={user?.id}
-            nombre={user?.first_name}
-            apellidos={user?.last_name}
-            cedula={user?.cedula}
-            nombre_usuario={user?.username}
-            email={user?.email}
-            grupo_id={grupo_id}
-            user_id={user?.id}
-          />
+         
+            <Select_integrantes
+              key={user?.id}
+              nombre={user?.first_name}
+              apellidos={user?.last_name}
+              cedula={user?.cedula}
+              nombre_usuario={user?.username}
+              email={user?.email}
+              grupo_id={grupo_id}
+              user_id={user?.id}
+              profesor_id={profesor_id}
+            />
+         
         ))}
     </>
   );

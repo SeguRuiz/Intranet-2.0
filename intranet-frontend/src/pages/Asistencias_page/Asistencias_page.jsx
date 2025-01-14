@@ -1,31 +1,75 @@
 import "./Asistencias_page.css";
 import Header_student from "../../components/Home/header/Header_student";
-import {
-  Box,
-  Button,
-  Grid2,
-  Paper,
-  Skeleton,
-  
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid2, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import AsistenciasTable from "../../components/AsistenciasTable/AsistenciasTable";
 import AsistenciasFilas from "../../components/AsistenciasCrud/read/AsistenciasFilas";
-import { useSelector } from "react-redux";
+import { useFetch } from "../../services/llamados";
+import { getCookie } from "../../utils/Cookies";
+import { useParams } from "react-router-dom";
+import {
+  setEstudiantesDelDia,
+  setInformeAsubir,
+} from "../../redux/Asistencias";
+import { useDispatch, useSelector } from "react-redux";
+import ReporteAsubir from "../../components/AsistenciasCrud/read/ReporteASubir/ReporteAsubir";
+import SubirReporteAsistencia from "../../components/AsistenciasCrud/add/SubirReporteAsistencia";
+
+const columnas = [
+  { contenido: "Perfil", align: "right" },
+  {
+    contenido: "Nombre",
+    align: "right",
+  },
+  { contenido: "Presente", align: "right" },
+  { contenido: "Ausente", align: "right" },
+  { contenido: "Tardia", align: "right" },
+  { contenido: "Retiro", align: "right" },
+];
 
 const TomaDeAsistencias_page = () => {
-  const [loading, setLoading] = useState(true);
- 
-
-  
+  const [usuarios, setUsuarios] = useState([]);
+  const [mounted, setMounted] = useState(false);
+  const token = getCookie("token");
+  const { fetch_the_data } = useFetch();
+  const { id_grupo } = useParams();
+  const accion = useDispatch();
+  const { informeAsubir } = useSelector((x) => x.Asistencias);
+  const { userInSession } = useSelector((x) => x.Auth);
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+    return () => {
+      setMounted(false);
+      setUsuarios([]);
+      accion(setEstudiantesDelDia([]));
+      accion(setInformeAsubir([]));
+    };
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const usuarios_del_grupo = await fetch_the_data(
+        "http://localhost:8000/cursos/obtener_grupo_del_usuario",
+        token,
+        "POST",
+        {
+          grupo_id: id_grupo,
+        }
+      );
+      console.log(usuarios_del_grupo);
+
+      if (usuarios_del_grupo[0] == 200) {
+        accion(setEstudiantesDelDia(usuarios_del_grupo[1]));
+        setMounted(true);
+      }
+    })();
+  }, [id_grupo]);
+
+  const sideBar = () => {
+    const presente = informeAsubir.filter((x) => x.estado != "presente");
+
+    return presente.length == 0 ? 0 : 3;
+  };
 
   return (
     <div className="asistencias-page-cont">
@@ -33,10 +77,32 @@ const TomaDeAsistencias_page = () => {
         <Header_student salirBtn={true} />
       </div>
       <Grid2 container height={"100%"} columns={10}>
-        <Grid2 size={1}>
-          <Paper sx={{ width: "100%", height: "100%" }}></Paper>
+        <Grid2 size={sideBar()} sx={{ transition: "0.3s" }}>
+          <Box
+            sx={{
+              width: "100%",
+              height: "84vh",
+              overflow: "auto",
+              scrollBehavior: "smooth",
+              scrollbarWidth: "thin",
+              marginTop: "13px",
+            }}
+          >
+            <ReporteAsubir />
+          </Box>
         </Grid2>
-        <Grid2 size={9} spacing={1}>
+        <Grid2
+          size="grow"
+          sx={{
+            borderRadius: informeAsubir.length == 0 ? 0 : "10px",
+            backgroundColor: "var(--Surface-color)",
+            transition: "0.3s",
+          }}
+          alignSelf={"center"}
+          justifySelf={"center"}
+          marginRight={sideBar()}
+          paddingBottom={"1%"}
+        >
           <Box
             sx={{
               height: "20%",
@@ -46,18 +112,22 @@ const TomaDeAsistencias_page = () => {
               paddingLeft: "1%",
             }}
           >
-            {loading ? (
+            {!mounted ? (
               <Skeleton
                 variant="text"
-                sx={{ fontSize: "60px" }}
+                sx={{ fontSize: "50px" }}
                 width={"40%"}
               ></Skeleton>
             ) : (
-              <Typography fontSize={"45px"} color="var(--OnsurfaceVariant)">
+              <Typography
+                fontSize={"35px"}
+                color="var(--OnsurfaceVariant)"
+                textOverflow={"ellipsis"}
+              >
                 Control de asistencia
               </Typography>
             )}
-            {loading ? (
+            {!mounted ? (
               <Skeleton
                 variant="text"
                 sx={{ fontSize: "25px" }}
@@ -85,24 +155,24 @@ const TomaDeAsistencias_page = () => {
               paddingRight: "1%",
             }}
           >
-            {loading ? (
+            {!mounted ? (
               <Skeleton
                 variant="rounded"
-                sx={{ height: "95%", width: "100%" }}
+                sx={{ height: "69vh", width: "100%" }}
               />
             ) : (
               <AsistenciasTable
                 maxHeight="60vh"
                 pagination={true}
                 height="69vh"
+                columnas={columnas}
                 AccionesExtra={
                   <>
-                    <Button variant="contained">holaa</Button>
+                    <SubirReporteAsistencia profesor_id={userInSession?.id} />
                   </>
                 }
-                
               >
-                <AsistenciasFilas/>
+                <AsistenciasFilas />
               </AsistenciasTable>
             )}
           </Box>

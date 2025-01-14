@@ -12,7 +12,7 @@ const Go_to_admin = () => {
         <Tooltip title="Ir a la pagin administrativa">
           <Button
             onClick={() => {
-              navigate("/admin/control_usuarios");
+              navigate("/admin/control_usuarios/usuarios");
             }}
           >
             <svg

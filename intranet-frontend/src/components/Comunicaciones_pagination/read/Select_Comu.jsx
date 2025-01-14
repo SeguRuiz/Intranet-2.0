@@ -36,7 +36,7 @@ const Select_Comu = ({
         null,
         usuario_id
       );
-      console.log(data);
+      
 
       data[0] == 200 && setNombre(`${data[1].nombre} ${data[1].apellidos}`);
     })();

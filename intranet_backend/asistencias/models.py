@@ -38,7 +38,7 @@ class Asistencias(models.Model):
     reporte_asistencias_id = models.ForeignKey(
         ReporteDeAsistencias, on_delete=models.CASCADE
     )
-
+    
     class Meta:
         db_table = "asistencias"
         indexes = [

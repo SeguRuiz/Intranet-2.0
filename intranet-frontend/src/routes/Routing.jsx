@@ -121,7 +121,7 @@ export const Routing = () => {
 
               {Es_admin ? (
                 <Route
-                  path="/admin/control_usuarios"
+                  path="/admin/control_usuarios/:carpeta"
                   element={<Control_usuarios_page />}
                 />
               ) : (

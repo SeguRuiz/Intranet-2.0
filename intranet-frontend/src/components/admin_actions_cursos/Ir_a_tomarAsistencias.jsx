@@ -37,7 +37,6 @@ const Ir_a_tomarAsistencias = () => {
         open={open}
         setOpen={setOpen}
         Info={true}
-      
       />
     </>
   );

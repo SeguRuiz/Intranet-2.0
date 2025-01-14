@@ -1,126 +1,23 @@
-import {
-  Fade,
-  formControlLabelClasses,
-  TableCell,
-  TableRow,
-} from "@mui/material";
+import { Avatar, TableCell, TableRow } from "@mui/material";
 import { MuiTableFilasContext } from "../../AsistenciasTable/AsistenciasTable";
 import { useContext, useEffect, useState } from "react";
-import { Grow } from "@mui/material";
+import { stringAvatar, stringToColor } from "../../../utils/Utils";
 
-const filasDefault = [
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-  {
-    nombre: `nombre`,
-    apellido: `apelido`,
-    cedula: `cedula`,
-  },
-];
+import { useSelector } from "react-redux";
+import AsistenciasFila from "./AsistenciasFila";
 
 const AsistenciasFilas = () => {
-  const { calcularPaginas, setFilas, filas } = useContext(MuiTableFilasContext);
-  
+  const { calcularPaginas, setFilas } = useContext(MuiTableFilasContext);
+  const { estudiantesDelDia } = useSelector((x) => x.Asistencias);
+
   useEffect(() => {
-    setFilas(filasDefault);
-    
-
-    
-  }, []);
-
+    setFilas(estudiantesDelDia);
+  }, [estudiantesDelDia]);
+   
   return (
     <>
       {calcularPaginas().map((x, i) => (
-        
-          <TableRow sx={{ bgcolor: "var(--SurfaceDarked-color)" }} key={i}>
-            <TableCell>Hola</TableCell>
-            <TableCell>Hola</TableCell>
-            <TableCell>Hola</TableCell>
-          </TableRow>
-       
+        <AsistenciasFila key={x?.id} nombre={`${x?.nombre}`} id={x.id} />
       ))}
     </>
   );
