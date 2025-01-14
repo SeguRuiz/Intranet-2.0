@@ -31,18 +31,17 @@ SECRET_KEY = os.getenv("DJANGO_PRODUCTION_SECRET")
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "192.168.100.38",
     "localhost",
     "127.0.0.1",
     "intranet-2-0-api.onrender.com",
 ]
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://intranet_container_front:5173",
     "http://localhost:5173",
-    "http://192.168.100.38:8000",
     "http://localhost",
     "https://intranet-2-0-front-end.onrender.com",
 ]
@@ -66,6 +65,7 @@ INSTALLED_APPS = [
     "tareas.apps.TareasConfig",
     "reportes.apps.ReportesConfig",
     "rest_framework_simplejwt",
+    "asistencias.apps.AsistenciasConfig"
 ]
 
 CSRF_TRUSTED_ORIGINS = [

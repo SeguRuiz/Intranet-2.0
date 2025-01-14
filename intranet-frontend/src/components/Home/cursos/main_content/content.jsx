@@ -8,7 +8,14 @@ import { setData } from "../../../../redux/modalSlice";
 import { DecodeToken } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
 import Select_cursos_home from "./Read/Select_cursos_home";
-import { CircularProgress } from "@mui/material";
+import {
+  CircularProgress,
+  Collapse,
+  LinearProgress,
+  Slide,
+  Zoom,
+} from "@mui/material";
+import { TransitionGroup } from "react-transition-group";
 
 const Content = () => {
   const { cursos } = useSelector((state) => state.modal);
@@ -23,7 +30,7 @@ const Content = () => {
     const data = async () => {
       const datos = await fetch_the_data(
         "http://localhost:8000/cursos/get_user_courses",
-        null,
+        token,
         "POST",
         {
           user_id: DecodeToken(token).user_id,
@@ -41,10 +48,18 @@ const Content = () => {
       <div className="container">
         <div className={"cursos-home-grid"}>
           {fetching ? (
-            <CircularProgress />
+            <CircularProgress
+              size={60}
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
           ) : (
             <>
-              {cursos.map((e) => (
+              {cursos?.map((e) => (
                 <Select_cursos_home key={e?.id} nombre={e?.nombre} id={e?.id} />
               ))}
             </>

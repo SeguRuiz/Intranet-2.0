@@ -18,9 +18,10 @@ import { estado_admin, estado_no_admin } from "../redux/IsAdminSlice.js";
 import { set_fetching } from "../redux/FetchsSlice.js";
 import { Login } from "../components/login/Login.jsx";
 import { useState } from "react";
+import Asistencias_page from "../pages/Asistencias_page/Asistencias_page.jsx";
 
 export const Routing = () => {
-  const { fetch_the_data, fetching } = useFetch();
+  const { fetch_the_data } = useFetch();
   const { Es_admin } = useSelector((e) => e.IsAdmin);
   const [notFound, setNotFound] = useState(false);
   const { userInSession } = useSelector((x) => x.Auth);
@@ -113,9 +114,14 @@ export const Routing = () => {
                 element={<Contenido />}
               />
 
-              {Es_admin || userInSession?.rol == "profesor" ? (
+              <Route
+                path="/asistencias/:id_grupo"
+                element={<Asistencias_page />}
+              />
+
+              {Es_admin ? (
                 <Route
-                  path="/admin/control_usuarios"
+                  path="/admin/control_usuarios/:carpeta"
                   element={<Control_usuarios_page />}
                 />
               ) : (

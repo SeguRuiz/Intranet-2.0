@@ -1,8 +1,8 @@
 import uuid
 
+from api.models import Estudiantes, Usuarios
 from django.core.validators import MinLengthValidator
 from django.db import models
-from api.models import Usuarios
 
 # Create your models here.
 
@@ -49,7 +49,25 @@ class Grupos(models.Model):
             models.Index(fields=["id"], name="id-grupos-indx"),
         ]
 
+    def get_estudiantes_del_grupo(self):
+        estudiantes_del_grupo = [
+            usuario.usuario_id.pk
+            for usuario in Intengrantes_de_grupo.objects.filter(grupo_id=self.id)
+            if usuario.usuario_id.rol_id.tipo in ["estudiante", "ESTUDIANTE"]
+        ]
 
+        estudiantes1 = [
+            {
+                "id": est.pk,
+                "nombre": f"{est.usuario_id.first_name} {est.usuario_id.last_name}",
+                "reportes": est.reportes,
+                "estado": "None",
+            }
+            for est in Estudiantes.objects.all()
+            if est.usuario_id.pk in estudiantes_del_grupo
+        ]
+
+        return estudiantes1
 
 
 class Intengrantes_de_grupo(models.Model):
@@ -60,7 +78,7 @@ class Intengrantes_de_grupo(models.Model):
     usuario_id = models.OneToOneField(Usuarios, on_delete=models.CASCADE, null=False)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         db_table = "integrates_de_grupo"
         unique_together = ["grupo_id", "usuario_id"]
