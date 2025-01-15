@@ -10,7 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import { Paper } from "@mui/material";
 import AddContenidoV2 from "./MenuCrud/Add/AddContenidoV2/AddContenidoV2";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useFetch } from "../../services/llamados";
 import {
@@ -19,15 +19,22 @@ import {
 } from "../../redux/CursosContenidosSlice";
 import { getCookie } from "../../utils/Cookies";
 import ListItemLoader from "../loaders/ListItemLoader";
-import { TransitionGroup } from 'react-transition-group';
+import { TransitionGroup } from "react-transition-group";
 
 export const Sidemenu = ({ id_curso }) => {
   const { Contenidos } = useSelector((state) => state.CursosContenidos);
   const { userInSession } = useSelector((state) => state.Auth);
+  const [mounted, setMounted] = useState(true);
   const paperRef = useRef();
   const accion = useDispatch();
   const { fetch_the_data, fetching } = useFetch();
   const token = getCookie("token");
+
+  useEffect(() => {
+    return () => {
+      setMounted(true);
+    };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -41,6 +48,11 @@ export const Sidemenu = ({ id_curso }) => {
       );
 
       accion(setContenidos(data[1]));
+      setMounted(false);
+
+      return () => {
+        setMounted(true);
+      };
     })();
   }, [id_curso]);
 
@@ -49,10 +61,9 @@ export const Sidemenu = ({ id_curso }) => {
       top: 0,
       left: 0,
       behavior: "smooth",
-    })
-  }
+    });
+  };
 
-   
   return (
     <>
       <Paper
@@ -68,7 +79,7 @@ export const Sidemenu = ({ id_curso }) => {
           bgcolor: "var(--PrymaryContainer-color)",
         }}
       >
-        {fetching && (
+        {mounted  && (
           <LinearProgress
             sx={{
               backgroundColor: "var(--PrymaryContainer-color)", // Background color of the bar
@@ -78,7 +89,7 @@ export const Sidemenu = ({ id_curso }) => {
             }}
           />
         )}
-        {fetching ? (
+        {mounted ? (
           <List
             sx={{
               width: "100%",
@@ -112,17 +123,17 @@ export const Sidemenu = ({ id_curso }) => {
             <Divider variant="middle" />
             {userInSession?.is_staff && <AddContenidoV2 scroll={movePaper} />}
             <TransitionGroup>
-            {Contenidos.map((contenido) => (
-              <Collapse key={contenido.id}>
-              <MenuContenido
-                key={contenido.id}
-                nombre={contenido.nombre}
-                subcontenidos={contenido.subcontenidos}
-                bloqueado={contenido.bloqueado}
-                id={contenido.id}
-              />
-              </Collapse>
-            ))}
+              {Contenidos.map((contenido) => (
+                <Collapse key={contenido.id}>
+                  <MenuContenido
+                    key={contenido.id}
+                    nombre={contenido.nombre}
+                    subcontenidos={contenido.subcontenidos}
+                    bloqueado={contenido.bloqueado}
+                    id={contenido.id}
+                  />
+                </Collapse>
+              ))}
             </TransitionGroup>
           </List>
         )}

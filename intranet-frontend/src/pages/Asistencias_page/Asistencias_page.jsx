@@ -28,7 +28,6 @@ const columnas = [
 ];
 
 const TomaDeAsistencias_page = () => {
-  const [usuarios, setUsuarios] = useState([]);
   const [mounted, setMounted] = useState(false);
   const token = getCookie("token");
   const { fetch_the_data } = useFetch();
@@ -36,11 +35,12 @@ const TomaDeAsistencias_page = () => {
   const accion = useDispatch();
   const { informeAsubir } = useSelector((x) => x.Asistencias);
   const { userInSession } = useSelector((x) => x.Auth);
+  const [sede, setSede] = useState("nombre de sede");
 
   useEffect(() => {
     return () => {
       setMounted(false);
-      setUsuarios([]);
+
       accion(setEstudiantesDelDia([]));
       accion(setInformeAsubir([]));
     };
@@ -59,7 +59,8 @@ const TomaDeAsistencias_page = () => {
       console.log(usuarios_del_grupo);
 
       if (usuarios_del_grupo[0] == 200) {
-        accion(setEstudiantesDelDia(usuarios_del_grupo[1]));
+        accion(setEstudiantesDelDia(usuarios_del_grupo[1].estudiantes));
+        setSede(usuarios_del_grupo[1].sede);
         setMounted(true);
       }
     })();
@@ -140,7 +141,7 @@ const TomaDeAsistencias_page = () => {
                 sx={{ opacity: 0.7 }}
                 paddingLeft={"5px"}
               >
-                Nombre de la sede - dia - mes - año
+                {`${sede} - ${new Date(Date.now()).toLocaleDateString("en-GB")}`}
               </Typography>
             )}
           </Box>

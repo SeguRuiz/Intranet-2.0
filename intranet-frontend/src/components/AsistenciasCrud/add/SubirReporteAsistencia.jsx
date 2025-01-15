@@ -20,11 +20,7 @@ const SubirReporteAsistencia = ({ profesor_id = null }) => {
   );
 
   useEffect(() => {
-    if (informeAsubir.length == estudiantesDelDia.length) {
-      setHabilitado(false);
-    } else {
-      setHabilitado(true);
-    }
+    setHabilitado(!(informeAsubir.length == estudiantesDelDia.length));
   }, [informeAsubir, estudiantesDelDia]);
 
   const subirReporteDeAsistencia = async () => {
@@ -53,11 +49,13 @@ const SubirReporteAsistencia = ({ profesor_id = null }) => {
       sx={{ backgroundColor: "var(--Surface-color)" }}
       onClick={subirReporteDeAsistencia}
     >
-      {fetching ? (
-        <CircularProgress size={20} sx={{ opacity: 0.5 }} />
-      ) : (
-        "Subir informes de asistencias"
+      {fetching && (
+        <CircularProgress
+          size={20}
+          sx={{ opacity: 0.5, position: "absolute" }}
+        />
       )}
+      Subir informes de asistencias
     </Button>
   );
 };

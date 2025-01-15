@@ -12,6 +12,8 @@ import {
   IconButton,
   InputAdornment,
   Alert,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { Button, TextField } from "@mui/material";
 import { actualizar } from "../../redux/AuthSlice";
@@ -31,6 +33,8 @@ export const Login = () => {
   const [mostrar, setMostrar] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const theme = useTheme()
+  const es_PantallaExtraPequeña = useMediaQuery(theme.breakpoints.down('sm'))
   const info = () => toast.info("Bienvenido devuelta");
 
   const { log_fetch, fetching } = useFetch();
@@ -86,7 +90,7 @@ export const Login = () => {
   return (
     <div className="login">
       <div className="login-container">
-        <div className="login-inpts">
+        <div className="login-inpts" >
           <div className="padding-container">
             <div className="logo-fwd-area">
               <div className="logo-container">
@@ -176,7 +180,8 @@ export const Login = () => {
                   disabled={fetching}
                   variant="outlined"
                   type="submit"
-                  sx={{ width: "22%" }}
+                  sx={{ width: es_PantallaExtraPequeña ? '35%' : "35%" }}
+
                 >
                   {fetching ? (
                     <CircularProgress size={22} color="red" />

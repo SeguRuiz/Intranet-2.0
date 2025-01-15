@@ -14,7 +14,7 @@ import Retractile_menu from "../../../../Control-page/Retractile_menu/Retractile
 import { TextField } from "@mui/material";
 
 const AddCurso = () => {
-  const { fetch_the_data } = useFetch();
+  const { fetch_the_data, fetching } = useFetch();
   const { userInSession } = useSelector((x) => x.Auth);
   const [error, setError] = useState("");
   const { ok_mensaje, error_mensaje } = useCustomNotis(
@@ -25,19 +25,21 @@ const AddCurso = () => {
   const token = getCookie("token");
   const { openModal, closeModalDlg, closeModal } = useCustomModal(dlg_ref);
   const ref_input = useRef();
+  const detalles_ref = useRef();
   const form_ref = useRef();
   const accion = useDispatch();
 
   const subirDatosCursos = async (evento) => {
     evento.preventDefault();
     const valor_input = ref_input.current.value.trim();
+    const detalles_inpt = detalles_ref.current.value.trim();
 
-    if (valor_input != "") {
+    if (valor_input != "" && detalles_inpt != "") {
       const data = await fetch_the_data(
         "http://localhost:8000/cursos/cursos",
         token,
         "POST",
-        { nombre: valor_input }
+        { nombre: valor_input, detalles: detalles_inpt }
       );
 
       if (data[0] == 201 && data != undefined) {
@@ -80,7 +82,11 @@ const AddCurso = () => {
         className="add_cursos_modal"
       >
         <div className="agrear-curso-content">
-          <Retractile_menu titulo="Agrega un curso" altura={26}>
+          <Retractile_menu
+            titulo="Agrega un curso"
+            altura={43}
+            loading={fetching}
+          >
             <form
               onSubmit={subirDatosCursos}
               className="add-cursos-form"
@@ -95,8 +101,27 @@ const AddCurso = () => {
                 required
                 error={error != ""}
                 helperText={error}
+                disabled={fetching}
               />
-              <Button type="submit" variant="text" style={{ alignSelf: "end" }}>
+              <TextField
+                type="text"
+                label="Descripción"
+                multiline={true}
+                rows={4}
+                variant="standard"
+                inputRef={detalles_ref}
+                error={error != ""}
+                helperText={error}
+                required
+                disabled={fetching}
+                fullWidth
+              />
+              <Button
+                type="submit"
+                variant="text"
+                style={{ alignSelf: "end" }}
+                disabled={fetching}
+              >
                 agregar
               </Button>
             </form>

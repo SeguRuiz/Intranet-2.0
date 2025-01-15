@@ -70,7 +70,7 @@ const Control_usuarios_page = () => {
           token,
           "GET"
         ),
-        fetch_the_data("http://localhost:8000/cursos/cursos", null, "GET"),
+        fetch_the_data("http://localhost:8000/cursos/cursos", token, "GET"),
         fetch_the_data(
           "http://localhost:8000/cursos/integrantes_de_grupo",
           token,

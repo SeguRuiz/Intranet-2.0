@@ -38,7 +38,7 @@ class Grupos(models.Model):
     )
     sede_id = models.ForeignKey(Sedes, on_delete=models.CASCADE, null=False)
     nombre_grupo = models.CharField(max_length=100, null=False)
-
+    
     class Meta:
         db_table = "grupos"
         unique_together = ["sede_id", "nombre_grupo"]
@@ -69,6 +69,15 @@ class Grupos(models.Model):
 
         return estudiantes1
 
+    def get_profesores(self):
+        profesores_del_grupo = [
+            usuario.usuario_id
+            for usuario in Intengrantes_de_grupo.objects.filter(grupo_id=self.id)
+            if usuario.usuario_id.rol_id.tipo in ["profesor", "Profesor"]
+        ]
+        
+        return profesores_del_grupo
+
 
 class Intengrantes_de_grupo(models.Model):
     id = models.UUIDField(
@@ -97,6 +106,7 @@ class Cursos(models.Model):
         unique=True, primary_key=True, null=False, editable=False, default=uuid.uuid4
     )
     nombre = models.CharField(max_length=250, null=False)
+    detalles = models.CharField(max_length=400, null=True) 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     activo = models.BooleanField(null=False, default=True)

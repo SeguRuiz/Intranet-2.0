@@ -1,13 +1,14 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { IconButton, Tooltip } from "@mui/material";
-import UserInfoCard from "../../userInfoCard/UserInfoCard";
+
 import flecha_4 from "../../../assets/flechas/flecha4.png";
+
 import "./header.css";
 import { useSelector } from "react-redux";
+import StudendCard from "./studendCard";
 
-const Header_student = ({ imgSrc, buttonText, salirBtn = false  }) => {
+const Header_student = ({ imgSrc, buttonText, salirBtn = false }) => {
   const { userInSession } = useSelector((x) => x.Auth);
   const navigate = useNavigate();
   const { id_curso } = useParams();
@@ -40,10 +41,7 @@ const Header_student = ({ imgSrc, buttonText, salirBtn = false  }) => {
     }
     return (
       <>
-        <UserInfoCard
-          right={15}
-          nombre={`${userInSession?.nombre} ${userInSession?.apellidos}`}
-        />
+        <StudendCard />
       </>
     );
   };

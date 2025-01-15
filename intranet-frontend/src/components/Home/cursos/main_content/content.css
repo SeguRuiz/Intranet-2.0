@@ -15,7 +15,9 @@
   overflow: hidden;
 }
 
-
+.textarea-card-files:focus{
+outline: none;
+}
 
 .text-img-curso{
   position: absolute;
@@ -68,6 +70,8 @@
   background-color: var(--PrymaryContainer-color);
   color: var(--OnPrymary-color);
   cursor: pointer;
+
+  
 }
 
 
@@ -75,16 +79,11 @@
   display: grid;
   grid-template-areas: "a a a";
   row-gap: 20px;
-  grid-auto-columns: 30%;
+  grid-auto-columns: 20%;
   justify-content: center;
 }
 
-.cursos-home-grid-loading{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80vh;
-}
+
 
 .titulo{
   display: grid;
@@ -103,7 +102,7 @@
     grid-template-areas: "a a";
     
     row-gap: 20px;
-    grid-auto-columns: 40%;
+    
     justify-content: center;
     
   }

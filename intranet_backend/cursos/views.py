@@ -242,7 +242,6 @@ def eliminar_integrantes(request):
 def usuarios_en_grupos(request):
     # Obtiene todos los IDs de usuarios en los grupos y los convierte en una lista de diccionarios
     integrantes = Intengrantes_de_grupo.objects.all().values("usuario_id")
-
     # Retorna la lista de IDs de usuarios en grupos
     return Response(integrantes, status=status.HTTP_200_OK)
 
@@ -402,8 +401,10 @@ def obtener_grupo_del_usuario(request):
 
         estudiantes_del_grupo = grupo.get_estudiantes_del_grupo()
 
+        sede_nombre = grupo.sede_id.nombre
+
         return Response(
-            estudiantes_del_grupo,
+            {"estudiantes": estudiantes_del_grupo, "sede": sede_nombre},
             status=status.HTTP_200_OK,
         )
 

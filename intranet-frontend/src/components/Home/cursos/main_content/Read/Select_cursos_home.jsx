@@ -10,18 +10,24 @@ import { Delete_cursos } from "../Delete/Delete_cursos";
 import { stringToColor } from "../../../../../utils/Utils";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { Zoom } from "@mui/material";
-const Select_cursos_home = ({ id, nombre }) => {
+
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import FolderIcon from "@mui/icons-material/Folder";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  CardActions,
+  Button,
+  Zoom,
+  Tooltip,
+  useTheme,
+} from "@mui/material";
+const Select_cursos_home = ({ id, nombre, detalles }) => {
   const navigate = useNavigate();
-  const images_array = [
-    cursos_img_1,
-    cursos_img_2,
-    cursos_img_3,
-    cursos_img_4,
-    cursos_img_5,
-    cursos_img_6,
-  ];
-  const random = Math.floor(Math.random() * images_array.length);
+  const theme = useTheme();
+
   const { userInSession } = useSelector((x) => x.Auth);
 
   const [slide, SetSlide] = useState(true);
@@ -36,58 +42,87 @@ const Select_cursos_home = ({ id, nombre }) => {
 
   return (
     <Zoom in={slide} mountOnEnter>
-      <div key={id} id={id} className="note-container">
-        <div
-          className="cursos-card-img"
-          style={{ backgroundColor: stringToColor(nombre) }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="160px"
-            viewBox="0 -960 960 960"
-            width="160px"
-            fill="var(--OnPrymary-color)"
-          >
-            <path d="M480-60q-78-69-170.5-106T120-203v-429q94 0 186.5 43T480-469q81-77 173.5-120T840-632v429q-97 0-189.5 37T480-60Zm3-552q-65 0-109.5-44.5T329-766q0-65 44.5-109.5T483-920q65 0 109.5 44.5T637-766q0 65-44.5 109.5T483-612Z" />
-          </svg>
-        </div>
-        <div className="cursos-card-text">
-          <div
-            className="entrar-curso-btn"
+      <Card
+        sx={{
+          width: "100%",
+          backgroundColor: "var(--SurfaceBrigth-color)",
+          borderRadius: "10px",
+          transition: "0.3s",
+          // [theme.breakpoints.down("sm")]: {
+          //   width: '',
+          // },
+        }}
+      >
+        <Tooltip title={"Clickea la info para ver sus contenidos"} placement="left">
+          <CardHeader
+            avatar={
+              <FolderIcon
+                fontSize="medium"
+                sx={{ color: "var(--OnPrymary-color)" }}
+              />
+            }
+            title={nombre}
+            titleTypographyProps={{
+              fontSize: "18px",
+              color: "var(--OnPrymary-color)",
+            }}
+            action={<Delete_cursos id={id} />}
+            sx={{
+              backgroundColor: "var(--PrymaryContainer-color)",
+            }}
+          ></CardHeader>
+          <CardActionArea
             onClick={() => {
-              navigate(`/cursos/${id}/carpetas`);
+              navigate(`${id}/carpetas`);
             }}
           >
-            Entrar
-          </div>
-        </div>
-        <div className="text-img-curso">
-          <p>{nombre}</p>
-        </div>
-        {userInSession?.is_staff && (
-          <>
-            <Menu_options_reportes
-              customBtn={true}
-              btn={
-                <>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="30px"
-                    viewBox="0 -960 960 960"
-                    width="30px"
-                    fill="var(--OnPrymary-color)"
-                  >
-                    <path d="M480-360 280-559h400L480-360Z" />
-                  </svg>
-                </>
+            <CardContent>
+              {/* <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.secondary",
+                    maxWidth: "90%",
+                    whiteSpace: 'normal', 
+                    wordWrap: "break-word",
+                    overflow: 'hidden'
+                  }}
+                >
+                  {detalles}
+                </Typography> */}
+              <textarea
+                className="textarea-card-files"
+                style={{
+                  width: "100%",
+                  height: "23vh",
+                  border: "none",
+                  backgroundColor: "var(--SurfaceBrigth-color)",
+                  resize: "none",
+                  color: "var(--Onsurface-color)",
+                  fontSize: "15px",
+                  cursor: 'pointer'
+                }}
+                readOnly
+              >
+                {detalles}
+              </textarea>
+            </CardContent>
+          </CardActionArea>
+        </Tooltip>
+        <Tooltip title="Aún esta en desarrollo :P" followCursor>
+          <CardActions>
+            <Button
+              size="small"
+              startIcon={
+                <MenuBookIcon sx={{ color: "var(--PrymaryContainer-color)" }} />
               }
-              sx={{ position: "absolute", justifySelf: "end" }}
+              variant="contained"
+              disabled
             >
-              <Delete_cursos id={id} />
-            </Menu_options_reportes>
-          </>
-        )}
-      </div>
+              ver recursos externos
+            </Button>
+          </CardActions>
+        </Tooltip>
+      </Card>
     </Zoom>
   );
 };
