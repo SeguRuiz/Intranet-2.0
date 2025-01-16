@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 
-const Add_file2 = ({ id, contenido_id, archivo }) => {
+const Add_file2 = ({ id, contenido_id, archivo , disabled = false}) => {
   const advertencia_subiendo_archivo = (
     advertencia = "Advertencia subiendo archivo"
   ) => toast.warning(advertencia);
@@ -134,7 +134,7 @@ const Add_file2 = ({ id, contenido_id, archivo }) => {
             seleccionarArchivo();
             file_ref.current.value = null;
           }}
-          disabled={fetching}
+          disabled={fetching || disabled}
         >
           <ListItemIcon>
             {fetching ? (
