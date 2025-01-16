@@ -36,7 +36,7 @@ const MenuContenido = ({
   // Función para alternar el estado del menú
   const [addSub, setAddSub] = useState(false);
   const [editando, setEditando] = useState(false);
-  const [newValue, setNewValue] = useState('')
+  const [newValue, setNewValue] = useState("");
   const abrirCerrar = () => {
     if (subcontenidos.length > 0 || addSub) {
       setAbrir(!abrir);
@@ -93,13 +93,18 @@ const MenuContenido = ({
         disablePadding
       >
         {editando ? (
-          <EditContenidoInpt valor={nombre} id={id} setEditando={setEditando} setNewValue={setNewValue}/>
+          <EditContenidoInpt
+            valor={nombre}
+            id={id}
+            setEditando={setEditando}
+            setNewValue={setNewValue}
+          />
         ) : (
           <ListItemButton
             onClick={() => {
               abrirCerrar();
             }}
-            disabled={bloqueado}
+            disabled={bloqueado && !userInSession.is_staff}
             disableTouchRipple={subcontenidos.length == 0}
           >
             <ListItemIcon>

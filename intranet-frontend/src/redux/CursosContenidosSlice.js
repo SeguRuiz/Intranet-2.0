@@ -144,6 +144,23 @@ const CursosContenidos = createSlice({
       state.Contenidos[state.Contenidos.findIndex((x) => x.id == id)].nombre =
         nombre;
     },
+    editNombreSubContenido: (state, action) => {
+      const { idContenido, nombre, id } = action.payload;
+
+      const indexContenido = state.Contenidos.findIndex(
+        (x) => x.id == idContenido
+      );
+
+      const indexSubcontenido = state.Contenidos[
+        indexContenido
+      ]?.subcontenidos.findIndex((x) => x.id == id);
+
+      if (state.Contenidos[indexContenido].subcontenidos[indexSubcontenido]) {
+        state.Contenidos[indexContenido].subcontenidos[
+          indexSubcontenido
+        ].nombre = nombre;
+      }
+    },
   },
 });
 
@@ -162,5 +179,6 @@ export const {
   bloquear_o_desbloquear_contenido,
   set_fetching_archivo,
   editNombreContenido,
+  editNombreSubContenido,
 } = CursosContenidos.actions;
 export default CursosContenidos.reducer;
