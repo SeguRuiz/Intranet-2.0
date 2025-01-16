@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const initialState = {
   page: localStorage.getItem("page") || "sin definir",
   Contenidos: [],
@@ -131,14 +130,19 @@ const CursosContenidos = createSlice({
     },
     bloquear_o_desbloquear_contenido: (state, action) => {
       const { id, bloqueado } = action.payload;
-      state.Contenidos.forEach((x) => {
-        if (x.id == id) {
-          x.bloqueado = bloqueado;
-        }
-      });
+
+      state.Contenidos[
+        state.Contenidos.findIndex((x) => x.id == id)
+      ].bloqueado = bloqueado;
     },
     set_fetching_archivo: (state, action) => {
       state.fetching_archivo = Boolean(action.payload);
+    },
+    editNombreContenido: (state, action) => {
+      const { id, nombre } = action.payload;
+
+      state.Contenidos[state.Contenidos.findIndex((x) => x.id == id)].nombre =
+        nombre;
     },
   },
 });
@@ -156,6 +160,7 @@ export const {
   set_grupo_mostrandose,
   set_current_page,
   bloquear_o_desbloquear_contenido,
-  set_fetching_archivo
+  set_fetching_archivo,
+  editNombreContenido,
 } = CursosContenidos.actions;
 export default CursosContenidos.reducer;

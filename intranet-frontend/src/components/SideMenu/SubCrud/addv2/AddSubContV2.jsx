@@ -3,7 +3,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { MenuContext } from '../../../Control-page/Reportes/read/Menu_options_reportes';
 import { useContext } from 'react';
 
-const AddSubContV2 = ({contenido_id = null, setAddSubcont, setOpen, bloqueado = false}) => {
+const AddSubContV2 = ({contenido_id = null, setAddSubcont, setOpen, bloqueado = false, disabled = false}) => {
    const {setMenu} = useContext(MenuContext)
    
    
@@ -13,7 +13,7 @@ const AddSubContV2 = ({contenido_id = null, setAddSubcont, setOpen, bloqueado = 
         setAddSubcont(true)
         setMenu(false)
 
-    }} disabled={bloqueado}>
+    }} disabled={bloqueado || disabled}>
     <ListItemIcon>
         <AddBoxIcon sx={{color: 'var(--OnsurfaceVariant)'}}/>
     </ListItemIcon>

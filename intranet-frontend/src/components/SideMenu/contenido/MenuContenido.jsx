@@ -20,6 +20,8 @@ import AddSubContV2 from "../SubCrud/addv2/AddSubContV2";
 import { useSelector } from "react-redux";
 import BloquearContenido from "../MenuCrud/BloquearContenido/BloquearContenido";
 import BlockIcon from "@mui/icons-material/Block";
+import EditContenido from "../MenuCrud/Edit/EditContenido";
+import EditContenidoInpt from "../MenuCrud/Edit/EditContenidoInpt";
 
 const MenuContenido = ({
   nombre,
@@ -33,6 +35,8 @@ const MenuContenido = ({
   // Estado que controla el índice seleccionado
   // Función para alternar el estado del menú
   const [addSub, setAddSub] = useState(false);
+  const [editando, setEditando] = useState(false);
+  const [newValue, setNewValue] = useState('')
   const abrirCerrar = () => {
     if (subcontenidos.length > 0 || addSub) {
       setAbrir(!abrir);
@@ -62,50 +66,63 @@ const MenuContenido = ({
                 contenido_id={id}
                 bloqueado={bloqueado}
                 setOpen={setAbrir}
+                disabled={editando}
               />
               <AddSubContV2
                 setAddSubcont={setAddSub}
                 setOpen={setAbrir}
                 bloqueado={bloqueado}
+                disabled={editando}
               />
               <Divider />
               <DeleteContent
                 id={id}
                 subcontenidos={subcontenidos}
                 nombreCarpeta={nombre}
+                disabled={editando}
+              />
+              <EditContenido
+                id={id}
+                setEditando={setEditando}
+                editando={editando}
+                setOpen={setAbrir}
               />
             </Menu_options_reportes>
           )
         }
         disablePadding
       >
-        <ListItemButton
-          onClick={() => {
-            abrirCerrar();
-          }}
-          disabled={bloqueado}
-          disableTouchRipple={subcontenidos.length == 0}
-        >
-          <ListItemIcon>
-            {abrir ? (
-              <FolderOpenIcon sx={{ color: "var(--OnPrymary-color)" }} />
-            ) : (
-              <FolderIcon sx={{ color: "var(--OnPrymary-color)" }} />
-            )}
-          </ListItemIcon>
-          <ListItemText
-            primary={nombre}
-            sx={{ color: "var(--OnPrymary-color)" }}
-          />
+        {editando ? (
+          <EditContenidoInpt valor={nombre} id={id} setEditando={setEditando} setNewValue={setNewValue}/>
+        ) : (
+          <ListItemButton
+            onClick={() => {
+              abrirCerrar();
+            }}
+            disabled={bloqueado}
+            disableTouchRipple={subcontenidos.length == 0}
+          >
+            <ListItemIcon>
+              {abrir ? (
+                <FolderOpenIcon sx={{ color: "var(--OnPrymary-color)" }} />
+              ) : (
+                <FolderIcon sx={{ color: "var(--OnPrymary-color)" }} />
+              )}
+            </ListItemIcon>
+            <ListItemText
+              primary={nombre}
+              sx={{ color: "var(--OnPrymary-color)" }}
+            />
 
-          {bloqueado && !addSub ? (
-            <BlockIcon sx={{ color: "var(--OnPrymary-color)" }} />
-          ) : subcontenidos.length == 0 ? null : abrir ? (
-            <ExpndLess sx={{ color: "var(--OnPrymary-color)" }} />
-          ) : (
-            <ExpndMore sx={{ color: "var(--OnPrymary-color)" }} />
-          )}
-        </ListItemButton>
+            {bloqueado && !addSub ? (
+              <BlockIcon sx={{ color: "var(--OnPrymary-color)" }} />
+            ) : subcontenidos.length == 0 ? null : abrir ? (
+              <ExpndLess sx={{ color: "var(--OnPrymary-color)" }} />
+            ) : (
+              <ExpndMore sx={{ color: "var(--OnPrymary-color)" }} />
+            )}
+          </ListItemButton>
+        )}
       </ListItem>
       <Collapse in={abrir} timeout="auto" unmountOnExit>
         <SubCont

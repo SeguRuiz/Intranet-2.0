@@ -16,6 +16,7 @@ const BloquearContenido = ({
   contenido_id = null,
   bloqueado = false,
   setOpen,
+  disabled = false
 }) => {
   const token = getCookie("token");
   const accion = useDispatch();
@@ -49,7 +50,7 @@ const BloquearContenido = ({
   };
 
   return (
-    <MenuItem onClick={bloquear_o_debloquear_carpeta} disabled={fetching}>
+    <MenuItem onClick={bloquear_o_debloquear_carpeta} disabled={fetching || disabled}>
       {fetching ? (
         <>
           <ListItemIcon>

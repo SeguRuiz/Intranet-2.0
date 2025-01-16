@@ -10,11 +10,11 @@ import MuiModal from "../../../MuiModal/MuiModal";
 
 import { MenuItem } from "@mui/material";
 import { useState } from "react";
-const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta = "" }) => {
+const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta = "", disabled= false }) => {
   const accion = useDispatch();
   const [open, setOpen] = useState(false);
   const token = getCookie("token");
-  const { fetch_the_data } = useFetch();
+  const { fetch_the_data, fetching } = useFetch();
 
   const deleteC = async () => {
     fetch_the_data(
@@ -33,6 +33,7 @@ const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta = "" }) => {
         onClick={() => {
           subcontenidos.length == 0 ? deleteC() : setOpen(true);
         }}
+        disabled={disabled || fetching }
       >
         <ListItemIcon>
           <DeleteIcon sx={{ color: "var(--OnsurfaceVariant)" }} />

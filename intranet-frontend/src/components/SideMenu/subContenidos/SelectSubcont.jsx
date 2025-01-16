@@ -27,6 +27,7 @@ const SelectSubcont = ({ id, nombre, archivo, contenido_id }) => {
   const { userInSession } = useSelector((state) => state.Auth);
   const { fetching_archivo } = useSelector((state) => state.CursosContenidos);
   const [selected, setSelected] = useState(false);
+  const [editando, setEdtando] = useState(false)
 
   useEffect(() => {
     if (archivo_mostrandose != null) {
