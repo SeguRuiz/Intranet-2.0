@@ -5,7 +5,6 @@ import {
   CardActionArea,
   Drawer,
   List,
-  
   ListItemText,
   ListItemButton,
   ListItemIcon,
@@ -14,7 +13,6 @@ import {
   Divider,
   useTheme,
   useMediaQuery,
-  
 } from "@mui/material";
 import { stringAvatar } from "../../../utils/Utils";
 import { useSelector } from "react-redux";
@@ -56,43 +54,57 @@ const StudendCard = () => {
             setOpen((prev) => !prev);
           }}
         >
-          <CardHeader
-            avatar={
-              <>
-                <Avatar
-                  {...stringAvatar(
-                    `${
-                      userInSession.nombre ? userInSession.nombre : "No name"
-                    } ${
-                      userInSession.apellidos
-                        ? userInSession.apellidos
-                        : "Sin rol"
-                    }`
-                  )}
-                />
-              </>
-            }
-            sx={{
-              height: "4.9vh",
-              [theme.breakpoints.down("xs")]: {
-                height: "4vh",
-                width: "5vh",
-              },
-            }}
-            title={
-              !es_PantallaExtraPequeña &&
-              `${userInSession?.nombre} ${userInSession?.apellidos}`
-            }
-            subheader={
-              !es_PantallaExtraPequeña &&
-              `${rolesPersonalisado[userInSession?.rol]}`
-            }
-            subheaderTypographyProps={{
-              color: "var(--OnPrymary-color)",
-              opacity: 0.5,
-            }}
-            titleTypographyProps={{ color: "var(--OnPrymary-color)" }}
-          ></CardHeader>
+          {es_PantallaPequeña ? (
+            <Avatar
+             
+              variant="rounded"
+              {...stringAvatar(
+                `${userInSession.nombre ? userInSession.nombre : "No name"} ${
+                  userInSession.apellidos ? userInSession.apellidos : "Sin rol"
+                }`
+              )}
+            />
+          ) : (
+            <CardHeader
+              avatar={
+                <>
+                  <Avatar
+                    variant="rounded"
+                    {...stringAvatar(
+                      `${
+                        userInSession.nombre ? userInSession.nombre : "No name"
+                      } ${
+                        userInSession.apellidos
+                          ? userInSession.apellidos
+                          : "Sin rol"
+                      }`
+                    )}
+                  />
+                </>
+              }
+              sx={{
+                height: "4.9vh",
+               
+                [theme.breakpoints.down("sm")]: {
+                  height: "4vh",
+                  width: "5vh",
+                },
+              }}
+              title={
+                !es_PantallaExtraPequeña &&
+                `${userInSession?.nombre} ${userInSession?.apellidos}`
+              }
+              subheader={
+                !es_PantallaExtraPequeña &&
+                `${rolesPersonalisado[userInSession?.rol]}`
+              }
+              subheaderTypographyProps={{
+                color: "var(--OnPrymary-color)",
+                opacity: 0.5,
+              }}
+              titleTypographyProps={{ color: "var(--OnPrymary-color)" }}
+            ></CardHeader>
+          )}
         </CardActionArea>
       </Card>
       <Drawer

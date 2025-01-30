@@ -2,15 +2,24 @@
   display: grid;
   height: 100vh;
   max-height: 100vh;
-  grid-template-rows: 11.5% auto;
+  grid-template-rows: 10.7% auto;
   background-color: var(--SurfaceBrigth-color);
   overflow: hidden;
 }
 
-@media only screen and (max-height: 1000px) and (max-width: 415px) {
+.side-menu-page{
+  background-color: red;
+  max-height: 89.5vh;
+}
+
+@media only screen and (max-height: 1000px) and (max-width: 600px) {
   .Info-page {
     display: grid;
-    grid-template-rows: 13.5% auto;
+    grid-template-rows: 9.4% auto;
+  }
+  .side-menu-page{
+    background-color: red;
+    max-height: 90.5vh;
   }
 }
 
@@ -23,7 +32,7 @@
 
 .Info-page-sidebar {
   border: 1.5px black solid;
-  height: 100%;
+  height: 100%
 }
 
 .Info-page-file {
@@ -34,10 +43,7 @@
   background-color: var(--SurfaceBrigth-color);
 }
 
-.side-menu-page{
-  background-color: red;
-  max-height: 88.5vh;
-}
+
 
 .not-found-cursos-container {
   height: 88vh;

@@ -14,6 +14,7 @@ import { getCookie } from "../../utils/Cookies";
 import { useState } from "react";
 import { LinearProgress } from "@mui/material";
 import Info_cursos_404 from "./Info_cursos_404";
+import Navbarv2 from "../../components/Home/Navbarv2/Navbar";
 
 const Info_cursos = () => {
   const { userInSession } = useSelector((x) => x.Auth);
@@ -51,7 +52,7 @@ const Info_cursos = () => {
     <>
       <div className="Info-page">
         <div className="Info-nav-container">
-          <Header_student />
+          <Navbarv2 volver="/cursos"/>
         </div>
         {fetching && <LinearProgress />}
 
