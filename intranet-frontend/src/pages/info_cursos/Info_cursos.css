@@ -4,6 +4,7 @@
   max-height: 100vh;
   grid-template-rows: 11.5% auto;
   background-color: var(--SurfaceBrigth-color);
+  overflow: hidden;
 }
 
 @media only screen and (max-height: 1000px) and (max-width: 415px) {
