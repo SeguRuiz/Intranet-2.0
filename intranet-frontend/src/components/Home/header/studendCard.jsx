@@ -5,7 +5,7 @@ import {
   CardActionArea,
   Drawer,
   List,
-  ListItem,
+  
   ListItemText,
   ListItemButton,
   ListItemIcon,
@@ -14,8 +14,7 @@ import {
   Divider,
   useTheme,
   useMediaQuery,
-  createTheme,
-  ThemeProvider
+  
 } from "@mui/material";
 import { stringAvatar } from "../../../utils/Utils";
 import { useSelector } from "react-redux";
@@ -27,9 +26,6 @@ import { setCookie } from "../../../utils/Cookies";
 import { setUserNull } from "../../../redux/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
-
-
 
 const rolesPersonalisado = {
   admin: "Administrador",
@@ -44,11 +40,10 @@ const StudendCard = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const es_PantallaPequeña = useMediaQuery(theme.breakpoints.down("sm"));
-  const es_PantallaExtraPequeña = useMediaQuery(theme.breakpoints.down('xs'))
+  const es_PantallaExtraPequeña = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <>
-    
       <Card
         sx={{
           backgroundColor: "var(--PrymaryContainer-color)",
@@ -66,19 +61,32 @@ const StudendCard = () => {
               <>
                 <Avatar
                   {...stringAvatar(
-                    `${userInSession?.nombre} ${userInSession?.apellidos}`
+                    `${
+                      userInSession.nombre ? userInSession.nombre : "No name"
+                    } ${
+                      userInSession.apellidos
+                        ? userInSession.apellidos
+                        : "Sin rol"
+                    }`
                   )}
                 />
               </>
             }
             sx={{
-                [theme.breakpoints.down('xs')]:{
-                   height: '4vh',
-                   width: '5vh'
-                }
+              height: "4.9vh",
+              [theme.breakpoints.down("xs")]: {
+                height: "4vh",
+                width: "5vh",
+              },
             }}
-            title={!es_PantallaExtraPequeña && `${userInSession?.nombre} ${userInSession?.apellidos}`}
-            subheader={!es_PantallaExtraPequeña && `${rolesPersonalisado[userInSession?.rol]}`}
+            title={
+              !es_PantallaExtraPequeña &&
+              `${userInSession?.nombre} ${userInSession?.apellidos}`
+            }
+            subheader={
+              !es_PantallaExtraPequeña &&
+              `${rolesPersonalisado[userInSession?.rol]}`
+            }
             subheaderTypographyProps={{
               color: "var(--OnPrymary-color)",
               opacity: 0.5,
@@ -130,7 +138,6 @@ const StudendCard = () => {
           </List>
         </Box>
       </Drawer>
-     
     </>
   );
 };
