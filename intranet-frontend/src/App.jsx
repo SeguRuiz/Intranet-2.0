@@ -7,7 +7,7 @@ const customBreakPoints = createTheme({
       values: {
           xs: 413,
           sm: 600,
-          md: 900,
+          md: 920,
           lg: 1200,
           xl: 1536
       }

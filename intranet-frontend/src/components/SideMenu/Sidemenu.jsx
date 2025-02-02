@@ -72,6 +72,7 @@ export const Sidemenu = ({ id_curso }) => {
           maxHeight: "100%",
           height: "100%",
           overflow: "auto",
+        
           borderRadius: 0,
           scrollbarColor:
             "var(--OnPrymary-color) var(--PrymaryContainer-color)",

@@ -3,30 +3,29 @@ import {
   Container,
   Typography,
   Toolbar,
-  Avatar,
+ 
   IconButton,
   Slide,
   createTheme,
   ThemeProvider,
   useTheme,
   useMediaQuery,
-  Card,
-  CardHeader,
+ 
   Divider,
-  CardActionArea,
+  
 } from "@mui/material";
 import { useScrollTrigger } from "@mui/material";
 import { useNavigate } from "react-router";
 import StudendCard from "../header/studendCard";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Flecha from '../../../assets/flechas/Flechas-03.svg'
+import Flecha from '../../../assets/flechas/flecha4.png'
 
 const theme = createTheme({
   components: {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          boxShadow: "rgba(17, 17, 26, 0) 0px 1px 0px;",
+          boxShadow: "rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;",
         },
       },
     },
@@ -65,8 +64,8 @@ const Navbarv2 = ({ window, currentPath, Pages = [], volver = "" }) => {
               <img src={Flecha} style={
                 {
                   objectFit: 'contain',
-                  width: '7vh',
-                  height: '7vh'
+                  width: es_PantallaPequeña ? '6vh' :'7vh',
+                  height: es_PantallaPequeña ? '6vh' :'7vh'
                 }
               }/>
 

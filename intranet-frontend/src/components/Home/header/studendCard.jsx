@@ -56,12 +56,9 @@ const StudendCard = () => {
         >
           {es_PantallaPequeña ? (
             <Avatar
-             
               variant="rounded"
               {...stringAvatar(
-                `${userInSession.nombre ? userInSession.nombre : "No name"} ${
-                  userInSession.apellidos ? userInSession.apellidos : "Sin rol"
-                }`
+                `${userInSession?.nombre} ${userInSession?.apellidos}`
               )}
             />
           ) : (
@@ -71,20 +68,14 @@ const StudendCard = () => {
                   <Avatar
                     variant="rounded"
                     {...stringAvatar(
-                      `${
-                        userInSession.nombre ? userInSession.nombre : "No name"
-                      } ${
-                        userInSession.apellidos
-                          ? userInSession.apellidos
-                          : "Sin rol"
-                      }`
+                      `${userInSession?.nombre} ${userInSession?.apellidos}`
                     )}
                   />
                 </>
               }
               sx={{
                 height: "4.9vh",
-               
+
                 [theme.breakpoints.down("sm")]: {
                   height: "4vh",
                   width: "5vh",
