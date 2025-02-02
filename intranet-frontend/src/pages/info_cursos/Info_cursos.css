@@ -1,22 +1,39 @@
 .Info-page {
   display: grid;
   height: 100vh;
-  grid-template-rows: 11.5% auto;
-  background-color: var(--PrymaryContainer-color);
+  max-height: 100vh;
+  grid-template-rows: 10.1% auto;
+  background-color: var(--SurfaceBrigth-color);
+  overflow: hidden;
+ 
 }
 
-@media only screen and (max-height: 1000px) and (max-width: 415px) {
+.side-menu-page {
+  background-color: red;
+  max-height: 90.5vh;
+}
+
+@media only screen  and (max-width: 600px) {
   .Info-page {
     display: grid;
-    grid-template-rows: 13.5% auto;
+    grid-template-rows: 7% auto;
+    
+  }
+  .side-menu-page {
+    background-color: red;
+    max-height: 91vh;
   }
 }
+
+
+
 
 /*Main*/
 
 .Info-page-main {
   display: grid;
   grid-template-columns: 25% 75%;
+  height: 100%;
 }
 
 
@@ -24,14 +41,83 @@
 .Info-page-sidebar {
   border: 1.5px black solid;
   height: 100%;
- 
 }
+
+
 
 .Info-page-file {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top-left-radius: 5px;
+
   background-color: var(--SurfaceBrigth-color);
 }
 
+@media only screen and (max-width: 920px) {
+  .Info-page-main {
+    grid-template-columns: 0% 100%;
+  }
+  .Info-page {
+    grid-template-rows: 10% auto 30%;
+  }
+ 
+  .side-menu-page {
+    background-color: red;
+    max-height: 91vh;
+   
+  }
+}
+
+@media only screen and (min-height: 600px) and (max-width: 920px) {
+  .Info-page {
+    display: grid;
+    grid-template-rows: 6% auto 7%;
+   
+  }
+ 
+  
+}
+
+
+
+.not-found-cursos-container {
+  height: 88vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.not-found-img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.not-found-message-cont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  height: 60%;
+  width: 30%;
+  gap: 5px;
+}
+
+.not-found-img-container {
+  height: 60%;
+  width: 40%;
+}
+
+.not-found-message-cont > h1 {
+  align-self: flex-start;
+  font-size: 100px;
+  color: var(--Onsurface-color);
+  margin: 0;
+}
+
+.not-found-message-cont > p {
+  opacity: 0.8;
+  font-size: 21px;
+  color: var(--OnsurfaceVariant);
+}

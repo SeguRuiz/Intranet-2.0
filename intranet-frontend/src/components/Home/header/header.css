@@ -57,7 +57,9 @@
   width: 53px;
   margin-left: 20px;
 }
-
+.header_style{
+  padding-right: 10px;
+}
 
 @media only screen and (max-height: 1000px) and (max-width: 415px) {
   .flecha-container{
@@ -66,8 +68,10 @@
     margin-left: 20px;
     visibility: hidden;
   }
-
+  
   .header_style{
-    height: 10.5%;
+    height: 10%;
+    padding-right: 0px;
   }
+ 
   }

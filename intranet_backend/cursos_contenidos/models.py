@@ -56,7 +56,7 @@ class SubContenidos(models.Model):
         db_table = "subcontenidos"
         indexes = [
             models.Index(fields=["contenido"], name="subcont-contenido-indx"),
-            models.Index(fields=["archivo"], name="subcont-archivo-indx"),
+            # models.Index(fields=["archivo"], name="subcont-archivo-indx"),
             models.Index(fields=["id"], name="id-subcont-indx"),
         ]
 

@@ -1,9 +1,14 @@
+import os
 from datetime import datetime
 
 from api.models import Estudiantes, Usuarios
 from api.serializers import EstudiantesSerializer
 from cursos_contenidos.views import sendEmail
 from django.shortcuts import get_object_or_404
+from dotenv import load_dotenv
+from files.models import GoogleCloudBucketFiles
+from files.serializers import GoogleCloudBucketFilesSerializer
+from files.views import delete_file, is_valid_img, is_valid_pdf, upload_file_to_bucket
 from rest_framework import status
 from rest_framework.decorators import (
     api_view,
@@ -17,7 +22,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Reportes_info
-from .serializers import ReportesSerializer
+from .serializers import ReportesFileSerializer, ReportesSerializer
 
 # Create your views here.
 
@@ -125,4 +130,76 @@ El reporte emitido el {dia.date()} a las {dia.hour}:{dia.minute}, por el profeso
         # Maneja el caso en que falta algún dato necesario en la solicitud
         return Response(
             {"info": "Objeto mal formulado"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def guardar_reporte_google_cloud(request):
+    load_dotenv()
+    try:
+        serializer = ReportesFileSerializer(data=request.data)
+
+        if serializer.is_valid():
+            file = serializer.validated_data["file"]
+            file_nombre = file.name
+            reporte_id = serializer.validated_data["reporte_id"]
+            if not (is_valid_img(file) or is_valid_pdf(file)):
+                return Response(
+                    {
+                        "error": "Solo se aceptan pdfs o imagenes",
+                    },
+                    status=status.HTTP_406_NOT_ACCEPTABLE,
+                )
+            reporte = get_object_or_404(Reportes_info, pk=reporte_id)
+            se_remplazo_archivo, info_archivo, nombre_archivo = (
+                reporte.delete_self_file()
+            )
+            if se_remplazo_archivo:
+                delete_file(
+                    bucket_name=os.getenv("GOOGLE_CLOUD_BUCKET"),
+                    blob_name=nombre_archivo,
+                    folder_name=os.getenv("FOLDER_ARCHIVOS_REPORTES"),
+                )
+            google_cloud_serializer = GoogleCloudBucketFilesSerializer(
+                data={"nombre": file_nombre}
+            )
+            
+            if google_cloud_serializer.is_valid():
+                google_cloud_serializer.save()
+            else:
+                return Response(
+                    google_cloud_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+                )
+
+            google_cloud_file = get_object_or_404(
+                GoogleCloudBucketFiles, nombre=file_nombre
+            )
+
+            reporte.presento_comprobante = True
+            reporte.archivo_id = google_cloud_file
+            reporte.save()
+
+            mensaje = upload_file_to_bucket(
+                bucket_name=os.getenv("GOOGLE_CLOUD_BUCKET"),
+                file=file,
+                folder_name=os.getenv("FOLDER_ARCHIVOS_REPORTES"),
+            )
+
+            return Response(
+                {
+                    "Info": mensaje,
+                    "archivo_id": google_cloud_file.pk,
+                    "info_archivo_reporte": info_archivo,
+                },
+                status.HTTP_200_OK,
+            )
+
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    except KeyError:
+        return Response(
+            {"info": "El objeto esta mal formulado"}, status=status.HTTP_400_BAD_REQUEST
         )

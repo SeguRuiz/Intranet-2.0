@@ -1,5 +1,12 @@
 import "./Read_reportes.css"; // Importa estilos CSS para el componente
-import { Avatar, Tooltip } from "@mui/material"; // Importa componentes de Material UI
+import {
+  Avatar,
+  Collapse,
+  Divider,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+} from "@mui/material"; // Importa componentes de Material UI
 import { stringAvatar } from "../../../../utils/Utils"; // Función utilitaria para crear avatares
 import { useSelector } from "react-redux"; // Hook para acceder al estado de Redux
 import { IconButton } from "@mui/material"; // Botón con icono de Material UI
@@ -11,7 +18,9 @@ import Menu_options_reportes from "./Menu_options_reportes"; // Componente que c
 import Edit_reporte from "../edit/Edit_reporte"; // Componente para editar reportes
 import { useEffect, useState } from "react"; // Hooks para manejar efectos y estado
 import { Set_reporte_estado } from "../edit/Set_reporte_estado"; // Componente para establecer el estado del reporte
-
+import Delete_reporte from "../delete/Delete_reporte";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 const Select_reportes = ({
   dia_incidente,
   fecha_creacion,
@@ -33,7 +42,7 @@ const Select_reportes = ({
   const nombre_usuario = usuarios?.find((x) => x.id == usuario_id); // Busca el usuario por ID
   const [animated, setAnimated] = useState("report-card-cont"); // Estado para la animación del contenedor
   const { editando_reporte } = useSelector((x) => x.ControlUsuarios); // Obtiene información sobre el reporte que se está editando
-
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     // Efecto para manejar la animación del reporte si está en modo de edición
     if (editando_reporte.editando && editando_reporte.reporte.id == id) {
@@ -56,14 +65,20 @@ const Select_reportes = ({
   };
 
   return (
-    <div className={animated}> {/* Contenedor principal con animación */}
+    <div className={animated}>
+      {" "}
+      {/* Contenedor principal con animación */}
       <div className="report-info">
         <div className="report-nav">
-          <div className={set_type(estado)}> {/* Clase basada en el estado del reporte */}
+          <div className={set_type(estado)}>
+            {" "}
+            {/* Clase basada en el estado del reporte */}
             <strong>{estado}</strong>
           </div>
           <div className="full-icon-report">
-            <Menu_options_reportes> {/* Componente que contiene las opciones de menú */}
+            <Menu_options_reportes>
+              {" "}
+              {/* Componente que contiene las opciones de menú */}
               <More_info_reports
                 estudiante={estudiante_id}
                 dia_incidente={dia_incidente}
@@ -79,30 +94,53 @@ const Select_reportes = ({
               {!userInSession.is_socioemocional || userInSession.is_staff ? (
                 // Condición para mostrar opciones de edición y agregar archivos
                 <>
-                  <Edit_reporte reporte_id={id} />
                   <Add_file_Report reporte_id={id} />
+                  <Divider />
+                  <Edit_reporte reporte_id={id} />
+
+                  <Delete_reporte id={id} />
                 </>
               ) : (
                 <></>
               )}
-              {userInSession.is_socioemocional || userInSession.is_staff ? (
-                // Opciones para cambiar el estado del reporte
-                <>
-                  <Set_reporte_estado reporte_id={id} accion="Denegar" />
-                  <Set_reporte_estado reporte_id={id} accion="Aprobar" />
-                  <Set_reporte_estado
-                    reporte_id={id}
-                    accion="Dejar en espera"
-                  />
-                </>
-              ) : (
-                <></>
-              )}
+              <Divider />
+              <MenuItem
+                onClick={() => {
+                  setOpen(!open);
+                }}
+                selected={open}
+              >
+                <ListItemIcon>
+                  {open ? (
+                    <ExpandLessIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
+                  ) : (
+                    <ExpandMoreIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary="Más acciones" />
+              </MenuItem>
+              <Collapse unmountOnExit in={open} timeout="auto">
+                {userInSession.is_socioemocional || userInSession.is_staff ? (
+                  // Opciones para cambiar el estado del reporte
+
+                  <>
+                    <Set_reporte_estado reporte_id={id} accion="Denegar" />
+                    <Set_reporte_estado reporte_id={id} accion="Aprobar" />
+                    <Set_reporte_estado
+                      reporte_id={id}
+                      accion="Dejar en espera"
+                    />
+                  </>
+                ) : (
+                  <></>
+                )}
+              </Collapse>
             </Menu_options_reportes>
           </div>
         </div>
         <div className="report-content">
-          {comprobante && <Ver_comprobante comprobante_id={comprobante_id} />} {/* Muestra el comprobante si existe */}
+          {comprobante && <Ver_comprobante comprobante_id={comprobante_id} />}{" "}
+          {/* Muestra el comprobante si existe */}
         </div>
       </div>
       <div className="info-dia-reporte">

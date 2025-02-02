@@ -1,3 +1,5 @@
+"componente deprecado"
+
 import React, { useRef } from 'react'
 
 import ReadSubComp from './readSybComponent/ReadSubComp'

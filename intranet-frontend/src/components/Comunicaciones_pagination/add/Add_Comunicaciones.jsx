@@ -19,7 +19,10 @@ const Add_Comunicaciones = () => {
 
   // Verifica si el usuario puede agregar avisos
   const is_admin_select = () => {
-    return (userInSession?.is_staff && grupo_mostrandose != null) || userInSession?.rol === "profesor";
+    return (
+      (userInSession?.is_staff && grupo_mostrandose != null) ||
+      userInSession?.rol === "profesor"
+    );
   };
 
   const { id_curso } = useParams(); // ID del curso
@@ -53,7 +56,10 @@ const Add_Comunicaciones = () => {
           asunto: asunto_ref.current.value.trim(),
           descripcion: descripcion_ref.current.value.trim(),
           usuario_id: DecodeToken(token).user_id,
-          grupo_id: userInSession?.rol === 'profesor' ? userInSession.grupos[0]?.grupo_id : grupo_mostrandose,
+          grupo_id:
+            userInSession?.rol === "profesor"
+              ? userInSession.grupos[0]?.grupo_id
+              : grupo_mostrandose,
           curso_id: id_curso,
         }
       );
@@ -63,7 +69,10 @@ const Add_Comunicaciones = () => {
         token,
         "POST",
         {
-          grupo_id: userInSession?.rol === 'profesor' ? userInSession.grupos[0]?.grupo_id : grupo_mostrandose,
+          grupo_id:
+            userInSession?.rol === "profesor"
+              ? userInSession.grupos[0]?.grupo_id
+              : grupo_mostrandose,
           body: descripcion_ref.current.value.trim(),
         }
       );

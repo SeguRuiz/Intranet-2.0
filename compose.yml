@@ -1,62 +1,45 @@
 services:
-  # react:
-  #   container_name: react-production
-  #   image: react-production:prod
-  #   build:
-  #     context: ./intranet-frontend
-  #     target: production
-  #     args:
-  #       - NODE_ENV=production
-  #     dockerfile: Dockerfile.prod
-  #   ports:
-  #     - 80:80
-
-  react:
-    container_name: intranet_container_front
-    image: intranet_image_front
+  frontend:
+    container_name: intranet-front
+    image: intranet-frontend:v2
     build:
-      context: ./intranet-frontend
-      
-    volumes:
-      - ./intranet-frontend:/app
-      - /app/node_modules
+      context: .
+      target: production
+      args:
+        - NODE_ENV=production
+      dockerfile: Dockerfile.frontend
     ports:
-      - "5173:5173"
+      - "80:80"
+    depends_on:
+      - backend
 
-  django:
-    container_name: intranet_container_back
-    image: intranet_image_back
+  backend:
+    container_name: intranet-back
+    image: intranet-backend:v2
     build:
-      context: ./intranet_backend
+      context: .
+      dockerfile: Dockerfile.backend
     ports:
       - "8000:8000"
+
     volumes:
       - ./intranet_backend:/app
-    command:
-      [
-        "./wait-for-it.sh",
-        "-t",
-        "30",
-        "mysql:3306",
-        "--",
-        "python",
-        "manage.py",
-        "runserver",
-        "0.0.0.0:8000",
-      ]
-    depends_on:
-      - mysql
 
-  mysql:
-    image: mysql:latest
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    restart: always
     ports:
-      - "3307:3306"
+      - "5432:5432"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=intranet_db
+      - POSTGRES_USER=intranet_admin
+      - POSTGRES_PASSWORD=fwd2025
+      - POSTGRES_DB=intranet_db
     volumes:
-      - intranet_data:/data/db
-      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+      - intranet_postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
 
 volumes:
-  intranet_data:
+  intranet_postgres_data:

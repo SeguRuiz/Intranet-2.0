@@ -1,3 +1,4 @@
+"componente deprecado"
 import { useFetch } from "../../../../services/llamados";
 import { deleteContenidos } from "../../../../redux/CursosContenidosSlice";
 import { useDispatch } from "react-redux";
@@ -9,11 +10,11 @@ import MuiModal from "../../../MuiModal/MuiModal";
 
 import { MenuItem } from "@mui/material";
 import { useState } from "react";
-const DeleteContent = ({ id, subcontenidos = [] }) => {
+const DeleteContent = ({ id, subcontenidos = [], nombreCarpeta = "", disabled= false }) => {
   const accion = useDispatch();
   const [open, setOpen] = useState(false);
   const token = getCookie("token");
-  const { fetch_the_data } = useFetch();
+  const { fetch_the_data, fetching } = useFetch();
 
   const deleteC = async () => {
     fetch_the_data(
@@ -32,6 +33,7 @@ const DeleteContent = ({ id, subcontenidos = [] }) => {
         onClick={() => {
           subcontenidos.length == 0 ? deleteC() : setOpen(true);
         }}
+        disabled={disabled || fetching }
       >
         <ListItemIcon>
           <DeleteIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
@@ -46,7 +48,7 @@ const DeleteContent = ({ id, subcontenidos = [] }) => {
         open={open}
         acceptFunction={deleteC}
         Title="¿Borrar carpeta?"
-        body="Parece que esta carpeta contiene archivos dentro, ¿quieres eliminar todo?"
+        body={`Parece que la carpeta ${nombreCarpeta} contiene archivos dentro, ¿quieres eliminarla de todas formas?`}
       />
     </>
   );

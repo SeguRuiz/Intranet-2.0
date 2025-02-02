@@ -2,28 +2,42 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import logo from "../../assets/FWD - Logotipo-01.svg";
-import d from "../../assets/flechas/d.png";
-import { useFetch, verificar_token } from "../../services/llamados";
-import Swal from "sweetalert2";
+import { useFetch } from "../../services/llamados";
 import { useDispatch } from "react-redux";
 import { setAutorized } from "../../redux/AuthSlice";
-import { setCookie, getCookie } from "../../utils/Cookies";
+import { setCookie } from "../../utils/Cookies";
 import foto_1 from "../../assets/Fotos/foto_fwd_1.jpg";
-import { IconButton, InputAdornment } from "@mui/material";
+import {
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  Alert,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { Button, TextField } from "@mui/material";
 import { actualizar } from "../../redux/AuthSlice";
 import { toast } from "react-toastify";
 
+const fetch_login_errors = {
+  404: "Tus datos son incorrectos, intenta denuevo",
+  500: "Ocurrio un error al conectar con el servidor..😶‍🌫️",
+  401: "Tus datos son incorrectos, intenta denuevo",
+};
+
 export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [fetch_error, setFetchError] = useState(null);
   const [password, setPassword] = useState("");
   const [mostrar, setMostrar] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const info = () => toast.info('Bienvenido devuelta')
+  const theme = useTheme()
+  const es_PantallaExtraPequeña = useMediaQuery(theme.breakpoints.down('sm'))
+  const info = () => toast.info("Bienvenido devuelta");
 
-  const { log_fetch } = useFetch();
+  const { log_fetch, fetching } = useFetch();
   const accion = useDispatch();
 
   useEffect(() => {
@@ -33,6 +47,8 @@ export const Login = () => {
 
   const validar_espacios = async (evento) => {
     evento.preventDefault();
+
+    setFetchError(null);
 
     if (email.trim() == "") {
       setEmailError("Ingresa tu correo");
@@ -44,9 +60,7 @@ export const Login = () => {
 
     if (password.trim() == "") {
       setPasswordError("Ingresa tu contraseña");
-      setTimeout(() => {
-        setPasswordError("");
-      }, 2000);
+
       return;
     }
 
@@ -59,10 +73,9 @@ export const Login = () => {
         password: password,
       }
     );
-    console.log(status_fetch);
 
     if (status_fetch[0] != 200) {
-      Swal.fire("Datos incorrectos, intentelo nuevamente");
+      setFetchError(fetch_login_errors[status_fetch[0]]);
       return;
     }
 
@@ -71,13 +84,13 @@ export const Login = () => {
     accion(setAutorized(true));
     accion(actualizar());
     navigate("/cursos");
-    info()
+    info();
   };
 
   return (
     <div className="login">
       <div className="login-container">
-        <div className="login-inpts">
+        <div className="login-inpts" >
           <div className="padding-container">
             <div className="logo-fwd-area">
               <div className="logo-container">
@@ -93,7 +106,13 @@ export const Login = () => {
                 action=""
                 className="inputs-form-login"
                 onSubmit={validar_espacios}
+                autoComplete="off"
               >
+                {fetch_error && (
+                  <Alert variant="outlined" severity="error">
+                    {fetch_error}
+                  </Alert>
+                )}
                 <TextField
                   label="Correo"
                   type="email"
@@ -102,17 +121,20 @@ export const Login = () => {
                   value={email}
                   onChange={(x) => {
                     setEmail(x.target.value);
+                    setFetchError(null);
                   }}
                   error={emailError != ""}
                   helperText={emailError}
-                  
+                  disabled={fetching}
                 />
                 <TextField
                   onChange={(x) => {
                     setPassword(x.target.value);
+                    setFetchError(null);
                   }}
                   error={passwordError != ""}
                   helperText={passwordError}
+                  disabled={fetching}
                   slotProps={{
                     input: {
                       endAdornment: (
@@ -121,6 +143,7 @@ export const Login = () => {
                             onClick={() => {
                               setMostrar(!mostrar);
                             }}
+                            disabled={fetching}
                           >
                             {!mostrar ? (
                               <svg
@@ -153,8 +176,18 @@ export const Login = () => {
                   fullWidth
                   type={mostrar ? "text" : "password"}
                 />
-                <Button variant="outlined" type="submit">
-                  Log in
+                <Button
+                  disabled={fetching}
+                  variant="outlined"
+                  type="submit"
+                  sx={{ width: es_PantallaExtraPequeña ? '35%' : "35%" }}
+
+                >
+                  {fetching ? (
+                    <CircularProgress size={22} color="red" />
+                  ) : (
+                    "Log in"
+                  )}
                 </Button>
               </form>
             </div>

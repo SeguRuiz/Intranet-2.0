@@ -12,7 +12,10 @@ const MuiModal = ({
   Title = "Titulo del modal",
   body = "contenido del modal",
   open = false,
+  maxWidth = 30,
+  fullWidth = false,
   setOpen,
+  Info = false,
 }) => {
   return (
     <>
@@ -21,7 +24,8 @@ const MuiModal = ({
         onClose={() => {
           setOpen(false);
         }}
-        fullWidth
+        maxWidth={maxWidth}
+        fullWidth={fullWidth}
       >
         <DialogTitle>{Title}</DialogTitle>
         <DialogContent>
@@ -32,10 +36,15 @@ const MuiModal = ({
             onClick={() => {
               setOpen(false);
             }}
+            variant="text"
           >
-            Denegar
+            {Info ? "Aceptar" : "Denegar"}
           </Button>
-          <Button onClick={acceptFunction}>Aceptar</Button>
+          {!Info && (
+            <Button onClick={acceptFunction} variant="text">
+              Aceptar
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </>

@@ -26,7 +26,6 @@ const Comunicaciones_page = () => {
     { href: `/cursos/${id_curso}/grupos`, label: "Grupos" },
     { href: `/cursos/${id_curso}/tareas`, label: "Tareas" },
     { href: `/cursos/${id_curso}/comunicaciones`, label: "Comunicaciones" },
-   
   ];
   useEffect(() => {
     (async () => {
@@ -66,7 +65,7 @@ const Comunicaciones_page = () => {
           <Read_grupos_del_curso />
         </Admin_actions_cursos>
       </div>
-      <Grupo_card/>
+      <Grupo_card />
     </div>
   );
 };
