@@ -1,4 +1,3 @@
-
 import Header from "../../components/Home/header/Header_student";
 
 import Content from "../../components/Home/cursos/main_content/content";
@@ -10,6 +9,7 @@ import Admin_actions_cursos from "../../components/admin_actions_cursos/Admin_ac
 import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 import AddCurso from "../../components/Home/cursos/main_content/add/AddCurso";
 import Ir_a_tomarAsistencias from "../../components/admin_actions_cursos/Ir_a_tomarAsistencias";
+import Navbarv2 from "../../components/Home/Navbarv2/Navbar";
 
 const Cursos_page = () => {
   const { userInSession } = useSelector((x) => x.Auth);
@@ -17,7 +17,7 @@ const Cursos_page = () => {
   return (
     <div className="cursos-page-container">
       <div className="cursos-page-navbar-area">
-        <Header />
+        <Navbarv2 />
       </div>
       <div className="cursos-page-content-area">
         <Content />

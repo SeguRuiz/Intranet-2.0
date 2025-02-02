@@ -12,14 +12,24 @@ import Go_to_admin from "../../components/admin_actions_cursos/go_to_admin";
 import { useFetch } from "../../services/llamados";
 import { getCookie } from "../../utils/Cookies";
 import { useState } from "react";
-import { LinearProgress } from "@mui/material";
+import {
+  ButtonGroup,
+  LinearProgress,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import Info_cursos_404 from "./Info_cursos_404";
+import Navbarv2 from "../../components/Home/Navbarv2/Navbar";
+import SideMenuMobile from "../../components/SideMenu/SideMenuMobile";
+import NavbarAbajo from "../../components/NavbarAbajo/NavbarAbajo";
 
 const Info_cursos = () => {
   const { userInSession } = useSelector((x) => x.Auth);
   const [idValido, setIdValido] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const theme = useTheme();
   const accion = useDispatch();
+  const es_PantallaPequeña = useMediaQuery(theme.breakpoints.down("md"));
 
   const { id_curso } = useParams();
   const token = getCookie("token");
@@ -51,7 +61,7 @@ const Info_cursos = () => {
     <>
       <div className="Info-page">
         <div className="Info-nav-container">
-          <Header_student />
+          <Navbarv2 volver="/cursos" />
         </div>
         {fetching && <LinearProgress />}
 
@@ -62,15 +72,28 @@ const Info_cursos = () => {
             </div>
             <div className="Info-page-file">
               <File_preview />
-              {userInSession?.is_staff && (
+
+              {/* {userInSession?.is_staff && (
                 <Admin_actions_cursos>
                   <Go_to_admin />
                 </Admin_actions_cursos>
-              )}
+              )} */}
             </div>
+            {/* {es_PantallaPequeña && (
+                <SideMenuMobile>
+                  <Sidemenu id_curso={id_curso} />
+                </SideMenuMobile>
+              )} */}
           </div>
         ) : (
           notFound && !fetching && <Info_cursos_404 />
+        )}
+        {es_PantallaPequeña && (
+          <ButtonGroup>
+            <SideMenuMobile>
+              <Sidemenu id_curso={id_curso}></Sidemenu>
+            </SideMenuMobile>
+          </ButtonGroup>
         )}
       </div>
     </>

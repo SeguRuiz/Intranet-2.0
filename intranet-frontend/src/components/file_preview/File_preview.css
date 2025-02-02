@@ -1,7 +1,6 @@
 .file-container {
   position: relative;
-  overflow: hidden;
-  padding-top: 58.25%;
+  height: 100%;
   width: 100%;
   
 }

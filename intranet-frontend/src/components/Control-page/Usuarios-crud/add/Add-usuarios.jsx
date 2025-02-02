@@ -69,7 +69,7 @@ const Add_usuarios = () => {
             setTipoValidacion(null);
           }
           break;
-        case "extranjera":
+        case "extranjero":
           if (!regex_tipos_cedulas.extranjera(cedulaValue)) {
             cedulaValue != "" &&
               setTipoValidacion("Debe tener solo 12 digitos numericos");

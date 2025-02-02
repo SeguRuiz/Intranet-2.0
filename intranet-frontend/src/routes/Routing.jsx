@@ -79,13 +79,13 @@ export const Routing = () => {
   return (
     <>
       <ToastContainer />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
 
-          {authorized && (
-            <>
-              {/* <Route path="/home" element={<Home />} />
+      <Routes>
+        <Route path="/" element={<Login />} />
+
+        {authorized && (
+          <>
+            {/* <Route path="/home" element={<Home />} />
               <Route path="/social" element={<Social />} />
               <Route path="/anuncios" element={<Anuncios />} />
               <Route path="/demolab" element={<Demolab />} />
@@ -107,31 +107,30 @@ export const Routing = () => {
               />
               <Route path={`/cursos/:id_curso/grupos`} element={<Grupo />} /> */}
 
-              <Route path="/cursos" element={<Cursos />} />
+            <Route path="/cursos" element={<Cursos />} />
 
+            <Route
+              path={`/cursos/:id_curso/carpetas`}
+              element={<Contenido />}
+            />
+
+            <Route
+              path="/asistencias/:id_grupo"
+              element={<Asistencias_page />}
+            />
+
+            {Es_admin ? (
               <Route
-                path={`/cursos/:id_curso/carpetas`}
-                element={<Contenido />}
+                path="/admin/control_usuarios/:carpeta"
+                element={<Control_usuarios_page />}
               />
-
-              <Route
-                path="/asistencias/:id_grupo"
-                element={<Asistencias_page />}
-              />
-
-              {Es_admin ? (
-                <Route
-                  path="/admin/control_usuarios/:carpeta"
-                  element={<Control_usuarios_page />}
-                />
-              ) : (
-                <></>
-              )}
-            </>
-          )}
-          {notFound && <Route path="/*" element={"Not found"} />}
-        </Routes>
-      </Router>
+            ) : (
+              <></>
+            )}
+          </>
+        )}
+        {notFound && <Route path="/*" element={"Not found"} />}
+      </Routes>
     </>
   );
 };
