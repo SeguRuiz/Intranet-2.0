@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { MenuItem, ListItemIcon, ListItemText } from "@mui/material";
 import { getCookie } from "../../../../utils/Cookies";
 import DeleteIcon from "@mui/icons-material/Delete";
-const DeleteSubCont = ({ id, contenido_id, disabled = false }) => {
+const DeleteSubCont = ({ id, contenido_id }) => {
   const { fetch_the_data } = useFetch();
   const token = getCookie("token");
   const accion = useDispatch();
@@ -23,7 +23,7 @@ const DeleteSubCont = ({ id, contenido_id, disabled = false }) => {
     );
   };
   return (
-    <MenuItem onClick={deleteSubCont} disabled={disabled}>
+    <MenuItem onClick={deleteSubCont}>
       <ListItemIcon>
         <DeleteIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
       </ListItemIcon>

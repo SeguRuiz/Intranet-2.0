@@ -3,7 +3,7 @@
   padding: 15px;
   border: none;
   height: 60%;
-  width: 45%;
+  width: 35%;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0);
 }
@@ -21,17 +21,6 @@
   border-top-left-radius: 5px;
   padding-right: 10px;
 }
-
-.hint-grupo-usuarios{
-  margin-top: 10px;
-  margin-bottom: 10px;
-  color: var(--OnsurfaceVariant);
-  text-align: center;
-  width: 100%;
-  
- 
-}
-
 
 .add-integrantes-grupo-content-vacio {
   display: flex;

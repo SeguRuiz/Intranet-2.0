@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux";
 import "./SubCont.css";
 import { set_archivo_mostrandose } from "../../../redux/CursosContenidosSlice";
 import {
-  CircularProgress,
   Divider,
   ListItem,
   ListItemButton,
@@ -19,17 +18,13 @@ import Menu_options_reportes from "../../Control-page/Reportes/read/Menu_options
 import DeleteSubCont from "../SubCrud/delete/DeleteSubCont";
 import Add_file2 from "../SubCrud/addFile/Add_file2";
 import TaskIcon from "@mui/icons-material/Task";
-import EditSubCont from "../SubCrud/Edit/EditSubCont";
-import EditSubContInpt from "../SubCrud/Edit/EditSubContInpt";
 
 const SelectSubcont = ({ id, nombre, archivo, contenido_id }) => {
   const { archivo_mostrandose } = useSelector(
     (state) => state.CursosContenidos
   );
   const { userInSession } = useSelector((state) => state.Auth);
-  const { fetching_archivo } = useSelector((state) => state.CursosContenidos);
   const [selected, setSelected] = useState(false);
-  const [editando, setEditando] = useState(false);
 
   useEffect(() => {
     if (archivo_mostrandose != null) {
@@ -58,11 +53,9 @@ const SelectSubcont = ({ id, nombre, archivo, contenido_id }) => {
                 id={id}
                 contenido_id={contenido_id}
                 archivo={archivo}
-                disabled={editando}
               />
               <Divider />
-              <DeleteSubCont id={id} contenido_id={contenido_id} disabled={editando} />
-              <EditSubCont id={id} setEditando={setEditando} editando={editando} selected={selected}/>
+              <DeleteSubCont id={id} contenido_id={contenido_id} />
             </Menu_options_reportes>
           )
         }
@@ -89,36 +82,28 @@ const SelectSubcont = ({ id, nombre, archivo, contenido_id }) => {
             },
           }}
           selected={selected}
-          disabled={!editando && !archivo || fetching_archivo}
+          disabled={!archivo}
         >
           <ListItemIcon>
-            {fetching_archivo && archivo_mostrandose?.subcontenido == id ? (
-              <CircularProgress size={20} color="var(--OnsurfaceVariant)" />
-            ) : (
-              <ArticleOutlinedIcon
-                sx={{
-                  color: selected
-                    ? "var(--OnSecondary-color)"
-                    : "var(--OnsurfaceVariant)",
-                }}
-              />
-            )}
-          </ListItemIcon>
-          {editando ? (
-            <EditSubContInpt selected={selected} id={id} setEditando={setEditando} idContenido={contenido_id} currentValue={nombre} />
-          ) : (
-            <ListItemText
-              primary={nombre}
+            <ArticleOutlinedIcon
               sx={{
                 color: selected
                   ? "var(--OnSecondary-color)"
                   : "var(--OnsurfaceVariant)",
               }}
             />
-          )}
+          </ListItemIcon>
+          <ListItemText
+            primary={nombre}
+            sx={{
+              color: selected
+                ? "var(--OnSecondary-color)"
+                : "var(--OnsurfaceVariant)",
+            }}
+          />
           {archivo && userInSession?.is_staff && (
             <ListItemIcon>
-              <Tooltip title="Ya tiene un archivo ligado" followCursor>
+              <Tooltip title="Ya tiene un archivo ligado">
                 <TaskIcon sx={{ color: "var(--OnsurfaceVariant)" }} />
               </Tooltip>
             </ListItemIcon>

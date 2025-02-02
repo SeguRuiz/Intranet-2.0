@@ -13,6 +13,7 @@ const Add_menu = () => {
         return (
           <>
             <Add_usuarios />
+            
           </>
         );
       case "sedes":
@@ -34,6 +35,7 @@ const Add_menu = () => {
           </>
         );
       default:
+        console.log("default");
     }
   };
 

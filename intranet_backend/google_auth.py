@@ -2,7 +2,7 @@ import json
 import os
 
 from dotenv import load_dotenv
-from pyprojroot import find_root
+from pyprojroot import here, find_root
 
 load_dotenv()
 project_root = find_root('.here')

@@ -20,20 +20,7 @@ class Roles(models.Model):
 
 
 class Usuarios(AbstractUser):
-    ID_PASAPORTE = "pasaporte"
-    ID_NACIONAL = "nacional"
-    ID_EXTRANJERO = "extranjero"
-
-    ID_CHOICES = (
-        (ID_PASAPORTE, ID_PASAPORTE.upper()),
-        (ID_NACIONAL, ID_NACIONAL.upper()),
-        (ID_EXTRANJERO, ID_EXTRANJERO.upper()),
-    )
-
-    cedula = models.CharField(max_length=20)
-    tipo_cedula = models.CharField(
-        max_length=10, choices=ID_CHOICES, default="nacional"
-    )
+    cedula = models.IntegerField(null=True, unique=True)
     rol_id = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True)
     fecha_editado = models.DateTimeField(auto_now=True)
     is_socioemocional = models.BooleanField(default=False)
@@ -48,11 +35,7 @@ class Usuarios(AbstractUser):
             models.Index(fields=["email"], name="email-indx"),
             models.Index(fields=["id", "email"], name="email-id-indx"),
             models.Index(fields=["id", "first_name"], name="nombre-id-indx"),
-            models.Index(fields=["tipo_cedula"], name="tipo-cedula-indx"),
         ]
-
-    def get_Role(self):
-        return self.rol_id.tipo
 
 
 class Estudiantes(models.Model):
@@ -81,3 +64,5 @@ class Estudiantes(models.Model):
             ),
             models.Index(fields=["id"], name="id-indx"),
         ]
+
+

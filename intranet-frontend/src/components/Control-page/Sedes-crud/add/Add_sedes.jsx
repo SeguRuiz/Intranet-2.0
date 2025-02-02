@@ -8,32 +8,24 @@ import { useCustomNotis } from "../../../../utils/customHooks";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { getCookie } from "../../../../utils/Cookies";
-import { toast } from "react-toastify";
 const Add_sedes = () => {
   const { ok, error, fetching, fetch_the_data } = useFetch();
-  const warning_toast = () =>
-    toast.warning("El nombre de una sede debe ser de 5 caracteres o más");
   const { ok_mensaje, error_mensaje } = useCustomNotis(
     "ocurrio un error",
     "La sede fue creada"
   );
+  const token = getCookie("token");
 
   const accion = useDispatch();
   const sede_nombre_inpt = useRef();
   const sede_ubicacion_inpt = useRef();
   const form_ref = useRef();
-  const token = getCookie("token");
 
   const subir_sede = async (o) => {
     o.preventDefault();
     const sede_nombre_value = sede_nombre_inpt.current.value.trim();
 
     const sede_ubicacion_value = sede_ubicacion_inpt.current.value.trim();
-
-    if (sede_nombre_value.length < 5) {
-      warning_toast();
-      return;
-    }
 
     if (sede_nombre_value != "" && sede_ubicacion_value != "") {
       const data = await fetch_the_data(
@@ -46,6 +38,7 @@ const Add_sedes = () => {
         }
       );
       data == undefined && error_mensaje();
+      console.log(data);
 
       if (data[0] == 201) {
         ok_mensaje();

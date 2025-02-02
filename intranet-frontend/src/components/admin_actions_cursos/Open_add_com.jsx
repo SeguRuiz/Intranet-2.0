@@ -3,14 +3,13 @@ import { Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { set_edit_com } from "../../redux/ComunicacionesSlice";
 import { useDispatch } from "react-redux";
-import { ROLES_DE_USUARIO } from "../../utils/Globals.d";
 const Open_add_com = () => {
   const { edit_com } = useSelector((x) => x.Comunicaciones);
   const { userInSession } = useSelector((x) => x.Auth);
   const accion = useDispatch();
   return (
     <>
-      {userInSession?.rol == ROLES_DE_USUARIO.profesor || userInSession?.is_staff ? (
+      {userInSession?.rol == "profesor" || userInSession?.is_staff ? (
         <Tooltip
           title="Agregar un comunicado"
           onClick={() => {

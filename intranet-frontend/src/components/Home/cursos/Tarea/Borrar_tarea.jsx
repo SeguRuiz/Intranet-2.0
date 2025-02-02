@@ -19,6 +19,11 @@ const Borrar_tarea = ({ id }) => {
     accion(deleteContenidosTareas({ id: id }));
   };
 
+
+  
+
+  
+
   return (
     <div>
       <button id={id} onClick={borrarTarea} className="btn-delete">

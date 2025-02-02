@@ -1,6 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Contenido from "../pages/info_cursos/Info_cursos";
 import Cursos from "../pages/Cursos_page/Cursos_page.jsx";
+import Home from "../pages/Home_page/Home_page.jsx";
+import Social from "../pages/Social_page";
+import Anuncios from "../pages/Anuncios_page";
+import Demolab from "../pages/Demolab_page";
+import Ingles from "../pages/Ingles_page";
+import Grupo from "../pages/grupos_page/Grupo_page.jsx";
+import Tarea from "../pages/tarea_page/Tarea_page.jsx";
+import Comunicaciones from "../pages/Comuniciones/Comunicaciones_page.jsx";
+import Cronograma from "../pages/Cronograma_page/Cronograma_page.jsx";
 import Control_usuarios_page from "../pages/Control_usuarios/Control_usuarios.jsx";
 import { useFetch } from "../services/llamados.js";
 import { useEffect } from "react";
@@ -16,14 +25,12 @@ import { DecodeToken } from "../services/llamados.js";
 import { set_roles } from "../redux/ControlUsuariosSlice.js";
 import { estado_admin, estado_no_admin } from "../redux/IsAdminSlice.js";
 import { set_fetching } from "../redux/FetchsSlice.js";
+import Contenido_tarea from "../pages/tarea_page/Contenido_tarea_page.jsx";
 import { Login } from "../components/login/Login.jsx";
-import { useState } from "react";
-import Asistencias_page from "../pages/Asistencias_page/Asistencias_page.jsx";
 
 export const Routing = () => {
   const { fetch_the_data } = useFetch();
   const { Es_admin } = useSelector((e) => e.IsAdmin);
-  const [notFound, setNotFound] = useState(false);
   const { userInSession } = useSelector((x) => x.Auth);
 
   const { authorized, retraer } = useSelector((e) => e.Auth);
@@ -72,20 +79,19 @@ export const Routing = () => {
       } else {
         accion(setAutorized(false));
       }
-      setNotFound(true);
     })();
   }, [retraer]);
 
   return (
     <>
       <ToastContainer />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
 
-      <Routes>
-        <Route path="/" element={<Login />} />
-
-        {authorized && (
-          <>
-            {/* <Route path="/home" element={<Home />} />
+          {authorized && (
+            <>
+              {/* <Route path="/home" element={<Home />} />
               <Route path="/social" element={<Social />} />
               <Route path="/anuncios" element={<Anuncios />} />
               <Route path="/demolab" element={<Demolab />} />
@@ -107,30 +113,26 @@ export const Routing = () => {
               />
               <Route path={`/cursos/:id_curso/grupos`} element={<Grupo />} /> */}
 
-            <Route path="/cursos" element={<Cursos />} />
+              <Route path="/cursos" element={<Cursos />} />
 
-            <Route
-              path={`/cursos/:id_curso/carpetas`}
-              element={<Contenido />}
-            />
-
-            <Route
-              path="/asistencias/:id_grupo"
-              element={<Asistencias_page />}
-            />
-
-            {Es_admin ? (
               <Route
-                path="/admin/control_usuarios/:carpeta"
-                element={<Control_usuarios_page />}
+                path={`/cursos/:id_curso/contenidos`}
+                element={<Contenido />}
               />
-            ) : (
-              <></>
-            )}
-          </>
-        )}
-        {notFound && <Route path="/*" element={"Not found"} />}
-      </Routes>
+
+              {Es_admin || userInSession?.rol == "profesor" ? (
+                <Route
+                  path="/admin/control_usuarios"
+                  element={<Control_usuarios_page />}
+                />
+              ) : (
+                <></>
+              )}
+            </>
+          )}
+          <Route path="/*" element={"Not found"} />
+        </Routes>
+      </Router>
     </>
   );
 };

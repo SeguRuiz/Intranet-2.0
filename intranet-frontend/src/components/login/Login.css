@@ -86,16 +86,16 @@
   object-fit: cover;
 }
 
-@media only screen and (max-width: 813px) {
+@media only screen and (max-width: 810px) {
   .login-inpts {
-    width: 90%;
-    width: 60%;
+    width: 70%;
+    height: 70%;
   }
 
   .login-container {
     justify-content: center;
     background-color: rgba(0, 0, 0, 0);
-      }
+  }
 
   .login-container > img {
     visibility: hidden;
@@ -106,43 +106,15 @@
   }
 }
 
-@media only screen and (max-width: 615px) {
-  .login-inpts {
-    height: 80%;
-    width: 75%;
-  }
-}
-
-@media only screen and (max-width: 440px){
-  .login-inpts {
-    height: 75%;
-    width:95%;
-  }
-  .logo-container {
-    height: 70%;
-  }
-}
-
-@media only screen and (max-width: 400px){
-  .login-inpts {
-    height: 79%;
-    width:95%;
-  }
-  .logo-container {
-    height: 75%;
-  }
-}
-
 @media only screen and (max-width: 450px) and (min-height: 900px) {
   .login-inpts {
     width: 88%;
     height: 50%;
-   
   }
 
   .login-container {
     justify-content: center;
-    
+
     background-color: rgba(0, 0, 0, 0);
   }
 

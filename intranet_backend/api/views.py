@@ -46,14 +46,12 @@ def register(request):
     pw.maxlen = 8  # Longitud máxima de la contraseña
 
     # Obtener información del usuario desde la solicitud y generar contraseña
-    user_info: dict = request.data["user_info"]
-    user_rol_id: str = request.data["user_rol"]
+    user_info: dict = request.data
     user_info["password"] = (
         pw.generate()
     )  # Genera y asigna la contraseña al diccionario de información del usuario
 
     # Serializar los datos del usuario para validación y creación
-    user_rol = get_object_or_404(Roles, pk=user_rol_id)
     serializer = UsersSerializer(data=user_info)
 
     # Verificar si los datos son válidos
@@ -65,30 +63,18 @@ def register(request):
 
         # Crear cuerpo del correo para notificar al usuario de su registro
         body = f"""
-Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de evaluación, aquí está la información de tu correo: {user.email} y tu respectiva contraseña: {user_info['password']} Recuerda no compartirla con nadie más y suerte en este proceso.
+Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de evaluación, aquí está la información de tu correo: {user.email} y tu respectiva contraseña: {user_info['password']}. Recuerda no compartirla con nadie más y suerte en este proceso.
         """
 
         # Enviar un correo electrónico al usuario con sus credenciales
-        sendEmail(email_receiver=user.email, subject="Reenvío de contraseña", body=body)
+        sendEmail(email_receiver=user.email, subject="Reenvío contraseña", body=body)
 
         # Guardar la contraseña cifrada en la base de datos
         user.set_password(serializer.data["password"])
-        if user_rol.tipo.upper() == "ADMIN":
-            user.is_staff = True
-        user.rol_id = user_rol
         user.save()
 
-        if user_rol.tipo in ["estudiante", "ESTUDIANTE"]:
-            nuevo_estudiante = Estudiantes(usuario_id=user)
-            nuevo_estudiante.activo = True
-            nuevo_estudiante.save()
-            
-
         # Retornar la información del usuario creado con estado HTTP 201 (creado)
-        return Response(
-            {"user": UsersSerializer(instance=user).data},
-            status=status.HTTP_201_CREATED,
-        )
+        return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
 
     # Si la solicitud es de tipo GET, retornar una lista de usuarios
     if request.method == "GET":

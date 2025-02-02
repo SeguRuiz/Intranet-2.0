@@ -14,6 +14,7 @@ import { pushTareasAsignadas } from "../../../../redux/ObtenerDatosTareaSlice";
 import Swal from "sweetalert2";
 
 const Tarea = () => {
+  
   const navigate = useNavigate();
   const { estudiantes } = useSelector((e) => e.CursosContenidos);
   console.log(estudiantes);
@@ -93,7 +94,7 @@ const Tarea = () => {
         "http://localhost:8000/tareas/get_tareas_de_curso",
         null,
         "POST",
-        { curso_id: id_curso }
+        {curso_id:id_curso}
       );
       accion(setDatos(datos[1]));
     };
