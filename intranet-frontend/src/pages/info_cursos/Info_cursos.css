@@ -58,7 +58,7 @@
     grid-template-columns: 0% 100%;
   }
   .Info-page {
-    grid-template-rows: 10% auto 30%;
+    grid-template-rows: 10% auto 7%;
   }
  
   .side-menu-page {
@@ -68,7 +68,7 @@
   }
 }
 
-@media only screen and (min-height: 600px) and (max-width: 920px) {
+@media only screen and (min-height: 650px) and (max-width: 920px) {
   .Info-page {
     display: grid;
     grid-template-rows: 6% auto 7%;
