@@ -16,31 +16,28 @@ export const stringToColor = (string) => {
   return color;
 };
 
-export const stringAvatar = (name = "", sx = {}) => {
-  if (name.trim() != "") {
-    return {
-      sx: {
-        ...sx,
-        bgcolor: stringToColor(name ? name : "No name"),
-      },
-      children: `${name && name.split(" ")[0][0].toUpperCase()}${
-        name && name.split(" ")[1][0].toUpperCase()
-      }`,
-    };
-  }
+export const stringAvatar = (name, sx = {}) => {
+  return {
+    sx: {
+      ...sx,
+      bgcolor: stringToColor(name),
+      
+    },
+    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+  };
 };
 
 export const promesa = (duracion) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, duracion);
-  });
-};
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, duracion);
+    });
+  };
 
-export const get_fecha_hora = (fecha_str = "") => {
+export const get_fecha_hora = (fecha_str = '') => {
   const fecha = new Date(fecha_str);
-
+  
   const dia = fecha.toLocaleDateString("en-GB");
 
   const hora = fecha.toLocaleString("en-US", {
@@ -51,6 +48,6 @@ export const get_fecha_hora = (fecha_str = "") => {
 
   return {
     dia,
-    hora,
-  };
-};
+    hora
+  }
+}

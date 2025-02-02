@@ -10,39 +10,31 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-import os
 from datetime import timedelta
 from pathlib import Path
-
-from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_PRODUCTION_SECRET")
+SECRET_KEY = "django-insecure-o=%+c)0z#azw9-h2x_iszs8n2+zpa1b!7#+^acdnctul_rp*6&"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "intranet-2-0-api.onrender.com",
-]
-
+ALLOWED_HOSTS = ["192.168.100.38", "localhost", "127.0.0.1"]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://intranet_container_front:5173",
     "http://localhost:5173",
-    "http://localhost",
-    "https://intranet-2-0-front-end.onrender.com",
+    "http://192.168.100.38:8000",
+    "http://localhost"
 ]
 
 # Application definition
@@ -64,11 +56,6 @@ INSTALLED_APPS = [
     "tareas.apps.TareasConfig",
     "reportes.apps.ReportesConfig",
     "rest_framework_simplejwt",
-    "asistencias.apps.AsistenciasConfig"
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://intranet-2-0-api.onrender.com",
 ]
 
 AUTH_USER_MODEL = "api.Usuarios"
@@ -110,12 +97,12 @@ WSGI_APPLICATION = "intranet_backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME_DEV"),
-        "USER": os.getenv("DB_USER_DEV"),
-        "PASSWORD": os.getenv("DB_USER_PASSWORD_DEV"),
-        "HOST": os.getenv("DB_HOST_DEV"),
-        "PORT": os.getenv("DB_PORT_DEV"),
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "intranet_db",
+        "USER": "root",
+        "PASSWORD": "root",
+        "HOST": "mysql",  # Or an IP Address that your DB is hosted on
+        "PORT": "3306",
     }
 }
 

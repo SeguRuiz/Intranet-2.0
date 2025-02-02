@@ -46,7 +46,7 @@ const Menu_options_reportes = ({ children, customBtn = false, btn, sx, bgColor =
           "aria-labelledby": "basic-button",
         }}
         sx={{ "& .MuiPaper-root": {
-          backgroundColor: bgColor, 
+          backgroundColor: bgColor, // Change menu background color
         },}}
         anchorOrigin={{
           vertical: 'top',

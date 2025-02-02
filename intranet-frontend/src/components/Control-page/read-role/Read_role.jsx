@@ -1,4 +1,3 @@
-"componente deprecado"
 import './Read_role.css'
 import { useSelector } from 'react-redux'
 import Role_container from './Role_container'

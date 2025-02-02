@@ -17,7 +17,7 @@ const Delete_users = () => {
   const token = getCookie("token"); // Obtiene el token de la cookie
 
   // Configura las notificaciones de éxito y error
-  const { error_mensaje } = useCustomNotis(
+  const { ok_mensaje, error_mensaje } = useCustomNotis(
     "Ocurrio un error",
     "Se eliminaron correctamente"
   );
@@ -71,4 +71,4 @@ const Delete_users = () => {
   );
 };
 
-export default Delete_users;
+export default Delete_users; 

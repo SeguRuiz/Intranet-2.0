@@ -1,5 +1,3 @@
-"componente deprecado"
-
 import "./ReadCont.css";
 import DeleteContent from "../../Delete/DeleteContent";
 import ReadSubConts from "../../../SubCrud/read/ReadSubConts";

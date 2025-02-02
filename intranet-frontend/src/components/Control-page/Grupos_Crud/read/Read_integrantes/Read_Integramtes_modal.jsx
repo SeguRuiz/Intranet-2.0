@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { useCustomModal } from "../../../../../utils/customHooks";
 import Read_interantes from "./Read_interantes";
 import Edit_crud from "../../../edit-option/Edit_crud";
-import { TransitionGroup } from "react-transition-group";
 
 const Read_Integrantes_modal = ({ usuarios_grupo, grupo_id, grupo_nombre }) => {
   const dlg_ref = useRef();
@@ -55,12 +54,10 @@ const Read_Integrantes_modal = ({ usuarios_grupo, grupo_id, grupo_nombre }) => {
                 <p>No hay usuarios en este grupo</p>
               </>
             ) : (
-              
               <Read_interantes
                 usuarios_grupo={usuarios_grupo}
                 grupo_id={grupo_id}
               />
-              
             )}
           </div>
         </div>

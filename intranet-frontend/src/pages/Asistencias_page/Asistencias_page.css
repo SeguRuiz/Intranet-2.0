@@ -1,8 +1,0 @@
-.asistencias-page-cont{
-    height: 100vh;
-    background-color: var(--PrymaryContainer-color);
-    display: grid;
-    grid-template-rows: 11.5% auto ;
-    
-}
-

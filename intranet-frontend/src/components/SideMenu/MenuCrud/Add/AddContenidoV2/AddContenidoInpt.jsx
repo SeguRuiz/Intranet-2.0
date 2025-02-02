@@ -1,10 +1,4 @@
-import {
-  TextField,
-  ListItem,
-  ListItemIcon,
-  CircularProgress,
-  ListItemText,
-} from "@mui/material";
+import { TextField, ListItem, ListItemIcon } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
 import { useRef } from "react";
 import { useEffect } from "react";
@@ -19,18 +13,19 @@ const AddContenidoInpt = ({ setAdding }) => {
   const token = getCookie("token");
   const { id_curso } = useParams();
   const accion = useDispatch();
-  const { fetch_the_data, fetching } = useFetch();
+  const { fetch_the_data } = useFetch();
 
   useEffect(() => {
     if (inpt_ref.current) {
-      inpt_ref.current.focus();
+      inpt_ref.current.focus()
+      
     }
   }, []);
 
   const subirContenido = async (o) => {
     o.preventDefault(); // Previene el comportamiento por defecto del formulario
     const nombre_value = inpt_ref.current.value.trim(); // Obtiene el valor del input y elimina espacios en blanco
-    if (nombre_value != "" && !fetching) {
+    if (nombre_value != "") {
       // Verifica que el nombre no esté vacío
       const data = await fetch_the_data(
         "http://localhost:8000/cursos_contenidos/contenidos", // URL de la API
@@ -49,65 +44,38 @@ const AddContenidoInpt = ({ setAdding }) => {
   };
   return (
     <>
-    
       <ListItem>
         <ListItemIcon>
           <FolderIcon sx={{ color: "var(--OnPrymary-color)" }} />
         </ListItemIcon>
-        {fetching ? (
-          <>
-            <ListItemText sx={{ color: "var(--OnPrymary-color)" }}>
-              {inpt_ref.current.value}
-            </ListItemText>
-          </>
-        ) : (
-          <form
-            ref={form_ref}
-            onSubmit={subirContenido}
-            aria-disabled={fetching}
-          >
-            <TextField
-              size="small"
-              inputRef={inpt_ref}
-              placeholder="Nombra tu carpeta"
-              fullWidth
-              sx={{
+        <form ref={form_ref} onSubmit={subirContenido} >
+          <TextField
+            size="small"
+            inputRef={inpt_ref}
+            placeholder="Nombra tu carpeta"
+            fullWidth
+            sx={{
+              "& .MuiInputBase-input": {
+                color: "var(--OnPrymary-color)", // Text color
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "var(--PrymaryContainer-color)", // Default border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "var(--PrymaryContainer-color)", // Hover border color
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "var(--PrymaryContainer-color)", // Focused border color
+                },
+                padding: "0px",
                 "& .MuiInputBase-input": {
-                  color: "var(--OnPrymary-color)", // Text color
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--PrymaryContainer-color)", // Default border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "var(--PrymaryContainer-color)", // Hover border color
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--PrymaryContainer-color)", // Focused border color
-                  },
-                  padding: "0px",
-                  "& .MuiInputBase-input": {
-                    padding: "12px 1.5px", // Padding for the input text
-                  }, // Padding inside the input container
-                },
-                "& .MuiInputBase-input.Mui-disabled": {
-                  color: "var(--OnPrymary-color)", // Text color
-                },
-                "& .MuiOutlinedInput-notchedOutline.Mui-disabled": {
-                  borderColor: "var(--PrymaryContainer-color)", // Border color
-                },
-              }}
-            />
-          </form>
-        )}
-        {fetching && (
-          <ListItemIcon>
-            <CircularProgress
-              size={20}
-              sx={{ color: "var(--OnPrymary-color)" }}
-            />
-          </ListItemIcon>
-        )}
+                  padding: "12px 1.5px", // Padding for the input text
+                }, // Padding inside the input container
+              },
+            }}
+          />
+        </form>
       </ListItem>
     </>
   );

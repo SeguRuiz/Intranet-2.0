@@ -6,12 +6,7 @@ import { Backdrop } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 const Ver_comprobante = ({ comprobante_id }) => {
   const modal_ref = useRef();
-  const [archivo, setArchivo] = useState({
-    tipo_archivo: "",
-    nombre: "",
-    archivo: "",
-    expira_en: "",
-  });
+  const [archivo, setArchivo] = useState(null);
   const [open, setOpen] = useState(false);
   const token = getCookie("token");
   const { closeModalDlg, openModal } = useCustomModal(modal_ref);
@@ -21,18 +16,16 @@ const Ver_comprobante = ({ comprobante_id }) => {
     setOpen(true);
 
     const data = await fetch_the_data(
-      "http://localhost:8000/files/obtener_archivo_from_google_cloud",
+      "http://localhost:8000/files/get_archivo",
       token,
       "POST",
       {
-        folder: "RC",
-        archivo_id: comprobante_id,
+        archivo: comprobante_id,
       }
     );
-    console.log(data);
 
     if (data[0] == 200) {
-      setArchivo(data[1]);
+      setArchivo(data[1].archivo);
       setOpen(false);
       openModal();
     }
@@ -56,15 +49,7 @@ const Ver_comprobante = ({ comprobante_id }) => {
         className="comprobante-dlg"
         onClick={closeModalDlg}
       >
-        {archivo.tipo_archivo.toLowerCase().includes("image") ? (
-          <img
-            src={archivo.archivo}
-            alt="Ocurrio un error al cargar el comprobante"
-            className="reporte-img"
-          />
-        ) : (
-          <iframe src={archivo.archivo} height={"100%"} width={"100%"}></iframe>
-        )}
+        <iframe src={archivo} height={"100%"} width={"100%"}></iframe>
       </dialog>
       <Backdrop open={open}>
         <CircularProgress />

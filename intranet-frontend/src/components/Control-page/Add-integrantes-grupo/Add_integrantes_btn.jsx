@@ -10,13 +10,8 @@ import { useDispatch } from "react-redux";
 import { useCustomNotis } from "../../../utils/customHooks";
 import { getCookie } from "../../../utils/Cookies";
 import { agregar_usuarios_en_grupo } from "../../../redux/ControlUsuariosSlice";
-import { Backdrop, CircularProgress, Tooltip } from "@mui/material";
-
-import { set_fetching } from "../../../redux/FetchsSlice";
-
 
 const Add_integrantes_btn = () => {
-  
   const { grupo_seleccionado, seleccion_multiple } = useSelector(
     (e) => e.ControlUsuarios // Obtiene los grupos seleccionados y los usuarios seleccionados
   );
@@ -27,12 +22,10 @@ const Add_integrantes_btn = () => {
   ); // Mensajes personalizados para notificaciones
   const accion = useDispatch(); // Hook para despachar acciones de Redux
 
-  const { fetch_the_data, fetching } = useFetch(); // Hook para realizar peticiones
+  const { fetch_the_data } = useFetch(); // Hook para realizar peticiones
 
   // Función para agregar integrantes al grupo seleccionado
   const agregar_integrante = async () => {
-    accion(set_fetching(true));
-   
     if (grupo_seleccionado != null) {
       const data = await fetch_the_data(
         "http://localhost:8000/cursos/agregar_lista_integrantes", // Endpoint de la API
@@ -45,6 +38,7 @@ const Add_integrantes_btn = () => {
       );
       data == undefined && error_mensaje(); // Muestra error si la respuesta es indefinida
 
+      console.log(data);
       if (data[0] == 200) {
         console.log(data[0]);
 
@@ -67,26 +61,21 @@ const Add_integrantes_btn = () => {
       } else {
         error_mensaje(); // Muestra mensaje de error si no es exitoso
       }
-      accion(set_fetching(false));
-     
     }
   };
 
   return (
     <>
-      <Tooltip title="Agregar integrantes al grupo seleccionado">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24px"
-          viewBox="0 -960 960 960"
-          width="30px"
-          fill="#9AA0A6"
-          onClick={agregar_integrante}
-          // Llama a la función al hacer clic
-        >
-          <path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-        </svg>
-      </Tooltip>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="30px"
+        fill="#9AA0A6"
+        onClick={agregar_integrante} // Llama a la función al hacer clic
+      >
+        <path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+      </svg>
     </>
   );
 };

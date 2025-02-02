@@ -1,4 +1,3 @@
-"componente deprecado"
 import React, { useRef, useState } from "react";
 import { useFetch } from "../../../../services/llamados";
 import { addSubcontenido } from "../../../../redux/CursosContenidosSlice";

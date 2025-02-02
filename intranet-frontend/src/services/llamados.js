@@ -12,7 +12,7 @@ export const useFetch = () => {
   const [sesion_expirada, set_sesion_expirada] = useState(false);
 
   useEffect(() => {
-    if (sesion_expirada && window.location.href != "/") {
+    if (sesion_expirada) {
       Swal.fire({
         icon: "info",
         title: "La sesion a expirado",
@@ -121,13 +121,13 @@ export const useFetch = () => {
         id == "" ? `${url}/` : `${url}/${id}`,
         fetch_body
       );
-
+      
       if (!reponse.ok) {
         setError(true);
         setTimeout(() => {
           setError(false);
         }, 1000);
-        return [reponse.status];
+        return[reponse.status]
       } else {
         const data = await reponse.json();
 
@@ -137,6 +137,8 @@ export const useFetch = () => {
         }, 1000);
         return [reponse.status, data];
       }
+
+      
     } catch {
       setError(true);
       setOk(false);

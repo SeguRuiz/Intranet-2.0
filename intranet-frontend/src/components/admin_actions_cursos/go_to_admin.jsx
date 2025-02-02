@@ -1,18 +1,17 @@
 import { Button, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ROLES_DE_USUARIO } from "../../utils/Globals.d";
 
 const Go_to_admin = () => {
   const navigate = useNavigate();
   const { userInSession } = useSelector((x) => x.Auth);
   return (
     <>
-      {userInSession.is_staff || userInSession?.rol == ROLES_DE_USUARIO.profesor ? (
+      {userInSession.is_staff || userInSession?.rol == "profesor" ? (
         <Tooltip title="Ir a la pagin administrativa">
           <Button
             onClick={() => {
-              navigate("/admin/control_usuarios/usuarios");
+              navigate("/admin/control_usuarios");
             }}
           >
             <svg

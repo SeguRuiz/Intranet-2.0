@@ -1,8 +1,5 @@
 from api.models import Estudiantes, Roles, Usuarios
-from api.serializers import (
-    EstudiantesSerializer,
-    UsersSerializer,
-)
+from api.serializers import EstudiantesSerializer, UsersSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import (
@@ -242,6 +239,7 @@ def eliminar_integrantes(request):
 def usuarios_en_grupos(request):
     # Obtiene todos los IDs de usuarios en los grupos y los convierte en una lista de diccionarios
     integrantes = Intengrantes_de_grupo.objects.all().values("usuario_id")
+
     # Retorna la lista de IDs de usuarios en grupos
     return Response(integrantes, status=status.HTTP_200_OK)
 
@@ -324,8 +322,6 @@ def get_usurios_de_grupo(request):
 
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
 def get_user_courses(request):
     try:
         user_id: str = request.data["user_id"]
@@ -363,8 +359,6 @@ def get_user_courses(request):
 
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
 def obtener_integrantes_de_grupo(request):
     try:
         ids_de_usuarios: list[int] = request.data["ids_de_usuarios"]
@@ -374,41 +368,10 @@ def obtener_integrantes_de_grupo(request):
             instance=usuarios_del_grupo, many=True
         )
 
-        profesor = {
-            "id": n.pk
-            for n in usuarios_del_grupo
-            if n.get_Role() == "profesor" or n.is_superuser
-        }
-
-        return Response(
-            {"usuarios": usuarios_del_grupo_serializados.data, "profesor": profesor},
-            status=status.HTTP_200_OK,
-        )
+        return Response(usuarios_del_grupo_serializados.data, status=status.HTTP_200_OK)
 
     except KeyError:
         return Response(
             {"error": "El objeto esta mal formulado"},
             status=status.HTTP_400_BAD_REQUEST,
-        )
-
-
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
-def obtener_grupo_del_usuario(request):
-    try:
-        grupo = get_object_or_404(Grupos, pk=request.data["grupo_id"])
-
-        estudiantes_del_grupo = grupo.get_estudiantes_del_grupo()
-
-        sede_nombre = grupo.sede_id.nombre
-
-        return Response(
-            {"estudiantes": estudiantes_del_grupo, "sede": sede_nombre},
-            status=status.HTTP_200_OK,
-        )
-
-    except KeyError:
-        return Response(
-            {"El objeto est mal formulado"}, status=status.HTTP_400_BAD_REQUEST
         )

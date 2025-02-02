@@ -5,9 +5,9 @@ import { abrir_aside } from "../../redux/ControlUsuariosSlice";
 import "./Control_usuarios.css";
 import { useFetch } from "../../services/llamados";
 import { cerrar_aside } from "../../redux/ControlUsuariosSlice";
-
+import { useLayoutEffect } from "react";
 import Read_usuarios from "../../components/Control-page/Usuarios-crud/read/Read_usuarios";
-
+import { set_usuarios } from "../../redux/ControlUsuariosSlice";
 import { set_pestaña_seleccionada } from "../../redux/ControlUsuariosSlice";
 import { set_sedes } from "../../redux/ControlUsuariosSlice";
 import Read_sedes from "../../components/Control-page/Sedes-crud/read/Read_sedes";
@@ -31,13 +31,11 @@ import { IconButton, LinearProgress } from "@mui/material";
 import Add_integrantes_grupo from "../../components/Control-page/Add-integrantes-grupo/Add_integrantes_grupo";
 import { getCookie } from "../../utils/Cookies";
 import Empty_page from "../../components/Control-page/Empty-case/Empty_page";
-import { useNavigate } from "react-router-dom";
 
 const Control_usuarios_page = () => {
   const { aside_abierto } = useSelector((state) => state.ControlUsuarios);
   const { userInSession } = useSelector((x) => x.Auth);
   const { pestaña_seleccionada } = useSelector((e) => e.ControlUsuarios);
-  const navigate = useNavigate();
 
   const { fetching_state } = useSelector((e) => e.Fetchs);
   const accion = useDispatch();
@@ -52,45 +50,61 @@ const Control_usuarios_page = () => {
 
   useEffect(() => {
     (async () => {
-      const [
-        sedes,
-        integrantes_grupo,
-        grupos_cursos,
-        cursos,
-        integrantes_de_grupo,
-      ] = await Promise.all([
-        fetch_the_data("http://localhost:8000/cursos/sedes", token, "GET"),
-        fetch_the_data(
-          "http://localhost:8000/cursos/get_grupos_integrantes",
-          token,
-          "GET"
-        ),
-        fetch_the_data(
-          "http://localhost:8000/cursos/grupos_cursos",
-          token,
-          "GET"
-        ),
-        fetch_the_data("http://localhost:8000/cursos/cursos", token, "GET"),
-        fetch_the_data(
-          "http://localhost:8000/cursos/integrantes_de_grupo",
-          token,
-          "GET"
-        ),
-      ]);
+      const data = await fetch_the_data(
+        "http://localhost:8000/cursos/sedes",
+        token,
+        "GET"
+      );
 
-      if (
-        sedes[0] == 200 &&
-        integrantes_grupo[0] == 200 &&
-        grupos_cursos[0] == 200 &&
-        cursos[0] == 200 &&
-        integrantes_de_grupo[0] == 200
-      ) {
-        accion(set_sedes(sedes[1]));
-        accion(set_grupos(integrantes_grupo[1]));
-        accion(set_grupos_cursos(grupos_cursos[1]));
-        accion(setData(cursos[1]));
-        accion(set_usuarios_en_grupos(integrantes_de_grupo[1]));
-      }
+      accion(set_sedes(data[1]));
+        
+      
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetch_the_data(
+        "http://localhost:8000/cursos/get_grupos_integrantes",
+        token,
+        "GET"
+      );
+      accion(set_grupos(data[1]));
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetch_the_data(
+        "http://localhost:8000/cursos/grupos_cursos",
+        token,
+        "GET"
+      );
+
+      accion(set_grupos_cursos(data[1]));
+    })();
+  }, []);
+
+  useEffect(() => {
+    const data = async () => {
+      const datos = await fetch_the_data(
+        "http://localhost:8000/cursos/cursos",
+        null,
+        "GET"
+      );
+      accion(setData(datos[1]));
+    };
+    data();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetch_the_data(
+        "http://localhost:8000/cursos/integrantes_de_grupo",
+        token,
+        "GET"
+      );
+      accion(set_usuarios_en_grupos(data[1]));
     })();
   }, []);
 
@@ -207,7 +221,6 @@ const Control_usuarios_page = () => {
                 }}
                 onClick={() => {
                   if (pestaña_seleccionada != "usuarios") {
-                    navigate("/admin/control_usuarios/usuarios");
                     accion(set_pestaña_seleccionada("usuarios"));
                     accion(desactivar_seleccion_multiple_sedes());
                     accion(desactivar_seleccion_multiple());
@@ -235,7 +248,6 @@ const Control_usuarios_page = () => {
                 }}
                 onClick={() => {
                   if (pestaña_seleccionada != "grupos") {
-                    navigate("/admin/control_usuarios/grupos");
                     accion(set_pestaña_seleccionada("grupos"));
                     accion(desactivar_seleccion_multiple());
                     accion(desactivar_seleccion_multiple_sedes());
@@ -265,7 +277,6 @@ const Control_usuarios_page = () => {
                 }}
                 onClick={() => {
                   if (pestaña_seleccionada != "sedes") {
-                    navigate("/admin/control_usuarios/sedes");
                     accion(set_pestaña_seleccionada("sedes"));
                     accion(desactivar_seleccion_multiple());
                     accion(desactivar_seleccion_multiple_sedes());
@@ -293,7 +304,6 @@ const Control_usuarios_page = () => {
                 }}
                 onClick={() => {
                   if (pestaña_seleccionada != "permisos") {
-                    navigate("/admin/control_usuarios/permisos");
                     accion(set_pestaña_seleccionada("permisos"));
                     accion(desactivar_seleccion_multiple());
                     accion(desactivar_seleccion_multiple_sedes());
@@ -314,7 +324,6 @@ const Control_usuarios_page = () => {
               </div>
             </>
           )}
-
           <div
             style={{
               backgroundColor:
@@ -323,7 +332,6 @@ const Control_usuarios_page = () => {
             }}
             onClick={() => {
               if (pestaña_seleccionada != "reportes") {
-                navigate("/admin/control_usuarios/reportes");
                 accion(set_pestaña_seleccionada("reportes"));
                 accion(desactivar_seleccion_multiple());
                 accion(desactivar_seleccion_multiple_sedes());
@@ -341,22 +349,6 @@ const Control_usuarios_page = () => {
               <path d="M799.82-530q-12.82 0-21.32-8.68-8.5-8.67-8.5-21.5 0-12.82 8.68-21.32 8.67-8.5 21.5-8.5 12.82 0 21.32 8.68 8.5 8.67 8.5 21.5 0 12.82-8.68 21.32-8.67 8.5-21.5 8.5ZM770-650v-180h60v180h-60ZM360-481q-66 0-108-42t-42-108q0-66 42-108t108-42q66 0 108 42t42 108q0 66-42 108t-108 42ZM40-160v-94q0-35 17.5-63.5T108-360q75-33 133.34-46.5t118.5-13.5Q420-420 478-406.5T611-360q33 15 51 43t18 63v94H40Z" />
             </svg>
             <p>Reportes</p>
-          </div>
-          <div
-            onClick={() => {
-              navigate("/cursos");
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="30px"
-              viewBox="0 -960 960 960"
-              width="30px"
-              fill="#3f4850"
-            >
-              <path d="M480-60q-72-68-165-104t-195-36v-440q101 0 194 36.5T480-498q73-69 166-105.5T840-640v440q-103 0-195.5 36T480-60Zm0-104q63-47 134-75t146-37v-276q-73 13-143.5 52.5T480-394q-66-66-136.5-105.5T200-552v276q75 9 146 37t134 75Zm0-436q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm0-80q33 0 56.5-23.5T560-760q0-33-23.5-56.5T480-840q-33 0-56.5 23.5T400-760q0 33 23.5 56.5T480-680Zm0-80Zm0 366Z" />
-            </svg>
-            <p>Cursos</p>
           </div>
         </div>
         <aside className="aside-nav">
