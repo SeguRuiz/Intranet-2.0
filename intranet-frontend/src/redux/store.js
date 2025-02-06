@@ -10,6 +10,7 @@ import AuthSlice from "./AuthSlice";
 import Fetchs from "./FetchsSlice";
 import Comunicaciones from "./ComunicacionesSlice"
 import Asistencias from './Asistencias'
+import PerfilUsuario from './PerfilUsuarioSlice'
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
     Auth: AuthSlice,
     Fetchs: Fetchs,
     Comunicaciones: Comunicaciones,
-    Asistencias:  Asistencias
+    Asistencias:  Asistencias,
+    PerfilUsuario: PerfilUsuario
   },
 });

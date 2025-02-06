@@ -21,7 +21,9 @@ const Cursos_page = () => {
       </div>
       <div className="cursos-page-content-area">
         <Content />
-        {userInSession?.is_staff | userInSession?.is_socioemocional ? (
+        {userInSession?.is_staff |
+        userInSession?.is_socioemocional |
+        (userInSession?.rol == "profesor") ? (
           <Admin_actions_cursos>
             <Go_to_admin />
             <Ir_a_tomarAsistencias />

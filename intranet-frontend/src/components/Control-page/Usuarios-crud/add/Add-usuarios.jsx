@@ -11,21 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@mui/material";
 import { getCookie } from "../../../../utils/Cookies";
 import { TIPOS_DE_CEDULA_USUARIOS } from "../../../../utils/Globals.d";
-
-const regex_tipos_cedulas = {
-  nacional: (text = "") => {
-    const regex = /^\d{9}$/;
-    return regex.test(text);
-  },
-  pasaporte: (text = "") => {
-    const regex = /^.{20}$/;
-    return regex.test(text);
-  },
-  extranjera: (text = "") => {
-    const regex = /^\d{12}$/;
-    return regex.test(text);
-  },
-};
+import { regex_tipos_cedulas } from "./regexs";
 
 const Add_usuarios = () => {
   const { fetch_the_data, fetching, ok, error } = useFetch();
@@ -70,7 +56,7 @@ const Add_usuarios = () => {
           }
           break;
         case "extranjero":
-          if (!regex_tipos_cedulas.extranjera(cedulaValue)) {
+          if (!regex_tipos_cedulas.extranjero(cedulaValue)) {
             cedulaValue != "" &&
               setTipoValidacion("Debe tener solo 12 digitos numericos");
           } else {

@@ -20,6 +20,7 @@ class UsersSerializer(serializers.ModelSerializer):
             "is_staff",
             "is_socioemocional",
             "tipo_cedula",
+            "perfilUrl"
         ]
 
 
@@ -40,6 +41,7 @@ class UsersPrivateSerializer(serializers.ModelSerializer):
             "cedula",
             "username",
             "tipo_cedula",
+            "perfilUrl"
         ]
 
 

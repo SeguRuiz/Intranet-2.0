@@ -3,6 +3,7 @@ from cursos.serializers import GruposSerializer, IntengratesGruposSerializer
 from cursos_contenidos.views import sendEmail
 from django.shortcuts import get_object_or_404
 from password_generator import PasswordGenerator
+from reportes.models import Reportes_info
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import (
@@ -10,6 +11,7 @@ from rest_framework.decorators import (
     authentication_classes,
     permission_classes,
 )
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -21,6 +23,7 @@ from .serializers import (
     CustomJWTSerializer,
     EstudiantesSerializer,
     RolesSerializer,
+    UsersPrivateSerializer,
     UsersSerializer,
 )
 
@@ -32,6 +35,24 @@ class UsersCreate(ModelViewSet):
     queryset = Usuarios.objects.all()
     serializer_class = UsersSerializer
     lookup_field = "id"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+
+class UsersCreatePrivate(ModelViewSet):
+    model = Usuarios
+    queryset = Usuarios.objects.all()
+    serializer_class = UsersPrivateSerializer
+    lookup_field = "id"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+
+class UsersEditPrivate(RetrieveUpdateAPIView):
+    model = Usuarios
+    queryset = Usuarios.objects.all()
+    serializer_class = UsersPrivateSerializer
+    lookup_field = "pk"
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
@@ -65,7 +86,7 @@ def register(request):
 
         # Crear cuerpo del correo para notificar al usuario de su registro
         body = f"""
-Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de evaluación, aquí está la información de tu correo: {user.email} y tu respectiva contraseña: {user_info['password']} Recuerda no compartirla con nadie más y suerte en este proceso.
+Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de evaluación, aquí está la información de tu correo: {user.email} y tu respectiva contraseña: {user_info["password"]} Recuerda no compartirla con nadie más y suerte en este proceso.
         """
 
         # Enviar un correo electrónico al usuario con sus credenciales
@@ -82,7 +103,6 @@ Felicidades {user.first_name} {user.last_name}, has pasado a la primera etapa de
             nuevo_estudiante = Estudiantes(usuario_id=user)
             nuevo_estudiante.activo = True
             nuevo_estudiante.save()
-            
 
         # Retornar la información del usuario creado con estado HTTP 201 (creado)
         return Response(
@@ -346,6 +366,7 @@ def get_user_info(request, pk):
                 "rol": role_data.data["tipo"],
                 "nombre": user_data.data["first_name"],
                 "apellidos": user_data.data["last_name"],
+                "perfilId": user_data.data["perfilUrl"],
                 "is_staff": user_data.data["is_staff"],
                 "is_socioemocional": user_data.data["is_socioemocional"],
                 "grupos": grupos,
@@ -460,3 +481,23 @@ def get_estudiante(request):
         return Response(
             {"info": "Objeto mal formulado"}, status=status.HTTP_400_BAD_REQUEST
         )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def get_estudiante_info(request, pk):
+    usuario = get_object_or_404(Usuarios, pk=pk)
+    estudiante = get_object_or_404(Estudiantes, usuario_id=usuario)
+    numero_de_reportes = len(Reportes_info.objects.filter(estudiante_id=estudiante))
+
+    grupo = get_object_or_404(Intengrantes_de_grupo, usuario_id=usuario)
+
+    return Response(
+        {
+            "Sede_donde_reside": grupo.grupo_id.sede_id.nombre,
+            "Nombre_de_grupo": grupo.grupo_id.nombre_grupo,
+            "Cantidad_de_reportes": numero_de_reportes,
+        },
+        status=status.HTTP_200_OK,
+    )

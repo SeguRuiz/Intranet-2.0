@@ -19,6 +19,7 @@ import { set_fetching } from "../redux/FetchsSlice.js";
 import { Login } from "../components/login/Login.jsx";
 import { useState } from "react";
 import Asistencias_page from "../pages/Asistencias_page/Asistencias_page.jsx";
+import Usuario_info_page from "../pages/Usuario_info_page/Usuario_info_page.jsx";
 
 export const Routing = () => {
   const { fetch_the_data } = useFetch();
@@ -118,6 +119,8 @@ export const Routing = () => {
               path="/asistencias/:id_grupo"
               element={<Asistencias_page />}
             />
+
+            <Route path="/usuarios/:id_usuario/:page" element={<Usuario_info_page />} />
 
             {Es_admin ? (
               <Route
