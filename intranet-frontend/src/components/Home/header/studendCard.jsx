@@ -64,7 +64,7 @@ const StudendCard = () => {
         }
       }
     })();
-  }, []);
+  }, [userInSession]);
 
   return (
     <>

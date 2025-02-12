@@ -29,7 +29,8 @@ const SeEstadoAsistencia = ({
             grupo_id: id_grupo,
             estudiante_id: id,
             estado: estadoNuevo,
-            reporte_asistencias_id: null
+            reporte_asistencias_id: null,
+            presento_aviso: false,
           },
         })
       );

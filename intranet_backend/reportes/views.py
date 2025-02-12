@@ -43,6 +43,19 @@ class ReportesEdit(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
 
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def get_reportes_estudiante(request, pk):
+    usuario = get_object_or_404(Usuarios, pk=pk)
+    estudiante = get_object_or_404(Estudiantes, usuario_id=usuario)
+
+    reportes_estudiantes = Reportes_info.objects.filter(estudiante_id=estudiante)
+    reportes_serializer = ReportesSerializer(instance=reportes_estudiantes, many=True)
+
+    return Response(reportes_serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
@@ -165,7 +178,7 @@ def guardar_reporte_google_cloud(request):
             google_cloud_serializer = GoogleCloudBucketFilesSerializer(
                 data={"nombre": file_nombre}
             )
-            
+
             if google_cloud_serializer.is_valid():
                 google_cloud_serializer.save()
             else:

@@ -121,7 +121,7 @@
 .report_info_modal {
   margin: auto;
   border: none;
-  height: 85%;
+  height: 90%;
   width: 40%;
   padding: 0;
   border-radius: 10px;
@@ -180,6 +180,7 @@
   transition: 0.3s;
   cursor: pointer;
 }
+
 
 .file-mock:hover {
   background-color: var(--SecondaryContainer-color);

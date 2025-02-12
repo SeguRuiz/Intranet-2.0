@@ -6,6 +6,7 @@ import Page_info from "./Page_info/Page_info";
 import pages from "../../components/User_info_Side_Bar/UserInfoSidePages";
 import Informacion_personal_page from "./Informacion_personal/Informacion_personal_page";
 import { useEffect, useState } from "react";
+import Reportes_estudiante_page from "./Reportes_estusiante_page/Reportes_estudiante_page";
 
 const pagesInfo = {
   informacion_personal: {
@@ -17,7 +18,7 @@ const pagesInfo = {
     subheader: "Encuentra informacion general",
   },
   historial_reportes: {
-    title: "Hisrorial de reportes",
+    title: "Historial de reportes",
     subheader: "Una recopilacion de los reportes que as tenido",
   },
   historial_de_asistencias: {
@@ -33,7 +34,7 @@ const Usuario_info_page = () => {
   useEffect(() => {
     setMain(page);
   }, [page]);
-  
+
   return (
     <div className="UserInfoPage">
       <div className="UserInfoNav">
@@ -48,6 +49,8 @@ const Usuario_info_page = () => {
               case "informacion_personal":
                 return <Informacion_personal_page />;
 
+              case "historial_reportes":
+                return <Reportes_estudiante_page />;
               default:
                 return null;
             }

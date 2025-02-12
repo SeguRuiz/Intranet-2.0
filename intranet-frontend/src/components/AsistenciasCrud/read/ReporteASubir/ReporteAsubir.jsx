@@ -37,6 +37,7 @@ const ReporteAsubir = () => {
           <Collapse key={x.id}>
             <ReporteAsubirCard
               key={x?.id}
+              id={x.id}
               nombre={x.nombre}
               estado={x.estado}
             />
