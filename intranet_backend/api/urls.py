@@ -6,6 +6,7 @@ from rest_framework_simplejwt.views import (
 from .routers import router
 from .views import (
     CustomTokenObtainPairView,
+    UsersEditPrivate,
     aignar_rol_a,
     eliminar_lista_usuarios,
     get_estudiante,
@@ -16,6 +17,7 @@ from .views import (
     roles,
     verificar_token,
     verify_token,
+    get_estudiante_info
 )
 
 urlpatterns = [
@@ -23,6 +25,8 @@ urlpatterns = [
     path("login/", login, name="login"),
     path("roles/", roles, name="roles"),
     path("asignar_rol_a/<int:pk>", aignar_rol_a, name="asignar_rol_a"),
+    path("editar-user/<int:pk>", UsersEditPrivate.as_view(), name="editar-user"),
+    
     path("verificar_token/", verificar_token, name="verificar_token"),
     path(
         "eliminar_lista_usuarios/",
@@ -38,4 +42,6 @@ urlpatterns = [
         "estudiantes_activos/", get_estudiantes_activos, name="get_estudiantes_activos"
     ),
     path("get_estudiante/", get_estudiante, name="get_estudiante"),
+    path("get_estudiante_info/<int:pk>", get_estudiante_info, name="get_estudiante_info"),
+    
 ]

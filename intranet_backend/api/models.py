@@ -3,6 +3,7 @@ import uuid
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from files.models import GoogleCloudBucketFiles
 
 
 class Roles(models.Model):
@@ -37,6 +38,9 @@ class Usuarios(AbstractUser):
     rol_id = models.ForeignKey(Roles, on_delete=models.SET_NULL, null=True)
     fecha_editado = models.DateTimeField(auto_now=True)
     is_socioemocional = models.BooleanField(default=False)
+    perfilUrl = models.ForeignKey(
+        GoogleCloudBucketFiles, on_delete=models.SET_NULL, null=True
+    )
 
     class Meta:
         db_table = "Usuarios"

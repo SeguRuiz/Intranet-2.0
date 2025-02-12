@@ -2,9 +2,10 @@ import { useRef, useState } from "react";
 import { useCustomModal } from "../../../../utils/customHooks";
 import { useFetch } from "../../../../services/llamados";
 import { getCookie } from "../../../../utils/Cookies";
-import { Backdrop } from "@mui/material";
+import { Backdrop, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import { CircularProgress } from "@mui/material";
-const Ver_comprobante = ({ comprobante_id }) => {
+import DescriptionIcon from "@mui/icons-material/Description";
+const Ver_comprobante = ({ comprobante_id = null, menuItem = false }) => {
   const modal_ref = useRef();
   const [archivo, setArchivo] = useState({
     tipo_archivo: "",
@@ -39,18 +40,27 @@ const Ver_comprobante = ({ comprobante_id }) => {
   };
   return (
     <>
-      <div className="file-mock" ref={modal_ref} onClick={get_archivo}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="60px"
-          viewBox="0 -960 960 960"
-          width="60px"
-          fill="var(--OnsurfaceVariant)"
-        >
-          <path d="M319-250h322v-60H319v60Zm0-170h322v-60H319v60ZM160-80v-800h421l219 219v581H160Zm391-554h189L551-820v186Z" />
-        </svg>
-        <p>Ver comprobante</p>
-      </div>
+      {menuItem ? (
+        <MenuItem disabled={comprobante_id == null} onClick={get_archivo}>
+          <ListItemIcon>
+            <DescriptionIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Ver comprobante"} />
+        </MenuItem>
+      ) : (
+        <div className="file-mock" onClick={get_archivo}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="60px"
+            viewBox="0 -960 960 960"
+            width="60px"
+            fill="var(--OnsurfaceVariant)"
+          >
+            <path d="M319-250h322v-60H319v60Zm0-170h322v-60H319v60ZM160-80v-800h421l219 219v581H160Zm391-554h189L551-820v186Z" />
+          </svg>
+          <p>Ver comprobante</p>
+        </div>
+      )}
       <dialog
         ref={modal_ref}
         className="comprobante-dlg"

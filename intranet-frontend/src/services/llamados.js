@@ -127,7 +127,7 @@ export const useFetch = () => {
         setTimeout(() => {
           setError(false);
         }, 1000);
-        return [reponse.status];
+        return [reponse.status, null];
       } else {
         const data = await reponse.json();
 
@@ -143,6 +143,7 @@ export const useFetch = () => {
       setTimeout(() => {
         setError(false);
       }, 1000);
+      return [500, null];
     } finally {
       setFetching(false);
     }

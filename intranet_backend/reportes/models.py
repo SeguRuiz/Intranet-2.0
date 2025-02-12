@@ -6,8 +6,6 @@ from django.db import models
 from files.models import GoogleCloudBucketFiles
 
 
-
-
 class Reportes_info(models.Model):
     denegado = "denegado"
     aprobado = "aprobado"
@@ -47,7 +45,11 @@ class Reportes_info(models.Model):
     archivo_id = models.ForeignKey(
         GoogleCloudBucketFiles, on_delete=models.SET_NULL, null=True
     )
-     
+    descripcion_comprobante = models.CharField(
+        max_length=300, default="Sin descripcion"
+    )
+    presento_aviso = models.BooleanField(default=False)
+
     class Meta:
         db_table = "reportes_info"
         indexes = [
@@ -55,6 +57,7 @@ class Reportes_info(models.Model):
             models.Index(fields=["dia_incidente"], name="dia_incidente"),
             models.Index(fields=["sede_id", "usuario_id"], name="user_sede_report"),
             models.Index(fields=["archivo_id"], name="archivo_report_indx"),
+            models.Index(fields=["presento_aviso"], name="presento_aviso_indx"),
         ]
 
     def delete_self_file(self):
@@ -68,4 +71,3 @@ class Reportes_info(models.Model):
                 return False, "El archivo no existia", None
         else:
             return False, "No tenia un archivo ligado", None
-    

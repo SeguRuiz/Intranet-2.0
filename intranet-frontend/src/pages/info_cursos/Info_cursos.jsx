@@ -72,18 +72,7 @@ const Info_cursos = () => {
             </div>
             <div className="Info-page-file">
               <File_preview />
-
-              {/* {userInSession?.is_staff && (
-                <Admin_actions_cursos>
-                  <Go_to_admin />
-                </Admin_actions_cursos>
-              )} */}
             </div>
-            {/* {es_PantallaPequeña && (
-                <SideMenuMobile>
-                  <Sidemenu id_curso={id_curso} />
-                </SideMenuMobile>
-              )} */}
           </div>
         ) : (
           notFound && !fetching && <Info_cursos_404 />

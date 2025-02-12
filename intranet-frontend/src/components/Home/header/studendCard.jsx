@@ -16,14 +16,16 @@ import {
 } from "@mui/material";
 import { stringAvatar } from "../../../utils/Utils";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { setData } from "../../../redux/modalSlice";
 import { useDispatch } from "react-redux";
-import { setCookie } from "../../../utils/Cookies";
+import { getCookie, setCookie } from "../../../utils/Cookies";
 import { setUserNull } from "../../../redux/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useFetch } from "../../../services/llamados";
+import { setPerfilUrl } from "../../../redux/PerfilUsuarioSlice";
 
 const rolesPersonalisado = {
   admin: "Administrador",
@@ -33,12 +35,36 @@ const rolesPersonalisado = {
 
 const StudendCard = () => {
   const { userInSession } = useSelector((x) => x.Auth);
+  const { PerfilUrl } = useSelector((x) => x.PerfilUsuario);
+  const accion = useDispatch();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
   const es_PantallaPequeña = useMediaQuery(theme.breakpoints.down("sm"));
   const es_PantallaExtraPequeña = useMediaQuery(theme.breakpoints.down("xs"));
+  const token = getCookie("token");
+  const { fetch_the_data } = useFetch();
+
+  useEffect(() => {
+    (async () => {
+      if (userInSession?.perfilId && !PerfilUrl) {
+        const data = await fetch_the_data(
+          "http://localhost:8000/files/obtener_archivo_from_google_cloud",
+          token,
+          "POST",
+          {
+            folder: "PI",
+            archivo_id: userInSession.perfilId,
+          }
+        );
+
+        if (data[0] == 200) {
+          accion(setPerfilUrl(data[1]?.archivo));
+        }
+      }
+    })();
+  }, [userInSession]);
 
   return (
     <>
@@ -55,22 +81,30 @@ const StudendCard = () => {
           }}
         >
           {es_PantallaPequeña ? (
-            <Avatar
-              variant="rounded"
-              {...stringAvatar(
-                `${userInSession?.nombre} ${userInSession?.apellidos}`
+            <>
+              {PerfilUrl ? (
+                <Avatar src={PerfilUrl} />
+              ) : (
+                <Avatar
+                  {...stringAvatar(
+                    `${userInSession?.nombre} ${userInSession?.apellidos}`
+                  )}
+                />
               )}
-            />
+            </>
           ) : (
             <CardHeader
               avatar={
                 <>
-                  <Avatar
-                    variant="rounded"
-                    {...stringAvatar(
-                      `${userInSession?.nombre} ${userInSession?.apellidos}`
-                    )}
-                  />
+                  {PerfilUrl ? (
+                    <Avatar src={PerfilUrl} />
+                  ) : (
+                    <Avatar
+                      {...stringAvatar(
+                        `${userInSession?.nombre} ${userInSession?.apellidos}`
+                      )}
+                    />
+                  )}
                 </>
               }
               sx={{
@@ -130,14 +164,18 @@ const StudendCard = () => {
               />
             </ListItemButton>
             <Divider />
-            <Tooltip title="En mantenimiento :p" followCursor>
-              <ListItemButton disableRipple>
-                <ListItemIcon>
-                  <AccountCircleIcon sx={{ color: "var(--OnPrymary-color)" }} />
-                </ListItemIcon>
-                <ListItemText primary="Perfil" />
-              </ListItemButton>
-            </Tooltip>
+
+            <ListItemButton
+              disableRipple
+              onClick={() => {
+                navigate(`/usuarios/${userInSession?.id}/inicio`);
+              }}
+            >
+              <ListItemIcon>
+                <AccountCircleIcon sx={{ color: "var(--OnPrymary-color)" }} />
+              </ListItemIcon>
+              <ListItemText primary="Perfil" />
+            </ListItemButton>
           </List>
         </Box>
       </Drawer>

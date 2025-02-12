@@ -38,16 +38,19 @@ export const Sidemenu = ({ id_curso }) => {
 
   useEffect(() => {
     (async () => {
-      accion(set_archivo_mostrandose(null));
-      const data = await fetch_the_data(
-        "http://localhost:8000/cursos_contenidos/get_contenidos_and_subcontenidos",
-        token,
-        "GET",
-        null,
-        id_curso
-      );
+      if (Contenidos.length == 0) {
+        accion(set_archivo_mostrandose(null));
+        const data = await fetch_the_data(
+          "http://localhost:8000/cursos_contenidos/get_contenidos_and_subcontenidos",
+          token,
+          "GET",
+          null,
+          id_curso
+        );
 
-      accion(setContenidos(data[1]));
+        accion(setContenidos(data[1]));
+       
+      }
       setMounted(false);
 
       return () => {
@@ -72,7 +75,7 @@ export const Sidemenu = ({ id_curso }) => {
           maxHeight: "100%",
           height: "100%",
           overflow: "auto",
-        
+
           borderRadius: 0,
           scrollbarColor:
             "var(--OnPrymary-color) var(--PrymaryContainer-color)",
@@ -80,7 +83,7 @@ export const Sidemenu = ({ id_curso }) => {
           bgcolor: "var(--PrymaryContainer-color)",
         }}
       >
-        {mounted  && (
+        {mounted && (
           <LinearProgress
             sx={{
               backgroundColor: "var(--PrymaryContainer-color)", // Background color of the bar
