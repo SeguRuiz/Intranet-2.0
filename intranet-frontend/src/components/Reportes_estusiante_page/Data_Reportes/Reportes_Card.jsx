@@ -1,4 +1,5 @@
-import Menu_options_reportes from "../../../../components/Control-page/Reportes/read/Menu_options_reportes";
+import Menu_options_reportes from "../../Control-page/Reportes/read/Menu_options_reportes";
+import Ver_comprobante from "../../Control-page/Reportes/read/Ver_comprobante";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Card,
@@ -15,9 +16,8 @@ import {
   ExitToApp,
   Assignment,
 } from "@mui/icons-material";
-import More_info_reports from "../../../../components/Control-page/Reportes/read/More_info_reports";
-import Add_file_Report from "../../../../components/Control-page/Reportes/add_file_report/Add_file_Report";
-import Ver_comprobante from "../../../../components/Control-page/Reportes/read/Ver_comprobante";
+import More_info_reports from "../../Control-page/Reportes/read/More_info_reports";
+import Enviar_Justificacion from "../Enviar_Justificacion_reportes/Enviar_Justificacion";
 
 const estadoColors = {
   aprobado: "success",
@@ -58,20 +58,16 @@ const ReporteCard = ({ reporte }) => {
             customBtn={true}
             btn={<MoreVertIcon fontSize="medium" />}
           >
-            
             <More_info_reports
               estudiante={reporte?.estudiante_id}
               usuario={reporte?.usuario_id}
               reporte_id={reporte?.id}
             />
-            <Divider/>
-            <Add_file_Report reporte_id={reporte.id} />
-            <Divider/>
+            <Divider />
 
             <Ver_comprobante
               comprobante_id={reporte.archivo_id}
               menuItem={true}
-               
             />
           </Menu_options_reportes>
         }
@@ -94,6 +90,17 @@ const ReporteCard = ({ reporte }) => {
           label={reporte.estado.toUpperCase()}
           color={estadoColors[reporte.estado] || "default"}
           sx={{ mt: 1 }}
+        />
+      </CardContent>
+      <Divider>
+        <Typography variant="body2" color="text.secondary">
+          Justificacion
+        </Typography>
+      </Divider>
+      <CardContent>
+        <Enviar_Justificacion
+          reporte_id={reporte.id}
+          descripcion_comprobante={reporte?.descripcion_comprobante}
         />
       </CardContent>
     </Card>

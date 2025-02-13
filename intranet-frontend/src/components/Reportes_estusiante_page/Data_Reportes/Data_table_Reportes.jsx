@@ -1,12 +1,12 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Paper, Box, Stack } from "@mui/material";
 import ReporteCard from "./Reportes_Card";
-import { useFetch } from "../../../../services/llamados";
+import { useFetch } from "../../../services/llamados";
 import { useParams } from "react-router-dom";
-import { getCookie } from "../../../../utils/Cookies";
+import { getCookie } from "../../../utils/Cookies";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { set_reportes } from "../../../../redux/ControlUsuariosSlice";
+import { set_reportes } from "../../../redux/ControlUsuariosSlice";
 
 const reportes_mock = [
   {
@@ -69,7 +69,7 @@ const reportes_mock = [
 
 const Data_table_Reportes = () => {
   const { id_usuario } = useParams();
-  const accion = useDispatch()
+  const accion = useDispatch();
   const { reportes } = useSelector((x) => x.ControlUsuarios);
   const { fetch_the_data } = useFetch();
   const token = getCookie("token");
@@ -88,7 +88,7 @@ const Data_table_Reportes = () => {
         toast.error("Ocurrio un error trayendo los reportes");
 
       if (reportes[0] == 200) {
-        accion(set_reportes(reportes[1]))
+        accion(set_reportes(reportes[1]));
         return;
       }
 

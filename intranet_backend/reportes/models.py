@@ -46,7 +46,7 @@ class Reportes_info(models.Model):
         GoogleCloudBucketFiles, on_delete=models.SET_NULL, null=True
     )
     descripcion_comprobante = models.CharField(
-        max_length=300, default="Sin descripcion"
+        max_length=1000, default="Sin descripcion"
     )
     presento_aviso = models.BooleanField(default=False)
 

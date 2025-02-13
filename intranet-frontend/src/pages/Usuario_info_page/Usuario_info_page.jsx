@@ -3,10 +3,9 @@ import "./Usuario_info_page.css";
 import Navbarv2 from "../../components/Home/Navbarv2/Navbar";
 import UserInfoSideBar from "../../components/User_info_Side_Bar/UserInfoSideBar";
 import Page_info from "./Page_info/Page_info";
-import pages from "../../components/User_info_Side_Bar/UserInfoSidePages";
 import Informacion_personal_page from "./Informacion_personal/Informacion_personal_page";
 import { useEffect, useState } from "react";
-import Reportes_estudiante_page from "./Reportes_estusiante_page/Reportes_estudiante_page";
+import Reportes_estudiante_page from "../../components/Reportes_estusiante_page/Reportes_estudiante_page";
 
 const pagesInfo = {
   informacion_personal: {

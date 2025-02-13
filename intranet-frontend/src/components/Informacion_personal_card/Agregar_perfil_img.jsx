@@ -1,4 +1,4 @@
-import { CircularProgress, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useEffect, useRef } from "react";
 import { getCookie } from "../../utils/Cookies";

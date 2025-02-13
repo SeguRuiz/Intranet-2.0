@@ -5,15 +5,24 @@ import {
   CircularProgress,
   ListItemText,
   ListItemIcon,
+  Button,
 } from "@mui/material"; // Importa componentes de Material UI// Generador de IDs únicos
-import { useRef, useState } from "react"; // Hooks de React
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { useEffect, useRef, useState } from "react"; // Hooks de React
 import { useFetch } from "../../../../services/llamados"; // Hook para manejar solicitudes HTTP
 import { getCookie } from "../../../../utils/Cookies"; // Función para obtener cookies
 import { useDispatch } from "react-redux"; // Hook para despachar acciones a Redux
 import { agregar_archivo_reportes } from "../../../../redux/ControlUsuariosSlice"; // Acción para agregar archivos a reportes
 import { useCustomNotis } from "../../../../utils/customHooks"; // Hook para manejar notificaciones personalizadas
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-const Add_file_Report = ({ reporte_id }) => {
+const Add_file_Report = ({
+  reporte_id,
+  type_btn = false,
+  set_archivo,
+  enviar = false,
+  archivo_enviar = null,
+  sending
+}) => {
   const file_ref = useRef(); // Referencia para el input de archivos
   const { fetch_the_data } = useFetch(); // Hook para realizar solicitudes HTTP
   const { ok_mensaje, error_mensaje } = useCustomNotis(
@@ -26,13 +35,18 @@ const Add_file_Report = ({ reporte_id }) => {
   const accion = useDispatch(); // Inicializa el despachador de Redux
   const token = getCookie("token"); // Obtiene el token de autenticación
 
+  useEffect(() => {
+    enviar && archivo_enviar && agregar_archivo(archivo_enviar);
+  }, [enviar]);
+
   const agregar_archivo = async (file) => {
     // Función para agregar archivos al reporte
     const formDataReporte = new FormData();
     formDataReporte.append("file", file);
     formDataReporte.append("reporte_id", reporte_id);
 
-    setOpen(true); // Abre el Backdrop de carga
+    !type_btn && setOpen(true); // Abre el Backdrop de carga
+    sending(true)
     const data = await fetch_the_data(
       "http://localhost:8000/reportes/guardar_archivo_reporte",
       token,
@@ -45,6 +59,7 @@ const Add_file_Report = ({ reporte_id }) => {
     // Manejo de respuesta después de subir el archivo
     if (data[0] == 200 && data != undefined) {
       // Si la subida fue exitosa
+
       console.log(data[1]);
 
       accion(
@@ -57,32 +72,47 @@ const Add_file_Report = ({ reporte_id }) => {
     } else {
       error_mensaje(); // Mensaje de error si la subida falla
     }
-    setOpen(false); // Cierra el Backdrop
+    sending(false)
+    !type_btn && setOpen(false); // Cierra el Backdrop
     file_ref.current.value = null;
   };
 
   const handleChange = (file) => {
-    if (file) {
+    
+    if (file && !type_btn) {
       agregar_archivo(file);
+      return
     }
+    set_archivo(file);
+    file_ref.current.value = null;
   };
 
   return (
     <>
-      <MenuItem
-        onClick={() => {
-          file_ref.current.click(); // Simula un clic en el input de archivo
-        }}
-      >
-         <ListItemIcon>
-          <FileUploadIcon
-            sx={{ color: "var(--OnsurfaceVariant)" }}
-            fontSize="10px"
-          />
-        </ListItemIcon>
-        <ListItemText primary="Agregar comprobante" />
-       
-      </MenuItem>
+      {!type_btn ? (
+        <MenuItem
+          onClick={() => {
+            file_ref.current.click(); // Simula un clic en el input de archivo
+          }}
+        >
+          <ListItemIcon>
+            <FileUploadIcon
+              sx={{ color: "var(--OnsurfaceVariant)" }}
+              fontSize="10px"
+            />
+          </ListItemIcon>
+          <ListItemText primary="Agregar comprobante" />
+        </MenuItem>
+      ) : (
+        <Button
+          startIcon={<AttachFileIcon />}
+          onClick={() => {
+            file_ref.current.click(); // Simula un clic en el input de archivo
+          }}
+        >
+          Adjuntar comprobante
+        </Button>
+      )}
       <Input
         type="file" // Tipo de input para archivos
         style={{ display: "none" }} // Oculta el input

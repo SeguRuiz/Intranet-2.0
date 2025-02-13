@@ -348,10 +348,16 @@ const ControlUsuarios = createSlice({
       const reportes_filtrados = state.reportes.filter((x) => x.id != id);
       state.reportes = reportes_filtrados;
     },
+    edit_justificacion_reporte: (state, action) => {
+      const { id, reporteEditado } = action.payload;
+      state.reportes[state.reportes.findIndex((x) => x.id == id)] =
+        reporteEditado;
+    },
   },
 });
 
 export const {
+  edit_justificacion_reporte,
   abrir_aside,
   cerrar_aside,
   agregar_usuarios,
@@ -403,6 +409,6 @@ export const {
   set_reporte,
   set_empty,
   set_integrantes_de_grupo,
-  eliminar_reporte
+  eliminar_reporte,
 } = ControlUsuarios.actions;
 export default ControlUsuarios.reducer;
