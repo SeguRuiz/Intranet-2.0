@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import date, datetime
 
 from api.models import Estudiantes, Usuarios
 from api.serializers import EstudiantesSerializer
@@ -25,6 +25,8 @@ from .models import Reportes_info
 from .serializers import ReportesFileSerializer, ReportesSerializer
 
 # Create your views here.
+
+load_dotenv()
 
 
 class ReportesCreate(ModelViewSet):
@@ -216,3 +218,49 @@ def guardar_reporte_google_cloud(request):
         return Response(
             {"info": "El objeto esta mal formulado"}, status=status.HTTP_400_BAD_REQUEST
         )
+
+
+@api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def subir_justificante_reporte(request, pk):
+    descripcion_comprobante = request.data["descripcion_comprobante"]
+    reporte = get_object_or_404(Reportes_info, pk=pk)
+
+    reporte.descripcion_comprobante = descripcion_comprobante
+    reporte.save()
+    serializer = ReportesSerializer(instance=reporte)
+
+    ##############################################################################
+
+    dia_incidente= reporte.dia_incidente
+
+    email_asunto = f"Notificación de Envío de Comprobante - {reporte.estudiante_id.usuario_id.first_name} {reporte.estudiante_id.usuario_id.last_name}"
+
+    email_bodys = (
+        f"""\
+Estimado equipo del área socioemocional,
+
+El estudiante {reporte.estudiante_id.usuario_id.first_name} {reporte.estudiante_id.usuario_id.last_name} ha enviado un comprobante en respuesta al siguiente reporte:
+
+- **ID del reporte:** {reporte.pk}
+- **Tipo del reporte:** {reporte.tipo_incidente}
+- **Fecha del reporte:** {dia_incidente}
+
+Detalles del envío:
+
+- **Fecha de envío del comprobante:** {date.today()} - {datetime.now().strftime("%I:%M %p")}
+
+Pueden revisar el comprobante en el sistema o contactar al estudiante si requieren más información.
+
+Saludos cordiales, 
+FWD - ADMINISTRACION  
+""",
+    )
+    sendEmail(
+        email_receiver=os.getenv("CORREO_SOCIOEMOCIONAL"),
+        subject=email_asunto,
+        body=email_bodys[0],
+    )
+    
+    return Response(serializer.data, status=status.HTTP_200_OK)

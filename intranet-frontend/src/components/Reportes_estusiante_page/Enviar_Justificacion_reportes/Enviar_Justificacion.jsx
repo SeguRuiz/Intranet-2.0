@@ -37,7 +37,7 @@ const Enviar_Justificacion = ({
     if (text_value.trim() != "" && comprobanteArchivo) {
       setEnviar(true);
       const data = await fetch_the_data(
-        "http://localhost:8000/reportes/reportes_edit",
+        "http://localhost:8000/reportes/subir_justificante",
         token,
         "PATCH",
         {
