@@ -1,5 +1,5 @@
 .UserInfoPage {
-  background: lightcyan;
+  
   height: 100vh;
   display: grid;
   grid-template-rows: 10.1% auto;
@@ -9,6 +9,7 @@
   display: grid;
   grid-template-columns: 21% auto;
   overflow: hidden;
+
 }
 .UserInfoSide {
     
@@ -18,5 +19,6 @@
    grid-template-rows: 15vh auto;
    max-height:  90vh;
    overflow-y: auto;
-   padding-bottom: 5vh;
+  
+   
 }

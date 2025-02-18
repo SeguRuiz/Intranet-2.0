@@ -120,8 +120,13 @@ export const Routing = () => {
               element={<Asistencias_page />}
             />
 
-            <Route path="/usuarios/:id_usuario/:page" element={<Usuario_info_page />} />
+            <Route
+              path="/usuarios/:id_usuario/:page"
+              element={<Usuario_info_page />}
+            />
 
+            
+            
             {Es_admin ? (
               <Route
                 path="/admin/control_usuarios/:carpeta"

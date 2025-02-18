@@ -17,7 +17,8 @@ from .views import (
     roles,
     verificar_token,
     verify_token,
-    get_estudiante_info
+    get_estudiante_info,
+    EstudiantesListViewUnion
 )
 
 urlpatterns = [
@@ -43,5 +44,7 @@ urlpatterns = [
     ),
     path("get_estudiante/", get_estudiante, name="get_estudiante"),
     path("get_estudiante_info/<int:pk>", get_estudiante_info, name="get_estudiante_info"),
+    path("get_all_estudiantes_info/", EstudiantesListViewUnion.as_view(), name="get_all_estudiantes_info"),
+    
     
 ]

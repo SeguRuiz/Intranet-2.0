@@ -36,15 +36,15 @@ const userInfoMock = {
   tipo_cedula: "",
 };
 
-const Informacion_personal_card = () => {
-  const { id_usuario } = useParams();
-  const { PerfilUrl } = useSelector((x) => x.PerfilUsuario);
+const Informacion_personal_card = ({id_usuario}) => {
+  
 
   const { userInSession } = useSelector((x) => x.Auth);
+  const [personalUrl, setPersonalUrl] = useState(null)
   const [perfilImgId, setPerfilImgId] = useState(null);
   const [loadingEdit, setLoadingEdit] = useState(false);
-  const [loading_perfil, set_loading_perfil] = useState(false);
   const [retrievingLoding, setRetrievingLoading] = useState(true);
+  
 
   const errorEditando = () =>
     toast.error("Ocurrio un error editando la información");
@@ -91,7 +91,7 @@ const Informacion_personal_card = () => {
           console.log(userData);
 
           setUserInfo(userData);
-          setPerfilImgId(userData[1]?.perfilUrl);
+          setPerfilImgId(userData[1]?.perfilUrl ?? 'sin imagen');
           setTipoCedula({
             label: userData[1]?.tipo_cedula.toUpperCase(),
             id: userData[1]?.tipo_cedula,
@@ -100,7 +100,8 @@ const Informacion_personal_card = () => {
           setEmail(userData[1]?.email);
           set_first_name(userData[1]?.first_name);
           set_last_name(userData[1]?.last_name);
-          setRetrievingLoading(false);
+         
+         
           return;
         }
 
@@ -238,11 +239,13 @@ const Informacion_personal_card = () => {
             }}
           >
             <Agregar_perfil_img
-              set_loading_perfil={set_loading_perfil}
+              set_loading_perfil={setRetrievingLoading}
               file_id={perfilImgId}
+              id_usuario={id_usuario}
+              setPerfilUrl={setPersonalUrl}
             />
 
-            {retrievingLoding | loading_perfil ? (
+            {retrievingLoding ? (
               <Skeleton
                 animation="wave"
                 variant="rounded"
@@ -253,10 +256,10 @@ const Informacion_personal_card = () => {
               />
             ) : (
               <>
-                {PerfilUrl ? (
+                {personalUrl ? (
                   <Avatar
                     variant="rounded"
-                    src={PerfilUrl}
+                    src={personalUrl}
                     sx={{
                       height: 115,
                       width: 115,

@@ -25,6 +25,7 @@ const Content = () => {
   const theme = useTheme();
   const es_PantallaPequeña = useMediaQuery(theme.breakpoints.down('sm'))
 
+   
   const token = getCookie("token");
 
   const { fetch_the_data, fetching } = useFetch();

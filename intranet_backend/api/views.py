@@ -1,6 +1,7 @@
 from cursos.models import Grupos, Intengrantes_de_grupo, Sedes
 from cursos.serializers import GruposSerializer, IntengratesGruposSerializer
 from cursos_contenidos.views import sendEmail
+from django.db.models import F
 from django.shortcuts import get_object_or_404
 from password_generator import PasswordGenerator
 from reportes.models import Reportes_info
@@ -11,7 +12,7 @@ from rest_framework.decorators import (
     authentication_classes,
     permission_classes,
 )
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -21,6 +22,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import Estudiantes, Roles, Usuarios
 from .serializers import (
     CustomJWTSerializer,
+    EstudianteSerializerUnion,
     EstudiantesSerializer,
     RolesSerializer,
     UsersPrivateSerializer,
@@ -35,6 +37,18 @@ class UsersCreate(ModelViewSet):
     queryset = Usuarios.objects.all()
     serializer_class = UsersSerializer
     lookup_field = "id"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+
+class EstudiantesListViewUnion(ListAPIView):
+    queryset = Estudiantes.objects.annotate(
+        nombre_usuario=F("usuario_id__first_name"),
+        apellidos_usuario=F("usuario_id__last_name"),
+        correo=F("usuario_id__email"),
+        id_user=F("usuario_id__id"),
+    )
+    serializer_class = EstudianteSerializerUnion
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
@@ -500,4 +514,15 @@ def get_estudiante_info(request, pk):
             "Cantidad_de_reportes": numero_de_reportes,
         },
         status=status.HTTP_200_OK,
+    )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def get_all_estudiantes_info(request):
+    estudiantes = Estudiantes.objects.annotate(
+        nombre_usuario=F("usuario_id__first_name"),
+        apellidos_usuario=F("usuario_id__last_name"),
+        correo=F("usuario_id__email"),
     )

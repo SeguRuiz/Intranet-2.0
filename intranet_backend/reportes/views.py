@@ -106,6 +106,7 @@ def set_reporte_estado(request):
         # Se obtienen el ID del reporte y el nuevo estado de la solicitud
         reporte_id: str = request.data["reporte_id"]
         nuevo_estado: str = request.data["estado"]
+        usuario_id: str = request.data["usuario_id"] 
 
         # Se obtiene el reporte utilizando el ID proporcionado
         reporte = get_object_or_404(Reportes_info, pk=reporte_id)
@@ -125,14 +126,14 @@ def set_reporte_estado(request):
         # Se obtiene el usuario asociado al estudiante
         user = get_object_or_404(Usuarios, pk=estudiante_ser.data["usuario_id"])
         # Se obtiene el profesor que creó el reporte
-        profesor = get_object_or_404(Usuarios, pk=reporte_ser.data["usuario_id"])
+        usuario_que_cambio_est = get_object_or_404(Usuarios, pk=usuario_id)
 
         # Se obtiene la fecha de creación del reporte
         dia: datetime = reporte.fecha_creado
 
         # Se prepara el cuerpo del correo electrónico para notificar al estudiante
         body = f"""
-El reporte emitido el {dia.date()} a las {dia.hour}:{dia.minute}, por el profesor {profesor.first_name} {profesor.last_name},  a sido clasificado como "{nuevo_estado.upper()}" si tienes alguna duda comunicate a {profesor.email}.      
+El reporte emitido el {dia.date()} a las {dia.hour}:{dia.minute}, por {usuario_que_cambio_est.first_name} {usuario_que_cambio_est.last_name},  a sido clasificado como "{nuevo_estado.upper()}" si tienes alguna duda comunicate a {usuario_que_cambio_est.email}.      
 """
 
         # Se envía el correo electrónico al estudiante con el nuevo estado
@@ -243,13 +244,12 @@ Estimado equipo del área socioemocional,
 
 El estudiante {reporte.estudiante_id.usuario_id.first_name} {reporte.estudiante_id.usuario_id.last_name} ha enviado un comprobante en respuesta al siguiente reporte:
 
-- **ID del reporte:** {reporte.pk}
 - **Tipo del reporte:** {reporte.tipo_incidente}
 - **Fecha del reporte:** {dia_incidente}
 
 Detalles del envío:
 
-- **Fecha de envío del comprobante:** {date.today()} - {datetime.now().strftime("%I:%M %p")}
+- **Fecha de envío del comprobante:** {date.today().strftime("%d/%m/%Y")} - {datetime.now().strftime("%I:%M %p")}
 
 Pueden revisar el comprobante en el sistema o contactar al estudiante si requieren más información.
 

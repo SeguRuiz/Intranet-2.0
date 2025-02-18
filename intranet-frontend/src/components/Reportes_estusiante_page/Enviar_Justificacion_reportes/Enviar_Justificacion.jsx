@@ -48,6 +48,8 @@ const Enviar_Justificacion = ({
       data == undefined &&
         toast.error("Ocurrio un error mandando la justificacion");
       if (data[0] == 200) {
+        console.log(data[0]);
+        
         accion(
           edit_justificacion_reporte({
             id: reporte_id,

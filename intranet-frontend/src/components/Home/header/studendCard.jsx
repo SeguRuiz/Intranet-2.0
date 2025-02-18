@@ -31,6 +31,7 @@ const rolesPersonalisado = {
   admin: "Administrador",
   estudiante: "Estudiante",
   profesor: "Profesor",
+  socioemocional: "Socioemocional"
 };
 
 const StudendCard = () => {
