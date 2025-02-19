@@ -18,7 +18,8 @@ from .views import (
     verificar_token,
     verify_token,
     get_estudiante_info,
-    EstudiantesListViewUnion
+    EstudiantesListViewUnion,
+    get_all_estudiantes_info
 )
 
 urlpatterns = [

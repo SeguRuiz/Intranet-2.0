@@ -10,6 +10,10 @@ class EstudianteSerializerUnion(serializers.ModelSerializer):
     apellidos_usuario = serializers.CharField()
     correo = serializers.EmailField()
     id_user = serializers.IntegerField()
+    en_espera = serializers.BooleanField()
+    numero_reportes = serializers.IntegerField()
+    cedula = serializers.CharField()
+    grupo_nombre = serializers.CharField()
 
     class Meta:
         model = Estudiantes
@@ -25,6 +29,10 @@ class EstudianteSerializerUnion(serializers.ModelSerializer):
             "apellidos_usuario",
             "correo",
             "id_user",
+            "en_espera",
+            "numero_reportes",
+            "cedula",
+            "grupo_nombre"
         ]
 
 

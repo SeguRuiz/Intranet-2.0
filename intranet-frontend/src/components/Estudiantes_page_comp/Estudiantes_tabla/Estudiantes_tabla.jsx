@@ -1,4 +1,4 @@
-import { Paper, Box } from "@mui/material";
+import { Paper, Box, Chip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { getCookie } from "../../../utils/Cookies";
@@ -48,6 +48,24 @@ const generarEstudiantesMock = (cantidad) => {
   return estudiantes;
 };
 
+const En_espera = (en_espera) => {
+  return (
+    <Chip
+      label={en_espera ? "En espera" : "Revisado"}
+      color={en_espera ? "warning" : "success"}
+      size="small"
+    />
+  );
+};
+
+const Render_grupo = (grupo) => {
+  return grupo ? grupo : "Sin grupo"
+}
+
+const reportes_cantidad = (cantidad) => {
+  return cantidad ? cantidad : 0
+}
+
 const columnas = [
   { field: "id_user", headerName: "ID", headerAlign: "left", align: "left" },
   {
@@ -69,64 +87,43 @@ const columnas = [
     align: "left",
     minWidth: 160,
   },
-
-  //   {
-  //     field: "reportes",
-  //     headerName: "Reportes",
-  //     type: "number",
-  //     headerAlign: "left",
-  //     align: "left",
-  //   },
   {
-    field: "activo",
-    headerName: "Activo",
+    field: "cedula",
+    headerName: "Cedula",
+    headerAlign: "left",
+    align: "left",
+  },
+  {
+    field: "en_espera",
+    headerName: "En espera",
     type: "boolean",
     headerAlign: "left",
     align: "left",
+    renderCell: (params) => En_espera(params.value),
   },
+ 
   {
-    field: "fecha_creacion",
-    headerName: "Creación",
+    field: "numero_reportes",
+    headerName: "Reportes",
+    type: 'number',
+    renderCell: (params) => reportes_cantidad(params.value),
     headerAlign: "left",
     align: "left",
   },
   {
-    field: "faltas",
-    headerName: "Faltas",
-    type: "number",
+    field: "grupo_nombre",
+    headerName: "Grupo",
+    minWidth: 170,
+    renderCell: (params) => Render_grupo(params.value),
     headerAlign: "left",
     align: "left",
   },
 ];
 
-const mockEstudiantes = generarEstudiantesMock(100);
 
-const Estudiantes_tabla = ({setCurrentLink}) => {
-  const [estudiantes, setEstudiantes] = useState([]);
-  const { id_usuario} = useParams();
+const Estudiantes_tabla = ({ estudiantes = [], loading=false }) => {
+  const { id_usuario } = useParams();
   const navigate = useNavigate();
-  const token = getCookie("token");
-  const { fetch_the_data } = useFetch();
-  useEffect(() => {
-    (async () => {
-      const data = await fetch_the_data(
-        "http://localhost:8000/api/get_all_estudiantes_info",
-        token,
-        "GET"
-      );
-      data == undefined &&
-        toast.error(
-          "Ocurrio un error trayendo los estudiantes intenta denuevo"
-        );
-
-      if (data[0] == 200) {
-        setEstudiantes(data[1]);
-        return;
-      }
-      toast.error("Ocurrio un error trayendo los estudiantes intenta denuevo");
-    })();
-  }, []);
-
 
   return (
     <Paper
@@ -140,12 +137,12 @@ const Estudiantes_tabla = ({setCurrentLink}) => {
         rows={estudiantes}
         getRowId={(fila) => fila.id_user}
         pagination
+       
+        loading={loading}
         rowSelection={false}
         localeText={localeText}
         onRowClick={(event) => {
           navigate(`/usuarios/${id_usuario}/estudiantes?est=${event.id}`);
-          setCurrentLink(`${event.row.nombre_usuario} ${event.row.apellidos_usuario}`)
-          
         }}
       />
     </Paper>

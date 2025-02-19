@@ -106,7 +106,8 @@ def set_reporte_estado(request):
         # Se obtienen el ID del reporte y el nuevo estado de la solicitud
         reporte_id: str = request.data["reporte_id"]
         nuevo_estado: str = request.data["estado"]
-        usuario_id: str = request.data["usuario_id"] 
+        usuario_id: str = request.data["usuario_id"]
+        detalles: str = request.data["detalles"]
 
         # Se obtiene el reporte utilizando el ID proporcionado
         reporte = get_object_or_404(Reportes_info, pk=reporte_id)
@@ -129,15 +130,28 @@ def set_reporte_estado(request):
         usuario_que_cambio_est = get_object_or_404(Usuarios, pk=usuario_id)
 
         # Se obtiene la fecha de creación del reporte
-        dia: datetime = reporte.fecha_creado
-
+        dia = date(day=reporte.fecha_creado.day, year=reporte.fecha_creado.year, month=reporte.fecha_creado.month)
         # Se prepara el cuerpo del correo electrónico para notificar al estudiante
         body = f"""
-El reporte emitido el {dia.date()} a las {dia.hour}:{dia.minute}, por {usuario_que_cambio_est.first_name} {usuario_que_cambio_est.last_name},  a sido clasificado como "{nuevo_estado.upper()}" si tienes alguna duda comunicate a {usuario_que_cambio_est.email}.      
-"""
+El reporte emitido el {dia.strftime("%d/%m/%Y")},  
+por {reporte.usuario_id.first_name} {reporte.usuario_id.last_name},  
+ha sido clasificado como \"{nuevo_estado.upper()}\".  
+
+Detalles: {detalles}.  
+
+Si tienes alguna duda, comunícate a {usuario_que_cambio_est.email}."""
+        
+        bodySinDenegar = f"""
+El reporte emitido el {dia.strftime("%d/%m/%Y")},  
+por {usuario_que_cambio_est.first_name} {usuario_que_cambio_est.last_name},  
+ha sido clasificado como \"{nuevo_estado.upper()}\".  
+ 
+
+Si tienes alguna duda, comunícate a {usuario_que_cambio_est.email}."""
+        
 
         # Se envía el correo electrónico al estudiante con el nuevo estado
-        sendEmail(email_receiver=user.email, subject="Informe reporte", body=body)
+        sendEmail(email_receiver=user.email, subject="Informe reporte", body=body if nuevo_estado == 'denegado' else bodySinDenegar)
 
         # Se devuelve un mensaje de éxito
         return Response({"info": "cambio logrado"}, status=status.HTTP_200_OK)
@@ -234,7 +248,7 @@ def subir_justificante_reporte(request, pk):
 
     ##############################################################################
 
-    dia_incidente= reporte.dia_incidente
+    dia_incidente = reporte.dia_incidente
 
     email_asunto = f"Notificación de Envío de Comprobante - {reporte.estudiante_id.usuario_id.first_name} {reporte.estudiante_id.usuario_id.last_name}"
 
@@ -262,5 +276,5 @@ FWD - ADMINISTRACION
         subject=email_asunto,
         body=email_bodys[0],
     )
-    
+
     return Response(serializer.data, status=status.HTTP_200_OK)

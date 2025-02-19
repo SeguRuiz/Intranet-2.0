@@ -176,7 +176,7 @@ def subir_reporte_de_asistencias(request):
                         sede_id=sede,
                         estudiante_id=estudiante,
                         usuario_id=profesor,
-                        dia_incidente=date.today().strftime("%d/%m/%Y"),
+                        dia_incidente=date.today(),
                         detalles=detalles[f"{n['info']['estado']}"],
                         presento_aviso=n["info"]["presento_aviso"],
                     )
