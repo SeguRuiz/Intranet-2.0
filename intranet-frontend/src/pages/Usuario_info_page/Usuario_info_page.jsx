@@ -7,6 +7,7 @@ import Informacion_personal_page from "./Informacion_personal/Informacion_person
 import { createContext, useEffect, useState } from "react";
 import Reportes_estudiante_page from "../../components/Reportes_estusiante_page/Reportes_estudiante_page";
 import Estudiantes_page from "./Estudiantes_page/Estudiantes_page";
+import Inicio_page from "./Inicio_page/Inicio_page";
 
 const pagesInfo = {
   informacion_personal: {
@@ -56,6 +57,8 @@ const Usuario_info_page = () => {
                 return <Reportes_estudiante_page />;
               case "estudiantes":
                 return <Estudiantes_page setCurrentLink={setCurrentLink} />;
+              case "inicio":
+                return <Inicio_page/>
               default:
                 if (page.includes("estudiantes")) {
                   return <Estudiantes_page />;
