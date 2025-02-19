@@ -1,7 +1,9 @@
 import { Box } from "@mui/material";
 import Data_table_Reportes from "./Data_Reportes/Data_table_Reportes";
 import Filtros_Reportes from "./Filtros_reportes/Filtros_Reportes";
+import { useParams } from "react-router-dom";
 const Reportes_estudiante_page = () => {
+  const {id_usuario} = useParams()
   return (
     <Box
       sx={{
@@ -15,7 +17,7 @@ const Reportes_estudiante_page = () => {
       }}
     >
       <Filtros_Reportes/>
-      <Data_table_Reportes />
+      <Data_table_Reportes id_usuario={id_usuario} />
     </Box>
   );
 };

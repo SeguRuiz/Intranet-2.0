@@ -1,6 +1,8 @@
 from cursos.models import Grupos, Intengrantes_de_grupo, Sedes
 from cursos.serializers import GruposSerializer, IntengratesGruposSerializer
 from cursos_contenidos.views import sendEmail
+from django.db import models
+from django.db.models import F
 from django.shortcuts import get_object_or_404
 from password_generator import PasswordGenerator
 from reportes.models import Reportes_info
@@ -11,7 +13,7 @@ from rest_framework.decorators import (
     authentication_classes,
     permission_classes,
 )
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -21,6 +23,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import Estudiantes, Roles, Usuarios
 from .serializers import (
     CustomJWTSerializer,
+    EstudianteSerializerUnion,
     EstudiantesSerializer,
     RolesSerializer,
     UsersPrivateSerializer,
@@ -35,6 +38,42 @@ class UsersCreate(ModelViewSet):
     queryset = Usuarios.objects.all()
     serializer_class = UsersSerializer
     lookup_field = "id"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+
+class EstudiantesListViewUnion(ListAPIView):
+    nombre_grupo = (
+        Intengrantes_de_grupo.objects.filter(
+            usuario_id=models.OuterRef("usuario_id__id")
+        )
+        .values("grupo_id__nombre_grupo")
+       
+    )
+    en_espera = Reportes_info.objects.filter(
+        estudiante_id=models.OuterRef("pk"), estado=Reportes_info.en_espera
+    )
+    numero_reportes = (
+        Reportes_info.objects.filter(estudiante_id=models.OuterRef("pk"))
+        .values("estudiante_id")
+        .annotate(total=models.Count("id"))
+        .values("total")
+    )
+
+    queryset = Estudiantes.objects.annotate(
+        nombre_usuario=F("usuario_id__first_name"),
+        apellidos_usuario=F("usuario_id__last_name"),
+        correo=F("usuario_id__email"),
+        id_user=F("usuario_id__id"),
+        cedula=F("usuario_id__cedula"),
+        en_espera=models.Exists(en_espera),
+        numero_reportes=models.Subquery(
+            numero_reportes, output_field=models.IntegerField()
+        ),
+        grupo_nombre=models.Subquery(nombre_grupo, output_field=models.CharField(default="Sin grupo", null=False)),
+    ).filter(activo=True)
+
+    serializer_class = EstudianteSerializerUnion
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
@@ -501,3 +540,20 @@ def get_estudiante_info(request, pk):
         },
         status=status.HTTP_200_OK,
     )
+
+
+@api_view(["GET"])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([JWTAuthentication])
+def get_all_estudiantes_info(request):
+    estudiantes = Estudiantes.objects.annotate(
+        nombre_usuario=F("usuario_id__first_name"),
+        apellidos_usuario=F("usuario_id__last_name"),
+        correo=F("usuario_id__email"),
+        id_user=F("usuario_id__id"),
+        en_espera=models.Value(True, output_field=models.BooleanField()),
+    ).all()
+
+    serializer = EstudianteSerializerUnion(instance=estudiantes)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)

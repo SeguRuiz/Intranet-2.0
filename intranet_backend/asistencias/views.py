@@ -53,9 +53,9 @@ class ReportesDeAsistenciasEdit(RetrieveUpdateDestroyAPIView):
 
 
 detalles = {
-    "tardia": f"El estudiante ingresó tarde a la clase del {date.today()}. El retraso fue registrado conforme a los lineamientos establecidos en el sistema de asistencia.",
-    "ausente": f"El estudiante no se presentó a la clase correspondiente en la fecha siguiente {date.today()}. Se registró como ausencia según los parámetros establecidos para el control de asistencia.",
-    "retiro": f"El estudiante se retiró antes de finalizar la clase del {date.today()}. Este evento quedó registrado como retiro anticipado en el reporte de asistencia.",
+    "tardia": f"El estudiante ingresó tarde a la clase del {date.today().strftime("%d/%m/%Y")}. El retraso fue registrado conforme a los lineamientos establecidos en el sistema de asistencia.",
+    "ausente": f"El estudiante no se presentó a la clase correspondiente en la fecha siguiente {date.today().strftime("%d/%m/%Y")}. Se registró como ausencia según los parámetros establecidos para el control de asistencia.",
+    "retiro": f"El estudiante se retiró antes de finalizar la clase del {date.today().strftime("%d/%m/%Y")}. Este evento quedó registrado como retiro anticipado en el reporte de asistencia.",
 }
 
 
@@ -74,7 +74,7 @@ Reporte de ingreso tardío - {estudiante_nombre}
 
 Estimado/a equipo de apoyo socioemocional,  
 
-Se ha registrado un ingreso tardío del estudiante **{estudiante_nombre}** en la clase del **{date.today()}**, {presento_aviso}.  
+Se ha registrado un ingreso tardío del estudiante **{estudiante_nombre}** en la clase del **{date.today().strftime("%d/%m/%Y")}**, {presento_aviso}.  
 
 Este evento ha sido documentado en el sistema de asistencia para su seguimiento.  
 
@@ -86,7 +86,7 @@ Reporte de ausencia - {estudiante_nombre}
 
 Estimado/a equipo de apoyo socioemocional,  
 
-Se ha registrado una ausencia del estudiante **{estudiante_nombre}** en la clase del **{date.today()}**, {presento_aviso}.  
+Se ha registrado una ausencia del estudiante **{estudiante_nombre}** en la clase del **{date.today().strftime("%d/%m/%Y")}**, {presento_aviso}.  
 
 De acuerdo con los parámetros de control de asistencia, esta inasistencia ha sido documentada en el sistema para su seguimiento.  
 
@@ -98,7 +98,7 @@ Reporte de retiro anticipado - {estudiante_nombre}
 
 Estimado/a equipo de apoyo socioemocional,  
 
-Se ha registrado un **retiro anticipado** del estudiante **{estudiante_nombre}** en la clase del **{date.today()}**, {presento_aviso}.  
+Se ha registrado un **retiro anticipado** del estudiante **{estudiante_nombre}** en la clase del **{date.today().strftime("%d/%m/%Y")}**, {presento_aviso}.  
 
 Este evento ha sido documentado en el sistema de asistencia para su respectivo seguimiento.  
 
@@ -133,7 +133,7 @@ Te informamos que el profesor/a {profesor_nombre} ha generado un reporte académ
 
 📌 **Detalles del Reporte:**
 - **Profesor:** {profesor_nombre}
-- **Fecha:** {date.today()}
+- **Fecha:** {date.today().strftime("%d/%m/%Y")}
 - **Motivo:** {motivos[tipo_reporte]}
 
 Te recomendamos revisar el reporte y, si tienes alguna duda o inquietud, comunicarte con el profesor/a a este correo {profesor_correo}.

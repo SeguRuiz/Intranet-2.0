@@ -14,8 +14,7 @@ import { getCookie } from "../../utils/Cookies";
 
 
 
-const Informacion_academica = () => {
-  const { id_usuario } = useParams();
+const Informacion_academica = ({id_usuario}) => {
   const [estudianteData, setEstudianteData] = useState([]);
   const token = getCookie("token");
   const { fetch_the_data } = useFetch();

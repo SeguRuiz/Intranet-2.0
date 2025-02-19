@@ -4,8 +4,9 @@ import Navbarv2 from "../../components/Home/Navbarv2/Navbar";
 import UserInfoSideBar from "../../components/User_info_Side_Bar/UserInfoSideBar";
 import Page_info from "./Page_info/Page_info";
 import Informacion_personal_page from "./Informacion_personal/Informacion_personal_page";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Reportes_estudiante_page from "../../components/Reportes_estusiante_page/Reportes_estudiante_page";
+import Estudiantes_page from "./Estudiantes_page/Estudiantes_page";
 
 const pagesInfo = {
   informacion_personal: {
@@ -24,17 +25,20 @@ const pagesInfo = {
     title: "Hisrorial de asistencias",
     subheader: "Una recopilacion de tus asistencias en el programa",
   },
+  estudiantes: {
+    title: "Estudiantes",
+    subheader: "Un vistazo a todos los estudiantes en el programa",
+  },
 };
+
+
 
 const Usuario_info_page = () => {
   const { page } = useParams();
-  const [main, setMain] = useState(page);
-
-  useEffect(() => {
-    setMain(page);
-  }, [page]);
+  const [currentLink, setCurrentLink] = useState(null)
 
   return (
+   
     <div className="UserInfoPage">
       <div className="UserInfoNav">
         <Navbarv2 volver={-1} />
@@ -42,7 +46,7 @@ const Usuario_info_page = () => {
       <div className="UserInfoMain">
         <UserInfoSideBar />
         <div className="UserInfoCenter">
-          <Page_info pages={pagesInfo} current_page={page} />
+          <Page_info pages={pagesInfo} current_page={page} currentLink={currentLink} />
           {(() => {
             switch (page) {
               case "informacion_personal":
@@ -50,13 +54,18 @@ const Usuario_info_page = () => {
 
               case "historial_reportes":
                 return <Reportes_estudiante_page />;
+              case "estudiantes":
+                return <Estudiantes_page setCurrentLink={setCurrentLink} />;
               default:
-                return null;
+                if (page.includes("estudiantes")) {
+                  return <Estudiantes_page />;
+                }
             }
           })()}
         </div>
       </div>
     </div>
+   
   );
 };
 

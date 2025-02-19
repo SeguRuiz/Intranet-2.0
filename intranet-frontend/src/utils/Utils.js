@@ -54,3 +54,23 @@ export const get_fecha_hora = (fecha_str = "") => {
     hora,
   };
 };
+
+export const extraerCustomParametros = (path = "") => {
+  const regex = /^([\w]+)=(.+)$/;
+  const pathSeparado = path
+    .split("?")
+    .join("&")
+    .split("/")
+    .join("&")
+    .split("&")
+    .filter((x) => regex.test(x));
+
+  const keys = {};
+  
+
+  for (const params of pathSeparado) {
+    keys[params.split("=")[0]] = params.split("=")[1];
+  }
+
+  return {...keys, vacio: pathSeparado.length > 0} ;
+};

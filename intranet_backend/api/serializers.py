@@ -5,6 +5,37 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Estudiantes, Roles, Usuarios
 
 
+class EstudianteSerializerUnion(serializers.ModelSerializer):
+    nombre_usuario = serializers.CharField()
+    apellidos_usuario = serializers.CharField()
+    correo = serializers.EmailField()
+    id_user = serializers.IntegerField()
+    en_espera = serializers.BooleanField()
+    numero_reportes = serializers.IntegerField()
+    cedula = serializers.CharField()
+    grupo_nombre = serializers.CharField()
+
+    class Meta:
+        model = Estudiantes
+        fields = [
+            "id",
+            "nota",
+            "reportes",
+            "activo",
+            "fecha_creacion",
+            "faltas",
+            "fecha_actualizacion",
+            "nombre_usuario",
+            "apellidos_usuario",
+            "correo",
+            "id_user",
+            "en_espera",
+            "numero_reportes",
+            "cedula",
+            "grupo_nombre"
+        ]
+
+
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuarios
@@ -20,7 +51,7 @@ class UsersSerializer(serializers.ModelSerializer):
             "is_staff",
             "is_socioemocional",
             "tipo_cedula",
-            "perfilUrl"
+            "perfilUrl",
         ]
 
 
@@ -41,7 +72,7 @@ class UsersPrivateSerializer(serializers.ModelSerializer):
             "cedula",
             "username",
             "tipo_cedula",
-            "perfilUrl"
+            "perfilUrl",
         ]
 
 

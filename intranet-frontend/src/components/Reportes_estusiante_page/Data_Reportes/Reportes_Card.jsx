@@ -18,6 +18,9 @@ import {
 } from "@mui/icons-material";
 import More_info_reports from "../../Control-page/Reportes/read/More_info_reports";
 import Enviar_Justificacion from "../Enviar_Justificacion_reportes/Enviar_Justificacion";
+import { useSelector } from "react-redux";
+import { ROLES_DE_USUARIO } from "../../../utils/Globals.d";
+import { Set_reporte_estado } from "../../Control-page/Reportes/edit/Set_reporte_estado";
 
 const estadoColors = {
   aprobado: "success",
@@ -34,11 +37,12 @@ const borderColors = {
 const incidenteIcons = {
   tardia: <AccessTime color="primary" fontSize="large" />,
   retiro: <ExitToApp color="secondary" fontSize="large" />,
-  ausencia: <EventBusy color="error" fontSize="large" />,
+  ausente: <EventBusy color="error" fontSize="large" />,
   "permiso especial": <Assignment color="info" fontSize="large" />,
 };
 
 const ReporteCard = ({ reporte }) => {
+  const { userInSession } = useSelector((x) => x.Auth);
   console.log(reporte?.usuario_id, reporte?.estudiante_id, reporte.archivo_id);
 
   return (
@@ -63,12 +67,22 @@ const ReporteCard = ({ reporte }) => {
               usuario={reporte?.usuario_id}
               reporte_id={reporte?.id}
             />
-            <Divider />
 
             <Ver_comprobante
               comprobante_id={reporte.archivo_id}
               menuItem={true}
             />
+            {userInSession?.rol == ROLES_DE_USUARIO.socioemocional && (
+              <>
+                <Divider />
+                <Set_reporte_estado accion="denegar" reporte_id={reporte.id} />
+                <Set_reporte_estado
+                  accion="dejar en espera"
+                  reporte_id={reporte.id}
+                />
+                <Set_reporte_estado accion="aprobar" reporte_id={reporte.id} />
+              </>
+            )}
           </Menu_options_reportes>
         }
         avatar={
@@ -92,17 +106,38 @@ const ReporteCard = ({ reporte }) => {
           sx={{ mt: 1 }}
         />
       </CardContent>
-      <Divider>
-        <Typography variant="body2" color="text.secondary">
-          Justificacion
-        </Typography>
-      </Divider>
-      <CardContent>
-        <Enviar_Justificacion
-          reporte_id={reporte.id}
-          descripcion_comprobante={reporte?.descripcion_comprobante}
-        />
-      </CardContent>
+
+      {userInSession?.rol == ROLES_DE_USUARIO.estudiante && (
+        <>
+          <Divider>
+            <Typography variant="body2" color="text.secondary">
+              Justificacion
+            </Typography>
+          </Divider>
+          <CardContent>
+            <Enviar_Justificacion
+              reporte_id={reporte.id}
+              descripcion_comprobante={reporte?.descripcion_comprobante}
+            />
+          </CardContent>
+        </>
+      )}
+      {userInSession?.rol != ROLES_DE_USUARIO.estudiante &&
+        reporte?.descripcion_comprobante != "Sin descripcion" && (
+          <>
+            <Divider>
+              <Typography variant="body2" color="text.secondary">
+                Justificacion
+              </Typography>
+            </Divider>
+            <CardContent>
+              <Enviar_Justificacion
+                reporte_id={reporte.id}
+                descripcion_comprobante={reporte?.descripcion_comprobante}
+              />
+            </CardContent>
+          </>
+        )}
     </Card>
   );
 };

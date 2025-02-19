@@ -67,12 +67,18 @@ const reportes_mock = [
   },
 ];
 
-const Data_table_Reportes = () => {
-  const { id_usuario } = useParams();
+const Data_table_Reportes = ({id_usuario}) => {
+  
   const accion = useDispatch();
   const { reportes } = useSelector((x) => x.ControlUsuarios);
   const { fetch_the_data } = useFetch();
   const token = getCookie("token");
+
+  useEffect(()=>{
+    return () => {
+      accion(set_reportes([]))
+    }
+  },[])
 
   useEffect(() => {
     (async () => {

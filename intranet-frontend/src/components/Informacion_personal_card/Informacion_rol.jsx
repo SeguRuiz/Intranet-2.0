@@ -12,9 +12,9 @@ const rolesIconos = {
   estudiante: [<SchoolIcon key="estudiante" fontSize="large" />, "Estudiante"],
   admin: [<ManageAccountsIcon key="admin" fontSize="large" />, "Administrador"],
   profesor: [<BookIcon key="Profesor" fontSize="large" />, "Profesor"],
+  socioemocional: [<BookIcon key="Socioemocional" fontSize="large" />, "Socioemocional"]
 };
-const Informacion_rol = () => {
-  const { id_usuario } = useParams();
+const Informacion_rol = ({id_usuario}) => {
   const [rol, setRol] = useState("estudiante");
   const token = getCookie("token");
   const { fetch_the_data } = useFetch();

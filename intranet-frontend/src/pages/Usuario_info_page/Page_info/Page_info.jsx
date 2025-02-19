@@ -1,14 +1,19 @@
-import React from "react";
-import { Paper, Divider, Typography } from "@mui/material";
-const Page_info = ({ current_page, pages = {} }) => {
+import { Paper, Divider, Typography, Breadcrumbs, Link } from "@mui/material";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { extraerCustomParametros } from "../../../utils/Utils";
+
+const Page_info = ({ current_page, pages = {}, currentLink= null }) => {
+  const location = useLocation();
+  
+  const { id_usuario } = useParams();
+  const navigate = useNavigate();
   return (
-   
     <Paper
       sx={{
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        position: 'sticky',
+        position: "sticky",
         zIndex: 2,
         top: 0,
         pl: 2,
@@ -22,19 +27,19 @@ const Page_info = ({ current_page, pages = {} }) => {
           margin: 0,
         }}
       >
-       {pages[`${current_page}`]?.title}
+        {pages[`${current_page}`]?.title}
       </Typography>
-      <Typography
-        sx={{
-          margin: 0,
-        }}
-      >
-        {pages[`${current_page}`]?.subheader}
-      </Typography>
+      {!currentLink ? (
+        <Typography
+          sx={{
+            margin: 0,
+          }}
+        >
+          {pages[`${current_page}`]?.subheader}
+        </Typography>
+      ): currentLink}
       
     </Paper>
-  
-   
   );
 };
 
