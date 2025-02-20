@@ -5,6 +5,7 @@ import os
 from api.models import Usuarios
 from cursos_contenidos.models import SubContenidos
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from dotenv import load_dotenv
 from google.cloud import storage
 from google.oauth2 import service_account
@@ -70,7 +71,7 @@ def upload_file_to_bucket(bucket_name, file, folder_name: str | None = None):
     return f"File {file.name} uploaded"
 
 
-def delete_file(bucket_name, blob_name, folder_name: str | None = None):
+def delete_file(bucket_name, blob_name: str, folder_name: str | None = None):
     load_dotenv()
     creds_path = here / os.getenv("GOOGLE_CREDENTIALS_FILE")
     creds_init = service_account.Credentials.from_service_account_file(creds_path)
@@ -78,12 +79,16 @@ def delete_file(bucket_name, blob_name, folder_name: str | None = None):
 
     bucket = google_client.get_bucket(bucket_name)
 
-    blob = (
-        bucket.blob(f"{folder_name}/{blob_name}")
-        if folder_name
-        else bucket.blob(blob_name)
-    )
-    blob.delete()
+    if not len(blob_name.split("/")) > 1:
+        blob = (
+            bucket.blob(f"{folder_name}/{blob_name}")
+            if folder_name
+            else bucket.blob(blob_name)
+        )
+        blob.delete()
+    else:
+        blob = bucket.blob(blob_name)
+        blob.delete()
 
     return (
         f"File {blob_name} deleted"
@@ -146,23 +151,44 @@ def create_file_signed_url_by_name(
 
     bucket = google_client.get_bucket(os.getenv("GOOGLE_CLOUD_BUCKET"))
 
-    blob = bucket.blob(f"{folder_name}/{name}") if folder_name else bucket.blob(name)
+    blob = bucket.blob(f"{folder_name}/{name}") if folder_name and not len(name.split('/')) > 1 else bucket.blob(name)
 
     blob_type, _ = mimetypes.guess_type(name)
 
+    expires_in = timezone.now() + datetime.timedelta(minutes=expiration_minutes)
+
     signed_url = blob.generate_signed_url(
         version="v4",
-        expiration=datetime.timedelta(minutes=expiration_minutes),
+        expiration=expires_in,
         method="GET",
     )
 
-    expires_in: datetime = (
-        datetime.datetime.now()
-        - datetime.timedelta(hours=6)
-        + datetime.timedelta(minutes=expiration_minutes - 1)
-    )
-
     return signed_url, expires_in, blob_type
+
+
+def get_or_recreate_url_file(folder_name: str, name: str, expiration_minutes: int = 60):
+    try:
+        file = GoogleCloudBucketFiles.objects.get(nombre=name)
+        file_type, _ = mimetypes.guess_type(name)
+
+        if (
+            file.expiracion is None
+            or (file.expiracion - datetime.timedelta(minutes=2)) < timezone.now()
+        ):
+            signed_url, expira_en, blob_type = create_file_signed_url_by_name(
+                folder_name=folder_name,
+                name=name,
+                expiration_minutes=expiration_minutes,
+            )
+
+            file.expiracion = expira_en
+            file.url = signed_url
+            file.save()
+            return [signed_url, expira_en, file_type]
+
+        return [file.url, file.expiracion, file_type]
+    except GoogleCloudBucketFiles.DoesNotExist:
+        return [None, None]
 
 
 @api_view(["POST"])
@@ -180,15 +206,28 @@ def save_file_of_subcont_to_google_cloud(request):
         file = fileSerializer.validated_data["file"]
         file_name = file.name
 
-        if GoogleCloudBucketFiles.objects.filter(nombre=file_name).exists():
+        if GoogleCloudBucketFiles.objects.filter(
+            nombre=f"{os.getenv('FOLDER_ARCHIVOS_CURSOS')}/{file_name}"
+        ).exists():
             return Response(
                 {"info": "El archivo ya existe"},
                 status=status.HTTP_422_UNPROCESSABLE_ENTITY,
             )
 
+        bucket_name = os.getenv("GOOGLE_CLOUD_BUCKET")
+        upload_file_to_bucket(bucket_name, file, os.getenv("FOLDER_ARCHIVOS_CURSOS"))
+
+        signed_url, expires_in, file_type = create_file_signed_url_by_name(
+            name=file_name,
+            folder_name=os.getenv("FOLDER_ARCHIVOS_CURSOS"),
+            expiration_minutes=60,
+        )
+
         google_bucket_serializer = GoogleCloudBucketFilesSerializer(
             data={
-                "nombre": file_name,
+                "nombre": f"{os.getenv('FOLDER_ARCHIVOS_CURSOS')}/{file_name}",
+                "url": signed_url,
+                "expiracion": expires_in,
             }
         )
 
@@ -199,20 +238,13 @@ def save_file_of_subcont_to_google_cloud(request):
                 google_bucket_serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
 
-        file_from_db = get_object_or_404(GoogleCloudBucketFiles, nombre=file_name)
+        file_from_db = get_object_or_404(
+            GoogleCloudBucketFiles, nombre=google_bucket_serializer.data["nombre"]
+        )
         subContent_id = fileSerializer.validated_data["subContent_id"]
         subContent = get_object_or_404(SubContenidos, pk=subContent_id)
         subContent.archivo = file_from_db
         subContent.save()
-
-        bucket_name = os.getenv("GOOGLE_CLOUD_BUCKET")
-        upload_file_to_bucket(bucket_name, file, os.getenv("FOLDER_ARCHIVOS_CURSOS"))
-
-        signed_url, expires_in, file_type = create_file_signed_url_by_name(
-            name=file_from_db.nombre,
-            folder_name=os.getenv("FOLDER_ARCHIVOS_CURSOS"),
-            expiration_minutes=16,
-        )
 
         return Response(
             {
@@ -259,22 +291,22 @@ def get_file_from_google_cloud(request):
     folder_choices = {
         "CC": os.getenv("FOLDER_ARCHIVOS_CURSOS"),
         "RC": os.getenv("FOLDER_ARCHIVOS_REPORTES"),
-        "PI":  os.getenv("FOLDER_ARCHIVOS_PERFILES")
+        "PI": os.getenv("FOLDER_ARCHIVOS_PERFILES"),
     }
     try:
         folder = folder_choices[request.data["folder"]]
         file_id: int = request.data["archivo_id"]
         file = get_object_or_404(GoogleCloudBucketFiles, pk=file_id)
-        signed_url, expires_in, file_type = create_file_signed_url_by_name(
+        signed_url, expires_in, file_type = get_or_recreate_url_file(
             name=file.nombre,
             folder_name=folder,
-            expiration_minutes=120,
+            expiration_minutes=60,
         )
 
         return Response(
             {
                 "archivo": signed_url,
-                "expira_en": expires_in,
+                "expira_en": expires_in.isoformat(),
                 "nombre": file.nombre,
                 "tipo_archivo": file_type,
             },
@@ -298,8 +330,30 @@ def set_profile_img(request):
         usuario_id = serializer.validated_data["usuario_id"]
         perfil_img_name = serializer.validated_data["file"].name
 
+        if not is_valid_img(perfil_img):
+            return Response(
+                {"error": "Solo se permiten imagenes"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        upload_file_to_bucket(
+            bucket_name=os.getenv("GOOGLE_CLOUD_BUCKET"),
+            file=perfil_img,
+            folder_name=os.getenv("FOLDER_ARCHIVOS_PERFILES"),
+        )
+
+        url, expiracion, tipo_archivo = create_file_signed_url_by_name(
+            folder_name=os.getenv("FOLDER_ARCHIVOS_PERFILES"),
+            name=perfil_img_name,
+            expiration_minutes=60,
+        )
+
         db_file_serializer = GoogleCloudBucketFilesSerializer(
-            data={"nombre": perfil_img_name}
+            data={
+                "nombre": f"{os.getenv('FOLDER_ARCHIVOS_PERFILES')}/{perfil_img_name}",
+                "url": url,
+                "expiracion": expiracion,
+            }
         )
 
         if db_file_serializer.is_valid():
@@ -309,13 +363,7 @@ def set_profile_img(request):
                 db_file_serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
 
-        upload_file_to_bucket(
-            bucket_name=os.getenv("GOOGLE_CLOUD_BUCKET"),
-            file=perfil_img,
-            folder_name=os.getenv("FOLDER_ARCHIVOS_PERFILES"),
-        )
-        saved_file = get_object_or_404(GoogleCloudBucketFiles, nombre=perfil_img_name)
-
+        saved_file = get_object_or_404(GoogleCloudBucketFiles, nombre=f"{os.getenv('FOLDER_ARCHIVOS_PERFILES')}/{perfil_img_name}")
         usuario = get_object_or_404(Usuarios, pk=usuario_id)
 
         if bool(usuario.perfilUrl):
@@ -323,12 +371,6 @@ def set_profile_img(request):
 
         usuario.perfilUrl = saved_file
         usuario.save()
-
-        url, expiracion, tipo_archivo = create_file_signed_url_by_name(
-            folder_name=os.getenv("FOLDER_ARCHIVOS_PERFILES"),
-            name=perfil_img_name,
-            expiration_minutes=120,
-        )
 
         return Response(
             {"url": url, "expira_en": expiracion, "tipo_archivo": tipo_archivo}

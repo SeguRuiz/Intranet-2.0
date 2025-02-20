@@ -106,8 +106,8 @@ const EmblaCarousel = (props) => {
         justifyContent: 'end',
         mt:2
     }}>
-            <IconButton onClick={onPrevButtonClick}><ArrowBackIosNewIcon/></IconButton>
-            <IconButton onClick={onNextButtonClick}><ArrowForwardIosIcon/></IconButton>
+            <IconButton onClick={onPrevButtonClick} disabled={prevBtnDisabled}><ArrowBackIosNewIcon/></IconButton>
+            <IconButton onClick={onNextButtonClick} disabled={nextBtnDisabled}><ArrowForwardIosIcon/></IconButton>
     </CardActions>
     </Card>
   )

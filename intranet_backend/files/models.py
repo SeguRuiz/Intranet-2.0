@@ -11,7 +11,8 @@ class Archivos_referencia(models.Model):
     )
     nombre = models.CharField(null=False, max_length=500)
     key = models.UUIDField(null=False)
-
+    
+    
     class Meta:
         db_table = "archivos"
         unique_together = ["nombre", "key"]
@@ -24,6 +25,8 @@ class Archivos_referencia(models.Model):
 
 class GoogleCloudBucketFiles(models.Model):
     nombre = models.CharField(null=False, max_length=255, unique=True)
+    url = models.TextField(null=True)
+    expiracion = models.DateTimeField(null=True)
     
     class Meta:
         db_table = "google_cloud_bucket_files"
@@ -33,3 +36,4 @@ class GoogleCloudBucketFiles(models.Model):
             models.Index(fields=["nombre"], name="nombre-archivo-indx"),
             models.Index(fields=["id"], name="id-cloud"),
         ]
+    

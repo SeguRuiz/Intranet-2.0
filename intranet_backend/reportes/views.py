@@ -8,7 +8,13 @@ from django.shortcuts import get_object_or_404
 from dotenv import load_dotenv
 from files.models import GoogleCloudBucketFiles
 from files.serializers import GoogleCloudBucketFilesSerializer
-from files.views import delete_file, is_valid_img, is_valid_pdf, upload_file_to_bucket
+from files.views import (
+    create_file_signed_url_by_name,
+    delete_file,
+    is_valid_img,
+    is_valid_pdf,
+    upload_file_to_bucket,
+)
 from rest_framework import status
 from rest_framework.decorators import (
     api_view,
@@ -130,7 +136,11 @@ def set_reporte_estado(request):
         usuario_que_cambio_est = get_object_or_404(Usuarios, pk=usuario_id)
 
         # Se obtiene la fecha de creación del reporte
-        dia = date(day=reporte.fecha_creado.day, year=reporte.fecha_creado.year, month=reporte.fecha_creado.month)
+        dia = date(
+            day=reporte.fecha_creado.day,
+            year=reporte.fecha_creado.year,
+            month=reporte.fecha_creado.month,
+        )
         # Se prepara el cuerpo del correo electrónico para notificar al estudiante
         body = f"""
 El reporte emitido el {dia.strftime("%d/%m/%Y")},  
@@ -140,7 +150,7 @@ ha sido clasificado como \"{nuevo_estado.upper()}\".
 Detalles: {detalles}.  
 
 Si tienes alguna duda, comunícate a {usuario_que_cambio_est.email}."""
-        
+
         bodySinDenegar = f"""
 El reporte emitido el {dia.strftime("%d/%m/%Y")},  
 por {usuario_que_cambio_est.first_name} {usuario_que_cambio_est.last_name},  
@@ -148,10 +158,13 @@ ha sido clasificado como \"{nuevo_estado.upper()}\".
  
 
 Si tienes alguna duda, comunícate a {usuario_que_cambio_est.email}."""
-        
 
         # Se envía el correo electrónico al estudiante con el nuevo estado
-        sendEmail(email_receiver=user.email, subject="Informe reporte", body=body if nuevo_estado == 'denegado' else bodySinDenegar)
+        sendEmail(
+            email_receiver=user.email,
+            subject="Informe reporte",
+            body=body if nuevo_estado == "denegado" else bodySinDenegar,
+        )
 
         # Se devuelve un mensaje de éxito
         return Response({"info": "cambio logrado"}, status=status.HTTP_200_OK)
@@ -192,8 +205,25 @@ def guardar_reporte_google_cloud(request):
                     blob_name=nombre_archivo,
                     folder_name=os.getenv("FOLDER_ARCHIVOS_REPORTES"),
                 )
+            
+            mensaje = upload_file_to_bucket(
+                bucket_name=os.getenv("GOOGLE_CLOUD_BUCKET"),
+                file=file,
+                folder_name=os.getenv("FOLDER_ARCHIVOS_REPORTES"),
+            )
+
+            url, expiracion, tipo = create_file_signed_url_by_name(
+                folder_name=os.getenv("FOLDER_ARCHIVOS_REPORTES"),
+                name=file_nombre,
+                expiration_minutes=60,
+            )
+
             google_cloud_serializer = GoogleCloudBucketFilesSerializer(
-                data={"nombre": file_nombre}
+                data={
+                    "nombre": f"{os.getenv('FOLDER_ARCHIVOS_REPORTES')}/{file_nombre}",
+                    "url": url,
+                    "expiracion": expiracion,
+                }
             )
 
             if google_cloud_serializer.is_valid():
@@ -204,18 +234,12 @@ def guardar_reporte_google_cloud(request):
                 )
 
             google_cloud_file = get_object_or_404(
-                GoogleCloudBucketFiles, nombre=file_nombre
+                GoogleCloudBucketFiles, nombre=f"{os.getenv('FOLDER_ARCHIVOS_REPORTES')}/{file_nombre}"
             )
 
             reporte.presento_comprobante = True
             reporte.archivo_id = google_cloud_file
             reporte.save()
-
-            mensaje = upload_file_to_bucket(
-                bucket_name=os.getenv("GOOGLE_CLOUD_BUCKET"),
-                file=file,
-                folder_name=os.getenv("FOLDER_ARCHIVOS_REPORTES"),
-            )
 
             return Response(
                 {

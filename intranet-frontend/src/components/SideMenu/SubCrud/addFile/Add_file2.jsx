@@ -52,7 +52,8 @@ const Add_file2 = ({ id, contenido_id, archivo , disabled = false}) => {
       "",
       formData
     );
-
+    console.log(data);
+    
     switch (data[0]) {
       case 200:
         accion(
