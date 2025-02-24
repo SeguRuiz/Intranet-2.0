@@ -58,7 +58,7 @@ const Usuario_info_page = () => {
               case "estudiantes":
                 return <Estudiantes_page setCurrentLink={setCurrentLink} />;
               case "inicio":
-                return <Inicio_page/>
+                return <Inicio_page setCurrentLink={setCurrentLink}/>
               default:
                 if (page.includes("estudiantes")) {
                   return <Estudiantes_page />;

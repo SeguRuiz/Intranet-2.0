@@ -90,9 +90,7 @@ main {
   height: 95.7%;
   overflow: auto;
   scrollbar-width: thin;
-  padding-left: 80px;
-  border-top-left-radius: 5px;
-  background-color: var(--Surface-color);
+  
 }
 
 .CUP-Iteradores-2 {

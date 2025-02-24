@@ -1,22 +1,29 @@
+import os
+
 from api.models import Estudiantes, Roles, Usuarios
 from api.serializers import (
     EstudiantesSerializer,
     UsersSerializer,
 )
+from django.db.models import F
 from django.shortcuts import get_object_or_404
+from dotenv import load_dotenv
+from files.serializers import GoogleCloudBucketFiles, GoogleCloudBucketFilesSerializer
+from files.views import create_file_signed_url_by_name, upload_file_to_bucket, delete_file
 from rest_framework import status
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
     permission_classes,
 )
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import (
+    Avisos,
     Cursos,
     Grupos,
     Grupos_cursos_intermedia,
@@ -24,6 +31,9 @@ from .models import (
     Sedes,
 )
 from .serializers import (
+    AvisosAndFileSerializer,
+    AvisosListSerializer,
+    AvisosSerializer,
     CursosSerializer,
     GruposCursosSerializer,
     GruposSerializer,
@@ -31,7 +41,37 @@ from .serializers import (
     SedesSerializer,
 )
 
+load_dotenv()
+
 # Create your views here.
+
+
+class AvisosListView(ListAPIView):
+    
+    queryset = Avisos.objects.annotate(
+        url=F("archivo__url"),
+        img_nombre=F("archivo__nombre"),
+        perfil_url=F("usuario_id__perfilUrl__url"),
+        usuario_nombre=F("usuario_id__first_name"),
+        usuario_apellidos=F("usuario_id__last_name")
+    )
+    serializer_class = AvisosListSerializer
+
+
+class AvisosCreateView(ModelViewSet):
+    queryset = Avisos.objects.all()
+    serializer_class = AvisosSerializer
+    lookup_field = "pk"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+
+class AvisosEditView(RetrieveUpdateDestroyAPIView):
+    queryset = Avisos.objects.all()
+    serializer_class = AvisosSerializer
+    lookup_field = "pk"
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
 
 class SedesCreate(ModelViewSet):
@@ -412,3 +452,86 @@ def obtener_grupo_del_usuario(request):
         return Response(
             {"El objeto est mal formulado"}, status=status.HTTP_400_BAD_REQUEST
         )
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def subir_aviso(request):
+    serializer = AvisosAndFileSerializer(data=request.data)
+
+    if serializer.is_valid():
+        img = serializer.validated_data["archivo"]
+        usuario_id = serializer.validated_data["usuario_id"]
+
+        upload_file_to_bucket(
+            file=img,
+            folder_name=os.getenv("FOLDER_AVISOS"),
+            bucket_name=os.getenv("GOOGLE_CLOUD_BUCKET"),
+        )
+
+        url, expiracion, tipo_archivo = create_file_signed_url_by_name(
+            name=f"{os.getenv('FOLDER_AVISOS')}/{img.name}"
+        )
+
+        archivo_serializer = GoogleCloudBucketFilesSerializer(
+            data={
+                "nombre": f"{os.getenv('FOLDER_AVISOS')}/{img.name}",
+                "url": url,
+                "expiracion": expiracion,
+            }
+        )
+
+        if archivo_serializer.is_valid():
+            archivo_serializer.save()
+        else:
+            return Response(
+                archivo_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        archivo_subido = get_object_or_404(
+            GoogleCloudBucketFiles,
+            nombre=f"{os.getenv('FOLDER_AVISOS')}/{img.name}",
+        )
+        usuario = get_object_or_404(Usuarios, pk=usuario_id)
+        aviso_serializer = AvisosSerializer(
+            data={"usuario_id": usuario.pk, "archivo": archivo_subido.pk}
+        )
+
+        if aviso_serializer.is_valid():
+            aviso_serializer.save()
+            aviso = get_object_or_404(
+                Avisos, usuario_id=usuario, archivo=archivo_subido
+            )
+            return Response(
+                {
+                    "id": aviso.pk,
+                    "url": url,
+                    "usuario_id": usuario_id,
+                    "fecha_creacion": aviso_serializer.data["fecha_creacion"],
+                    "perfil_url": usuario.perfilUrl.url,
+                    "archivo": archivo_subido.pk,
+                    "usuario_nombre": usuario.first_name,
+                    "usuario_apellidos": usuario.last_name,
+                    "img_nombre": archivo_subido.nombre
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(aviso_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAdminUser])
+@authentication_classes([JWTAuthentication])
+def eliminar_noticia(request, pk):
+    noticia = get_object_or_404(Avisos, pk=pk)
+    delete_file(bucket_name=os.getenv("GOOGLE_CLOUD_BUCKET"), folder_name=os.getenv("FOLDER_AVISOS"), blob_name=noticia.archivo.nombre)
+    noticia.archivo.delete()
+    noticia.delete()
+    
+    return Response({'info': 'El aviso a sido eliminado'}, status=status.HTTP_200_OK)
+    

@@ -2,8 +2,8 @@
     max-width: 100%;
     margin: auto;
     --slide-height: 100%;
-    --slide-spacing: 1.4vh;
-    --slide-size: 95%;
+    --slide-spacing: 0.1rem;
+    --slide-size: 100%;
   }
   .embla__viewport {
     overflow: hidden;
@@ -12,8 +12,7 @@
   .embla__container {
     display: flex;
     touch-action: pan-y pinch-zoom;
-    
-
+    padding: 10px;
   }
   .embla__slide {
    

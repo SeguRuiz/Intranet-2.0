@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -28,6 +29,8 @@ class GoogleCloudBucketFiles(models.Model):
     url = models.TextField(null=True)
     expiracion = models.DateTimeField(null=True)
     
+
+    
     class Meta:
         db_table = "google_cloud_bucket_files"
         unique_together = ["nombre", "id"]
@@ -36,4 +39,5 @@ class GoogleCloudBucketFiles(models.Model):
             models.Index(fields=["nombre"], name="nombre-archivo-indx"),
             models.Index(fields=["id"], name="id-cloud"),
         ]
-    
+
+

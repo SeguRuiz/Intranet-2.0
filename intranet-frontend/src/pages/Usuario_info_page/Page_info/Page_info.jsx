@@ -1,4 +1,4 @@
-import { Paper, Divider, Typography, Breadcrumbs, Link } from "@mui/material";
+import { Paper, Divider, Typography, Breadcrumbs, Link, Box } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { extraerCustomParametros } from "../../../utils/Utils";
 
@@ -8,7 +8,7 @@ const Page_info = ({ current_page, pages = {}, currentLink= null }) => {
   const { id_usuario } = useParams();
   const navigate = useNavigate();
   return (
-    <Paper
+    <Box
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -17,6 +17,10 @@ const Page_info = ({ current_page, pages = {}, currentLink= null }) => {
         zIndex: 2,
         top: 0,
         pl: 2,
+        background: 'rgba(255, 255, 255, 0.9)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+        backdropFilter: 'blur(5px)',
+        border: '1px solid rgba(255, 255, 255, 0.3)'
       }}
     >
       <Typography
@@ -39,7 +43,7 @@ const Page_info = ({ current_page, pages = {}, currentLink= null }) => {
         </Typography>
       ): currentLink}
       
-    </Paper>
+    </Box>
   );
 };
 

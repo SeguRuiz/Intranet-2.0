@@ -11,7 +11,7 @@ import Fetchs from "./FetchsSlice";
 import Comunicaciones from "./ComunicacionesSlice"
 import Asistencias from './Asistencias'
 import PerfilUsuario from './PerfilUsuarioSlice'
-
+import Avisos from "./Avisos"
 export const store = configureStore({
   reducer: {
     default: default_state,
@@ -25,6 +25,7 @@ export const store = configureStore({
     Fetchs: Fetchs,
     Comunicaciones: Comunicaciones,
     Asistencias:  Asistencias,
-    PerfilUsuario: PerfilUsuario
+    PerfilUsuario: PerfilUsuario,
+    Avisos: Avisos
   },
 });
