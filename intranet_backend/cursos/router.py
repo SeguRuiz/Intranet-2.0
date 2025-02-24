@@ -1,6 +1,13 @@
 from rest_framework.routers import DefaultRouter
 
-from .views import GruposCreate, IntengrantesGrupoCreate, SedesCreate, CursosCreate, GruposCursosCreate
+from .views import (
+    AvisosCreateView,
+    CursosCreate,
+    GruposCreate,
+    GruposCursosCreate,
+    IntengrantesGrupoCreate,
+    SedesCreate,
+)
 
 router = DefaultRouter()
 router.register(prefix=r"sedes", basename="sedes-create", viewset=SedesCreate)
@@ -10,13 +17,8 @@ router.register(
     basename="Intengrantes-de-grupo-create",
     viewset=IntengrantesGrupoCreate,
 )
+router.register(prefix=r"cursos", basename="cursos-create", viewset=CursosCreate)
 router.register(
-    prefix=r'cursos',
-    basename='cursos-create',
-    viewset=CursosCreate
+    prefix=r"grupos_cursos", basename="grupos-cursos-create", viewset=GruposCursosCreate
 )
-router.register(
-    prefix=r'grupos_cursos',
-    basename='grupos-cursos-create',
-    viewset=GruposCursosCreate
-)
+router.register(prefix=r"avisos", basename="avisos-create", viewset=AvisosCreateView)

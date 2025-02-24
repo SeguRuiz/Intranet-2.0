@@ -1,15 +1,14 @@
 import { useSelector } from "react-redux"; // Hook para acceder al estado de Redux
 import Role_options from "./Role_options"; // Componente para mostrar opciones de rol
 import { useFetch } from "../../../services/llamados"; // Hook personalizado para realizar solicitudes
-import { useEffect, useLayoutEffect, useRef } from "react"; // Hooks de React
+import {  useRef } from "react"; // Hooks de React
 import { useDispatch } from "react-redux"; // Hook para despachar acciones de Redux
-import { set_roles } from "../../../redux/ControlUsuariosSlice"; // Acción para establecer los roles
 import { set_user_rol } from "../../../redux/ControlUsuariosSlice"; // Acción para establecer el rol de un usuario
 import "./Select_role.css"; // Importa el archivo de estilos CSS
 import { getCookie } from "../../../utils/Cookies"; // Función para obtener cookies
 import { setRolUser } from "../../../redux/AuthSlice"; // Acción para establecer el rol del usuario en sesión
 
-const Select_role = ({ user_id, rol_de_usuario_id, cargando= false }) => {
+const Select_role = ({ user_id, rol_de_usuario_id }) => {
   const { roles } = useSelector((state) => state.ControlUsuarios); // Obtiene los roles del estado de Redux
   const { userInSession } = useSelector((e) => e.Auth); // Obtiene el usuario en sesión desde el estado de Redux
   const { fetch_the_data } = useFetch(); // Hook para realizar solicitudes

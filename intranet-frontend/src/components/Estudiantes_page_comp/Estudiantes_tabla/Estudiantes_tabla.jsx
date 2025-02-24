@@ -1,9 +1,6 @@
-import { Paper, Box, Chip } from "@mui/material";
+import { Paper,  Chip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
-import { getCookie } from "../../../utils/Cookies";
-import { useFetch } from "../../../services/llamados";
-import { toast } from "react-toastify";
+
 import { esES } from "@mui/x-data-grid/locales";
 import { useNavigate, useParams } from "react-router-dom";
 

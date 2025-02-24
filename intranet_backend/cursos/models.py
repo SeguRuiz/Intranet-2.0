@@ -3,6 +3,7 @@ import uuid
 from api.models import Estudiantes, Usuarios
 from django.core.validators import MinLengthValidator
 from django.db import models
+from files.models import GoogleCloudBucketFiles
 
 # Create your models here.
 
@@ -38,7 +39,7 @@ class Grupos(models.Model):
     )
     sede_id = models.ForeignKey(Sedes, on_delete=models.CASCADE, null=False)
     nombre_grupo = models.CharField(max_length=100, null=False)
-    
+
     class Meta:
         db_table = "grupos"
         unique_together = ["sede_id", "nombre_grupo"]
@@ -75,7 +76,7 @@ class Grupos(models.Model):
             for usuario in Intengrantes_de_grupo.objects.filter(grupo_id=self.id)
             if usuario.usuario_id.rol_id.tipo in ["profesor", "Profesor"]
         ]
-        
+
         return profesores_del_grupo
 
 
@@ -106,7 +107,7 @@ class Cursos(models.Model):
         unique=True, primary_key=True, null=False, editable=False, default=uuid.uuid4
     )
     nombre = models.CharField(max_length=250, null=False)
-    detalles = models.CharField(max_length=400, null=True) 
+    detalles = models.CharField(max_length=400, null=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     activo = models.BooleanField(null=False, default=True)
@@ -133,3 +134,13 @@ class Grupos_cursos_intermedia(models.Model):
             models.Index(fields=["grupo_id"], name="GC-grupo_id-indx"),
             models.Index(fields=["id"], name="id-GC-indx"),
         ]
+
+
+class Avisos(models.Model):
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    usuario_id = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    archivo = models.ForeignKey(GoogleCloudBucketFiles, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "avisos"
+        indexes = [models.Index(fields=["fecha_creacion"], name="fecha_creado_indx")]

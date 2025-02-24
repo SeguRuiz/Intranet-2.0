@@ -12,6 +12,7 @@ import { useCustomNotis } from "../../utils/customHooks";
 import "./File_preview.css"; // Importa estilos CSS
 import { getCookie } from "../../utils/Cookies"; // Función para obtener cookies
 import { Skeleton, LinearProgress } from "@mui/material";
+import { get_fecha_hora } from "../../utils/Utils";
 
 function File_preview() {
   const [archivo, setArchivo] = useState(null); // Estado para almacenar el archivo a mostrar
@@ -41,7 +42,7 @@ function File_preview() {
       token,
       "POST",
       {
-        folder: 'CC',
+        folder: "CC",
         archivo_id: archivo_id, // Envía el archivo a buscar
       }
     );
@@ -83,9 +84,25 @@ function File_preview() {
 
       if (archivo_encontrado != false) {
         const currentDate = new Date();
-        const fecha_expiracion = new Date(archivo_encontrado?.expira_en);
+
+        const fecha_expiracion = new Date(
+          archivo_encontrado?.expira_en
+        ).setSeconds(new Date(archivo_encontrado?.expira_en).getSeconds()  - 40);
+        console.log(
+          "expira en:" +
+            `${get_fecha_hora(fecha_expiracion).dia} ${
+              get_fecha_hora(fecha_expiracion).hora
+            }`,
+          "Tiempo actual:" +
+            `${get_fecha_hora(currentDate).dia} ${
+              get_fecha_hora(currentDate).hora
+            }`
+        );
+        console.log(currentDate > fecha_expiracion);
 
         if (fecha_expiracion < currentDate) {
+          console.log("me resetee");
+
           fetch_archivo("reset", archivo_mostrandose.archivo);
         }
       }

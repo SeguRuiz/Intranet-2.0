@@ -2,6 +2,8 @@ from django.urls import include, path
 
 from .router import router
 from .views import (
+    AvisosEditView,
+    AvisosListView,
     CursosEdit,
     GruposCursosEdit,
     GruposEdit,
@@ -17,6 +19,8 @@ from .views import (
     obtener_grupo_del_usuario,
     obtener_integrantes_de_grupo,
     usuarios_en_grupos,
+    subir_aviso, 
+    eliminar_noticia
 )
 
 urlpatterns = [
@@ -66,4 +70,8 @@ urlpatterns = [
         obtener_grupo_del_usuario,
         name="obtener-grupo-del-usuario",
     ),
+    path("obtener_avisos/", AvisosListView.as_view(), name="obtener-all-avisos"),
+    path("avisos_edit/<int:pk>", AvisosEditView.as_view(), name="edit-avisos"),
+    path("subir_aviso/", subir_aviso, name="subir-avisos"),
+    path("eliminar_noticia/<int:pk>", eliminar_noticia, name="eliminar-noticia")
 ]
