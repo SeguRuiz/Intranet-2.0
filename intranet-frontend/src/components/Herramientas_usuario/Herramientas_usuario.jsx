@@ -15,34 +15,49 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import MailIcon from "@mui/icons-material/Mail";
-const herramientas = [
-  {
-    Titulo: "Clase",
-    link: "/link-llamada",
-    icono: <VideoCameraFrontIcon fontSize="medium" />,
-  },
-  {
-    Titulo: "Correo",
-    link: "/link-llamada",
-    icono: <MailIcon fontSize="medium" />,
-  },
-  {
-    Titulo: "Cursos",
-    link: "/cursos",
-    icono: <FolderIcon fontSize="medium" />,
-  },
-  {
-    Titulo: "Administracion",
-    link: "/admin",
-    icono: <AdminPanelSettingsIcon fontSize="medium" />,
-  },
-  {
-    Titulo: "Asistencias",
-    link: "/admin",
-    icono: <ChecklistIcon fontSize="medium" />,
-  },
-];
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { ROLES_DE_USUARIO } from "../../utils/Globals.d";
+
+
+
 const Herramientas_usuario = () => {
+  const navigate = useNavigate()
+  const {userInSession} = useSelector(x => x.Auth)
+
+  const herramientas = [
+    {
+      Titulo: "Clase",
+      link: "/link-llamada",
+      icono: <VideoCameraFrontIcon fontSize="medium" />,
+      visibilidad:  `${ROLES_DE_USUARIO.profesor}-${ROLES_DE_USUARIO.estudiante}`
+    },
+    {
+      Titulo: "Correo",
+      link: "/link-llamada",
+      icono: <MailIcon fontSize="medium" />,
+      visibilidad:  `${ROLES_DE_USUARIO.admin}-${ROLES_DE_USUARIO.profesor}-${ROLES_DE_USUARIO.socioemocional}-${ROLES_DE_USUARIO.estudiante}`
+    },
+    {
+      Titulo: "Cursos",
+      link: "/cursos",
+      icono: <FolderIcon fontSize="medium" />,
+      visibilidad:  `${ROLES_DE_USUARIO.admin}-${ROLES_DE_USUARIO.profesor}-${ROLES_DE_USUARIO.socioemocional}-${ROLES_DE_USUARIO.estudiante}`
+    },
+    {
+      Titulo: "Administracion",
+      link: "/admin/control_usuarios/usuarios",
+      icono: <AdminPanelSettingsIcon fontSize="medium" />,
+      visibilidad:  `${ROLES_DE_USUARIO.admin}`
+    },
+    {
+      Titulo: "Asistencias",
+      link: "/asistencias/" + userInSession?.grupos[0]?.grupo_id,
+      icono: <ChecklistIcon fontSize="medium" />,
+      visibilidad:  `${ROLES_DE_USUARIO.profesor}`
+    },
+  ];
+
   return (
     <Card sx={{ height: "100%" }}>
       <CardContent>
@@ -68,20 +83,20 @@ const Herramientas_usuario = () => {
       <CardContent>
         <Grid2 container columns={2} spacing={1.5}>
           {herramientas.map((x) => (
-            <Grid2 key={x.Titulo} size={1}>
-              <Card variant="outlined">
-                <CardHeader
-                  avatar={<Avatar variant={"rounded"}>{x.icono}</Avatar>}
-                  title={x.Titulo}
-                  subheader={"Informacion extra"}
-                  action={
-                    <IconButton>
-                      <ArrowForwardIosIcon fontSize="small" />
-                    </IconButton>
-                  }
-                />
-              </Card>
-            </Grid2>
+            x.visibilidad.includes(userInSession?.rol) && <Grid2 key={x.Titulo} size={1}>
+            <Card variant="outlined">
+              <CardHeader
+                avatar={<Avatar variant={"rounded"}>{x.icono}</Avatar>}
+                title={x.Titulo}
+                subheader={"Informacion extra"}
+                action={
+                  <IconButton onClick={()=>{navigate(x.link)}}>
+                    <ArrowForwardIosIcon fontSize="small" />
+                  </IconButton>
+                }
+              />
+            </Card>
+          </Grid2>
           ))}
         </Grid2>
       </CardContent>

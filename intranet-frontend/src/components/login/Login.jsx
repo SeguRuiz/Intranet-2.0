@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import logo from "../../assets/FWD - Logotipo-01.svg";
-import { useFetch } from "../../services/llamados";
+import { DecodeToken, useFetch } from "../../services/llamados";
 import { useDispatch } from "react-redux";
 import { setAutorized } from "../../redux/AuthSlice";
-import { setCookie } from "../../utils/Cookies";
+import { getCookie, setCookie } from "../../utils/Cookies";
 import foto_1 from "../../assets/Fotos/foto_fwd_1.jpg";
 import {
   CircularProgress,
@@ -33,8 +33,8 @@ export const Login = () => {
   const [mostrar, setMostrar] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const theme = useTheme()
-  const es_PantallaExtraPequeña = useMediaQuery(theme.breakpoints.down('sm'))
+  const theme = useTheme();
+  const es_PantallaExtraPequeña = useMediaQuery(theme.breakpoints.down("sm"));
   const info = () => toast.info("Bienvenido devuelta");
 
   const { log_fetch, fetching } = useFetch();
@@ -60,7 +60,6 @@ export const Login = () => {
 
     if (password.trim() == "") {
       setPasswordError("Ingresa tu contraseña");
-
       return;
     }
 
@@ -83,14 +82,16 @@ export const Login = () => {
     setCookie("refresh", status_fetch[1].refresh, 1);
     accion(setAutorized(true));
     accion(actualizar());
-    navigate("/cursos");
+    console.log(DecodeToken(getCookie("token")));
+    
+    navigate(`/usuarios/${DecodeToken(getCookie("token"))?.user_id}/inicio`);
     info();
   };
 
   return (
     <div className="login">
       <div className="login-container">
-        <div className="login-inpts" >
+        <div className="login-inpts">
           <div className="padding-container">
             <div className="logo-fwd-area">
               <div className="logo-container">
@@ -180,8 +181,7 @@ export const Login = () => {
                   disabled={fetching}
                   variant="outlined"
                   type="submit"
-                  sx={{ width: es_PantallaExtraPequeña ? '35%' : "35%" }}
-
+                  sx={{ width: es_PantallaExtraPequeña ? "35%" : "35%" }}
                 >
                   {fetching ? (
                     <CircularProgress size={22} color="red" />

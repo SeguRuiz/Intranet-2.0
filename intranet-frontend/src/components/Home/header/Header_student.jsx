@@ -24,7 +24,7 @@ const Header_student = ({ imgSrc, buttonText, salirBtn = false }) => {
         >
           <IconButton
             className="btn-circular"
-            onClick={() => navigate("/cursos")}
+            onClick={() => navigate(-1)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

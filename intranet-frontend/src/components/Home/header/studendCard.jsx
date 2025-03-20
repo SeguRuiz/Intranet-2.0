@@ -47,9 +47,15 @@ const StudendCard = () => {
   const token = getCookie("token");
   const { fetch_the_data } = useFetch();
 
+  useEffect(()=>{
+    return () => {
+      accion(setPerfilUrl(null));
+    }
+  },[])
+
   useEffect(() => {
     (async () => {
-      if (userInSession?.perfilId && !PerfilUrl) {
+      if (userInSession?.perfilId) {
         const data = await fetch_the_data(
           "http://localhost:8000/files/obtener_archivo_from_google_cloud",
           token,
@@ -84,12 +90,13 @@ const StudendCard = () => {
           {es_PantallaPequeña ? (
             <>
               {PerfilUrl ? (
-                <Avatar src={PerfilUrl} />
+                <Avatar src={PerfilUrl} variant="rounded" />
               ) : (
                 <Avatar
                   {...stringAvatar(
                     `${userInSession?.nombre} ${userInSession?.apellidos}`
                   )}
+                  variant="rounded"
                 />
               )}
             </>
@@ -98,12 +105,13 @@ const StudendCard = () => {
               avatar={
                 <>
                   {PerfilUrl ? (
-                    <Avatar src={PerfilUrl} />
+                    <Avatar src={PerfilUrl} variant="rounded" />
                   ) : (
                     <Avatar
                       {...stringAvatar(
                         `${userInSession?.nombre} ${userInSession?.apellidos}`
                       )}
+                      variant="rounded"
                     />
                   )}
                 </>

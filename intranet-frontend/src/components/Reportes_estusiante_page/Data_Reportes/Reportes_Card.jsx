@@ -21,6 +21,7 @@ import Enviar_Justificacion from "../Enviar_Justificacion_reportes/Enviar_Justif
 import { useSelector } from "react-redux";
 import { ROLES_DE_USUARIO } from "../../../utils/Globals.d";
 import { Set_reporte_estado } from "../../Control-page/Reportes/edit/Set_reporte_estado";
+import { get_fecha_hora } from "../../../utils/Utils";
 
 const estadoColors = {
   aprobado: "success",
@@ -56,7 +57,7 @@ const ReporteCard = ({ reporte }) => {
           fontSize: "17px",
           fontWeight: 500,
         }}
-        subheader={`📅 ${new Date(reporte.dia_incidente).toLocaleDateString()}`}
+        subheader={`📅 ${get_fecha_hora(reporte.dia_incidente).dia}`}
         action={
           <Menu_options_reportes
             customBtn={true}

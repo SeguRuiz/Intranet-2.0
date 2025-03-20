@@ -25,7 +25,6 @@ export const Routing = () => {
   const { fetch_the_data } = useFetch();
   const { Es_admin } = useSelector((e) => e.IsAdmin);
   const [notFound, setNotFound] = useState(false);
-  const { userInSession } = useSelector((x) => x.Auth);
 
   const { authorized, retraer } = useSelector((e) => e.Auth);
 

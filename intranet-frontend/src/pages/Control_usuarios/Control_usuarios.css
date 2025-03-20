@@ -83,14 +83,16 @@ main {
 }
 .CUP-Iteradores {
   display: grid;
+  justify-content: center;
   padding-top: 2%;
   grid-template-areas: "a a a a";
   grid-auto-rows: 47%;
-  grid-auto-columns: 24%;
+  grid-auto-columns: 22%;
   height: 95.7%;
   overflow: auto;
   scrollbar-width: thin;
-  
+  background-color: var(--Surface-color);
+  border-top-left-radius: 5px;
 }
 
 .CUP-Iteradores-2 {
