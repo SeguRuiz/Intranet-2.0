@@ -106,7 +106,7 @@ const Agregar_perfil_img = ({
         }}
         onChange={handleChange}
       />
-      {userInSession?.is_staff && (
+      
         <IconButton
           disabled={fetching}
           onClick={() => {
@@ -132,7 +132,7 @@ const Agregar_perfil_img = ({
         >
           <EditIcon fontSize="small" />
         </IconButton>
-      )}
+      
     </>
   );
 };

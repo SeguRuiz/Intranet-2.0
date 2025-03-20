@@ -31,7 +31,7 @@ import { IconButton, LinearProgress } from "@mui/material";
 import Add_integrantes_grupo from "../../components/Control-page/Add-integrantes-grupo/Add_integrantes_grupo";
 import { getCookie } from "../../utils/Cookies";
 import Empty_page from "../../components/Control-page/Empty-case/Empty_page";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Control_usuarios_page = () => {
   const { aside_abierto } = useSelector((state) => state.ControlUsuarios);
@@ -43,6 +43,13 @@ const Control_usuarios_page = () => {
   const accion = useDispatch();
   const { fetch_the_data, fetching } = useFetch();
   const token = getCookie("token");
+  const {page} = useParams()
+
+  useEffect(()=>{
+    accion(set_pestaña_seleccionada('usuarios'))
+
+    return () =>{(set_pestaña_seleccionada(null))}
+  },[page])
 
   useEffect(() => {
     accion(set_fetching(fetching));

@@ -10,9 +10,8 @@ import { setAvisos } from "../../redux/Avisos";
 const Edit_noticias_page = () => {
   const token = getCookie("token");
   const { fetch_the_data } = useFetch();
-  const {avisos} = useSelector(x => x.Avisos)
-  const accion = useDispatch()
-  
+  const { avisos } = useSelector((x) => x.Avisos);
+  const accion = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -25,8 +24,7 @@ const Edit_noticias_page = () => {
       data == undefined && toast.error("ocurrio un error trayendo los avisos");
 
       if (data[0] == 200) {
-       accion(setAvisos(data[1]))
-
+        accion(setAvisos(data[1]));
         return;
       }
 
